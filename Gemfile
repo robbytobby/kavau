@@ -33,11 +33,13 @@ gem 'simple_form'
 gem 'strip_attributes'
 gem 'will_paginate'
 gem 'responders'
+gem 'devise'
+gem 'bootstrap-sass'
 
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  gem 'byebug', '~> 6.0'
+  gem 'pry-byebug', :git => 'https://github.com/deivid-rodriguez/pry-byebug.git'
 end
 
 group :development do
