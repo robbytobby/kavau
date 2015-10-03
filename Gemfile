@@ -35,6 +35,7 @@ gem 'will_paginate'
 gem 'responders'
 gem 'devise'
 gem 'bootstrap-sass'
+gem 'country_select'
 
 
 group :development, :test do
