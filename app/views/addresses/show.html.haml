@@ -1,27 +1,28 @@
-%p#notice= notice
+- present(@address) do |address|
+  %p#notice= notice
 
-%p
-  %b Name:
-  = @address.name
-%p
-  %b First name:
-  = @address.first_name
-%p
-  %b Street number:
-  = @address.street_number
-%p
-  %b City:
-  = @address.city
-%p
-  %b Country:
-  = @address.country
-%p
-  %b Salutation:
-  = @address.salutation
-%p
-  %b Type:
-  = @address.type
+  %p
+    %b Name:
+    = address.name
+  %p
+    %b First name:
+    = address.first_name
+  %p
+    %b Street number:
+    = address.street_number
+  %p
+    %b City:
+    = address.city
+  %p
+    %b Country:
+    = address.country_name
+  %p
+    %b Salutation:
+    = address.salutation
+  %p
+    %b Type:
+    = address.type
 
-= link_to 'Edit', edit_address_path(@address)
-\|
-= link_to 'Back', addresses_path
+  = link_to t('links.edit'), edit_address_path(@address)
+  \|
+  = link_to t('links.back'), cancel_path(@address)

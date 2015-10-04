@@ -1,0 +1,11 @@
+.col-sm-6
+  = f.input :salutation
+  = f.input :title
+  = f.input :first_name
+  = f.input :name
+  = render :partial => 'contact_fields', locals: {f: f}
+.col-sm-6
+  = render partial: 'address_fields', locals: {f: f}
+  = f.input :type
+  = f.input :notes
+

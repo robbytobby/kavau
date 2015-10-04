@@ -36,6 +36,7 @@ gem 'responders'
 gem 'devise'
 gem 'bootstrap-sass'
 gem 'country_select'
+gem 'i18n-country-translations'
 
 
 group :development, :test do

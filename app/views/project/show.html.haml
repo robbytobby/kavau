@@ -1,0 +1,15 @@
+%h1 
+  Addressen
+  = icon_link_to 'plus', new_project_address_path, class: 'pull-right'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th= ProjectAddress.human_attribute_name :full_name
+      %th= ProjectAddress.human_attribute_name :address
+      %th= ProjectAddress.human_attribute_name :email
+      %th= ProjectAddress.human_attribute_name :phone
+      %th
+
+  %tbody
+    = render @addresses

@@ -1,33 +1,15 @@
-%h1 Listing addresses
+%h1 
+  = t(".title.#{@type.underscore}")
+  = icon_link_to 'plus', new_model_path, class: 'pull-right'
 
-%table
+%table.table.table-striped
   %thead
     %tr
-      %th Name
-      %th First name
-      %th Street number
-      %th City
-      %th Country
-      %th Salutation
-      %th Type
-      %th
+      %th= Address.human_attribute_name :full_name
+      %th= Address.human_attribute_name :address
       %th
       %th
 
   %tbody
-    - @addresses.each do |address|
-      %tr
-        %td= address.name
-        %td= address.first_name
-        %td= address.street_number
-        %td= address.city
-        %td= address.country
-        %td= address.salutation
-        %td= address.type
-        %td= link_to 'Show', address
-        %td= link_to 'Edit', edit_address_path(address)
-        %td= link_to 'Destroy', address, :method => :delete, :data => { :confirm => 'Are you sure?' }
+    = render @addresses
 
-%br
-
-= link_to 'New Address', new_address_path

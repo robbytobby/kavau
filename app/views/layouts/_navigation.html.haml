@@ -1,0 +1,15 @@
+%nav.navbar.navbar-default
+  .container-fluid
+    .navbar-header
+      %button{type: "button", class:"navbar-toggle collapsed", data: {toggle: "collapse", target: "#bs-example-navbar-collapse-1", "aria-expanded" => "false"}}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to 'Lama', project_path, class: 'navbar-brand active'
+    .collapse.navbar-collapse{id: "bs-example-navbar-collapse-1"}
+      %ul.nav.navbar-nav
+        %li.active
+          = link_to 'Übersicht', project_path
+        %li.active
+          = link_to 'Kreditgeber_innen', creditors_path

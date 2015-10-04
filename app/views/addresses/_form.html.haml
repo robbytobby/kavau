@@ -2,16 +2,11 @@
   = f.error_notification
 
   .form-inputs
-    = f.input :name, label_html: {class: 'col-sm-2'}
-    = f.input :first_name
-    = f.input :street_number
-    = f.input :city
-    = f.input :country
-    = f.input :salutation
-    = f.input :type
+    - if @address.person?
+      = render partial: 'person_fields', locals: {f: f}
+    - else
+      = render partial: 'organisation_fields', locals: {f: f}
 
-  .form-actions
-    .form-group
-      .col-sm-offset-3.col-sm-9
-        = f.button :submit, class: 'btn-primary'
-        %a.btn.btn-default{href: addresses_path} Back
+  .form-actions.col-sm-12
+    = f.button :submit, class: 'btn-primary'
+    = cancel_button cancel_path(@address)

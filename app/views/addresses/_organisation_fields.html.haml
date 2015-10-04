@@ -1,0 +1,6 @@
+.col-sm-6
+  = f.input :name
+  = render partial: 'address_fields', locals: {f: f}
+  = render :partial => 'contact_fields', locals: {f: f}
+  - unless @address.project_address?
+    = f.input :notes

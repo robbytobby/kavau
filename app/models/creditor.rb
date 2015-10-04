@@ -1,0 +1,3 @@
+class Creditor < Address
+
+end

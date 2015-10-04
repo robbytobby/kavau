@@ -1,0 +1,8 @@
+de:
+  addresses:
+    new:
+      title:
+        project_address: 'Neue Addresse des Projekts'
+    index:
+      title:
+        creditor: 'Kreditgeber_innen'

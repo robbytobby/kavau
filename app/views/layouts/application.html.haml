@@ -9,6 +9,7 @@
     = csrf_meta_tags
   %body
     %header
+      -binding.pry
       = render 'layouts/navigation'
     %main.container{:role => "main"}
       //-if current_user

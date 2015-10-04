@@ -1,0 +1,18 @@
+de:
+  simple_form:
+    "yes": 'Ja'
+    "no": 'Nein'
+    required:
+      text: 'benötigt'
+      mark: '*'
+    error_notification:
+      default_message: "Bitte schau dir die markierten Fehler an:"
+    labels:
+      defaults:
+        password: 'Passwort'
+        login: 'Login'
+    hints:
+      defaults:
+        login: 'myAccount-Login'
+        password: 'myAccount-Passwort'
+

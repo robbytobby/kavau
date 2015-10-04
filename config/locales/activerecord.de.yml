@@ -1,0 +1,27 @@
+de:
+  activerecord:
+    errors:
+      models:
+    models:
+      address: 'Addresse'
+    attributes:
+      address:
+        address: 'Anschrift'
+        city: 'Stadt'
+        country_code: 'Land'
+        email: 'Email'
+        first_name: 'Vorname'
+        full_name: 'Name'
+        name: 'Nachname'
+        notes: 'Notizen'
+        phone: 'Telefon'
+        salutation: 'Anrede'
+        street_number: 'Straße & Nr'
+        title: 'Titel'
+        type: 'Typ'
+        zip: 'Postleitzahl'
+      project_address:
+        name: 'Name'
+      organization:
+        name: 'Name'
+
