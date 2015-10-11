@@ -30,3 +30,6 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
+
+# Ingore swap files
+.swp
