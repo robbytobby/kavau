@@ -1,10 +1,10 @@
 - present(address) do |a|
-  %tr
+  %tr[address]
     %td= a.full_name
     %td= a.address
-    %td= mail_to a.email
+    %td= mail_to a.email if a.email
     %td= a.phone_numbers
     %td 
-      = icon_link_to 'eye-open', address
-      = icon_link_to 'edit', edit_address_path(address)
-      = icon_link_to 'trash', address, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      = icon_link_to 'eye-open', address, title: t('links.show')
+      = icon_link_to 'edit', edit_address_path(address), title: t('links.edit')
+      = icon_link_to 'trash', address, :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete')

@@ -1,0 +1,12 @@
+de:
+  flash:
+    actions:
+      create:
+        notice: '%{resource_name} erfolgreich angelegt.'
+        alert: '%{resource_name} konnte nicht angelegt werden.'
+      update:
+        notice: '%{resource_name} erfolgreich geändert.'
+        alert: '%{resource_name} konnte nicht geändert werden.'
+      destroy:
+        notice: '%{resource_name} erfolgreich gelöscht.'
+        alert: '%{resource_name} konnte nicht gelöscht werden.'

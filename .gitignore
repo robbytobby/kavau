@@ -33,3 +33,5 @@ bower.json
 
 # Ingore swap files
 *.swp
+
+spec/examples.txt

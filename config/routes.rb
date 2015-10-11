@@ -2,11 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
   resources :addresses
   resources :creditors, controller: :addresses, type: 'Creditor'
-  resources :people, controller: :addresses, type: 'Person'
-  resources :organizations, controller: :addresses, type: 'Organization'
-  resources :project_addresses, controller: :addresses, type: 'ProjectAddress'
+  resources :people, controller: :addresses, type: 'Person', except: :index
+  resources :organizations, controller: :addresses, type: 'Organization', except: :index
+  resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index
   get 'project' => 'project#show'
-  root 'addresses#index'
+  root 'project#show'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

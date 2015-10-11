@@ -3,3 +3,5 @@ de:
     back: 'zurück'
     cancel: 'abbrechen'
     edit: 'bearbeiten'
+    show: 'anzeigen'
+    delete: 'löschen'

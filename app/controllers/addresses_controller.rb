@@ -62,12 +62,8 @@ class AddressesController < ApplicationController
     end
 
     def after_action_path
-      paths[klass_symbol][params[:action].to_sym]
+      send("#{klass_symbol}_paths")[params[:action].to_sym]
     end 
-
-    def paths
-      Hash.new(creditor_paths).merge(project_address: project_address_paths)
-    end
 
     def project_address_paths
       Hash.new(project_path)
@@ -76,4 +72,6 @@ class AddressesController < ApplicationController
     def creditor_paths
       Hash.new(send("#{klass_symbol.to_s}_path", @address)).merge(destroy: creditors_path)
     end
+    alias_method :person_paths, :creditor_paths
+    alias_method :organization_paths, :creditor_paths
 end

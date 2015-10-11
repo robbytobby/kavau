@@ -3,6 +3,9 @@ de:
     new:
       title:
         project_address: 'Neue Addresse des Projekts'
+        creditor: 'Neue Kreditgeber_in'
+    edit: 
+      title: "%{model} bearbeiten"
     index:
       title:
         creditor: 'Kreditgeber_innen'

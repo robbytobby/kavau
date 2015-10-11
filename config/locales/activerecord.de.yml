@@ -4,6 +4,8 @@ de:
       models:
     models:
       address: 'Addresse'
+      project_address: 'Projekt Addresse'
+      creditor: 'Kreditgeber_in'
     attributes:
       address:
         address: 'Anschrift'

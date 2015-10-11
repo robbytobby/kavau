@@ -9,7 +9,7 @@
       = link_to 'Lama', project_path, class: 'navbar-brand active'
     .collapse.navbar-collapse{id: "bs-example-navbar-collapse-1"}
       %ul.nav.navbar-nav
-        %li.active
+        %li{class: controller.controller_name == 'project' ? 'active' : ''}
           = link_to 'Übersicht', project_path
-        %li.active
+        %li{class: controller.controller_name == 'addresses' && @type == 'Creditor' ? 'active' : ''}
           = link_to 'Kreditgeber_innen', creditors_path

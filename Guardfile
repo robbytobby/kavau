@@ -41,7 +41,7 @@ guard 'zeus' do
   rails.controllers = %r{^app/controllers/(.+)_controller\.rb$}
 
   watch(rails.app_files) { |m| rspec.spec.call(m[1]) }
-  watch(rails.views_n_layouts) { |m| rspec.spec.call(m[1]) }
+  #watch(rails.views_n_layouts) { |m| rspec.spec.call(m[1]) }
   watch(rails.controllers) do |m|
     [
       rspec.spec.call("routing/#{m[1]}_routing"),
