@@ -42,6 +42,10 @@ gem 'i18n-country-translations'
 group :development, :test do
   gem 'byebug', '~> 6.0'
   gem 'pry-byebug', :git => 'https://github.com/deivid-rodriguez/pry-byebug.git'
+  gem 'guard-zeus'
+  gem 'guard-bundler'
+  gem 'guard-rspec'
+  gem 'rspec-rails'
 end
 
 group :development do
