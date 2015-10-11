@@ -32,4 +32,4 @@ bower.json
 .powenv
 
 # Ingore swap files
-.swp
+*.swp
