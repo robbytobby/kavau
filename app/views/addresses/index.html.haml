@@ -1,6 +1,12 @@
 %h1 
   = t(".title.#{@type.underscore}")
-  = icon_link_to 'plus', new_model_path, class: 'pull-right'
+  .dropdown.pull-right
+    %button.btn.btn-default.dropdown-toggle{type: "button", id: "add_creditor", data: {toggle: "dropdown"}}
+      =icon_link_to 'plus', new_model_path
+      %span.caret
+    %ul.dropdown-menu
+      %li= link_to t('.new_person'), new_person_path
+      %li= link_to t('.new_organization'), new_organization_path
 
 %table.table.table-striped
   %thead

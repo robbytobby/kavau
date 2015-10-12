@@ -7,16 +7,16 @@ FactoryGirl.define do
     city "Test City"
     country_code "DE"
 
-    factory :project_address do
+    factory :project_address, class: ProjectAddress do
       type "ProjectAddress"
     end
 
-    factory :person do
+    factory :person, class: Person do
       first_name 'Vorname'
       type 'Person'
     end
 
-    factory :organization do
+    factory :organization, class: Organization do
       type 'Organization'
     end
   end

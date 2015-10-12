@@ -23,17 +23,17 @@ class AddressesController < ApplicationController
   def create
     @address = klass.new(address_params)
     @address.save
-    respond_with @address, location: after_action_path
+    respond_with @address, location: -> { after_action_path }
   end
 
   def update
     @address.update(address_params)
-    respond_with @address, location: after_action_path
+    respond_with @address, location: -> { after_action_path }
   end
 
   def destroy
     @address.destroy
-    respond_with @address, location: after_action_path
+    respond_with @address, location: -> { after_action_path }
   end
 
   private
