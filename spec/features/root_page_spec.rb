@@ -16,11 +16,14 @@ RSpec.describe "Home page" do
     fill_in('project_address_city', with: 'Test City')
     select('Deutschland', from: 'project_address_country_code')
     click_on 'Addresse erstellen'
-    expect(current_path).to eq(project_path)
+    # redirect to the new address
+    expect(current_path).to eq(project_address_path(Address.first))
+    expect(page).to have_selector('div.alert-success')
+    # go back to index
+    click_on('zurück')
     within('tr.project_address') do 
       find("td", text: 'Test Name')
     end
-    expect(page).to have_selector('div.alert-success')
   end
 
   it "is possible to show a project address" do
@@ -32,21 +35,34 @@ RSpec.describe "Home page" do
 
   it "is possibel to edit a project address" do
     @address = create :project_address
-    visit "/"
+    visit "/project"
     find_link('bearbeiten', href: edit_project_address_path(@address)).click
     expect(current_path).to eq(edit_project_address_path(@address))
     fill_in('project_address_name', with: 'New Name')
     click_on 'Addresse aktualisieren'
+    # redirects back to project#index if thats where you came from
     expect(current_path).to eq(project_path)
     expect(page).to have_selector('td', text: 'New Name')
     expect(page).to have_selector('div.alert-success')
+    # redirects back to the Address if thats where you came from
+    find_link('anzeigen', href: project_address_path(@address)).click
+    click_on 'bearbeiten'
+    click_on 'Addresse aktualisieren'
+    expect(current_path).to eq(project_address_path(@address))
   end
 
   it "is possible to cancel editing an address" do
     @address = create :project_address
-    visit edit_project_address_path(@address)
+    visit "/project"
+    find_link('bearbeiten', href: edit_project_address_path(@address)).click
     click_on 'abbrechen'
+    # redirects back to project#index if thats where you came from
     expect(current_path).to eq(project_path)
+    # redirects back to the Address if thats where you came from
+    find_link('anzeigen', href: project_address_path(@address)).click
+    click_on('bearbeiten')
+    click_on 'abbrechen'
+    expect(current_path).to eq(project_address_path(@address))
   end
 
   it "is possible to delete a project address" do

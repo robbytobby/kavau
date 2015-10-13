@@ -5,6 +5,6 @@
     %td= mail_to a.email if a.email
     %td= a.phone_numbers
     %td 
-      = icon_link_to 'eye-open', address, title: t('links.show')
-      = icon_link_to 'edit', edit_address_path(address), title: t('links.edit')
-      = icon_link_to 'trash', address, :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete')
+      = icon_link_to 'eye-open', address, title: t('links.show'), id: "show_#{address.id}"
+      = icon_link_to 'edit', edit_address_path(address), title: t('links.edit'), id: "edit_#{address.id}"
+      = icon_link_to 'trash', address, :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{address.id}"

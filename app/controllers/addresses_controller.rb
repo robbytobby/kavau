@@ -62,16 +62,6 @@ class AddressesController < ApplicationController
     end
 
     def after_action_path
-      send("#{klass_symbol}_paths")[params[:action].to_sym]
+      action_name == 'create' ? send("#{klass_symbol.to_s}_path", @address) : session[:back_url]
     end 
-
-    def project_address_paths
-      Hash.new(project_path)
-    end
-
-    def creditor_paths
-      Hash.new(send("#{klass_symbol.to_s}_path", @address)).merge(destroy: creditors_path)
-    end
-    alias_method :person_paths, :creditor_paths
-    alias_method :organization_paths, :creditor_paths
 end

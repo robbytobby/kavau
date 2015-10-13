@@ -21,6 +21,5 @@
     %b Type:
     = address.type
 
-  = link_to t('links.edit'), edit_address_path(@address)
-  \|
-  = link_to t('links.back'), cancel_path(@address)
+  = link_to t('links.edit'), edit_address_path(@address), class: 'btn btn-default', id: 'edit'
+  = back_button cancel_path(@address)

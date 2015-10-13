@@ -8,5 +8,5 @@
       = render partial: 'organisation_fields', locals: {f: f}
 
   .form-actions.col-sm-12
-    = f.button :submit, class: 'btn-primary'
-    = cancel_button cancel_path(@address)
+    = f.button :submit, class: 'btn-primary', id: 'submit'
+    = cancel_button 

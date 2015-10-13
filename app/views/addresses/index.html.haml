@@ -5,8 +5,8 @@
       =icon_link_to 'plus', new_model_path
       %span.caret
     %ul.dropdown-menu
-      %li= link_to t('.new_person'), new_person_path
-      %li= link_to t('.new_organization'), new_organization_path
+      %li= link_to t('.new_person'), new_person_path, id: 'add_person'
+      %li= link_to t('.new_organization'), new_organization_path, id: 'add_organization'
 
 %table.table.table-striped
   %thead

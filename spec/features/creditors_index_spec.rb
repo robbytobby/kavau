@@ -1,107 +1,79 @@
 require 'rails_helper'
 
 RSpec.describe "Creditors index" do
-  before :each do
-    @person = create :person
-    @organization = create :organization
-  end
 
-  it "shows all creditors - persons and organizations" do
-    visit '/creditors'
-    expect(page).to have_selector("tr#person_#{@person.id}")
-    expect(page).to have_selector("tr#organization_#{@organization.id}")
-  end
-
-  it "is possible to show all creditor types" do
-    visit '/creditors'
-    within("tr#person_#{@person.id}") do
-      click_on 'anzeigen'
-      expect(current_path).to eq(person_path @person)
+  ['person', 'organization'].each do |type|
+    it "shows all #{type.pluralize}" do
+      @address = create type.to_sym
+      visit '/creditors'
+      expect(page).to have_selector("tr##{type}_#{@address.id}")
     end
-    click_on 'zurück'
-    expect(current_path).to eq(creditors_path)
-    within("tr#organization_#{@organization.id}") do
-      click_on 'anzeigen'
-      expect(current_path).to eq(organization_path @organization)
-    end
-    click_on 'zurück'
-    expect(current_path).to eq(creditors_path)
-  end
 
+    it "is possible to show all #{type.pluralize}" do
+      @address = create type.to_sym
+      visit '/creditors'
+      click_on "show_#{@address.id}"
+      expect(current_path).to eq(send("#{type}_path", @address))
+      click_on 'back'
+      expect(current_path).to eq(creditors_path)
+    end
   
-  it "is possible to edit all creditor types" do
-    visit '/creditors'
-    within("tr#person_#{@person.id}") do
-      click_on 'bearbeiten'
-      expect(current_path).to eq(edit_person_path @person)
+    it "is possible to edit all #{type.pluralize}" do
+      @address = create type.to_sym
+      visit '/creditors'
+      click_on "edit_#{@address.id}"
+      expect(current_path).to eq(send("edit_#{type}_path", @address))
+      click_on 'submit'
+      expect(current_path).to eq(creditors_path)
+      expect(page).to have_selector('div.alert-success')
     end
-    fill_in 'person_name', with: 'New Name'
-    click_on 'Kreditgeber_in aktualisieren'
-    expect(current_path).to eq(person_path @person)
-    expect(page).to have_selector('div.alert-success')
-    click_on 'zurück'
-    expect(current_path).to eq(creditors_path)
-    within("tr#organization_#{@organization.id}") do
-      click_on 'bearbeiten'
-      expect(current_path).to eq(edit_organization_path @organization)
+
+    it "editing from show page leads back to show page" do
+      @address = create type.to_sym
+      visit send("#{type}_path", @address)
+      click_on 'edit'
+      click_on 'submit'
+      expect(current_path).to eq(send("#{type}_path", @address))
     end
-    fill_in 'organization_name', with: 'New Name'
-    click_on 'Kreditgeber_in aktualisieren'
-    expect(current_path).to eq(organization_path @organization)
-    expect(page).to have_selector('div.alert-success')
-    click_on 'zurück'
-    expect(current_path).to eq(creditors_path)
-  end
 
-  it "is possible to cancel editing people and organizations" do
-    visit edit_person_path(@person)
-    click_on 'abbrechen'
-    expect(current_path).to eq(creditors_path)
-    visit edit_organization_path(@organization)
-    click_on 'abbrechen'
-    expect(current_path).to eq(creditors_path)
-  end
-
-  it "is possible to delete people and organizations" do
-    visit creditors_path
-    within("tr#person_#{@person.id}") do
-      click_on 'löschen'
+    it "is possible to cancel editing #{type.pluralize}" do
+      @address = create type.to_sym
+      visit '/creditors'
+      click_on "edit_#{@address.id}"
+      click_on 'cancel'
+      expect(current_path).to eq(creditors_path)
     end
-    expect(current_path).to eq(creditors_path)
-    expect(page).not_to have_selector("tr#person_#{@person.id}")
-    expect(page).to have_selector('div.alert-success')
-    within("tr#organization_#{@organization.id}") do
-      click_on 'löschen'
+
+    it "cancel while editing from show page leads back to show page" do
+      @address = create type.to_sym
+      visit send("#{type}_path", @address)
+      click_on 'edit'
+      click_on 'cancel'
+      expect(current_path).to eq(send("#{type}_path", @address))
     end
-    expect(current_path).to eq(creditors_path)
-    expect(page).not_to have_selector("tr#organization_#{@organization.id}")
-    expect(page).to have_selector('div.alert-success')
-  end
 
-  it "is possible to create a person" do
-    visit creditors_path
-    click_on 'Neue Privatperson'
-    expect(current_path).to eq(new_person_path)
-    fill_in :person_first_name, with: 'First Name'
-    fill_in :person_name, with: 'Name'
-    fill_in :person_street_number, with: 'Street Number'
-    fill_in :person_zip, with: 'Zip'
-    fill_in :person_city, with: 'City'
-    select 'Deutschland', from: :person_country_code
-    click_on 'Kreditgeber_in erstellen'
-    expect(current_path).to match(/\/people\/\d+/)
-  end
+    it "is possible to delete #{type.pluralize}" do
+      @address = create type.to_sym
+      visit creditors_path
+      click_on "delete_#{@address.id}"
+      expect(current_path).to eq(creditors_path)
+      expect(page).not_to have_selector("tr##{type}_#{@address.id}")
+      expect(page).to have_selector('div.alert-success')
+    end
 
-  it "is possible to create an organization " do
-    visit creditors_path
-    click_on 'Neue Organisation'
-    expect(current_path).to eq(new_organization_path)
-    fill_in :organization_name, with: 'Name'
-    fill_in :organization_street_number, with: 'Street Number'
-    fill_in :organization_zip, with: 'Zip'
-    fill_in :organization_city, with: 'City'
-    select 'Deutschland', from: :organization_country_code
-    click_on 'Kreditgeber_in erstellen'
-    expect(current_path).to match(/\/organizations\/\d+/)
+    it "is possible to create a #{type}" do
+      visit creditors_path
+      click_on "add_#{type}"
+      expect(current_path).to eq(send("new_#{type}_path"))
+      fill_in "#{type}_first_name", with: 'First Name' if type == 'person'
+      fill_in "#{type}_name", with: 'Name'
+      fill_in "#{type}_street_number", with: 'Street Number'
+      fill_in "#{type}_zip", with: 'Zip'
+      fill_in "#{type}_city", with: 'City'
+      select 'Deutschland', from: "#{type}_country_code"
+      click_on 'submit'
+      expect(current_path).to match(/\/#{type.pluralize}\/\d+/)
+      expect(page).to have_selector('div.alert-success')
+    end
   end
 end
