@@ -1,34 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe "Creditors index" do
+RSpec.describe "conditional redirects for creditors in address_controller" do
 
   ['person', 'organization'].each do |type|
-    it "shows all #{type.pluralize}" do
-      @address = create type.to_sym
-      visit '/creditors'
-      expect(page).to have_selector("tr##{type}_#{@address.id}")
-    end
-
-    it "is possible to show all #{type.pluralize}" do
-      @address = create type.to_sym
-      visit '/creditors'
-      click_on "show_#{@address.id}"
-      expect(current_path).to eq(send("#{type}_path", @address))
-      click_on 'back'
-      expect(current_path).to eq(creditors_path)
-    end
-  
-    it "is possible to edit all #{type.pluralize}" do
+    it "coming form index, then successfully editing a #{type.pluralize} leads back to index" do
       @address = create type.to_sym
       visit '/creditors'
       click_on "edit_#{@address.id}"
-      expect(current_path).to eq(send("edit_#{type}_path", @address))
       click_on 'submit'
       expect(current_path).to eq(creditors_path)
       expect(page).to have_selector('div.alert-success')
     end
 
-    it "editing from show page leads back to show page" do
+    it "coming from show, then successfully editing a #{type.pluralize} leads back to show" do
       @address = create type.to_sym
       visit send("#{type}_path", @address)
       click_on 'edit'
@@ -36,7 +20,7 @@ RSpec.describe "Creditors index" do
       expect(current_path).to eq(send("#{type}_path", @address))
     end
 
-    it "is possible to cancel editing #{type.pluralize}" do
+    it "cancel editing when coming from index leads back to index" do
       @address = create type.to_sym
       visit '/creditors'
       click_on "edit_#{@address.id}"
@@ -44,7 +28,7 @@ RSpec.describe "Creditors index" do
       expect(current_path).to eq(creditors_path)
     end
 
-    it "cancel while editing from show page leads back to show page" do
+    it "cancel editing when from show page leads back to show page" do
       @address = create type.to_sym
       visit send("#{type}_path", @address)
       click_on 'edit'
@@ -52,7 +36,7 @@ RSpec.describe "Creditors index" do
       expect(current_path).to eq(send("#{type}_path", @address))
     end
 
-    it "is possible to delete #{type.pluralize}" do
+    it "deleting a #{type} leads back to index" do
       @address = create type.to_sym
       visit creditors_path
       click_on "delete_#{@address.id}"
@@ -61,10 +45,9 @@ RSpec.describe "Creditors index" do
       expect(page).to have_selector('div.alert-success')
     end
 
-    it "is possible to create a #{type}" do
+    it "creating a #{type} leads to the newly created record" do
       visit creditors_path
       click_on "add_#{type}"
-      expect(current_path).to eq(send("new_#{type}_path"))
       fill_in "#{type}_first_name", with: 'First Name' if type == 'person'
       fill_in "#{type}_name", with: 'Name'
       fill_in "#{type}_street_number", with: 'Street Number'

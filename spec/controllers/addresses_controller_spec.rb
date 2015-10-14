@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AddressesController, type: :controller do
+  #NOTE (conditional) Redirects are specified in feature/creditors/redirects_spec.rb
   describe "Get index for creditors" do
     it "assigns all the creditors and renders index" do
       person = create :person
@@ -72,16 +73,9 @@ RSpec.describe AddressesController, type: :controller do
         expect(assigns(:type)).to eq(type)
       end
 
-      unless type == 'ProjectAddress'
-        it "redirects to the address if successfull" do
-          post :create, type: type, type.underscore => attributes_for(type.underscore)
-          expect(response).to redirect_to(send("#{type.underscore}_path", Address.first))
-        end
-      else
-        it "redirects to project#index if successfull" do
-          post :create, type: type, type.underscore => attributes_for(type.underscore)
-          expect(response).to redirect_to(send("#{type.underscore}_path", Address.first))
-        end
+      it "is successfull" do
+        post :create, type: type, type.underscore => attributes_for(type.underscore)
+        expect(response.status).to eq 302
       end
 
       it "renders the new template if it fails" do
@@ -103,16 +97,9 @@ RSpec.describe AddressesController, type: :controller do
         expect(assigns(:type)).to eq(type)
       end
 
-      unless type == 'ProjectAddress'
-        it "redirects to the address if successfull" do
-          put :update, type: type, id: @address, type.underscore => attributes_for(type.underscore)
-          expect(response).to redirect_to(send("#{type.underscore}_path", @address))
-        end
-      else
-        it "redirects to project#index if successfull" do
-          put :update, type: type, id: @address, type.underscore => attributes_for(type.underscore)
-          expect(response).to redirect_to(project_path)
-        end
+      it "is successfull" do
+        put :update, type: type, id: @address, type.underscore => attributes_for(type.underscore)
+        expect(response.status).to eq 302
       end
 
       it "rerenders the edit template if not successfull" do
@@ -132,36 +119,18 @@ RSpec.describe AddressesController, type: :controller do
         expect(assigns(:type)).to eq(type)
       end
 
-      unless type == 'ProjectAddress'
-        it "redirects to the creditors index if successfull" do
+      it "is successfull" do
+        expect{ 
           delete :destroy, type: type, id: @address
-          expect(response).to redirect_to(creditors_path)
-        end
-      else
-        it "redirects to project#index if successfull" do
-          delete :destroy, type: type, id: @address
-          expect(response).to redirect_to(project_path)
-        end
+        }.to change{ type.constantize.count }
       end
 
-      unless type == 'ProjectAddress'
-        it "redirects to the creditors on failure" do
-          allow_any_instance_of(type.constantize).to receive(:destroy).and_return(:false)
-          allow_any_instance_of(type.constantize).to receive(:errors).and_return(base: 'Failure')
-          expect{
-            delete :destroy, type: type, id: @address
-          }.not_to change{type.constantize.count}
-          expect(response).to redirect_to(send("#{type.underscore}_path", @address))
-        end
-      else
-        it "redirects to project#index on failure" do
-          allow_any_instance_of(type.constantize).to receive(:destroy).and_return(:false)
-          allow_any_instance_of(type.constantize).to receive(:errors).and_return(base: 'Failure')
-          expect{
-            delete :destroy, type: type, id: @address
-          }.not_to change{type.constantize.count}
-          expect(response).to redirect_to(project_address_path(@address))
-        end
+      it "is not successfull" do
+        allow_any_instance_of(type.constantize).to receive(:destroy).and_return(:false)
+        allow_any_instance_of(type.constantize).to receive(:errors).and_return(base: 'Failure')
+        expect{
+          delete :destroy, type: type, id: @address
+        }.not_to change{type.constantize.count}
       end
     end
   end

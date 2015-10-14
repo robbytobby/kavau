@@ -15,5 +15,6 @@ class ApplicationController < ActionController::Base
       if action_name == 'index' || action_name == 'show'
         session[:back_url] = url_for(controller: controller_name, action: action_name, only_path: true)
       end  
+      session[:back_url] ||= url_for(controller: controller_name, action: 'index', only_path: true)
     end
 end
