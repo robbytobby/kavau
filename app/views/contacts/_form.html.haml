@@ -1,0 +1,9 @@
+= simple_form_for [@organization, @contact] do |f|
+
+  .form-inputs
+    = render partial: 'addresses/person_fields', locals: {f: f}
+
+  .form-actions.col-sm-12
+    = f.button :submit, class: 'btn-primary', id: 'submit'
+    = cancel_button 
+

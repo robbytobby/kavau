@@ -3,8 +3,12 @@ Rails.application.routes.draw do
   resources :addresses
   resources :creditors, controller: :addresses, type: 'Creditor'
   resources :people, controller: :addresses, type: 'Person', except: :index
-  resources :organizations, controller: :addresses, type: 'Organization', except: :index
-  resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index
+  resources :organizations, controller: :addresses, type: 'Organization', except: :index do
+    resources :contacts, except: [:index, :show]
+  end
+  resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
+    resources :contacts, except: [:index, :show]
+  end
   get 'project' => 'project#show'
   root 'project#show'
   # The priority is based upon order of creation: first created -> highest priority.

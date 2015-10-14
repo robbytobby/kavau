@@ -1,25 +1,9 @@
 - present(@address) do |address|
-  %p
-    %b Name:
-    = address.name
-  %p
-    %b First name:
-    = address.first_name
-  %p
-    %b Street number:
-    = address.street_number
-  %p
-    %b City:
-    = address.city
-  %p
-    %b Country:
-    = address.country_name
-  %p
-    %b Salutation:
-    = address.salutation
-  %p
-    %b Type:
-    = address.type
-
-  = link_to t('links.edit'), edit_address_path(@address), class: 'btn btn-default', id: 'edit'
-  = back_button cancel_path(@address)
+  %h1
+    = address.full_name
+    = link_to t('links.edit'), edit_address_path(@address), class: 'btn btn-default pull-right', id: 'edit'
+    = back_button cancel_path(@address), class: 'pull-right'
+  %table.table.table-striped
+    %thead
+      %tr
+    = render partial: "show_#{@type.underscore}", locals: {address: address}

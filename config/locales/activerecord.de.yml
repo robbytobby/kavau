@@ -6,6 +6,8 @@ de:
       address: 'Addresse'
       project_address: 'Projekt Addresse'
       creditor: 'Kreditgeber_in'
+      contact: 'Ansprechpartner_in'
+      organization: 'Organisation'
     attributes:
       address:
         address: 'Anschrift'

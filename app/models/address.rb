@@ -18,8 +18,8 @@ class Address < ActiveRecord::Base
     type == 'Organization'
   end
 
-  def project_address?
-    type == 'ProjectAddress'
+  def contact?
+    type == 'Contact'
   end
 
   def creditor?

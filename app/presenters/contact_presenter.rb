@@ -1,0 +1,4 @@
+class ContactPresenter < AddressPresenter
+
+end
+

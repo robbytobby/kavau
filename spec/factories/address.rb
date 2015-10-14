@@ -19,5 +19,10 @@ FactoryGirl.define do
     factory :organization, class: Organization do
       type 'Organization'
     end
+
+    factory :contact, class: Contact do
+      type 'Contact'
+      first_name 'Vorname'
+    end
   end
 end

@@ -3,7 +3,7 @@ de:
     new:
       title:
         project_address: 'Neue Addresse des Projekts'
-        creditor: 'Neue Kreditgeber_in'
+        creditor: 'Neue_r Kreditgeber_in'
     edit: 
       title: "%{model} bearbeiten"
     index:
@@ -11,3 +11,6 @@ de:
         creditor: 'Kreditgeber_innen'
       new_person: 'Neue Privatperson'
       new_organization: 'Neue Organisation'
+  contacts:
+    new:
+      title: 'Neue_r Ansprechpartner_in'

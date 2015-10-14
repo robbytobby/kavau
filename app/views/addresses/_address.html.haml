@@ -4,6 +4,7 @@
     %td= a.address
     %td= mail_to a.email if a.email
     %td= a.phone_numbers
+    %td
     %td 
       = icon_link_to 'eye-open', address, title: t('links.show'), id: "show_#{address.id}"
       = icon_link_to 'edit', edit_address_path(address), title: t('links.edit'), id: "edit_#{address.id}"

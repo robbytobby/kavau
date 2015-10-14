@@ -3,8 +3,8 @@
   = f.input :title
   = f.input :first_name
   = f.input :name
-  = render :partial => 'contact_fields', locals: {f: f}
+  = render :partial => 'addresses/contact_fields', locals: {f: f}
 .col-sm-6
-  = render partial: 'address_fields', locals: {f: f}
+  = render partial: 'addresses/address_fields', locals: {f: f}
   = f.input :notes
 
