@@ -18,6 +18,7 @@ class AddressesController < ApplicationController
   end
 
   def edit
+    respond_with @address
   end
 
   def create

@@ -1,8 +1,10 @@
-%p= [address.address, mail_link(address), address.phone_numbers(br: false)].compact.join(' | ').html_safe
 %h2
   = 'Ansprechpartner'
   = icon_link_to :plus, new_organization_contact_path(address), class: 'pull-right'
 
+%table.table.table-striped
+  %thead
+  %tr
   %tr
     %th= Address.human_attribute_name :full_name
     %th= Address.human_attribute_name :address

@@ -3,7 +3,7 @@
     %td= a.full_name
     %td= a.address
     %td= mail_to a.email if a.email
-    %td= a.phone_numbers
+    %td= a.phone_numbers(separator: '</br>')
     %td
     %td 
       = icon_link_to 'eye-open', address, title: t('links.show'), id: "show_#{address.id}"

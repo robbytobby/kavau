@@ -1,9 +1,8 @@
 - present(@address) do |address|
   %h1
     = address.full_name
-    = link_to t('links.edit'), edit_address_path(@address), class: 'btn btn-default pull-right', id: 'edit'
-    = back_button cancel_path(@address), class: 'pull-right'
-  %table.table.table-striped
-    %thead
-      %tr
-    = render partial: "show_#{@type.underscore}", locals: {address: address}
+    .pull-right
+      = link_to t('links.edit'), edit_address_path(@address), class: 'btn btn-default', id: 'edit'
+      = back_button cancel_path(@address)
+  %p= address.detail_line
+  = render partial: "show_#{@type.underscore}", locals: {address: address}

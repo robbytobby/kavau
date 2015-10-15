@@ -1,14 +1,26 @@
 class AddressPresenter < BasePresenter
   def full_name(format = :formal)
     if format == :formal
-      [[title, name].join(' '), first_name].compact.join(', ')
+      [formal_name, first_name].compact.join(', ')
     else
       [first_name, name].compact.join(' ')
     end
   end
 
+  def detail_line
+    [address, h.mail_link(self), phone_numbers(separator: ' | ')].compact.join(' | ').html_safe
+  end
+
+  def formal_name
+    [title, name].compact.join(' ')
+  end
+
   def address
-    [street_number, [zip, city].join(' '), country_name].compact.join(', ')
+    [street_number, city_line, country_name].compact.join(', ')
+  end
+
+  def city_line
+    [zip, city].join(' ')
   end
 
   def country_name
@@ -17,11 +29,8 @@ class AddressPresenter < BasePresenter
     country.translations[I18n.locale.to_s] || country.name
   end
 
-  def phone_numbers(br: true)
-    if br
-      (phone || '').gsub("\r\n", '</br>').html_safe
-    else
-      (phone || '').gsub("\r\n", ' | ')
-    end
+  def phone_numbers(separator: ' | ')
+    return unless phone
+    (phone || '').gsub("\r\n", separator).html_safe
   end
 end
