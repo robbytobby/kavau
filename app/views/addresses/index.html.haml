@@ -9,13 +9,7 @@
       %li= link_to t('.new_organization'), new_organization_path, id: 'add_organization'
 
 %table.table.table-striped
-  %thead
-    %tr
-      %th= Address.human_attribute_name :full_name
-      %th= Address.human_attribute_name :address
-      %th= Address.human_attribute_name :email
-      %th= Address.human_attribute_name :phone
-
+  = render partial: 'addresses_header'
   %tbody
     = render @addresses
 

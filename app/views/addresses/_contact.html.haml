@@ -1,9 +1,6 @@
 - present(contact) do |a|
   %tr[contact]
-    %td= a.full_name
-    %td= a.address
-    %td= mail_to a.email if a.email
-    %td= a.phone_numbers(separator: '</br>')
+    = render :partial => 'common_address_cells', locals: {address: a}
     %td
       = icon_link_to 'edit', 
         send("edit_#{@type.underscore}_contact_path", @address, contact), 

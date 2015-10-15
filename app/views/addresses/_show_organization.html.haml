@@ -1,14 +1,5 @@
 %h2
   = 'Ansprechpartner'
   = icon_link_to :plus, new_organization_contact_path(address), class: 'pull-right'
+= render :partial => 'addresses/contacts_table'
 
-%table.table.table-striped
-  %thead
-  %tr
-  %tr
-    %th= Address.human_attribute_name :full_name
-    %th= Address.human_attribute_name :address
-    %th= Address.human_attribute_name :email
-    %th= Address.human_attribute_name :phone
-    %th
-  = render @address.contacts
