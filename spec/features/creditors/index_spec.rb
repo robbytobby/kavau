@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "creditors index view" do
+  before(:each){ login_as create(:user) }
 
   ['person', 'organization'].each do |type|
     it "shows all #{type.pluralize}" do

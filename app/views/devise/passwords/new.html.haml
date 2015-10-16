@@ -1,0 +1,8 @@
+%h1= t '.title'
+= render "devise/shared/links"
+= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+  .form-inputs.col-sm-6
+    = f.input :email, required: true, autofocus: true
+  %div{style: "clear: both"}
+  .form-actions.col-sm-6
+    = f.button :submit, t('.submit'), class: 'btn-primary pull-right', id: 'submit'

@@ -4,6 +4,7 @@ require 'rails_helper'
 RSpec.describe ContactsController, type: :controller do
   let(:valid_session) { {} }
   let(:address_params) { {type: type, "#{type.underscore}_id": @address.id} }
+  before(:each){ sign_in create(:user) }
   before(:each){@address = create type.underscore.to_sym}
 
     describe "GET #new" do

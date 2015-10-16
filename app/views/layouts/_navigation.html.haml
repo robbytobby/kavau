@@ -6,10 +6,14 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to 'Lama', project_path, class: 'navbar-brand active'
-    .collapse.navbar-collapse{id: "bs-example-navbar-collapse-1"}
-      %ul.nav.navbar-nav
-        %li{class: controller.controller_name == 'project' ? 'active' : ''}
-          = link_to 'Übersicht', project_path
-        %li{class: controller.controller_name == 'addresses' && @type == 'Creditor' ? 'active' : ''}
-          = link_to 'Kreditgeber_innen', creditors_path
+      = link_to 'KV LaMa', project_path, class: 'navbar-brand active'
+    -if user_signed_in?
+      .collapse.navbar-collapse{id: "main-navigation"}
+        %ul.nav.navbar-nav
+          %li{class: controller.controller_name == 'project' ? 'active' : ''}
+            = link_to 'Übersicht', project_path
+          %li{class: controller.controller_name == 'addresses' && @type == 'Creditor' ? 'active' : ''}
+            = link_to 'Kreditgeber_innen', creditors_path
+        %ul.nav.navbar-nav.pull-right
+          %li
+            = icon_link_to 'log-out', destroy_user_session_path, method: :delete

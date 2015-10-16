@@ -11,8 +11,4 @@ de:
       defaults:
         password: 'Passwort'
         login: 'Login'
-    hints:
-      defaults:
-        login: 'myAccount-Login'
-        password: 'myAccount-Passwort'
 

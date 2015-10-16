@@ -3,6 +3,7 @@ require 'rails_helper'
 ['Organization', 'ProjectAddress'].each do |type|
   RSpec.describe "adding contacts to #{type.underscore.pluralize}" do
     before(:each){ @address = create type.underscore.to_sym }
+    before(:each){ login_as create(:user) }
 
     it "is possible to add a contact to a #{type.underscore}" do
       visit model_path(@address)

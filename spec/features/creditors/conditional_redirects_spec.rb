@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "conditional redirects for creditors in address_controller" do
+  before(:each){ login_as create(:user) }
 
   ['person', 'organization'].each do |type|
     it "coming form index, then successfully editing a #{type.pluralize} leads back to index" do

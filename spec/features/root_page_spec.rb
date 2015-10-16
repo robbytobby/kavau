@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Home page" do
+  before(:each){ login_as create(:user) }
+
   it "displays the Project addresses" do
     visit "/"
     expect(page).to have_selector('h1', text: 'Addressen')

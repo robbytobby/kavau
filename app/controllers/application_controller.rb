@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :html
 
+  before_action :authenticate_user!
   before_action :set_back_url, only: [:index, :show]
 
   # Prevent CSRF attacks by raising an exception.

@@ -10,7 +10,10 @@ Rails.application.routes.draw do
     resources :contacts, except: [:index, :show]
   end
   get 'project' => 'project#show'
-  root 'project#show'
+  authenticated :user do
+    root to: 'project#show', as: :authenticated_root
+  end
+  root to: redirect('/users/sign_in')
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
