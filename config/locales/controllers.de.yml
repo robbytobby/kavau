@@ -12,5 +12,8 @@ de:
       new_person: 'Neue Privatperson'
       new_organization: 'Neue Organisation'
   contacts:
+    title: 
+      one: 'Ansprechpartner_in'
+      other: 'Ansprechpartner_innen'
     new:
       title: 'Neue_r Ansprechpartner_in'

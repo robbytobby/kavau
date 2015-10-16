@@ -35,6 +35,7 @@ gem 'will_paginate'
 gem 'responders'
 gem 'devise'
 gem 'bootstrap-sass'
+gem 'jquery-turbolinks'
 gem 'country_select'
 gem 'i18n-country-translations'
 

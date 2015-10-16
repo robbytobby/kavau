@@ -14,4 +14,11 @@ module AddressesHelper
       project_path
     end
   end
+
+  def popover_notes(address)
+    return if address.notes.blank?
+    content_tag(:span, '', 
+                class: 'glyphicon glyphicon-info-sign text-info', 
+                data: {toggle: 'popover', content: address.notes}, title: Address.human_attribute_name(:notes))
+  end
 end

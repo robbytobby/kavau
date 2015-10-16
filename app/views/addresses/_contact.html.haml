@@ -1,5 +1,8 @@
 - present(contact) do |a|
   %tr[contact]
+    %td
+      = a.full_name
+      = popover_notes(contact)
     = render :partial => 'common_address_cells', locals: {address: a}
     %td
       = icon_link_to 'edit', 

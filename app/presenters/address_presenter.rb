@@ -11,6 +11,16 @@ class AddressPresenter < BasePresenter
     [address, h.mail_link(self), phone_numbers(separator: ' | ')].compact.join(' | ').html_safe
   end
 
+  def notes_paragraph
+    return if notes.blank?
+    h.content_tag(:p, 
+                  h.content_tag(:span, 
+                                Address.human_attribute_name(:notes) + ': ', 
+                                class: 'text-info'
+                               ) + notes
+                 )
+  end
+
   def formal_name
     [title, name].compact.join(' ')
   end

@@ -1,5 +1,5 @@
 %h2
-  = 'Ansprechpartner'
+  = t 'contacts.title', count: :many
   = icon_link_to :plus, new_organization_contact_path(address), class: 'pull-right', id: 'add_contact'
 = render :partial => 'addresses/contacts_table'
 

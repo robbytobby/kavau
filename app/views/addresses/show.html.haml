@@ -5,4 +5,5 @@
       = link_to t('links.edit'), edit_address_path(@address), class: 'btn btn-default', id: 'edit'
       = back_button cancel_path(@address)
   %p= address.detail_line
+  = address.notes_paragraph
   = render partial: "show_#{@type.underscore}", locals: {address: address}
