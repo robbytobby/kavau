@@ -4,6 +4,7 @@ de:
   devise:
     actions:
       log_in: 'anmelden'
+      log_out: 'abmelden'
     confirmations:
       confirmed: "Vielen Dank für Deine Registrierung. Bitte melde dich jetzt an."
       confirmed_and_signed_in: "Vielen Dank für Deine Registrierung. Du bist jetzt angemeldet."

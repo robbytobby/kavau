@@ -2,13 +2,14 @@ Rails.application.routes.draw do
   devise_for :users
   resources :addresses
   resources :creditors, controller: :addresses, type: 'Creditor'
-  resources :people, controller: :addresses, type: 'Person', except: :index
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
     resources :contacts, except: [:index, :show]
   end
+  resources :people, controller: :addresses, type: 'Person', except: :index
   resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
     resources :contacts, except: [:index, :show]
   end
+  resources :users
   get 'project' => 'project#show'
   authenticated :user do
     root to: 'project#show', as: :authenticated_root

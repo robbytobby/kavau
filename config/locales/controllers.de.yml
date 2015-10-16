@@ -17,3 +17,15 @@ de:
       other: 'Ansprechpartner_innen'
     new:
       title: 'Neue_r Ansprechpartner_in'
+  users:
+    index:
+      title: 'User Übersicht'
+    edit: 
+      title: 'User bearbeiten'
+    new:
+      title: 'Neuer User'
+  layouts:
+    navigation:
+      dashboard: 'Übersicht'
+      creditors: 'Kreditgeber_innen'
+      users: 'User'

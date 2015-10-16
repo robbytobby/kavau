@@ -8,6 +8,7 @@ de:
       creditor: 'Kreditgeber_in'
       contact: 'Ansprechpartner_in'
       organization: 'Organisation'
+      user: 'User'
     attributes:
       address:
         address: 'Anschrift'
@@ -28,4 +29,13 @@ de:
         name: 'Name'
       organization:
         name: 'Name'
+      user:
+        email: 'Email'
+        first_name: 'Vorname'
+        full_name: 'Name'
+        login: 'Login'
+        name: 'Nachname'
+        password: 'Passwort'
+        password_confirmation: 'Passwort bestätigen'
+        phone: 'Telefon'
 

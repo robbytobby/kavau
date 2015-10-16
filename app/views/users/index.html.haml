@@ -1,0 +1,14 @@
+%h1
+  = t '.title'
+  = icon_link_to 'plus', new_user_path, class: 'pull-right', id: 'new_user'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th= User.human_attribute_name(:full_name)
+      %th= User.human_attribute_name(:login)
+      %th= User.human_attribute_name(:email)
+      %th= User.human_attribute_name(:phone)
+      %th
+  %tbody
+    = render @users

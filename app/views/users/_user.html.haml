@@ -1,0 +1,9 @@
+- present user do |u|
+  %tr
+    %td= u.full_name
+    %td= u.login
+    %td= u.email
+    %td= u.phone_numbers
+    %td
+      = icon_link_to 'edit', edit_user_path(user)
+      = icon_link_to 'trash', user, :method => :delete, :data => { :confirm => 'Are you sure?' }

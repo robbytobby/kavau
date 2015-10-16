@@ -1,0 +1,13 @@
+= simple_form_for(@user) do |f|
+  .form-inputs.col-sm-8
+    = f.input :login
+    = f.input :password
+    = f.input :password_confirmation
+    = f.input :first_name
+    = f.input :name
+    = f.input :email
+    = f.input :phone
+
+  .form-actions.col-sm-12
+    = f.button :submit, class: 'btn-primary', id: 'submit'
+    = cancel_button
