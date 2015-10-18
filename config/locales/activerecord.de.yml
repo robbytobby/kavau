@@ -2,6 +2,11 @@ de:
   activerecord:
     errors:
       models:
+        user:
+          attributes:
+            password:
+              to_week: 'Passwort ist zu schwach: muß mindestens 1 Großbuchstaben, 1 Kleinbuchstaben und 1 Sonderzeichen oder Zahl enthalten und mindestens 8 Zeichen lang sein.'
+              name_inclusion: 'Das Passwort darf weder Login, noch Vor- oder Nachamen beinhalten'
     models:
       address: 'Addresse'
       project_address: 'Projekt Addresse'
@@ -38,4 +43,5 @@ de:
         password: 'Passwort'
         password_confirmation: 'Passwort bestätigen'
         phone: 'Telefon'
+        role: 'Rolle'
 

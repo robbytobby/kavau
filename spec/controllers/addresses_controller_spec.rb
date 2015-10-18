@@ -81,8 +81,7 @@ RSpec.describe AddressesController, type: :controller do
       end
 
       it "renders the new template if it fails" do
-        allow_any_instance_of(type.constantize).to receive(:save).and_return(false)
-        allow_any_instance_of(type.constantize).to receive(:errors).and_return(base: 'Failure')
+        do_not(:save, type.constantize)
         expect{
           post :create, type: type, type.underscore => attributes_for(type.underscore)
         }.not_to change{type.constantize.count}
@@ -105,8 +104,7 @@ RSpec.describe AddressesController, type: :controller do
       end
 
       it "rerenders the edit template if not successfull" do
-        allow_any_instance_of(type.constantize).to receive(:save).and_return(false)
-        allow_any_instance_of(type.constantize).to receive(:errors).and_return(base: 'Failure')
+        do_not(:save, type.constantize)
         put :update, type: type, id: @address, type.underscore => attributes_for(type.underscore)
         expect(response).to render_template(:edit)
       end
@@ -128,8 +126,7 @@ RSpec.describe AddressesController, type: :controller do
       end
 
       it "is not successfull" do
-        allow_any_instance_of(type.constantize).to receive(:destroy).and_return(:false)
-        allow_any_instance_of(type.constantize).to receive(:errors).and_return(base: 'Failure')
+        do_not(:destroy, type.constantize)
         expect{
           delete :destroy, type: type, id: @address
         }.not_to change{type.constantize.count}

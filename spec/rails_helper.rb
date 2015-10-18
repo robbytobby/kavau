@@ -54,6 +54,7 @@ RSpec.configure do |config|
 
   # Helpers for devise
   config.include Devise::TestHelpers, type: :controller
+  config.include Devise::TestHelpers, type: :routing
   
   # Helpers for capybara
   config.include Warden::Test::Helpers

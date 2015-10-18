@@ -5,3 +5,7 @@ de:
     edit: 'bearbeiten'
     show: 'anzeigen'
     delete: 'löschen'
+  roles:
+    user: 'User'
+    accountant: 'Buchhalter'
+    admin: 'Administrator'

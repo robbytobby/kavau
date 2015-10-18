@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  responders :collection
 
   def index
     @users = User.all
@@ -47,6 +48,6 @@ class UsersController < ApplicationController
         params[:user].delete(:password)
         params[:user].delete(:password_confirmation)
       end
-      params.require(:user).permit(:login, :password, :password_confirmation, :first_name, :name, :email, :phone)
+      params.require(:user).permit(:login, :password, :password_confirmation, :first_name, :name, :email, :phone, :role)
     end
 end

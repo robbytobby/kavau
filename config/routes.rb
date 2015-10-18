@@ -1,19 +1,21 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :addresses
-  resources :creditors, controller: :addresses, type: 'Creditor'
-  resources :organizations, controller: :addresses, type: 'Organization', except: :index do
-    resources :contacts, except: [:index, :show]
-  end
-  resources :people, controller: :addresses, type: 'Person', except: :index
-  resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
-    resources :contacts, except: [:index, :show]
-  end
-  resources :users
-  get 'project' => 'project#show'
+
   authenticated :user do
+    resources :addresses
+    resources :creditors, controller: :addresses, type: 'Creditor'
+    resources :organizations, controller: :addresses, type: 'Organization', except: :index do
+      resources :contacts, except: [:index, :show]
+    end
+    resources :people, controller: :addresses, type: 'Person', except: :index
+    resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
+      resources :contacts, except: [:index, :show]
+    end
+    resources :users
+    get 'project' => 'project#show'
     root to: 'project#show', as: :authenticated_root
   end
+  
   root to: redirect('/users/sign_in')
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
