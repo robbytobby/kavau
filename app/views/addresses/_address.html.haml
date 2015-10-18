@@ -1,9 +1,11 @@
 - present(address) do |a|
   %tr[address]
     %td
-      = link_to a.full_name, address, id: "show_#{address.id}", title: t('links.show')
+      = link_to_if policy(address).show?, a.full_name, address, id: "show_#{address.id}", title: t('links.show')
       = popover_notes(address)
     = render :partial => 'addresses/common_address_cells', locals: {address: a}
     %td 
-      = icon_link_to 'edit', edit_address_path(address), title: t('links.edit'), id: "edit_#{address.id}"
-      = icon_link_to 'trash', address, :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{address.id}"
+      -if policy(address).edit?
+        = icon_link_to 'edit', edit_address_path(address), title: t('links.edit'), id: "edit_#{address.id}"
+      -if policy(address).destroy?
+        = icon_link_to 'trash', address, :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{address.id}"

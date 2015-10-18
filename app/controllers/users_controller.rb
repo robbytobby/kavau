@@ -3,7 +3,8 @@ class UsersController < ApplicationController
   responders :collection
 
   def index
-    @users = User.all
+    @users = policy_scope(User)
+    authorize(@users)
     respond_with @users
   end
 
@@ -13,6 +14,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    authorize @user
     respond_with @user
   end
 
@@ -22,6 +24,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    authorize @user
     @user.save
     respond_with @user
   end
@@ -40,6 +43,7 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+      authorize @user
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -48,6 +52,6 @@ class UsersController < ApplicationController
         params[:user].delete(:password)
         params[:user].delete(:password_confirmation)
       end
-      params.require(:user).permit(:login, :password, :password_confirmation, :first_name, :name, :email, :phone, :role)
+      params.require(:user).permit(policy(@user || User.new).permitted_params)
     end
 end

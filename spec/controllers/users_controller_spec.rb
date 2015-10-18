@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   let(:user_params) {  }
-  before(:each){@user = create :user}
+  before(:each){@user = create :admin}
   before(:each){ sign_in @user}
 
   describe "GET #index" do

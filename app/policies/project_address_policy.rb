@@ -1,0 +1,3 @@
+class ProjectAddressPolicy < AddressPolicy
+end
+

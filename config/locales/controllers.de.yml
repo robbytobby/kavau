@@ -17,6 +17,8 @@ de:
       other: 'Ansprechpartner_innen'
     new:
       title: 'Neue_r Ansprechpartner_in'
+    edit: 
+      title: 'Ansprechpartner_in bearbeiten'
   users:
     index:
       title: 'User Übersicht'

@@ -12,10 +12,12 @@
         %ul.nav.navbar-nav
           %li{class: controller.controller_name == 'project' ? 'active' : ''}
             = link_to t('.dashboard'), project_path
-          %li{class: controller.controller_name == 'addresses' && @type == 'Creditor' ? 'active' : ''}
-            = link_to t('.creditors'), creditors_path
-          %li{class: controller.controller_name == 'users' ? 'active' : ''}
-            = link_to t('.users'), users_path
+          - if policy(:creditor).index?
+            %li{class: controller.controller_name == 'addresses' && @type == 'Creditor' ? 'active' : ''}
+              = link_to t('.creditors'), creditors_path
+          - if policy(:user).index?
+            %li{class: controller.controller_name == 'users' ? 'active' : ''}
+              = link_to t('.users'), users_path
         %ul.nav.navbar-nav.pull-right
           %li
             = icon_link_to 'log-out', destroy_user_session_path, method: :delete, title: t('devise.actions.log_out')

@@ -1,4 +1,5 @@
 %h2
   = 'Ansprechpartner'
-  = icon_link_to :plus, new_project_address_contact_path(address), class: 'pull-right', id: 'add_contact'
+  -if policy(:contact).new?
+    = icon_link_to :plus, new_project_address_contact_path(address), class: 'pull-right', id: 'add_contact'
 = render :partial => 'addresses/contacts_table'

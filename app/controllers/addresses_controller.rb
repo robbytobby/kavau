@@ -4,7 +4,8 @@ class AddressesController < ApplicationController
   respond_to :html
 
   def index
-    @addresses = Address.send(scope)
+    @addresses = policy_scope(klass).send(scope)
+    authorize @addresses
     respond_with @addresses
   end
 
@@ -14,6 +15,7 @@ class AddressesController < ApplicationController
 
   def new
     @address = klass.new
+    authorize @address
     respond_with @address
   end
 
@@ -23,6 +25,7 @@ class AddressesController < ApplicationController
 
   def create
     @address = klass.new(address_params)
+    authorize @address
     @address.save
     respond_with @address, location: -> { after_action_path }
   end
@@ -40,6 +43,7 @@ class AddressesController < ApplicationController
   private
     def set_address
       @address = klass.find(params[:id])
+      authorize @address
     end
 
     def set_type
@@ -59,7 +63,7 @@ class AddressesController < ApplicationController
     end
 
     def address_params
-      params.require(klass_symbol).permit(:name, :first_name, :street_number, :city, :country_code, :salutation, :type, :title, :email, :phone, :zip, :notes)
+      params.require(klass_symbol).permit(policy(@address || Address.new).permitted_params)
     end
 
     def after_action_path

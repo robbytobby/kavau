@@ -2,8 +2,10 @@
   %h1
     = address.full_name
     .pull-right
-      = link_to t('links.edit'), edit_address_path(@address), class: 'btn btn-default', id: 'edit'
-      = back_button cancel_path(@address)
+      -if policy(@address).edit?
+        = link_to t('links.edit'), edit_address_path(@address), class: 'btn btn-default', id: 'edit'
+      -if policy(:address).index?
+        = back_button cancel_path(@address)
   %p= address.detail_line
   = address.notes_paragraph
   = render partial: "show_#{@type.underscore}", locals: {address: address}

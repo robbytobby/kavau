@@ -1,0 +1,3 @@
+class CreditorPolicy < AddressPolicy
+end
+

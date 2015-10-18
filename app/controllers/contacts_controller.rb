@@ -5,6 +5,7 @@ class ContactsController < ApplicationController
 
   def new
     @contact = Contact.new
+    authorize @contact
     respond_with @contact
   end
 
@@ -14,6 +15,7 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params.merge(organization_id: get_organization_id))
+    authorize @contact
     @contact.save
     respond_with @contact, location: @contact.organization
   end
@@ -32,11 +34,12 @@ class ContactsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_contact
       @contact = Contact.find(params[:id])
+      authorize @contact
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def contact_params
-      params.require(:contact).permit(:first_name, :name, :salutation, :title, :email, :phone, :street_number, :zip, :city, :country_code, :notes)
+      params.require(:contact).permit(policy(@contact || Contact.new).permitted_params)
     end
 
     def set_organization

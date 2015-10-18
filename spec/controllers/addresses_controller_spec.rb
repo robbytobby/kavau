@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AddressesController, type: :controller do
   #NOTE (conditional) Redirects are specified in feature/creditors/redirects_spec.rb
-  before(:each){ sign_in create(:user) }
+  before(:each){ sign_in create(:admin) }
   
   describe "Get index for creditors" do
     it "assigns all the creditors and renders index" do

@@ -3,7 +3,7 @@ require 'rails_helper'
 ['Organization', 'ProjectAddress'].each do |type|
 RSpec.describe ContactsController, type: :controller do
   let(:address_params) { {type: type, "#{type.underscore}_id": @address.id} }
-  before(:each){ sign_in create(:user) }
+  before(:each){ sign_in create(:accountant) }
   before(:each){@address = create type.underscore.to_sym}
 
     describe "GET #new" do

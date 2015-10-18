@@ -1,7 +1,11 @@
 require "application_responder"
 
 class ApplicationController < ActionController::Base
+  include Pundit
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   self.responder = ApplicationResponder
+  after_action :verify_authorized, :except => :index, unless: :devise_controller?
+  after_action :verify_policy_scoped, :only => :index
   respond_to :html
 
   before_action :authenticate_user!
@@ -14,5 +18,10 @@ class ApplicationController < ActionController::Base
   private
     def set_back_url
       session[:back_url] = url_for(controller: controller_name, action: action_name, only_path: true)
+    end
+    
+    def user_not_authorized
+      flash[:alert] = "You are not authorized to perform this action."
+      redirect_to(request.referrer || root_path)
     end
 end

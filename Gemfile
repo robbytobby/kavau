@@ -38,6 +38,7 @@ gem 'bootstrap-sass'
 gem 'jquery-turbolinks'
 gem 'country_select'
 gem 'i18n-country-translations'
+gem 'pundit'
 
 
 group :development, :test do
