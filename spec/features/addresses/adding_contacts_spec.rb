@@ -35,7 +35,7 @@ require 'rails_helper'
         end
 
         describe "existing contacts" do
-          before(:each){ @contact = create :contact, organization: @address }
+          before(:each){ @contact = create :contact, institution: @address }
 
           it "is possible to edit a contact of a #{type.underscore}" do
             visit model_path(@address)

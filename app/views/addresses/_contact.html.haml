@@ -10,4 +10,4 @@
           send("edit_#{@type.underscore}_contact_path", @address, contact), 
           title: t('links.edit'), id: "edit_#{contact.id}"
       -if policy(contact).destroy?
-        = icon_link_to 'trash', [contact.organization, contact], :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{contact.id}"
+        = icon_link_to 'trash', [contact.institution, contact], :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{contact.id}"

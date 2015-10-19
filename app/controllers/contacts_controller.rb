@@ -1,7 +1,7 @@
 class ContactsController < ApplicationController
   before_action :set_type
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
-  before_action :set_organization
+  before_action :set_institution
 
   def new
     @contact = Contact.new
@@ -14,20 +14,20 @@ class ContactsController < ApplicationController
   end
 
   def create
-    @contact = Contact.new(contact_params.merge(organization_id: get_organization_id))
+    @contact = Contact.new(contact_params.merge(institution: @institution))
     authorize @contact
     @contact.save
-    respond_with @contact, location: @contact.organization
+    respond_with @contact, location: @contact.institution
   end
 
   def update
     @contact.update(contact_params)
-    respond_with @contact, location: @contact.organization
+    respond_with @contact, location: @contact.institution
   end
 
   def destroy
     @contact.destroy
-    respond_with @contact, location: @contact.organization
+    respond_with @contact, location: @contact.institution
   end
 
   private
@@ -42,15 +42,15 @@ class ContactsController < ApplicationController
       params.require(:contact).permit(policy(@contact || Contact.new).permitted_params)
     end
 
-    def set_organization
-      @organization = @type.find(get_organization_id) 
+    def set_institution
+      @institution = @type.find(get_institution_id) 
     end
 
     def set_type
       @type = params[:type].constantize
     end
 
-    def get_organization_id
+    def get_institution_id
       params[:organization_id] || params[:project_address_id]
     end
 end

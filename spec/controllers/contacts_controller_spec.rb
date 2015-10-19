@@ -10,7 +10,7 @@ RSpec.describe ContactsController, type: :controller do
       it "assigns a new contact as @contact" do
         get :new, address_params
         expect(assigns(:contact)).to be_a_new(Contact)
-        expect(assigns(:organization)).to eq(@address)
+        expect(assigns(:institution)).to eq(@address)
         expect(assigns(:type)).to eq(type.constantize)
         expect(response).to render_template(:new)
       end
@@ -18,10 +18,10 @@ RSpec.describe ContactsController, type: :controller do
 
     describe "GET #edit" do
       it "assigns the requested contact as @contact" do
-        contact = create :contact, organization: @address
+        contact = create :contact, institution: @address
         get :edit, {:id => contact.id}.merge(address_params)
         expect(assigns(:contact)).to eq(contact)
-        expect(assigns(:organization)).to eq(@address)
+        expect(assigns(:institution)).to eq(@address)
         expect(assigns(:type)).to eq(type.constantize)
         expect(response).to render_template(:edit)
       end
@@ -39,7 +39,7 @@ RSpec.describe ContactsController, type: :controller do
           post :create, {:contact => attributes_for(:contact)}.merge(address_params)
           expect(assigns(:contact)).to be_a(Contact)
           expect(assigns(:contact)).to be_persisted
-          expect(assigns(:organization)).to eq(@address)
+          expect(assigns(:institution)).to eq(@address)
           expect(assigns(:type)).to eq(type.constantize)
         end
 
@@ -54,7 +54,7 @@ RSpec.describe ContactsController, type: :controller do
           do_not(:save, Contact)
           post :create, {:contact => attributes_for(:contact)}.merge(address_params)
           expect(assigns(:contact)).to be_a_new(Contact)
-          expect(assigns(:organization)).to eq(@address)
+          expect(assigns(:institution)).to eq(@address)
           expect(assigns(:type)).to eq(type.constantize)
         end
 
@@ -67,7 +67,7 @@ RSpec.describe ContactsController, type: :controller do
     end
 
     describe "PUT #update" do
-      before(:each){ @contact = create(:contact, organization: @address) }
+      before(:each){ @contact = create(:contact, institution: @address) }
       context "with valid params" do
         it "updates the requested @contact" do
           put :update, {:id => @contact.to_param, :contact => {name: 'New Name'}}.merge(address_params)
@@ -78,7 +78,7 @@ RSpec.describe ContactsController, type: :controller do
         it "assigns the requested contact as @contact" do
           put :update, {:id => @contact.to_param, :contact => {name: 'New Name'}}.merge(address_params)
           expect(assigns(:contact)).to eq(@contact)
-          expect(assigns(:organization)).to eq(@address)
+          expect(assigns(:institution)).to eq(@address)
           expect(assigns(:type)).to eq(type.constantize)
         end
 
@@ -104,7 +104,7 @@ RSpec.describe ContactsController, type: :controller do
     end
 
     describe "DELETE #destroy" do
-      before(:each){ @contact = create(:contact, organization: @address) }
+      before(:each){ @contact = create(:contact, institution: @address) }
       it "destroys the requested contact" do
         expect {
           delete :destroy, {:id => @contact.to_param}.merge(address_params)
