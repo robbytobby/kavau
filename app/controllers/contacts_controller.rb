@@ -31,13 +31,11 @@ class ContactsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_contact
       @contact = Contact.find(params[:id])
       authorize @contact
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def contact_params
       params.require(:contact).permit(policy(@contact || Contact.new).permitted_params)
     end
@@ -47,10 +45,14 @@ class ContactsController < ApplicationController
     end
 
     def set_type
-      @type = params[:type].constantize
+      @type = type.constantize
+    end
+
+    def type
+      params[:type]
     end
 
     def get_institution_id
-      params[:organization_id] || params[:project_address_id]
+      params["#{type.underscore}_id"]
     end
 end
