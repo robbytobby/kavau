@@ -3,9 +3,7 @@
     %td
       = link_to_if policy(address).show?, a.full_name, address, id: "show_#{address.id}", title: t('links.show')
       = popover_notes(address)
-    = render :partial => 'addresses/common_address_cells', locals: {address: a}
-    %td 
-      -if policy(address).edit?
-        = icon_link_to 'edit', edit_address_path(address), title: t('links.edit'), id: "edit_#{address.id}"
-      -if policy(address).destroy?
-        = icon_link_to 'trash', address, :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{address.id}"
+    %td= a.address
+    %td= mail_to a.email if address.email
+    %td= a.phone_numbers(separator: '</br>')
+    = render :partial => address.list_action_partial_path, locals: {address: a}

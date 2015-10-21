@@ -1,0 +1,5 @@
+%td.actions 
+  -if policy(address).edit?
+    = icon_link_to 'edit', edit_address_path(address), title: t('links.edit'), id: "edit_#{address.id}"
+  -if policy(address).destroy?
+    = icon_link_to 'trash', address, :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{address.id}"

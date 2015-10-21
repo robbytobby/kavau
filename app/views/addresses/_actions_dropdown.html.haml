@@ -1,0 +1,25 @@
+.dropdown.pull-right.actions
+  %button.btn.btn-default.dropdown-toggle{type: "button", id: "add_creditor", data: {toggle: "dropdown"}}
+    =link_to 'Aktion', ''
+    %span.caret
+  %ul.dropdown-menu
+    -if policy(:address).index?
+      %li
+        = link_to cancel_path(@address), id: 'back' do
+          %span.glyphicon.glyphicon-th-list
+          = t('links.back') 
+    -if policy(@address).edit?
+      %li
+        = link_to edit_address_path(@address), id: 'edit' do
+          %span.glyphicon.glyphicon-edit
+          = t('links.edit')
+    -if policy(:contact).new? && @type != 'Person'
+      %li
+        = link_to send("new_#{@type.underscore}_contact_path", @address), id: 'add_contact' do
+          %span.glyphicon.glyphicon-user
+          = t 'links.new_contact'
+    -if policy(:contact).new?
+      %li
+        = link_to send("new_#{@type.underscore}_account_path", @address), id: 'add_account' do
+          %span.glyphicon.glyphicon-credit-card
+          = t('links.new_account')

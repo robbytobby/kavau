@@ -5,8 +5,8 @@ class Contact < Address
 
   validates_presence_of :first_name, :name
 
-  def to_partial_path
-    "addresses/contact"
+  def list_action_partial_path
+    "addresses/contact_list_actions"
   end
 
   private

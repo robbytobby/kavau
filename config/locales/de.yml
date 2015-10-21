@@ -1,12 +1,14 @@
 de:
   links:
-    back: 'zurück'
+    back: 'zurück zur Übersicht'
     cancel: 'abbrechen'
     edit: 'bearbeiten'
     show: 'anzeigen'
     delete: 'löschen'
+    new_contact: 'neue_r Ansprechpartner_in'
+    new_account: 'neue Bankverbindung'
   roles:
     user: 'User'
-    accountant: 'Buchhalter'
-    admin: 'Administrator'
+    accountant: 'Buchhalter_in'
+    admin: 'Administrator_in'
 

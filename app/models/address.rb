@@ -6,6 +6,10 @@ class Address < ActiveRecord::Base
     "addresses/address"
   end
 
+  def list_action_partial_path
+    "addresses/list_actions"
+  end
+
   def person?
     type == 'Person'
   end

@@ -1,12 +1,11 @@
 - present(@address) do |address|
   %h1
     = address.full_name
-    .pull-right
-      -if policy(@address).edit?
-        = link_to t('links.edit'), edit_address_path(@address), class: 'btn btn-default', id: 'edit'
-      -if policy(:address).index?
-        = back_button cancel_path(@address)
+    = render :partial => 'actions_dropdown'
   %p= address.detail_line
   = address.notes_paragraph
-  = render partial: "show_#{@type.underscore}", locals: {address: address}
+
+  = render :partial => 'contacts'
+
+  = render :partial => 'accounts'
 

@@ -8,6 +8,7 @@ de:
               to_week: 'Passwort ist zu schwach: muß mindestens 1 Großbuchstaben, 1 Kleinbuchstaben und 1 Sonderzeichen oder Zahl enthalten und mindestens 8 Zeichen lang sein.'
               name_inclusion: 'Das Passwort darf weder Login, noch Vor- oder Nachamen beinhalten'
     models:
+      account: 'Bankverbindung'
       address: 'Addresse'
       project_address: 'Projekt Addresse'
       creditor: 'Kreditgeber_in'

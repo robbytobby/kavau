@@ -5,7 +5,7 @@
     %td= a.iban
     %td= a.owner
     %td= a.name
-    %td
+    %td.actions
       -if policy(account).edit?
         = icon_link_to 'edit', 
           send("edit_#{@type.underscore}_account_path", account.address, account), 
