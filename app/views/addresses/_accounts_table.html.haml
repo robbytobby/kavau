@@ -1,0 +1,11 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th= Account.human_attribute_name :bank
+      %th= Account.human_attribute_name :bic
+      %th= Account.human_attribute_name :iban
+      %th= Account.human_attribute_name :owner
+      %th= Account.human_attribute_name :name
+      %th
+  %tbody
+    = render @address.accounts

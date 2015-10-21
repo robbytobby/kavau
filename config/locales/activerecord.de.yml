@@ -15,6 +15,12 @@ de:
       organization: 'Organisation'
       user: 'User'
     attributes:
+      account:
+        bank: 'Bank'
+        bic: 'Bic'
+        iban: 'Iban'
+        owner: 'Kontoinhaber_in'
+        name: 'Bezeichnung'
       address:
         address: 'Anschrift'
         city: 'Stadt'

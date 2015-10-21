@@ -1,4 +1,7 @@
 de:
+  accounts:
+    new:
+      title: 'Neue Bankverbindung'
   addresses:
     new:
       title:
@@ -11,6 +14,10 @@ de:
         creditor: 'Kreditgeber_innen'
       new_person: 'Neue Privatperson'
       new_organization: 'Neue Organisation'
+    show:
+      contacts: 'Ansprechpartner_innen'
+      accounts: 'Bankverbindungen'
+        
   contacts:
     title: 
       one: 'Ansprechpartner_in'
@@ -19,6 +26,10 @@ de:
       title: 'Neue_r Ansprechpartner_in'
     edit: 
       title: 'Ansprechpartner_in bearbeiten'
+  project:
+    show:
+      addresses: 'Addressen'
+      accounts: 'Konten'
   users:
     index:
       title: 'User Übersicht'

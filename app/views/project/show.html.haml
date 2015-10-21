@@ -1,9 +1,9 @@
 %h1 
-  Addressen
+  = t '.addresses'
   -if policy(:project_address).new?
     = icon_link_to 'plus', new_project_address_path, class: 'pull-right', id: 'new_project_address'
 
-%table.table.table-striped
+%table.table.table-striped.addresses
   %thead
     %tr
       %th= ProjectAddress.human_attribute_name :full_name
@@ -14,3 +14,15 @@
 
   %tbody
     = render @addresses
+
+%h1 
+  = t '.accounts'
+%table.table.table-striped.accounts
+  %thead
+    %tr
+      %th= Account.human_attribute_name :name
+      %th= Account.human_attribute_name :credits_sum
+      %th
+
+  %tbody
+    = render partial: 'account', collection: @accounts

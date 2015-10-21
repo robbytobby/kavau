@@ -11,10 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151019054505) do
+ActiveRecord::Schema.define(version: 20151021073349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "encrypted_bic"
+    t.string   "encrypted_owner"
+    t.string   "encrypted_iban",       null: false
+    t.string   "encrypted_bank",       null: false
+    t.string   "encrypted_name"
+    t.string   "encrypted_bic_salt"
+    t.string   "encrypted_owner_salt"
+    t.string   "encrypted_iban_salt"
+    t.string   "encrypted_bank_salt"
+    t.string   "encrypted_name_salt"
+    t.string   "encrypted_bic_iv"
+    t.string   "encrypted_owner_iv"
+    t.string   "encrypted_iban_iv"
+    t.string   "encrypted_bank_iv"
+    t.string   "encrypted_name_iv"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.string   "address_id",           null: false
+    t.string   "address_type",         null: false
+  end
 
   create_table "addresses", force: :cascade do |t|
     t.string   "name",             null: false

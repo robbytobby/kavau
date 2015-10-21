@@ -1,0 +1,14 @@
+- present account do |a|
+  %tr[account]
+    %td= a.bank
+    %td= a.bic
+    %td= a.iban
+    %td= a.owner
+    %td= a.name
+    %td
+      -if policy(account).edit?
+        = icon_link_to 'edit', 
+          send("edit_#{@type.underscore}_account_path", account.address, account), 
+          title: t('links.edit'), id: "edit_#{account.id}"
+      -if policy(account).destroy?
+        = icon_link_to 'trash', [account.address, account], :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{account.id}"

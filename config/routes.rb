@@ -5,10 +5,14 @@ Rails.application.routes.draw do
   resources :creditors, controller: :addresses, type: 'Creditor'
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
     resources :contacts, except: [:index, :show]
+    resources :accounts, except: [:index, :show]
   end
-  resources :people, controller: :addresses, type: 'Person', except: :index
+  resources :people, controller: :addresses, type: 'Person', except: :index do
+    resources :accounts, except: [:index, :show]
+  end
   resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
     resources :contacts, except: [:index, :show]
+    resources :accounts, except: [:index, :show]
   end
   resources :users
   get 'project' => 'project#show'

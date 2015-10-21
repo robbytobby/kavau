@@ -43,7 +43,7 @@ RSpec.describe ContactsController, type: :controller do
           expect(assigns(:type)).to eq(type.constantize)
         end
 
-        it "redirects to the created contact" do
+        it "redirects to the contacts address" do
           post :create, {:contact => attributes_for(:contact)}.merge(address_params)
           expect(response).to redirect_to(@address)
         end

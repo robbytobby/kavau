@@ -39,6 +39,7 @@ gem 'jquery-turbolinks'
 gem 'country_select'
 gem 'i18n-country-translations'
 gem 'pundit'
+gem 'attr_encrypted'
 
 
 group :development, :test do
