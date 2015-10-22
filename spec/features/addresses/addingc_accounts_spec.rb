@@ -43,7 +43,7 @@ require 'rails_helper'
 
           it "is possible to edit an account of a #{type.underscore}" do
             visit model_path(@address)
-            click_on "edit_#{@account.id}"
+            click_on "edit_account_#{@account.id}"
             fill_in :account_name, with: 'New Name'
             click_on :submit
             expect(current_path).to eq(model_path(@address))
@@ -52,14 +52,14 @@ require 'rails_helper'
 
           it "is possible to cancel editing an account of a #{type.underscore}" do
             visit model_path(@address)
-            click_on "edit_#{@account.id}"
+            click_on "edit_account_#{@account.id}"
             click_on :cancel
             expect(current_path).to eq(model_path(@address))
           end
           
           it "is possible to delete an account of a #{type.underscore}" do
             visit model_path(@address)
-            click_on "delete_#{@account.id}"
+            click_on "delete_account_#{@account.id}"
             expect(current_path).to eq(model_path(@address))
             expect(page).to have_selector('div.alert-success')
           end

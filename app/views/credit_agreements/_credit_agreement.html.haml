@@ -7,6 +7,6 @@
     %td.actions
       -if policy(credit_agreement).edit?
         = icon_link_to 'edit', 
-          send("edit_#{@type.underscore}_credit_agreement_path", credit_agreement.creditor, credit_agreement),title: t('links.edit'), id: "edit_#{credit_agreement.id}"
+          send("edit_#{@type.underscore}_credit_agreement_path", credit_agreement.creditor, credit_agreement),title: t('links.edit'), id: "edit_credit_agreement_#{credit_agreement.id}"
       -if policy(credit_agreement).destroy?
-        = icon_link_to 'trash', [credit_agreement.creditor, credit_agreement], :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{credit_agreement.id}"
+        = icon_link_to 'trash', [credit_agreement.creditor, credit_agreement], :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_credit_agreement_#{credit_agreement.id}"

@@ -33,7 +33,7 @@ require 'rails_helper'
 
           it "is possible to edit an account of a #{type.underscore}" do
             visit model_path(@creditor)
-            click_on "edit_#{@credit_agreement.id}"
+            click_on "edit_credit_agreement_#{@credit_agreement.id}"
             fill_in :credit_agreement_amount, with: '20000'
             click_on :submit
             expect(current_path).to eq(model_path(@creditor))
@@ -42,14 +42,14 @@ require 'rails_helper'
 
           it "is possible to cancel editin a credit_agreement of a #{type.underscore}" do
             visit model_path(@creditor)
-            click_on "edit_#{@credit_agreement.id}"
+            click_on "edit_credit_agreement_#{@credit_agreement.id}"
             click_on :cancel
             expect(current_path).to eq(model_path(@creditor))
           end
 
           it "is possible to destroy a credit_agreement of a #{type}" do
             visit model_path(@creditor)
-            click_on "delete_#{@credit_agreement.id}"
+            click_on "delete_credit_agreement_#{@credit_agreement.id}"
             expect(current_path).to eq(model_path(@creditor))
             expect(page).to have_selector('div.alert-success')
           end

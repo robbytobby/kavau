@@ -7,7 +7,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
     it "coming form index, then successfully editing a #{type.pluralize} leads back to index" do
       @address = create type.to_sym
       visit '/creditors'
-      click_on "edit_#{@address.id}"
+      click_on "edit_#{type}_#{@address.id}"
       click_on 'submit'
       expect(current_path).to eq(creditors_path)
       expect(page).to have_selector('div.alert-success')
@@ -24,7 +24,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
     it "cancel editing when coming from index leads back to index" do
       @address = create type.to_sym
       visit '/creditors'
-      click_on "edit_#{@address.id}"
+      click_on "edit_#{type}_#{@address.id}"
       click_on 'cancel'
       expect(current_path).to eq(creditors_path)
     end
@@ -40,7 +40,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
     it "deleting a #{type} leads back to index" do
       @address = create type.to_sym
       visit creditors_path
-      click_on "delete_#{@address.id}"
+      click_on "delete_#{type}_#{@address.id}"
       expect(current_path).to eq(creditors_path)
       expect(page).not_to have_selector("tr##{type}_#{@address.id}")
       expect(page).to have_selector('div.alert-success')

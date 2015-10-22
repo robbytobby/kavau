@@ -32,7 +32,7 @@ RSpec.describe "creditors index view" do
       it "is possible to edit all #{type.pluralize}" do
         @address = create type.to_sym
         visit '/creditors'
-        click_on "edit_#{@address.id}"
+        click_on "edit_#{type}_#{@address.id}"
         expect(current_path).to eq(send("edit_#{type}_path", @address))
       end
 
