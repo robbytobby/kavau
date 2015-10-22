@@ -1,0 +1,12 @@
+%h2
+  = t('addresses.show.credit_agreements')
+%table.table.table-striped.credits
+  %thead
+    %tr
+      %th= CreditAgreement.human_attribute_name :amount
+      %th= CreditAgreement.human_attribute_name :account
+      %th= CreditAgreement.human_attribute_name :interest_rate
+      %th= CreditAgreement.human_attribute_name :cancellation_period
+      %th
+    %tbody
+      = render @address.credit_agreements

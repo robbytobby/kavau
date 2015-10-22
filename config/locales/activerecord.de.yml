@@ -10,10 +10,11 @@ de:
     models:
       account: 'Bankverbindung'
       address: 'Addresse'
-      project_address: 'Projekt Addresse'
-      creditor: 'Kreditgeber_in'
       contact: 'Ansprechpartner_in'
+      creditor: 'Kreditgeber_in'
+      credit_agreement: 'Kreditvertrag'
       organization: 'Organisation'
+      project_address: 'Projekt Addresse'
       user: 'User'
     attributes:
       account:
@@ -37,6 +38,12 @@ de:
         title: 'Titel'
         type: 'Typ'
         zip: 'Postleitzahl'
+      credit_agreement:
+        amount: 'Betrag'
+        interest_rate: 'Zinssatz'
+        cancellation_period: 'Kündigungsfrist'
+        account_id: 'Konto'
+        account: 'Konto'
       project_address:
         name: 'Name'
       organization:

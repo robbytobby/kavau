@@ -7,8 +7,12 @@ de:
     delete: 'löschen'
     new_contact: 'neue_r Ansprechpartner_in'
     new_account: 'neue Bankverbindung'
+    new_credit_agreement: 'neuer Kreditvertrag'
   roles:
     user: 'User'
     accountant: 'Buchhalter_in'
     admin: 'Administrator_in'
+  months:
+    one: '1 Monat'
+    other: '%{count} Monate'
 

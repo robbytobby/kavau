@@ -1,15 +1,6 @@
 %h1 
   = t(".title.#{@type.underscore}")
-  -if policy(:creditor).new?
-    .dropdown.pull-right
-      %button.btn.btn-default.dropdown-toggle{type: "button", id: "add_creditor", data: {toggle: "dropdown"}}
-        =icon_link_to 'plus', ''
-        %span.caret
-      %ul.dropdown-menu
-        -if policy(:person).new?
-          %li= link_to t('.new_person'), new_person_path, id: 'add_person' 
-        -if policy(:organization).new?
-          %li= link_to t('.new_organization'), new_organization_path, id: 'add_organization'
+  = render :partial => 'index_actions'
 
 %table.table.table-striped
   %thead

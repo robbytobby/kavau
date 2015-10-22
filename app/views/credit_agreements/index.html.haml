@@ -1,0 +1,19 @@
+%h1 Listing credit_agreements
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @credit_agreements.each do |credit_agreement|
+      %tr
+        %td= link_to 'Show', credit_agreement
+        %td= link_to 'Edit', edit_credit_agreement_path(credit_agreement)
+        %td= link_to 'Destroy', credit_agreement, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Credit agreement', new_credit_agreement_path

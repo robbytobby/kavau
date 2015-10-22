@@ -1,0 +1,12 @@
+-present credit_agreement do |c|
+  %tr
+    %td= c.amount
+    %td= c.account.name
+    %td= c.interest_rate
+    %td= c.cancellation_period
+    %td.actions
+      -if policy(credit_agreement).edit?
+        = icon_link_to 'edit', 
+          send("edit_#{@type.underscore}_credit_agreement_path", credit_agreement.creditor, credit_agreement),title: t('links.edit'), id: "edit_#{credit_agreement.id}"
+      -if policy(credit_agreement).destroy?
+        = icon_link_to 'trash', [credit_agreement.creditor, credit_agreement], :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_#{credit_agreement.id}"

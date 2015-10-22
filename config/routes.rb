@@ -6,9 +6,11 @@ Rails.application.routes.draw do
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
     resources :contacts, except: [:index, :show]
     resources :accounts, except: [:index, :show]
+    resources :credit_agreements, except: [:index, :show]
   end
   resources :people, controller: :addresses, type: 'Person', except: :index do
     resources :accounts, except: [:index, :show]
+    resources :credit_agreements, except: [:index, :show]
   end
   resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
     resources :contacts, except: [:index, :show]

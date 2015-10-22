@@ -23,3 +23,9 @@
         = link_to send("new_#{@type.underscore}_account_path", @address), id: 'add_account' do
           %span.glyphicon.glyphicon-credit-card
           = t('links.new_account')
+    -if @type != 'ProjectAddress' && policy(:credit_agreement).new?
+      %li
+        = link_to send("new_#{@type.underscore}_credit_agreement_path", @address), id: 'add_credit_agreement' do
+          %span.glyphicon.glyphicon-file
+          = t('links.new_credit_agreement')
+

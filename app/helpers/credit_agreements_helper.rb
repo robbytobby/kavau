@@ -1,0 +1,2 @@
+module CreditAgreementsHelper
+end
