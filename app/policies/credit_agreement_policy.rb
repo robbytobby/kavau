@@ -1,12 +1,12 @@
 class CreditAgreementPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      (user.admin? || user.accountant?) ? scope.all : scope.none
+      scope.all
     end
   end
 
   def index?
-    user.admin? || user.accountant?
+    true
   end
 
   def show?

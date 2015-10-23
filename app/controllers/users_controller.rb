@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   responders :collection
 
   def index
-    @users = policy_scope(User)
+    @users = policy_scope(User).order(:first_name)
     authorize(@users)
     respond_with @users
   end

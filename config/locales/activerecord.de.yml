@@ -18,8 +18,10 @@ de:
       user: 'User'
     attributes:
       account:
+        average_rate_of_interest: 'ø-Zinssatz'
         bank: 'Bank'
         bic: 'Bic'
+        funded_credits_sum: 'Eingeworben'
         iban: 'Iban'
         owner: 'Kontoinhaber_in'
         name: 'Bezeichnung'
@@ -39,7 +41,10 @@ de:
         type: 'Typ'
         zip: 'Postleitzahl'
       credit_agreement:
+        id: 'Nr'
         amount: 'Betrag'
+        creditor: 'Kreditgeber_in'
+        creditor_id: 'Kreditgeber_in'
         interest_rate: 'Zinssatz'
         cancellation_period: 'Kündigungsfrist'
         account_id: 'Konto'

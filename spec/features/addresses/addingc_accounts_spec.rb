@@ -21,8 +21,8 @@ require 'rails_helper'
           visit model_path(@address)
           click_on 'add_account'
           expect(current_path).to eq(send("new_#{type.underscore}_account_path", @address))
-          fill_in :account_bic, with: 'Bic'
-          fill_in :account_iban, with: 'Iban'
+          fill_in :account_bic, with: 'GENODEF1S02'
+          fill_in :account_iban, with: 'GB82 WEST 1234 5698 7654 32'
           fill_in :account_bank, with: 'Bank'
           fill_in :account_name, with: 'Name'
           fill_in :account_owner, with: 'Owner'

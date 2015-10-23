@@ -6,13 +6,13 @@ require 'rails_helper'
     before(:each){ sign_in create(:accountant) }
     before(:each){@creditor = create type.underscore.to_sym}
     
-    #describe "GET #index" do
-    #  it "assigns all credit_agreements as @credit_agreements" do
-    #    credit_agreement = CreditAgreement.create! valid_attributes
-    #    get :index, {}, valid_session
-    #    expect(assigns(:credit_agreements)).to eq([credit_agreement])
-    #  end
-    #end
+    describe "GET #index" do
+      it "assigns all credit_agreements as @credit_agreements" do
+        credit_agreement = create :credit_agreement
+        get :index
+        expect(assigns(:credit_agreements)).to eq([credit_agreement])
+      end
+    end
 
     #describe "GET #show" do
     #  it "assigns the requested credit_agreement as @credit_agreement" do
@@ -65,7 +65,7 @@ require 'rails_helper'
           expect(assigns(:type)).to eq(type.constantize)
         end
 
-        it "redirects to the created credit_agreement" do
+        it "redirects to the creditor" do
           post :create, valid_params
           expect(response).to redirect_to(@creditor)
         end
@@ -107,11 +107,6 @@ require 'rails_helper'
           put :update, request_params
           expect(assigns(:credit_agreement)).to eq(@credit_agreement)
         end
-
-        it "redirects to the credit_agreement" do
-          put :update, request_params
-          expect(response).to redirect_to(@creditor)
-        end
       end
 
       context "with invalid params" do
@@ -137,11 +132,6 @@ require 'rails_helper'
         expect {
           delete :destroy, {:id => @credit_agreement.to_param}.merge(creditor_params)
         }.to change(CreditAgreement, :count).by(-1)
-      end
-
-      it "redirects to the credit_agreements list" do
-        delete :destroy, {:id => @credit_agreement.to_param}.merge(creditor_params)
-        expect(response).to redirect_to(@creditor)
       end
     end
 

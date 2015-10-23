@@ -4,7 +4,7 @@ class AddressesController < ApplicationController
   respond_to :html
 
   def index
-    @addresses = policy_scope(Address).send(scope)
+    @addresses = policy_scope(Address).send(scope).order(:name)
     authorize @addresses
     respond_with @addresses
   end

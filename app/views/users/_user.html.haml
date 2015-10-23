@@ -3,7 +3,7 @@
     %td= u.full_name
     %td= u.login
     %td= u.human_role
-    %td= u.email
+    %td= mail_to u.email if u.email
     %td= u.phone_numbers
     %td
       -if policy(user).edit?

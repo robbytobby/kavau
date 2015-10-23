@@ -1,6 +1,9 @@
 class Address < ActiveRecord::Base
   strip_attributes 
+
   scope :creditors, -> { where(type: ['Person', 'Organization']) }
+  scope :project_addresses, -> { where(type: 'ProjectAddress') }
+  validates :email, email: true, allow_blank: true
 
   def to_partial_path
     "addresses/address"

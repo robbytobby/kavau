@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :addresses, except: :index
   resources :creditors, controller: :addresses, type: 'Creditor'
+  resources :credit_agreements, only: :index
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
     resources :contacts, except: [:index, :show]
     resources :accounts, except: [:index, :show]

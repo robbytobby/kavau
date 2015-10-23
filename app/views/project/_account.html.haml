@@ -1,2 +1,4 @@
 %tr[account]
   %td= account.name
+  %td.money= number_to_currency(account.funded_credits_sum)
+  %td.money= number_to_percentage(account.average_rate_of_interest)

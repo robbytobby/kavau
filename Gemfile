@@ -40,6 +40,8 @@ gem 'country_select'
 gem 'i18n-country-translations'
 gem 'pundit'
 gem 'attr_encrypted'
+gem 'iban-tools'
+gem 'email_validator'
 
 
 group :development, :test do

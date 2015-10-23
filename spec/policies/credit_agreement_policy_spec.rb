@@ -16,6 +16,6 @@ RSpec.describe CreditAgreementPolicy do
 
   context "for a non privileged user" do
     let(:user){ create :user }
-    permits :none
+    permits [:index]
   end
 end

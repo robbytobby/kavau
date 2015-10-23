@@ -12,7 +12,7 @@ require 'rails_helper'
           visit model_path(@creditor)
           click_on 'add_credit_agreement'
           expect(current_path).to eq(send("new_#{type.underscore}_credit_agreement_path", @creditor))
-          fill_in :credit_agreement_amount, with: '10.000'
+          fill_in :credit_agreement_amount, with: '1000'
           fill_in :credit_agreement_interest_rate, with: '1'
           fill_in :credit_agreement_cancellation_period, with:'3'
           select 'Account', from: 'credit_agreement_account_id'

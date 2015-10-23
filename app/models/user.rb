@@ -1,11 +1,12 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  strip_attributes 
+
   devise :database_authenticatable, :recoverable, :trackable, :validatable, :lockable, :timeoutable
   @valid_roles = ['user', 'admin', 'accountant']
 
   validates_presence_of :login, :first_name, :name, :email
   validates_presence_of :password, :password_confirmation, on: :create
+  validates :email, email: true
   validate :password_strength
   validate :password_name_inclusions
   validates_inclusion_of :role, in:  @valid_roles

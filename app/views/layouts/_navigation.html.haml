@@ -15,6 +15,9 @@
           - if policy(:creditor).index?
             %li{class: controller.controller_name == 'addresses' && @type == 'Creditor' ? 'active' : ''}
               = link_to t('.creditors'), creditors_path
+          - if policy(:credit_agreement).index?
+            %li{class: controller.controller_name == 'credit_agreements' ? 'active' : ''}
+              = link_to t('.credit_agreements'), credit_agreements_path, id: 'credit_agreements_index'
           - if policy(:user).index?
             %li{class: controller.controller_name == 'users' ? 'active' : ''}
               = link_to t('.users'), users_path

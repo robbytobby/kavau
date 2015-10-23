@@ -1,19 +1,17 @@
-%h1 Listing credit_agreements
+%h1= t '.title'
 
-%table
+%table.table.table-striped
   %thead
     %tr
-      %th
-      %th
+      -if policy(CreditAgreement).edit?
+        %th= CreditAgreement.human_attribute_name :id
+      %th= CreditAgreement.human_attribute_name :account
+      -if policy(:creditor).show?
+        %th= CreditAgreement.human_attribute_name :creditor
+      %th= CreditAgreement.human_attribute_name :cancellation_period
+      %th.money= CreditAgreement.human_attribute_name :amount
+      %th.money= CreditAgreement.human_attribute_name :interest_rate
       %th
 
   %tbody
-    - @credit_agreements.each do |credit_agreement|
-      %tr
-        %td= link_to 'Show', credit_agreement
-        %td= link_to 'Edit', edit_credit_agreement_path(credit_agreement)
-        %td= link_to 'Destroy', credit_agreement, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Credit agreement', new_credit_agreement_path
+    = render @credit_agreements

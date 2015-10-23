@@ -30,6 +30,8 @@ de:
     edit: 
       title: 'Ansprechpartner_in bearbeiten'
   credit_agreements:
+    index:
+      title: 'Kreditverträge'
     new:
       title: 'Neuer Kreditvertrag'
     edit:
@@ -49,4 +51,5 @@ de:
     navigation:
       dashboard: 'Übersicht'
       creditors: 'Kreditgeber_innen'
+      credit_agreements: 'Kreditverträge'
       users: 'User'

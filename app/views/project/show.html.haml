@@ -1,7 +1,8 @@
 %h1 
   = t '.addresses'
   -if policy(:project_address).new?
-    = icon_link_to 'plus', new_project_address_path, class: 'pull-right', id: 'new_project_address'
+    %button.btn.btn-default.pull-right
+      = icon_link_to 'plus', new_project_address_path, class: 'pull-right', id: 'new_project_address'
 
 %table.table.table-striped.addresses
   %thead
@@ -21,8 +22,13 @@
   %thead
     %tr
       %th= Account.human_attribute_name :name
-      %th= Account.human_attribute_name :credits_sum
+      %th.money= Account.human_attribute_name :funded_credits_sum
+      %th.money= Account.human_attribute_name :average_rate_of_interest
       %th
 
   %tbody
     = render partial: 'account', collection: @accounts
+    %tr.sums
+      %td
+      %td.money= number_to_currency(CreditAgreement.funded_credits_sum)
+      %td.money= number_to_percentage(CreditAgreement.average_rate_of_interest)

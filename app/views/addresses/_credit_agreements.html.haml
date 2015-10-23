@@ -1,12 +1,15 @@
-%h2
-  = t('addresses.show.credit_agreements')
-%table.table.table-striped.credits
-  %thead
-    %tr
-      %th= CreditAgreement.human_attribute_name :amount
-      %th= CreditAgreement.human_attribute_name :account
-      %th= CreditAgreement.human_attribute_name :interest_rate
-      %th= CreditAgreement.human_attribute_name :cancellation_period
-      %th
-    %tbody
-      = render @address.credit_agreements
+-if @address.creditor? && @address.credit_agreements.any?
+  .credit_agreements
+    %h2
+      = t('addresses.show.credit_agreements')
+    %table.table.table-striped.credits
+      %thead
+        %tr
+          %th= CreditAgreement.human_attribute_name :id
+          %th= CreditAgreement.human_attribute_name :account
+          %th= CreditAgreement.human_attribute_name :cancellation_period
+          %th.money= CreditAgreement.human_attribute_name :amount
+          %th.money= CreditAgreement.human_attribute_name :interest_rate
+          %th
+        %tbody
+          = render @address.credit_agreements

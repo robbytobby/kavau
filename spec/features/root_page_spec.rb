@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Home page" do
+  include ActionView::Helpers::NumberHelper
   context "as unpriviledged user" do
     before(:each){ login_as create(:user) }
 
@@ -30,6 +31,55 @@ RSpec.describe "Home page" do
       @address = create :project_address
       visit "/"
       expect(page).to_not have_css("a#delete_#{@address.id}")
+    end
+  end
+
+  [:user, :accountant].each do |type|
+    context "as #{type}" do
+      it "displays the Projects bank accounts" do
+        @account = create :project_account
+        visit "/"
+        expect(page).to have_selector('h1', text: 'Konten')
+        expect(page).to have_content(@account.name)
+      end
+
+      before(:each){ login_as create(type) }
+      context "credit_agreements" do
+        before :each do
+          @account = create :project_account
+          @credit_1 = create :credit_agreement, account: @account, amount: 1000, interest_rate: '1'
+          @credit_2 = create :credit_agreement, account: @account, amount: 2000, interest_rate: '2'
+          @credit_3 = create :credit_agreement, amount: 4000, interest_rate: '3'
+        end
+
+        it "displays the sum of credits for each account" do
+          visit "/"
+          within("tr#account_#{@account.id}") do
+            expect(page).to have_content(number_to_currency(3000))
+          end
+        end
+
+        it "displays the average rate of interest for an account" do
+          visit "/"
+          within("tr#account_#{@account.id}") do
+            expect(page).to have_content(number_to_percentage(1.67))
+          end
+        end
+
+        it "displays the sum of all credits" do
+          visit "/"
+          within("tr.sums") do
+            expect(page).to have_content(number_to_currency(7000))
+          end
+        end
+
+        it "displays the average rate of interest for an account" do
+          visit "/"
+          within("tr.sums") do
+            expect(page).to have_content(number_to_percentage(2.43))
+          end
+        end
+      end
     end
   end
 
@@ -113,15 +163,6 @@ RSpec.describe "Home page" do
       end
     end
 
-    context "# Project Bank Accounts #" do
-      it "displays the Projects bank accounts" do
-        @account = create :project_account
-        visit "/"
-        expect(page).to have_selector('h1', text: 'Konten')
-        expect(page).to have_content(@account.name)
-      end
-
-    end
   end
 end
 

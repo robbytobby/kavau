@@ -1,10 +1,12 @@
 class CreditAgreementsController < ApplicationController
-  before_action :set_type
-  before_action :set_creditor
+  before_action :set_type, except: :index
+  before_action :set_creditor, except: :index
   before_action :set_credit_agreement, only: [:show, :edit, :update, :destroy]
 
   def index
-    @credit_agreements = CreditAgreement.all
+    @credit_agreements = policy_scope(CreditAgreement)
+    authorize @credit_agreements
+    respond_with @credit_agreements
   end
 
   def show
@@ -30,12 +32,12 @@ class CreditAgreementsController < ApplicationController
 
   def update
     @credit_agreement.update(credit_agreement_params)
-    respond_with @credit_agreement, location: @credit_agreement.creditor
+    respond_with @credit_agreement, location: -> { after_action_path }
   end
 
   def destroy
     @credit_agreement.destroy
-    respond_with @credit_agreement, location: @credit_agreement.creditor
+    respond_with @credit_agreement, location: -> { after_action_path }
   end
 
   private
@@ -62,5 +64,9 @@ class CreditAgreementsController < ApplicationController
 
     def get_creditor_id
       params["#{type.underscore}_id"]
+    end
+
+    def after_action_path
+      session[:back_url] || credit_agreements_path
     end
 end
