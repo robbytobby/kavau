@@ -5,5 +5,18 @@ RSpec.describe OrganizationPolicy do
   let(:address) { FactoryGirl.create(:organization) }
 
   it_behaves_like "standard_address"
+
+  [:accountant, :admin].each do |type|
+    context "as #{type}" do
+      let(:user){ create type }
+
+      it "may not be destroyed if it has credits" do
+        @organization = create :organization
+        create :credit_agreement, creditor: @organization
+        
+        expect(OrganizationPolicy.new(user, @organization).destroy?).to be_falsy
+      end
+    end
+  end
 end
 

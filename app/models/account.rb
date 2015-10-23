@@ -7,7 +7,7 @@ class Account < ActiveRecord::Base
   end
 
   belongs_to :address
-  has_many :credit_agreements
+  has_many :credit_agreements, dependent: :restrict_with_exception, inverse_of: :account
 
   before_save :set_address_type
 

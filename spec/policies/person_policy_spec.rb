@@ -5,5 +5,18 @@ RSpec.describe PersonPolicy do
   let(:address) { FactoryGirl.create(:person) }
 
   it_behaves_like "standard_address"
+
+  [:accountant, :admin].each do |type|
+    context "as #{type}" do
+      let(:user){ create type }
+
+      it "may not be destroyed if it has credits" do
+        @person = create :person
+        create :credit_agreement, creditor: @person
+        
+        expect(PersonPolicy.new(user, @person).destroy?).to be_falsy
+      end
+    end
+  end
 end
 
