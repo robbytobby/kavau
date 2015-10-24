@@ -1,7 +1,6 @@
 class AccountsController < ApplicationController
-  before_action :set_type
-  before_action :set_address
-  include Authorized
+  include Typed
+  include LoadAuthorized
 
   def new
     respond_with @account
@@ -17,7 +16,7 @@ class AccountsController < ApplicationController
   end
 
   def update
-    @account.update(account_params)
+    @account.update(permitted_params)
     respond_with @account, location: @account.address
   end
 
@@ -27,31 +26,11 @@ class AccountsController < ApplicationController
   end
 
   private
-    def account_params
-      params.require(:account).permit(policy(@account || Account.new).permitted_params)
+    def typed_association
+      '@address'
     end
 
     def create_params
-      account_params.merge(address: @address)
-    end
-
-    def address_params
-      {address: @address}
-    end
-
-    def set_address
-      @address = @type.find(get_address_id)
-    end
-
-    def set_type
-      @type = type.constantize
-    end
-
-    def type
-      params[:type]
-    end
-
-    def get_address_id
-      params["#{type.underscore}_id"]
+      permitted_params.merge(address: @address)
     end
 end

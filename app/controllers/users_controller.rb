@@ -1,12 +1,10 @@
 class UsersController < ApplicationController
   before_action :clear_password_params, unless: -> { :password_params_set? }
-  #before_action :set_user, only: [:show, :edit, :update, :destroy]
-  include Authorized
+  include LoadAuthorized
   responders :collection
 
   def index
-    @users = policy_scope(User).order(:first_name)
-    authorize(@users)
+    @users = @users.order(:first_name)
     respond_with @users
   end
 
@@ -28,7 +26,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update(user_params)
+    @user.update(permitted_params)
     respond_with @user
   end
 
@@ -38,10 +36,6 @@ class UsersController < ApplicationController
   end
 
   private
-    def user_params
-      params.require(:user).permit(policy(@user || User.new).permitted_params)
-    end
-
     def clear_password_params
       params[:user].except!(:password, :password_confirmation)
     end

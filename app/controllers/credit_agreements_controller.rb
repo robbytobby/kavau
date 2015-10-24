@@ -1,11 +1,8 @@
 class CreditAgreementsController < ApplicationController
-  before_action :set_type, except: :index
-  before_action :set_creditor, except: :index
-  include Authorized
+  include Typed
+  include LoadAuthorized
 
   def index
-    @credit_agreements = policy_scope(CreditAgreement)
-    authorize @credit_agreements
     respond_with @credit_agreements
   end
 
@@ -27,7 +24,7 @@ class CreditAgreementsController < ApplicationController
   end
 
   def update
-    @credit_agreement.update(credit_agreement_params)
+    @credit_agreement.update(permitted_params)
     respond_with @credit_agreement, location: -> { after_action_path }
   end
 
@@ -37,28 +34,12 @@ class CreditAgreementsController < ApplicationController
   end
 
   private
-    def credit_agreement_params
-      params[:credit_agreement].permit(policy(@credit_agreement || CreditAgreement.new).permitted_params)
+    def typed_association
+      '@creditor'
     end
 
     def create_params
-      credit_agreement_params.merge(creditor: @creditor)
-    end
-
-    def set_creditor
-      @creditor = @type.find(get_creditor_id)
-    end
-
-    def set_type
-      @type = type.constantize
-    end
-
-    def type
-      params[:type]
-    end
-
-    def get_creditor_id
-      params["#{type.underscore}_id"]
+      permitted_params.merge(creditor: @creditor)
     end
 
     def after_action_path

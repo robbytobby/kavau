@@ -3,7 +3,9 @@ require "application_responder"
 class ApplicationController < ActionController::Base
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   self.responder = ApplicationResponder
+
   after_action :verify_authorized, :except => :index, unless: :devise_controller?
   after_action :verify_policy_scoped, :only => :index
   respond_to :html
