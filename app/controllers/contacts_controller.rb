@@ -1,11 +1,9 @@
 class ContactsController < ApplicationController
   before_action :set_type
-  before_action :set_contact, only: [:show, :edit, :update, :destroy]
   before_action :set_institution
+  include Authorized
 
   def new
-    @contact = Contact.new
-    authorize @contact
     respond_with @contact
   end
 
@@ -14,8 +12,6 @@ class ContactsController < ApplicationController
   end
 
   def create
-    @contact = Contact.new(contact_params.merge(institution: @institution))
-    authorize @contact
     @contact.save
     respond_with @contact, location: @contact.institution
   end
@@ -31,13 +27,12 @@ class ContactsController < ApplicationController
   end
 
   private
-    def set_contact
-      @contact = Contact.find(params[:id])
-      authorize @contact
-    end
-
     def contact_params
       params.require(:contact).permit(policy(@contact || Contact.new).permitted_params)
+    end
+
+    def create_params
+      contact_params.merge(institution: @institution)
     end
 
     def set_institution

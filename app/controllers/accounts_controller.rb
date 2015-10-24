@@ -1,11 +1,9 @@
 class AccountsController < ApplicationController
   before_action :set_type
   before_action :set_address
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
+  include Authorized
 
   def new
-    @account = Account.new
-    authorize @account
     respond_with @account
   end
 
@@ -14,8 +12,6 @@ class AccountsController < ApplicationController
   end
 
   def create
-    @account = Account.new(account_params.merge(address: @address))
-    authorize @account
     @account.save
     respond_with @account, location: @account.address
   end
@@ -31,13 +27,16 @@ class AccountsController < ApplicationController
   end
 
   private
-    def set_account
-      @account = Account.find(params[:id])
-      authorize @account
-    end
-
     def account_params
       params.require(:account).permit(policy(@account || Account.new).permitted_params)
+    end
+
+    def create_params
+      account_params.merge(address: @address)
+    end
+
+    def address_params
+      {address: @address}
     end
 
     def set_address

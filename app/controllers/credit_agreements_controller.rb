@@ -1,7 +1,7 @@
 class CreditAgreementsController < ApplicationController
   before_action :set_type, except: :index
   before_action :set_creditor, except: :index
-  before_action :set_credit_agreement, only: [:show, :edit, :update, :destroy]
+  include Authorized
 
   def index
     @credit_agreements = policy_scope(CreditAgreement)
@@ -14,8 +14,6 @@ class CreditAgreementsController < ApplicationController
   end
 
   def new
-    @credit_agreement = CreditAgreement.new
-    authorize @credit_agreement
     respond_with @credit_agreement
   end
 
@@ -24,8 +22,6 @@ class CreditAgreementsController < ApplicationController
   end
 
   def create
-    @credit_agreement = CreditAgreement.new(credit_agreement_params.merge(creditor: @creditor))
-    authorize @credit_agreement
     @credit_agreement.save
     respond_with @credit_agreement, location: @credit_agreement.creditor
   end
@@ -45,9 +41,8 @@ class CreditAgreementsController < ApplicationController
       params[:credit_agreement].permit(policy(@credit_agreement || CreditAgreement.new).permitted_params)
     end
 
-    def set_credit_agreement
-      @credit_agreement = CreditAgreement.find(params[:id])
-      authorize @credit_agreement
+    def create_params
+      credit_agreement_params.merge(creditor: @creditor)
     end
 
     def set_creditor

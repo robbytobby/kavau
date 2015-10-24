@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :clear_password_params, unless: -> { :password_params_set? }
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  #before_action :set_user, only: [:show, :edit, :update, :destroy]
+  include Authorized
   responders :collection
 
   def index
@@ -14,8 +15,6 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
-    authorize @user
     respond_with @user
   end
 
@@ -24,8 +23,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    authorize @user
     @user.save
     respond_with @user
   end
@@ -41,11 +38,6 @@ class UsersController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find(params[:id])
-      authorize @user
-    end
-
     def user_params
       params.require(:user).permit(policy(@user || User.new).permitted_params)
     end
