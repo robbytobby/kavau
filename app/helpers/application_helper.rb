@@ -1,14 +1,14 @@
 module ApplicationHelper
-  def cancel_button(path = session[:back_url], options = {} )
-    content_tag(:a, t('links.cancel'), class: "btn btn-default #{options[:class]}", href: path, id: 'cancel')
+  def quit_button(name, path = session[:back_url], options = {})
+    action_button(name, path, options)
   end
 
-  def back_button(path = session[:back_url], options = {} )
-    content_tag(:a, t('links.back'), class: "btn btn-default #{options[:class]}" , href: path, id: 'back')
+  def edit_button(path, options = {})
+    action_button(:edit, path, options)
   end
 
-  def edit_button(path)
-    content_tag(:a, t('links.edit'), class: 'btn btn-default', href: path, id: 'edit')
+  def action_button(name, path, options)
+    content_tag(:a, t("links.#{name}"), class: "btn btn-default #{options[:class]}" , href: path, id: "#{name}")
   end
 
   def icon_link_to(icon, path, options = {})
