@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :clear_password_params, unless: -> { :password_params_set? }
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   responders :collection
 
@@ -40,18 +41,21 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
       authorize @user
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
-        params[:user].delete(:password)
-        params[:user].delete(:password_confirmation)
-      end
       params.require(:user).permit(policy(@user || User.new).permitted_params)
+    end
+
+    def clear_password_params
+      params[:user].except!(:password, :password_confirmation)
+    end
+
+    def password_params_set?
+      return false unless params[:user]
+      ! params[:user].slice(:password, :password_confirmation).values.all?(&:blank?)
     end
 end
