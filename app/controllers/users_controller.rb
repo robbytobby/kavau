@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
   def update
     @user.update(permitted_params)
-    respond_with @user
+    respond_with @user, location: after_action_path
   end
 
   def destroy
@@ -44,5 +44,9 @@ class UsersController < ApplicationController
     def password_params_set?
       return false unless params[:user]
       ! params[:user].slice(:password, :password_confirmation).values.all?(&:blank?)
+    end
+
+    def after_action_path
+      session[:back_url]
     end
 end

@@ -14,7 +14,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    user.admin? 
   end
 
   def update?
@@ -26,6 +26,14 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_params
-    [:login, :role, :password, :password_confirmation, :first_name, :name, :email, :phone]
+    role_independent_params + role_dependent_params
+  end
+
+  def role_independent_params
+    [:login, :password, :password_confirmation, :first_name, :name, :email, :phone]
+  end
+
+  def role_dependent_params
+    user.admin? ? [:role] : []
   end
 end

@@ -1,7 +1,8 @@
 = simple_form_for(@user) do |f|
   .form-inputs.col-sm-8
     = f.input :login
-    = f.input :role, as: :select, collection: User.valid_roles.map{|r| [t("roles.#{r}"), r]}
+    -if policy(@user).permitted?(:role)
+      = f.input :role, as: :select, collection: User.valid_roles.map{|r| [t("roles.#{r}"), r]}
     = f.input :password
     = f.input :password_confirmation
     = f.input :first_name

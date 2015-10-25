@@ -45,6 +45,7 @@ de:
       title: 'User Übersicht'
     edit: 
       title: 'User bearbeiten'
+      profile_title: 'Eigene Daten bearbeiten'
     new:
       title: 'Neuer User'
   layouts:
@@ -52,4 +53,5 @@ de:
       dashboard: 'Übersicht'
       creditors: 'Kreditgeber_innen'
       credit_agreements: 'Kreditverträge'
+      edit_profile: 'Eigene Daten bearbeiten'
       users: 'User'

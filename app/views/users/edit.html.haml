@@ -1,3 +1,3 @@
-%h1= t '.title'
+%h1= @user.id == current_user.id ? t('.profile_title') : t('.title')
 
 = render 'form'

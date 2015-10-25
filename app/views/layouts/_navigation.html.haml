@@ -23,4 +23,6 @@
               = link_to t('.users'), users_path
         %ul.nav.navbar-nav.pull-right
           %li
+            = icon_link_to 'cog', edit_user_path(current_user), id: 'edit_profile', title: t('.edit_profile')
+          %li
             = icon_link_to 'log-out', destroy_user_session_path, method: :delete, title: t('devise.actions.log_out')

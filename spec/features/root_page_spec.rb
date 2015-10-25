@@ -36,6 +36,8 @@ RSpec.describe "Home page" do
 
   [:user, :accountant].each do |type|
     context "as #{type}" do
+      before(:each){ login_as create(type) }
+
       it "displays the Projects bank accounts" do
         @account = create :project_account
         visit "/"
@@ -43,7 +45,6 @@ RSpec.describe "Home page" do
         expect(page).to have_content(@account.name)
       end
 
-      before(:each){ login_as create(type) }
       context "credit_agreements" do
         before :each do
           @account = create :project_account
