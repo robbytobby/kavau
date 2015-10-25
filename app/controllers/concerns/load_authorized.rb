@@ -13,7 +13,7 @@ module LoadAuthorized
 
   private
     def find_collection
-      instance_variable_set( instance_variable_name(plural: true), policy_scope(klass).all )
+      instance_variable_set( instance_variable_name(plural: true), policy_scope(klass) )
     end
 
     def authorize_collection

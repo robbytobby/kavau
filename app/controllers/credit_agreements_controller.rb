@@ -6,6 +6,7 @@ class CreditAgreementsController < ApplicationController
   skip_before_action :set_type, only: :index
 
   def index
+    @credit_agreements = @credit_agreements.order(:id).page(params[:page])
     respond_with @credit_agreements
   end
 

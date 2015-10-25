@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   responders :collection
 
   def index
-    @users = @users.order(:first_name)
+    @users = @users.order(:first_name).page(params[:page])
     respond_with @users
   end
 

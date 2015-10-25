@@ -31,7 +31,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'haml-rails'
 gem 'simple_form'
 gem 'strip_attributes'
-gem 'will_paginate'
 gem 'responders'
 gem 'devise'
 gem 'bootstrap-sass'
@@ -42,6 +41,8 @@ gem 'pundit'
 gem 'attr_encrypted'
 gem 'iban-tools'
 gem 'email_validator'
+gem 'goldiloader'
+gem 'kaminari'#, :git => 'https://github.com/amatsuda/kaminari.git', branch: :master
 
 
 group :development, :test do

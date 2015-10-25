@@ -1,7 +1,7 @@
 class AddressPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      (user.admin? || user.accountant?) ? scope.all : scope.project_addresses
+      (user.admin? || user.accountant?) ? scope : scope.project_addresses
     end
   end
 

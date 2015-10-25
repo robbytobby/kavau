@@ -3,7 +3,7 @@ class AddressesController < ApplicationController
   include LoadAuthorized
 
   def index
-    @addresses = @addresses.send(scope).order(:name)
+    @addresses = @addresses.send(scope).order(:name).page(params[:page])
     respond_with @addresses
   end
 

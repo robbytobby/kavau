@@ -5,5 +5,5 @@
       = popover_notes(address)
     %td= a.address
     %td= mail_to a.email if address.email
-    %td= a.phone_numbers(separator: '</br>')
+    %td= a.phone_numbers
     = render :partial => address.list_action_partial_path, locals: {address: a}

@@ -1,7 +1,7 @@
 class AccountPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      (user.admin? || user.accountant?) ? scope.all : scope.project_accounts
+      (user.admin? || user.accountant?) ? scope : scope.project_accounts
     end
   end
 
