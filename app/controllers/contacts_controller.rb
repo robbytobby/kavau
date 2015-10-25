@@ -1,5 +1,6 @@
 class ContactsController < ApplicationController
-  include Typed
+  @typed_associated_name = '@institution'
+  include TypedAssociated
   include LoadAuthorized
 
   def new
@@ -26,11 +27,7 @@ class ContactsController < ApplicationController
   end
 
   private
-    def create_params
+    def create_params # overwrite LoadAuthorized#permitted_params
       permitted_params.merge(institution: @institution)
-    end
-
-    def typed_association
-      '@institution'
     end
 end

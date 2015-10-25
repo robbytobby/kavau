@@ -11,7 +11,7 @@ require 'rails_helper'
         get :new, address_params
         expect(assigns(:account)).to be_a_new(Account)
         expect(assigns(:address)).to eq(@address)
-        expect(assigns(:type)).to eq(type.constantize)
+        expect(assigns(:type)).to eq(type)
         expect(response).to render_template(:new)
       end
     end
@@ -22,7 +22,7 @@ require 'rails_helper'
         get :edit, {:id => account.to_param}.merge(address_params)
         expect(assigns(:account)).to eq(account)
         expect(assigns(:address)).to eq(@address)
-        expect(assigns(:type)).to eq(type.constantize)
+        expect(assigns(:type)).to eq(type)
         expect(response).to render_template(:edit)
       end
     end
@@ -40,7 +40,7 @@ require 'rails_helper'
           expect(assigns(:account)).to be_a(Account)
           expect(assigns(:account)).to be_persisted
           expect(assigns(:address)).to eq(@address)
-          expect(assigns(:type)).to eq(type.constantize)
+          expect(assigns(:type)).to eq(type)
         end
 
         it "redirects to the accounts address" do
@@ -55,7 +55,7 @@ require 'rails_helper'
           post :create, {:account => attributes_for(:account)}.merge(address_params)
           expect(assigns(:account)).to be_a_new(Account)
           expect(assigns(:address)).to eq(@address)
-          expect(assigns(:type)).to eq(type.constantize)
+          expect(assigns(:type)).to eq(type)
         end
 
         it "re-renders the 'new' template" do
@@ -79,7 +79,7 @@ require 'rails_helper'
           put :update, {:id => @account.to_param, :account => {name: 'New Name'}}.merge(address_params)
           expect(assigns(:account)).to eq(@account)
           expect(assigns(:address)).to eq(@address)
-          expect(assigns(:type)).to eq(type.constantize)
+          expect(assigns(:type)).to eq(type)
         end
 
         it "redirects to the accounts address" do

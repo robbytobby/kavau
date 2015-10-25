@@ -11,7 +11,7 @@ RSpec.describe ContactsController, type: :controller do
         get :new, address_params
         expect(assigns(:contact)).to be_a_new(Contact)
         expect(assigns(:institution)).to eq(@address)
-        expect(assigns(:type)).to eq(type.constantize)
+        expect(assigns(:type)).to eq(type)
         expect(response).to render_template(:new)
       end
     end
@@ -22,7 +22,7 @@ RSpec.describe ContactsController, type: :controller do
         get :edit, {:id => contact.id}.merge(address_params)
         expect(assigns(:contact)).to eq(contact)
         expect(assigns(:institution)).to eq(@address)
-        expect(assigns(:type)).to eq(type.constantize)
+        expect(assigns(:type)).to eq(type)
         expect(response).to render_template(:edit)
       end
     end
@@ -40,7 +40,7 @@ RSpec.describe ContactsController, type: :controller do
           expect(assigns(:contact)).to be_a(Contact)
           expect(assigns(:contact)).to be_persisted
           expect(assigns(:institution)).to eq(@address)
-          expect(assigns(:type)).to eq(type.constantize)
+          expect(assigns(:type)).to eq(type)
         end
 
         it "redirects to the contacts address" do
@@ -55,7 +55,7 @@ RSpec.describe ContactsController, type: :controller do
           post :create, {:contact => attributes_for(:contact)}.merge(address_params)
           expect(assigns(:contact)).to be_a_new(Contact)
           expect(assigns(:institution)).to eq(@address)
-          expect(assigns(:type)).to eq(type.constantize)
+          expect(assigns(:type)).to eq(type)
         end
 
         it "re-renders the 'new' template" do
@@ -79,7 +79,7 @@ RSpec.describe ContactsController, type: :controller do
           put :update, {:id => @contact.to_param, :contact => {name: 'New Name'}}.merge(address_params)
           expect(assigns(:contact)).to eq(@contact)
           expect(assigns(:institution)).to eq(@address)
-          expect(assigns(:type)).to eq(type.constantize)
+          expect(assigns(:type)).to eq(type)
         end
 
         it "redirects to the @contact" do

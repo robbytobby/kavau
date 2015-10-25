@@ -1,6 +1,7 @@
 class AccountsController < ApplicationController
-  include Typed
+  include TypedAssociated
   include LoadAuthorized
+  @typed_associated_name = '@address'
 
   def new
     respond_with @account
@@ -26,11 +27,7 @@ class AccountsController < ApplicationController
   end
 
   private
-    def typed_association
-      '@address'
-    end
-
-    def create_params
+    def create_params # overwrite LoadAuthorized#permitted_params
       permitted_params.merge(address: @address)
     end
 end

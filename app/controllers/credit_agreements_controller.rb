@@ -1,6 +1,9 @@
 class CreditAgreementsController < ApplicationController
-  include Typed
+  include TypedAssociated
   include LoadAuthorized
+  @typed_associated_name = '@creditor'
+
+  skip_before_action :set_type, only: :index
 
   def index
     respond_with @credit_agreements
@@ -34,11 +37,7 @@ class CreditAgreementsController < ApplicationController
   end
 
   private
-    def typed_association
-      '@creditor'
-    end
-
-    def create_params
+    def create_params # overwrite LoadAuthorized#permitted_params
       permitted_params.merge(creditor: @creditor)
     end
 

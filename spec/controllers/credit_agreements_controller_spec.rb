@@ -27,7 +27,7 @@ require 'rails_helper'
         get :new, creditor_params
         expect(assigns(:credit_agreement)).to be_a_new(CreditAgreement)
         expect(assigns(:creditor)).to eq(@creditor)
-        expect(assigns(:type)).to eq(type.constantize)
+        expect(assigns(:type)).to eq(type)
         expect(response).to render_template(:new)
       end
     end
@@ -38,7 +38,7 @@ require 'rails_helper'
         get :edit, {:id => credit_agreement.to_param}.merge(creditor_params)
         expect(assigns(:credit_agreement)).to eq(credit_agreement)
         expect(assigns(:creditor)).to eq(@creditor)
-        expect(assigns(:type)).to eq(type.constantize)
+        expect(assigns(:type)).to eq(type)
         expect(response).to render_template(:edit)
       end
     end
@@ -62,7 +62,7 @@ require 'rails_helper'
           expect(assigns(:credit_agreement)).to be_a(CreditAgreement)
           expect(assigns(:credit_agreement)).to be_persisted
           expect(assigns(:creditor)).to eq(@creditor)
-          expect(assigns(:type)).to eq(type.constantize)
+          expect(assigns(:type)).to eq(type)
         end
 
         it "redirects to the creditor" do
@@ -100,7 +100,7 @@ require 'rails_helper'
           @credit_agreement.reload
           expect(@credit_agreement.amount).to eq(20000.00)
           expect(assigns(:creditor)).to eq(@creditor)
-          expect(assigns(:type)).to eq(type.constantize)
+          expect(assigns(:type)).to eq(type)
         end
 
         it "assigns the requested credit_agreement as @credit_agreement" do
@@ -115,7 +115,7 @@ require 'rails_helper'
           put :update, request_params
           expect(assigns(:credit_agreement)).to eq(@credit_agreement)
           expect(assigns(:creditor)).to eq(@creditor)
-          expect(assigns(:type)).to eq(type.constantize)
+          expect(assigns(:type)).to eq(type)
         end
 
         it "re-renders the 'edit' template" do

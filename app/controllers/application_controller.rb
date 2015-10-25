@@ -5,16 +5,13 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   self.responder = ApplicationResponder
-
-  after_action :verify_authorized, :except => :index, unless: :devise_controller?
-  after_action :verify_policy_scoped, :only => :index
   respond_to :html
 
   before_action :authenticate_user!
   before_action :set_back_url, only: [:index, :show]
+  after_action :verify_authorized, :except => :index, unless: :devise_controller?
+  after_action :verify_policy_scoped, :only => :index
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
   private

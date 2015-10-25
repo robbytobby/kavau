@@ -53,7 +53,11 @@ module LoadAuthorized
     end
 
     def permitted_params
-      params[base_name].permit(instance_policy.permitted_params)
+      params[required_params_key].permit(instance_policy.permitted_params)
+    end
+
+    def required_params_key
+      base_name
     end
 
     def create_params
