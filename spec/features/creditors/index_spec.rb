@@ -41,6 +41,12 @@ RSpec.describe "creditors index view" do
         click_on "add_#{type}"
         expect(current_path).to eq(send("new_#{type}_path"))
       end
+
+      it "shows notes in a popover" do
+        @address = create type.to_sym, notes: 'NOTES'
+        visit '/creditors'
+        expect(page).to have_css("span[data-content='NOTES']")
+      end
     end
   end
 end
