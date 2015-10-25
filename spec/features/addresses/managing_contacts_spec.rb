@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 ['Organization', 'ProjectAddress'].each do |type|
-  RSpec.describe "adding contacts to #{type.underscore.pluralize}" do
+  RSpec.describe "managing contacts for #{type.underscore.pluralize}" do
     context "as non priviledged user" do
       before(:each){ @address = create type.underscore.to_sym }
       before(:each){ login_as create(:user) }

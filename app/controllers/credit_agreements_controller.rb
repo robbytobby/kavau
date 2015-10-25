@@ -9,9 +9,10 @@ class CreditAgreementsController < ApplicationController
     respond_with @credit_agreements
   end
 
-  def show
-    respond_with @credit_agreement
-  end
+  # not yet implemented
+  #def show
+  #  respond_with @credit_agreement
+  #end
 
   def new
     respond_with @credit_agreement

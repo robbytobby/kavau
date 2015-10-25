@@ -77,6 +77,18 @@ RSpec.describe UsersController, type: :controller do
         expect(@user.name).to eq('New Name')
       end
 
+      it "updates does not require passwords set" do
+        put :update, {:id => @user.to_param, :user => new_attributes.merge(password: '', password_confirmation: '')}
+        @user.reload
+        expect(@user.name).to eq('New Name')
+      end
+
+      it "updates does allow updating passwords" do
+        old_password = @user.encrypted_password
+        put :update, {:id => @user.to_param, :user => {password: '1Abcdefg', password_confirmation: '1Abcdefg'} }
+        expect(old_password).not_to eq(@user.reload.encrypted_password)
+      end
+
       it "assigns the requested user as @user" do
         put :update, {:id => @user.to_param, :user => new_attributes}
         expect(assigns(:user)).to eq(@user)

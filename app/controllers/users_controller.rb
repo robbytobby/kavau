@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :clear_password_params, unless: -> { :password_params_set? }
+  before_action :clear_password_params, only: :update
   include LoadAuthorized
   responders :collection
 
@@ -37,6 +37,7 @@ class UsersController < ApplicationController
 
   private
     def clear_password_params
+      return if password_params_set?
       params[:user].except!(:password, :password_confirmation)
     end
 

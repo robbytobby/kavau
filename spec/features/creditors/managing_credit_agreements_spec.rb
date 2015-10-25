@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 ['Organization', 'Person'].each do |type|
-  RSpec.describe "credit aggreements" do
+  RSpec.describe "managing credit aggreements" do
     [:admin, :accountant].each do |role|
       context "as #{role}" do
         before(:each){ @account = create :project_account, name: 'Account' }

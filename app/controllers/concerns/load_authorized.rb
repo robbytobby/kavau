@@ -41,7 +41,7 @@ module LoadAuthorized
     end
 
     def klass
-     base_name.camelize.constantize 
+      base_name.camelize.constantize 
     end
     
     def base_name

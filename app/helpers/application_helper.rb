@@ -3,9 +3,10 @@ module ApplicationHelper
     action_button(name, path, options)
   end
 
-  def edit_button(path, options = {})
-    action_button(:edit, path, options)
-  end
+  # UNUSED
+  #def edit_button(path, options = {})
+  #  action_button(:edit, path, options)
+  #end
 
   def action_button(name, path, options)
     content_tag(:a, t("links.#{name}"), class: "btn btn-default #{options[:class]}" , href: path, id: "#{name}")
