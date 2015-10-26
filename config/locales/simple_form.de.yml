@@ -11,4 +11,18 @@ de:
       defaults:
         password: 'Passwort'
         login: 'Login'
+        search: 'suchen'
+    placeholders:
+      name_cont: 'Name oder Vorname ~'
+      login_cont: 'Login ~'
+      role_eq: 'Rolle ='
+      email_cont: 'Email ~'
+      phone_cont: 'Tel.Nr. ~'
+      country_code_eq: 'Land ='
+      street_number_cont: 'Straße ~'
+      zip_or_city_cont: 'PLZ oder Stadt ~'
+      id_eq: 'Nr ='
+      account_id_eq: 'Konto ='
+      lteq: '<='
+      gteq: '>='
 

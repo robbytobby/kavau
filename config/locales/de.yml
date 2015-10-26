@@ -8,6 +8,8 @@ de:
     new_contact: 'neue_r Ansprechpartner_in'
     new_account: 'neue Bankverbindung'
     new_credit_agreement: 'neuer Kreditvertrag'
+    prev: 'voherige Seite'
+    next: 'nächste Seite'
   roles:
     user: 'User'
     accountant: 'Buchhalter_in'

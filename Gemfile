@@ -42,7 +42,8 @@ gem 'attr_encrypted'
 gem 'iban-tools'
 gem 'email_validator'
 gem 'goldiloader'
-gem 'kaminari'#, :git => 'https://github.com/amatsuda/kaminari.git', branch: :master
+gem 'kaminari'
+gem 'ransack'
 
 
 group :development, :test do

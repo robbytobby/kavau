@@ -1,0 +1,32 @@
+%tr.search
+  -if policy(CreditAgreement).edit?
+    %td.col-sm-1
+      .form-group
+        = f.search_field :id_eq, class: 'form-control',
+        placeholder: t('simple_form.placeholders.id_eq')
+  %td
+    .form-group
+      = f.select :account_id_eq, Account.project_accounts.map{|i| [i.name, i.id]}, 
+        {include_blank: t('simple_form.placeholders.account_id_eq')}, 
+        {class: 'form-control'}
+  -if policy(:creditor).show? &&  controller_name != 'addresses'
+    %td
+      .form-group
+        = f.search_field :creditor_name_or_creditor_first_name_cont, class: 'form-control',
+        placeholder: t('simple_form.placeholders.name_cont')
+  %td.col-sm-1
+    .form-group
+      = f.search_field :cancellation_period_lteq, class: 'form-control',
+      placeholder: t('simple_form.placeholders.lteq')
+  %td.col-sm-1
+    .form-group
+      = f.search_field :amount_gteq, class: 'form-control',
+      placeholder: t('simple_form.placeholders.gteq')
+  %td.col-sm-1
+    .form-group
+      = f.search_field :interest_rate_gteq, class: 'form-control',
+      placeholder: t('simple_form.placeholders.gteq')
+  %td.actions
+    %button.btn.btn-default.btn-primary{type: :submit, title: t('simple_form.labels.defaults.search')}
+      %span.glyphicon.glyphicon-search
+

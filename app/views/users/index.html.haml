@@ -1,17 +1,22 @@
 %h1
   = t '.title'
+  %small.entries-info= page_entries_info @users
   -if policy(:user).new?
-    = icon_link_to 'plus', new_user_path, class: 'pull-right', id: 'new_user'
+    %div.pull-right
+      %small= icon_link_to 'plus', new_user_path, id: 'new_user'
 
-%table.table.table-striped
-  %thead
-    %tr
-      %th= User.human_attribute_name(:full_name)
-      %th= User.human_attribute_name(:login)
-      %th= User.human_attribute_name(:role)
-      %th= User.human_attribute_name(:email)
-      %th= User.human_attribute_name(:phone)
-      %th
-  %tbody
-    = render @users
-= paginate @users
+= search_form_for @q, class: 'form-vertical' do |f|
+  %table.table.table-striped
+    %thead
+      %tr
+        %th= sort_link(@q, :name, [:first_name, :name], t('activerecord.attributes.address.full_name'))
+        %th= sort_link(@q, :login)
+        %th= sort_link(@q, :role)
+        %th= sort_link(@q, :email)
+        %th= sort_link(@q, :phone)
+        %th
+      = render :partial => 'search', locals: {f: f}
+
+    %tbody
+      = render @users
+  = paginate @users

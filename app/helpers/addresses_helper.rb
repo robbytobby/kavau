@@ -16,10 +16,12 @@ module AddressesHelper
     end
   end
 
-  def popover_notes(address)
-    return if address.notes.blank?
+  def icon_popover(icon, content, title = '', placement = 'top')
+    return if content.blank?
     content_tag(:span, '', 
-                class: 'glyphicon glyphicon-info-sign text-info', 
-                data: {toggle: 'popover', content: address.notes}, title: Address.human_attribute_name(:notes))
+                class: "glyphicon glyphicon-#{icon} text-info", 
+                data: {toggle: 'popover', content: content, placement: placement},
+                title: title)
+
   end
 end

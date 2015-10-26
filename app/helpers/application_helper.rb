@@ -16,6 +16,13 @@ module ApplicationHelper
     link_to content_tag(:span, '', class: "glyphicon glyphicon-#{icon}"), path, options
   end
 
+  def icon_mail_to(email, options = {})
+    return if email.blank?
+    mail_to email, options do
+      content_tag(:span, '', class: "glyphicon glyphicon-envelope")
+    end
+  end
+
   def mail_link(address)
     (mail_to address.email) if address.email
   end

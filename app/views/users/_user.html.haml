@@ -1,11 +1,11 @@
 - present user do |u|
-  %tr
+  %tr[user]
     %td= u.full_name
     %td= u.login
     %td= u.human_role
     %td= mail_to u.email if u.email
     %td= u.phone_numbers
-    %td
+    %td.actions
       -if policy(user).edit?
         = icon_link_to 'edit', edit_user_path(user), id: "edit_user_#{user.id}"
       -if policy(user).destroy?

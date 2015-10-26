@@ -1,7 +1,8 @@
 %h1 
   = t '.addresses'
   -if policy(:project_address).new?
-    = icon_link_to 'plus', new_project_address_path, class: 'pull-right', id: 'new_project_address'
+    .pull-right
+      %small= icon_link_to 'plus', new_project_address_path, id: 'new_project_address'
 
 %table.table.table-striped.addresses
   %thead

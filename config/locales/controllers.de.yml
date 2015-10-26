@@ -17,6 +17,8 @@ de:
     index_actions:
       new_person: 'Neue Privatperson'
       new_organization: 'Neue Organisation'
+    search:
+      name_cont: 'Name enthält'
     show:
       contacts: 'Ansprechpartner_innen'
       accounts: 'Bankverbindungen'
@@ -36,6 +38,8 @@ de:
       title: 'Neuer Kreditvertrag'
     edit:
       title: 'Kreditvertrag bearbeiten'
+    search:
+      creditor_name_cont: 'Name d. Krditgeber_in enthält'
   project:
     show:
       addresses: 'Addressen'
@@ -48,6 +52,8 @@ de:
       profile_title: 'Eigene Daten bearbeiten'
     new:
       title: 'Neuer User'
+    search:
+      name_cont: 'Name enthält'
   layouts:
     navigation:
       dashboard: 'Übersicht'

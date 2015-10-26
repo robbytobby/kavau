@@ -1,18 +1,23 @@
-%h1= t '.title'
+%h1
+  = t '.title'
+  %small.entries-info= page_entries_info @credit_agreements
 
-%table.table.table-striped
-  %thead
-    %tr
-      -if policy(CreditAgreement).edit?
-        %th= CreditAgreement.human_attribute_name :id
-      %th= CreditAgreement.human_attribute_name :account
-      -if policy(:creditor).show?
-        %th= CreditAgreement.human_attribute_name :creditor
-      %th= CreditAgreement.human_attribute_name :cancellation_period
-      %th.money= CreditAgreement.human_attribute_name :amount
-      %th.money= CreditAgreement.human_attribute_name :interest_rate
-      %th
+= search_form_for @q, class: 'form-vertical' do |f|
+  %table.table.table-striped
+    %thead
+      %tr
+        -if policy(CreditAgreement).edit?
+          %th= sort_link(@q, :id)
+        %th= CreditAgreement.human_attribute_name :account
+        -if policy(:creditor).show?
+          %th= CreditAgreement.human_attribute_name :creditor
+        %th= sort_link(@q, :cancellation_period)
+        %th.money= sort_link(@q, :amount)
+        %th.money= sort_link(@q, :interest_rate)
+        %th
+      = render :partial => 'search', locals: {f: f}
 
-  %tbody
-    = render @credit_agreements
-= paginate @credit_agreements
+    %tbody
+      = render @credit_agreements
+  = paginate @credit_agreements
+

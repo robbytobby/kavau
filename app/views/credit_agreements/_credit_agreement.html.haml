@@ -1,5 +1,5 @@
 -present credit_agreement do |c|
-  %tr
+  %tr[credit_agreement]
     -if policy(CreditAgreement).edit?
       %td= c.id
     %td= c.account.name

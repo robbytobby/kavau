@@ -1,16 +1,20 @@
 %h1 
   = t(".title.#{@type.underscore}")
+  %small.entries-info= page_entries_info @addresses
   = render :partial => 'index_actions'
 
-%table.table.table-striped
-  %thead
-    %tr
-      %th= Address.human_attribute_name :full_name
-      %th= Address.human_attribute_name :address
-      %th= Address.human_attribute_name :email
-      %th= Address.human_attribute_name :phone
-      %th
-  %tbody
-    = render @addresses
-= paginate @addresses
+= search_form_for @q, url: creditors_path, class: 'form-vertical' do |f|
+  %table.table.table-striped
+    %thead
+      %tr
+        %th= sort_link(@q, :name, [:name, :first_name], t('activerecord.attributes.address.full_name'), id: :sort_by_name)
+        %th= sort_link(@q, :street_number)
+        %th= sort_link(@q, :city)
+        %th= sort_link(@q, :country_code)
+        %th
+        %th
+      = render partial: 'search', locals: {f: f}    
+    %tbody
+      = render @addresses
+  = paginate @addresses
 

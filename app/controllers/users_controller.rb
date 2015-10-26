@@ -4,7 +4,8 @@ class UsersController < ApplicationController
   responders :collection
 
   def index
-    @users = @users.order(:first_name).page(params[:page])
+    @q = @users.ransack(search_params)
+    @users = @q.result(distinct: true).page(params[:page])
     respond_with @users
   end
 
@@ -36,6 +37,14 @@ class UsersController < ApplicationController
   end
 
   private
+    def default_sort
+      {"s" => ["first_name asc", "name asc"]}
+    end
+
+    def search_params
+      default_sort.merge(params[:q] || {})
+    end
+
     def clear_password_params
       return if password_params_set?
       params[:user].except!(:password, :password_confirmation)

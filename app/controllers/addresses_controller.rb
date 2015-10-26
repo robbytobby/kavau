@@ -3,7 +3,8 @@ class AddressesController < ApplicationController
   include LoadAuthorized
 
   def index
-    @addresses = @addresses.send(scope).order(:name).page(params[:page])
+    @q = @addresses.send(scope).ransack(search_params)
+    @addresses = @q.result(distinct: true).page(params[:page])
     respond_with @addresses
   end
 
@@ -35,6 +36,14 @@ class AddressesController < ApplicationController
   end
 
   private
+    def default_sort
+      {"s" => ["name asc", "first_name asc"]}
+    end
+
+    def search_params
+      default_sort.merge(params[:q] || {})
+    end
+
     def klass # overwrite LoadAuthorized#klass
       @type.constantize
     end

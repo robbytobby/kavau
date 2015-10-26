@@ -6,7 +6,8 @@ class CreditAgreementsController < ApplicationController
   skip_before_action :set_type, only: :index
 
   def index
-    @credit_agreements = @credit_agreements.order(:id).page(params[:page])
+    @q = @credit_agreements.ransack(search_params)
+    @credit_agreements = @q.result(distinct: true).page(params[:page])
     respond_with @credit_agreements
   end
 
@@ -39,6 +40,14 @@ class CreditAgreementsController < ApplicationController
   end
 
   private
+    def default_sort
+      {"s" => "id asc"}
+    end
+
+    def search_params
+      default_sort.merge(params[:q] || {})
+    end
+
     def create_params # overwrite LoadAuthorized#permitted_params
       permitted_params.merge(creditor: @creditor)
     end
