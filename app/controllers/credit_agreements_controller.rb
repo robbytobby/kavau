@@ -1,13 +1,12 @@
 class CreditAgreementsController < ApplicationController
   include TypedAssociated
   include LoadAuthorized
+  include Searchable
   @typed_associated_name = '@creditor'
 
   skip_before_action :set_type, only: :index
 
   def index
-    @q = @credit_agreements.ransack(search_params)
-    @credit_agreements = @q.result(distinct: true).page(params[:page])
     respond_with @credit_agreements
   end
 
@@ -42,10 +41,6 @@ class CreditAgreementsController < ApplicationController
   private
     def default_sort
       {"s" => "id asc"}
-    end
-
-    def search_params
-      default_sort.merge(params[:q] || {})
     end
 
     def create_params # overwrite LoadAuthorized#permitted_params

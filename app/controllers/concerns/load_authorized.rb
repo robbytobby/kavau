@@ -4,6 +4,7 @@ module LoadAuthorized
   extend ActiveSupport::Concern
   included do
     before_action :find_collection, only: :index
+    before_action :scope_collection, only: :index
     before_action :find_record, only: [:show, :edit, :update, :destroy]
     before_action :build_record, only: :new
     before_action :create_record, only: :create
@@ -14,6 +15,14 @@ module LoadAuthorized
   private
     def find_collection
       instance_variable_set( instance_variable_name(plural: true), policy_scope(klass) )
+    end
+
+    def scope_collection
+      return unless respond_to?(:scope, true)
+      instance_variable_set( 
+        instance_variable_name(plural: true),
+        instance_variable_get( instance_variable_name(plural: true) ).send(scope) 
+      )
     end
 
     def authorize_collection

@@ -1,10 +1,9 @@
 class AddressesController < ApplicationController
   include Typed
   include LoadAuthorized
+  include Searchable
 
   def index
-    @q = @addresses.send(scope).ransack(search_params)
-    @addresses = @q.result(distinct: true).page(params[:page])
     respond_with @addresses
   end
 
@@ -38,10 +37,6 @@ class AddressesController < ApplicationController
   private
     def default_sort
       {"s" => ["name asc", "first_name asc"]}
-    end
-
-    def search_params
-      default_sort.merge(params[:q] || {})
     end
 
     def klass # overwrite LoadAuthorized#klass

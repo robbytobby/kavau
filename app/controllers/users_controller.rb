@@ -1,11 +1,10 @@
 class UsersController < ApplicationController
   before_action :clear_password_params, only: :update
   include LoadAuthorized
+  include Searchable
   responders :collection
 
   def index
-    @q = @users.ransack(search_params)
-    @users = @q.result(distinct: true).page(params[:page])
     respond_with @users
   end
 
@@ -39,10 +38,6 @@ class UsersController < ApplicationController
   private
     def default_sort
       {"s" => ["first_name asc", "name asc"]}
-    end
-
-    def search_params
-      default_sort.merge(params[:q] || {})
     end
 
     def clear_password_params

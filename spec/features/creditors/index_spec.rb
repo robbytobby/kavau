@@ -28,6 +28,20 @@ RSpec.describe "creditors index view" do
         click_on 'back'
         expect(current_path).to eq(creditors_path)
       end
+
+      it "does not show project_addresses" do
+        @project_address = create :project_address
+        @address = create type.to_sym
+        visit '/creditors'
+        expect(page).not_to have_selector("tr#project_address_#{@project_address.id}")
+      end
+
+      it "does not show project_contacts" do
+        @contact = create :contact
+        @address = create type.to_sym
+        visit '/creditors'
+        expect(page).not_to have_selector("tr#contact_#{@contact.id}")
+      end
     
       it "is possible to edit all #{type.pluralize}" do
         @address = create type.to_sym
