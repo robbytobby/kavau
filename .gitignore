@@ -17,6 +17,9 @@ config/secrets.yml
 /.bundle
 /vendor/bundle
 
+## Deployment - don't include Project specific configuration
+config/deploy/lama_production.rb
+
 # these should all be checked in to normalise the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
 
