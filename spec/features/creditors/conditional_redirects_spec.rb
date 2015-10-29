@@ -4,7 +4,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
   before(:each){ login_as create(:admin) }
 
   ['person', 'organization'].each do |type|
-    it "coming form index, then successfully editing a #{type.pluralize} leads back to index" do
+    it "coming from creditors index, then successfully editing a #{type} leads back to the creditors index" do
       @address = create type.to_sym
       visit '/creditors'
       click_on "edit_#{type}_#{@address.id}"
@@ -13,7 +13,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
       expect(page).to have_selector('div.alert-success')
     end
 
-    it "coming from show, then successfully editing a #{type.pluralize} leads back to show" do
+    it "coming from the #{type}s page, then successfully editing a #{type.pluralize} leads back to the #{type}s page" do
       @address = create type.to_sym
       visit send("#{type}_path", @address)
       click_on 'edit'
@@ -21,7 +21,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
       expect(current_path).to eq(send("#{type}_path", @address))
     end
 
-    it "cancel editing when coming from index leads back to index" do
+    it "cancel editing a #{type} when coming from creditors index leads back to index" do
       @address = create type.to_sym
       visit '/creditors'
       click_on "edit_#{type}_#{@address.id}"
@@ -29,7 +29,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
       expect(current_path).to eq(creditors_path)
     end
 
-    it "cancel editing when from show page leads back to show page" do
+    it "cancel editing a #{type} when coming from its show page leads back to its show page" do
       @address = create type.to_sym
       visit send("#{type}_path", @address)
       click_on 'edit'
@@ -37,7 +37,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
       expect(current_path).to eq(send("#{type}_path", @address))
     end
 
-    it "deleting a #{type} leads back to index" do
+    it "deleting a #{type} leads back to creditors index" do
       @address = create type.to_sym
       visit creditors_path
       click_on "delete_#{type}_#{@address.id}"

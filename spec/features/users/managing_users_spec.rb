@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe "Managing users"  do
+RSpec.describe "Managing users (only possible for admins)"  do
   before(:each){ login_as create(:admin) }
 
-  ['User', 'Buchhalter_in', 'Administrator_in'].each do |type|
-    it "creating is possible" do
+  { user: 'User', accountant: 'Buchhalter_in', admin: 'Administrator_in' }.each_pair do |type, name|
+    it "creating a #{type} is possible" do
       visit users_path
       click_on :new_user
       expect(current_path).to eq(new_user_path)
       fill_in :user_login, with: 'LOGIN'
-      select type, from: :user_role
+      select name, from: :user_role
       fill_in :user_password, with: '1Abcdefg'
       fill_in :user_password_confirmation, with: '1Abcdefg'
       fill_in :user_first_name, with: 'First Name'
@@ -21,7 +21,7 @@ RSpec.describe "Managing users"  do
     end
   end
 
-  it "canceling create is possible" do
+  it "canceling creating a user is possible" do
     visit users_path
     click_on :new_user
     click_on :cancel
@@ -32,7 +32,7 @@ RSpec.describe "Managing users"  do
     context "existing #{type}" do
       before(:each){@user = create type}
 
-      it "is possible to edit" do
+      it "is editable" do
         visit users_path
         click_on "edit_user_#{@user.id}"
         fill_in :user_name, with: 'New Name'
@@ -41,20 +41,19 @@ RSpec.describe "Managing users"  do
         expect(page).to have_selector('div.alert-success')
       end
 
-      it "is possible to cancel editing" do
+      it "canceling edit is possible" do
         visit users_path
         click_on "edit_user_#{@user.id}"
         click_on :cancel
         expect(current_path).to eq(users_path)
       end
 
-      it "is possible to delete" do
+      it "is deletable" do
         visit users_path
         click_on "delete_user_#{@user.id}"
         expect(current_path).to eq(users_path)
         expect(page).to have_selector('div.alert-success')
       end
-
     end
   end
 end

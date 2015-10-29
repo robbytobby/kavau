@@ -5,7 +5,7 @@ RSpec.describe "credit agreements index" do
   context "as unpriviledged user" do
     before(:each){ login_as create(:user) }
 
-    it "shows the credit agreements index" do
+    it "shows the credit agreements" do
       visit "/"
       click_on 'credit_agreements_index'
       expect(current_path).to eq(credit_agreements_path)
@@ -28,7 +28,7 @@ RSpec.describe "credit agreements index" do
     context "as #{type}" do
       before(:each){ login_as create(type) }
 
-      it "shows the credit agreements index" do
+      it "shows the credit agreements" do
         visit "/"
         click_on 'credit_agreements_index'
         expect(current_path).to eq(credit_agreements_path)
@@ -48,7 +48,7 @@ RSpec.describe "credit agreements index" do
     end
   end
 
-  describe "it is searchable" do
+  describe "is searchable" do
     before(:each){ login_as create(:accountant) }
 
     it "by id" do
@@ -156,10 +156,10 @@ RSpec.describe "credit agreements index" do
     expect(page).to have_content(number_to_currency(3333), count: 5)
   end
 
-  describe "it is sortable" do
+  describe "is sortable" do
     before(:each){login_as create(:accountant)}
 
-    it "default is id asc" do
+    it "default sort is id ascending" do
       c1 = create :credit_agreement, id: 1
       c2 = create :credit_agreement, id: 2
       c3 = create :credit_agreement, id: 3
@@ -170,7 +170,7 @@ RSpec.describe "credit agreements index" do
       expect(page).to have_css("tr#credit_agreement_#{c3.id}:nth-child(3)")
     end
 
-    it "is resortable by id, cancellation_period, amount and interest_rate" do
+    it "by id, cancellation_period, amount and interest_rate" do
       c1 = create :credit_agreement, id: 1, cancellation_period: 4, amount: 1111, interest_rate: 0
       c2 = create :credit_agreement, id: 2, cancellation_period: 5, amount: 3333, interest_rate: 3
       c3 = create :credit_agreement, id: 3, cancellation_period: 3, amount: 2222, interest_rate: 2

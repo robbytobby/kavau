@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 ['Organization', 'Person', 'ProjectAddress'].each do |type|
-  RSpec.describe "managing contacts for #{type.underscore.pluralize}" do
+  RSpec.describe "managing accounts for #{type.underscore.pluralize}" do
     context "as non priviledged user" do
       before(:each){ @address = create type.underscore.to_sym }
       before(:each){ login_as create(:user) }
@@ -17,7 +17,7 @@ require 'rails_helper'
         before(:each){ @address = create type.underscore.to_sym }
         before(:each){ login_as create(role) }
 
-        it "is possible to add an account to a #{type.underscore}" do
+        it "I can add an account to a #{type.underscore}" do
           visit model_path(@address)
           click_on 'add_account'
           expect(current_path).to eq(send("new_#{type.underscore}_account_path", @address))
@@ -31,7 +31,7 @@ require 'rails_helper'
           expect(page).to have_selector('div.alert-success')
         end
 
-        it "is possible to cancel adding an account to a #{type.underscore}" do
+        it "I can cancel adding an account to a #{type.underscore}" do
           visit model_path(@address)
           click_on 'add_account'
           click_on :cancel
@@ -41,7 +41,7 @@ require 'rails_helper'
         describe "existing accounts" do
           before(:each){ @account = create :account, address: @address }
 
-          it "is possible to edit an account of a #{type.underscore}" do
+          it "I can edit an account of a #{type.underscore}" do
             visit model_path(@address)
             click_on "edit_account_#{@account.id}"
             fill_in :account_name, with: 'New Name'
@@ -50,14 +50,14 @@ require 'rails_helper'
             expect(page).to have_selector('div.alert-success')
           end
 
-          it "is possible to cancel editing an account of a #{type.underscore}" do
+          it "I can cancel editing an account of a #{type.underscore}" do
             visit model_path(@address)
             click_on "edit_account_#{@account.id}"
             click_on :cancel
             expect(current_path).to eq(model_path(@address))
           end
           
-          it "is possible to delete an account of a #{type.underscore}" do
+          it "I can delete an account of a #{type.underscore}" do
             visit model_path(@address)
             click_on "delete_account_#{@account.id}"
             expect(current_path).to eq(model_path(@address))

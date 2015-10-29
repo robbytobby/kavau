@@ -7,7 +7,7 @@ RSpec.describe "creditors index view" do
     @credit_agreement = create(:credit_agreement, creditor: @creditor)
   end
 
-  context "coming from the creditor show page" do
+  context "coming from the creditors page" do
     it "successfull edit redirects back to the creditor" do
       visit person_path(@creditor)
       click_on "edit_credit_agreement_#{@credit_agreement.id}"
@@ -16,14 +16,14 @@ RSpec.describe "creditors index view" do
       expect(current_path).to eq(person_path(@creditor))
     end
 
-    it "successfull delete redirects to the creditro" do
+    it "successfull delete redirects to the creditor" do
       visit person_path(@creditor)
       click_on "delete_credit_agreement_#{@credit_agreement.id}"
       expect(current_path).to eq(person_path(@creditor))
     end
   end
 
-  context "coming from the credit_agreements indes" do
+  context "coming from the credit_agreements index" do
     it "succesfull edit redirects back to the credit_agreements index" do
       visit credit_agreements_path
       click_on "edit_credit_agreement_#{@credit_agreement.id}"

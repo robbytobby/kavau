@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 [:user, :accountant, :admin].each do |type|
-  RSpec.describe "manage your own account as #{type}"  do
+  RSpec.describe "manage own user data as #{type}"  do
     before(:each){ @user = create type }
     before(:each){ login_as @user }
 
-    it "is possible to edit own account" do
+    it "I can edit own account" do
       visit '/'
       click_on :edit_profile
       expect(current_path).to eq(edit_user_path(@user))
@@ -16,7 +16,7 @@ require 'rails_helper'
       expect(page).to have_selector('div.alert-success')
     end
 
-    it "is possible to cancel editing own account" do
+    it "I can cancel editing own account" do
       visit '/'
       click_on :edit_profile
       click_on :cancel

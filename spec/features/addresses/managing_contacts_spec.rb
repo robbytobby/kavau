@@ -16,7 +16,8 @@ require 'rails_helper'
       context "as #{role}" do
         before(:each){ @address = create type.underscore.to_sym }
         before(:each){ login_as create(role) }
-        it "is possible to add a contact to a #{type.underscore}" do
+
+        it "I can add a contact to a #{type.underscore}" do
           visit model_path(@address)
           click_on 'add_contact'
           expect(current_path).to eq(send("new_#{type.underscore}_contact_path", @address))
@@ -27,7 +28,7 @@ require 'rails_helper'
           expect(page).to have_selector('div.alert-success')
         end
 
-        it "is possible to cancel adding a contact to a #{type.underscore}" do
+        it "I can cancel adding a contact to a #{type.underscore}" do
           visit model_path(@address)
           click_on 'add_contact'
           click_on :cancel
@@ -37,7 +38,7 @@ require 'rails_helper'
         describe "existing contacts" do
           before(:each){ @contact = create :contact, institution: @address }
 
-          it "is possible to edit a contact of a #{type.underscore}" do
+          it "I can edit a contact of a #{type.underscore}" do
             visit model_path(@address)
             click_on "edit_contact_#{@contact.id}"
             fill_in :contact_name, with: 'New Name'
@@ -46,14 +47,14 @@ require 'rails_helper'
             expect(page).to have_selector('div.alert-success')
           end
 
-          it "is possible to cancel editing a contact of a #{type.underscore}" do
+          it "I can cancel editing a contact of a #{type.underscore}" do
             visit model_path(@address)
             click_on "edit_contact_#{@contact.id}"
             click_on :cancel
             expect(current_path).to eq(model_path(@address))
           end
           
-          it "is possible to delete a contact of a #{type.underscore}" do
+          it "I can delete a contact of a #{type.underscore}" do
             visit model_path(@address)
             click_on "delete_contact_#{@contact.id}"
             expect(current_path).to eq(model_path(@address))

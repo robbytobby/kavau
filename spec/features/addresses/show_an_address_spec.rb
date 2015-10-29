@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Address view"  do
   include ActionView::Helpers::NumberHelper
-  before(:each){ login_as create(:admin) }
+  before(:each){ login_as create(:accountant) }
 
   [:person, :organization].each do |type|
     describe "for #{type}" do

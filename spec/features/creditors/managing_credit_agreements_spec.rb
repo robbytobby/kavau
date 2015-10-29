@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-['Organization', 'Person'].each do |type|
-  RSpec.describe "managing credit aggreements" do
-    [:admin, :accountant].each do |role|
+RSpec.describe "managing credit aggreements" do
+  [:admin, :accountant].each do |role|
+    ['Organization', 'Person'].each do |type|
       context "as #{role}" do
         before(:each){ @account = create :project_account, name: 'Account' }
         before(:each){ @creditor = create type.underscore.to_sym }
         before(:each){ login_as create(role) }
 
-        it "is possible as #{role} to add a credit agreement to a #{type}" do
+        it "I can add a credit agreement to a #{type}" do
           visit model_path(@creditor)
           click_on 'add_credit_agreement'
           expect(current_path).to eq(send("new_#{type.underscore}_credit_agreement_path", @creditor))
@@ -21,7 +21,7 @@ require 'rails_helper'
           expect(page).to have_selector('div.alert.alert-success')
         end
 
-        it "is possible to cancel adding an credit agreement to a #{type.underscore}" do
+        it "I can cancel adding a credit agreement to a #{type.underscore}" do
           visit model_path(@creditor)
           click_on 'add_credit_agreement'
           click_on :cancel
@@ -31,7 +31,7 @@ require 'rails_helper'
         describe "existing credit_agreements" do
           before(:each){ @credit_agreement = create(:credit_agreement, account: @account, creditor: @creditor) }
 
-          it "is possible to edit an account of a #{type.underscore}" do
+          it "of a #{type.underscore} are editable" do
             visit model_path(@creditor)
             click_on "edit_credit_agreement_#{@credit_agreement.id}"
             fill_in :credit_agreement_amount, with: '20000'
@@ -40,14 +40,14 @@ require 'rails_helper'
             expect(page).to have_selector('div.alert-success')
           end
 
-          it "is possible to cancel editin a credit_agreement of a #{type.underscore}" do
+          it "of a #{type.underscore} - cancel editing is possible" do
             visit model_path(@creditor)
             click_on "edit_credit_agreement_#{@credit_agreement.id}"
             click_on :cancel
             expect(current_path).to eq(model_path(@creditor))
           end
 
-          it "is possible to destroy a credit_agreement of a #{type}" do
+          it "of a #{type} can be deleted" do
             visit model_path(@creditor)
             click_on "delete_credit_agreement_#{@credit_agreement.id}"
             expect(current_path).to eq(model_path(@creditor))

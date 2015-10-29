@@ -4,7 +4,7 @@ RSpec.describe "Managing creditors"  do
   before(:each){ login_as create(:accountant) }
 
   [:person, :organization].each do |type|
-    it "creating is possible" do
+    it "creating a #{type} is possible" do
       visit creditors_path
       click_on "add_#{type}"
       expect(current_path).to eq(send("new_#{type}_path"))
@@ -19,7 +19,7 @@ RSpec.describe "Managing creditors"  do
       expect(page).to have_selector('div.alert-success')
     end
 
-    it "canceling create is possible" do
+    it "canceling creating a #{type} is possible" do
       visit creditors_path
       click_on "add_#{type}"
       click_on :cancel
@@ -29,7 +29,7 @@ RSpec.describe "Managing creditors"  do
     context "existing #{type}" do
       before(:each){@creditor = create type}
 
-      it "is possible to edit" do
+      it "is editable" do
         visit creditors_path
         click_on "edit_#{type}_#{@creditor.id}"
         fill_in "#{type}_name", with: 'New Name'
@@ -38,14 +38,14 @@ RSpec.describe "Managing creditors"  do
         expect(page).to have_selector('div.alert-success')
       end
 
-      it "is possible to cancel editing" do
+      it "canceling editing possible" do
         visit creditors_path
         click_on "edit_#{type}_#{@creditor.id}"
         click_on :cancel
         expect(current_path).to eq(creditors_path)
       end
 
-      it "is possible to delete" do
+      it "is deletable" do
         visit creditors_path
         click_on "delete_#{type}_#{@creditor.id}"
         expect(current_path).to eq(creditors_path)

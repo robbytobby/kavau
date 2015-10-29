@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "Home page" do
+RSpec.describe "On the home page" do
   include ActionView::Helpers::NumberHelper
+
   context "as unpriviledged user" do
     before(:each){ login_as create(:user) }
 
@@ -21,13 +22,13 @@ RSpec.describe "Home page" do
       expect(page).to_not have_css("a#show_#{@address.id}")
     end
 
-    it "is not possible to show a project address" do
+    it "is not possible to edit a project address" do
       @address = create :project_address
       visit "/"
       expect(page).to_not have_css("a#edit_#{@address.id}")
     end
 
-    it "is not possible to show a project address" do
+    it "is not possible to delete a project address" do
       @address = create :project_address
       visit "/"
       expect(page).to_not have_css("a#delete_#{@address.id}")
@@ -38,14 +39,14 @@ RSpec.describe "Home page" do
     context "as #{type}" do
       before(:each){ login_as create(type) }
 
-      it "displays the Projects bank accounts" do
+      it "I see the Projects bank accounts" do
         @account = create :project_account
         visit "/"
         expect(page).to have_selector('h1', text: 'Konten')
         expect(page).to have_content(@account.name)
       end
 
-      context "credit_agreements" do
+      context "I can see credit_agreements summary" do
         before :each do
           @account = create :project_account
           @credit_1 = create :credit_agreement, account: @account, amount: 1000, interest_rate: '1'
@@ -53,28 +54,28 @@ RSpec.describe "Home page" do
           @credit_3 = create :credit_agreement, amount: 4000, interest_rate: '3'
         end
 
-        it "displays the sum of credits for each account" do
+        it "with the sum of credits for each account" do
           visit "/"
           within("tr#account_#{@account.id}") do
             expect(page).to have_content(number_to_currency(3000))
           end
         end
 
-        it "displays the average rate of interest for an account" do
+        it "with the average rate of interest for an account" do
           visit "/"
           within("tr#account_#{@account.id}") do
             expect(page).to have_content(number_to_percentage(1.67))
           end
         end
 
-        it "displays the sum of all credits" do
+        it "with the sum of all credits" do
           visit "/"
           within("tr.sums") do
             expect(page).to have_content(number_to_currency(7000))
           end
         end
 
-        it "displays the average rate of interest for an account" do
+        it "with the average rate of interest over all accounts" do
           visit "/"
           within("tr.sums") do
             expect(page).to have_content(number_to_percentage(2.43))
@@ -93,7 +94,7 @@ RSpec.describe "Home page" do
         expect(page).to have_selector('h1', text: 'Addressen')
       end
 
-      it "is possible to create a new project address" do
+      it "I can create a new project address" do
         visit "/"
         click_on 'new_project_address'
         expect(current_path).to eq(new_project_address_path)
@@ -113,7 +114,7 @@ RSpec.describe "Home page" do
         end
       end
 
-      it "is possible to show a project address" do
+      it "I can hit a link to show a project address" do
         @address = create :project_address
         visit "/"
         expect(page).to have_css("a#show_#{@address.id}")
@@ -121,7 +122,7 @@ RSpec.describe "Home page" do
         expect(current_path).to eq(project_address_path(@address))
       end
 
-      it "is possibel to edit a project address" do
+      it "I can edit a project address" do
         @address = create :project_address
         visit "/project"
         find_link('bearbeiten', href: edit_project_address_path(@address)).click
@@ -139,7 +140,7 @@ RSpec.describe "Home page" do
         expect(current_path).to eq(project_address_path(@address))
       end
 
-      it "is possible to cancel editing an address" do
+      it "I can cancel editing an address" do
         @address = create :project_address
         visit "/project"
         find_link('bearbeiten', href: edit_project_address_path(@address)).click
@@ -153,7 +154,7 @@ RSpec.describe "Home page" do
         expect(current_path).to eq(project_address_path(@address))
       end
 
-      it "is possible to delete a project address" do
+      it "I can delete a project address" do
         @address = create :project_address, name: 'THING'
         visit "/"
         expect(page).to have_selector('td', text: 'THING')
