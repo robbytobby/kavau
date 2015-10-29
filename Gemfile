@@ -49,9 +49,11 @@ gem 'ransack'
 group :development, :test do
   gem 'byebug', '~> 6.0'
   gem 'pry-byebug', :git => 'https://github.com/deivid-rodriguez/pry-byebug.git'
-  gem 'guard-zeus'
+  #gem 'guard-zeus'
   gem 'guard-bundler'
   gem 'guard-rspec'
+  gem 'guard-spring'
+  gem 'spring-commands-rspec'
   gem 'rspec-rails'
   gem 'factory_girl'
   gem 'factory_girl_rails'
@@ -61,6 +63,8 @@ group :development, :test do
   gem "rubycritic", :require => false
   gem "rails_best_practices"
   gem 'rubocop', require: false
+  gem "brakeman", :require => false
+  gem 'traceroute'
 end
 
 group :development do
@@ -71,7 +75,6 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
-
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
