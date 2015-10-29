@@ -16,4 +16,10 @@ RSpec.describe CreditAgreement, type: :model do
   it "can sum of credits over all project agreements" do
     expect(CreditAgreement.funded_credits_sum).to eq(7000)
   end
+  
+  it "is only valid for project_accounts" do
+    @account = create :person_account
+    @credit_agreement = build :credit_agreement, account: @account
+    expect(@credit_agreement).not_to be_valid
+  end
 end

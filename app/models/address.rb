@@ -20,6 +20,7 @@ class Address < ActiveRecord::Base
   def project_address?
     type == 'ProjectAddress'
   end
+  alias_method :belongs_to_project?, :project_address?
 
   def organization?
     type == 'Organization'

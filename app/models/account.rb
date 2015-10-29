@@ -8,23 +8,18 @@ class Account < ActiveRecord::Base
 
   belongs_to :address
   has_many :credit_agreements, dependent: :restrict_with_exception, inverse_of: :account
+  delegate :funded_credits_sum, to: :credit_agreements
+  delegate :average_rate_of_interest, to: :credit_agreements
 
   before_save :set_address_type
 
   validates_presence_of :bank, :iban
-  validates_presence_of :name, if: ->(account){ account.address.type == 'ProjectAddress' } 
+  validates_presence_of :name, if: :belongs_to_project?
   validates_with IbanValidator
   validates_with BicValidator
+  delegate :belongs_to_project?, to: :address
 
   scope :project_accounts, -> { where(address_type: 'ProjectAddress') } 
-
-  def funded_credits_sum
-    credit_agreements.funded_credits_sum
-  end
-
-  def average_rate_of_interest
-    credit_agreements.average_rate_of_interest
-  end
 
   private
     def set_address_type
