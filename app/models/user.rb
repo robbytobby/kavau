@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  strip_attributes 
+  strip_attributes
 
   devise :database_authenticatable, :recoverable, :trackable, :validatable, :lockable, :timeoutable
   @valid_roles = ['user', 'admin', 'accountant']
@@ -16,32 +16,32 @@ class User < ActiveRecord::Base
   end
 
   def user?
-    has_role?(:user)
+    role?(:user)
   end
 
   def admin?
-    has_role?(:admin)
+    role?(:admin)
   end
 
   def accountant?
-    has_role?(:accountant)
+    role?(:accountant)
   end
 
   protected
-    def has_role?(string)
-      role == string.to_s 
+    def role?(string)
+      role == string.to_s
     end
 
   private
     def password_strength
-      if password.present? and not password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*(\d|\W))./)
-        errors.add :password, :to_week
-      end
+      return unless password.present?
+      return if password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*(\d|\W))./)
+      errors.add :password, :to_week
     end
 
     def password_name_inclusions
-      if password.present? and password.match(/(#{first_name}|#{name}|#{login})/i)
-        errors.add :password, :name_inclusion
-      end
+      return unless password.present?
+      return unless password.match(/(#{first_name}|#{name}|#{login})/i)
+      errors.add :password, :name_inclusion
     end
 end

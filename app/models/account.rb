@@ -1,9 +1,9 @@
 class Account < ActiveRecord::Base
   include Encryption
-  strip_attributes 
+  strip_attributes
 
   [:name, :bic, :iban, :bank, :owner].each do |attr|
-    attr_encrypted attr, key: encryption_key, :mode => :per_attribute_iv_and_salt
+    attr_encrypted attr, key: encryption_key, mode: :per_attribute_iv_and_salt
   end
 
   belongs_to :address
@@ -19,7 +19,7 @@ class Account < ActiveRecord::Base
   validates_with BicValidator
   delegate :belongs_to_project?, to: :address
 
-  scope :project_accounts, -> { where(address_type: 'ProjectAddress') } 
+  scope :project_accounts, -> { where(address_type: 'ProjectAddress') }
 
   private
     def set_address_type

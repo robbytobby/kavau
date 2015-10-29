@@ -5,4 +5,3 @@ class ProjectAddressPolicy < AddressPolicy
     true
   end
 end
-

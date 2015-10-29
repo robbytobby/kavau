@@ -1,10 +1,10 @@
 class CreditAgreement < ActiveRecord::Base
-  strip_attributes 
+  strip_attributes
 
-  #TODO Add notes
+  # TODO: Add notes
   belongs_to :creditor, class_name: 'Address'
   belongs_to :account
-  delegate :belongs_to_project?, to: :account, prefix: true 
+  delegate :belongs_to_project?, to: :account, prefix: true
 
   validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id
   validates_numericality_of :amount, greater_than_or_equal_to: 500
@@ -18,13 +18,13 @@ class CreditAgreement < ActiveRecord::Base
 
   def self.average_rate_of_interest
     return 0 unless funded_credits_sum > 0
-    sum("interest_rate * amount") / funded_credits_sum 
+    sum('interest_rate * amount') / funded_credits_sum
   end
 
   private
     def account_valid_for_credit_agreement?
       return if account_belongs_to_project?
-      #TODO translation
+      # TODO: translation
       errors.add(:base, 'only project accounts valid')
     end
 end

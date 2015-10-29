@@ -3,4 +3,3 @@ class OrganizationPresenter < AddressPresenter
     name
   end
 end
-

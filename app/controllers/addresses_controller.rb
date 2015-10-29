@@ -36,7 +36,7 @@ class AddressesController < ApplicationController
 
   private
     def default_sort
-      {"s" => ["name asc", "first_name asc"]}
+      { 's' => ['name asc', 'first_name asc'] }
     end
 
     def klass # overwrite LoadAuthorized#klass
@@ -53,5 +53,5 @@ class AddressesController < ApplicationController
 
     def after_action_path
       action_name == 'create' ? send("#{@type.underscore}_path", @address) : session[:back_url]
-    end 
+    end
 end

@@ -13,9 +13,9 @@ class AddressPresenter < BasePresenter
 
   def notes_paragraph
     return if notes.blank?
-    h.content_tag(:p, 
-                  h.content_tag(:span, 
-                                Address.human_attribute_name(:notes) + ': ', 
+    h.content_tag(:p,
+                  h.content_tag(:span,
+                                Address.human_attribute_name(:notes) + ': ',
                                 class: 'text-info'
                                ) + notes
                  )

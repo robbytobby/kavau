@@ -11,4 +11,3 @@ class CreditAgreementPresenter < BasePresenter
     h.t('months', count: @model.cancellation_period)
   end
 end
-

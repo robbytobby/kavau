@@ -7,4 +7,3 @@ class AccountPresenter < BasePresenter
     IBANTools::IBAN.new(@model.iban).prettify
   end
 end
-

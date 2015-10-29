@@ -1,5 +1,4 @@
 class ContactPolicy < AddressPolicy
-
   def show?
     false
   end
@@ -8,4 +7,3 @@ class ContactPolicy < AddressPolicy
     false
   end
 end
-

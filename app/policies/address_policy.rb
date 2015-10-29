@@ -26,6 +26,8 @@ class AddressPolicy < ApplicationPolicy
   end
 
   def permitted_params
-    [:name, :first_name, :street_number, :city, :country_code, :salutation, :title, :email, :phone, :zip, :notes]
+    [:name, :first_name,
+     :street_number, :city, :country_code, :zip,
+     :salutation, :title, :email, :phone, :notes]
   end
 end

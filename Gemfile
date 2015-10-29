@@ -58,6 +58,9 @@ group :development, :test do
   gem 'capybara'
   gem 'launchy'
   #gem 'cucumber-rails', require: false
+  gem "rubycritic", :require => false
+  gem "rails_best_practices"
+  gem 'rubocop', require: false
 end
 
 group :development do

@@ -1,3 +1,2 @@
 class PersonPolicy < CreditorPolicy
 end
-

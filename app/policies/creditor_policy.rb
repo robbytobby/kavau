@@ -11,4 +11,3 @@ class CreditorPolicy < AddressPolicy
     true
   end
 end
-

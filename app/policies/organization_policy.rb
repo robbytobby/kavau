@@ -1,3 +1,2 @@
 class OrganizationPolicy < CreditorPolicy
 end
-

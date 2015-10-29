@@ -11,9 +11,9 @@ class CreditAgreementsController < ApplicationController
   end
 
   # not yet implemented
-  #def show
-  #  respond_with @credit_agreement
-  #end
+  # def show
+  #   respond_with @credit_agreement
+  # end
 
   def new
     respond_with @credit_agreement
@@ -40,7 +40,7 @@ class CreditAgreementsController < ApplicationController
 
   private
     def default_sort
-      {"s" => "id asc"}
+      { 's' => 'id asc' }
     end
 
     def create_params # overwrite LoadAuthorized#permitted_params

@@ -13,11 +13,14 @@ module Searchable
     end
 
     def set_collection
-      instance_variable_set( instance_variable_name(plural: true), @q.result(distinct: true).page(params[:page]) )
+      instance_variable_set(
+        instance_variable_name(plural: true),
+        @q.result(distinct: true).page(params[:page])
+      )
     end
 
     def original
-      instance_variable_get( instance_variable_name(plural: true) )
+      instance_variable_get(instance_variable_name(plural: true))
     end
 
     def search_params
@@ -28,4 +31,3 @@ module Searchable
       {}
     end
 end
-    

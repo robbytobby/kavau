@@ -1,6 +1,6 @@
 class ProjectController < ApplicationController
-  after_action :verify_authorized, :except => :show
-  after_action :verify_policy_scoped, :only => :show
+  after_action :verify_authorized, except: :show
+  after_action :verify_policy_scoped, only: :show
 
   def show
     @type = 'ProjectAddress'
@@ -8,4 +8,3 @@ class ProjectController < ApplicationController
     @accounts = policy_scope(Account).project_accounts
   end
 end
-

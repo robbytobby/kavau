@@ -10,14 +10,17 @@ module TypedAssociated
 
   private
     def set_associated
-      instance_variable_set(typed_associated_name, @type.constantize.find(get_associated_id))
+      instance_variable_set(
+        typed_associated_name,
+        @type.constantize.find(associated_id)
+      )
     end
 
     def typed_associated_name
       self.class.instance_variable_get('@typed_associated_name') || '@typed_associated'
     end
 
-    def get_associated_id
+    def associated_id
       params["#{@type.underscore}_id"]
     end
 end

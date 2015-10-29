@@ -31,4 +31,3 @@ class AccountPolicy < ApplicationPolicy
     [:bic, :iban, :bank, :name, :owner]
   end
 end
-

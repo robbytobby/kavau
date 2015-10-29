@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
   private
     def default_sort
-      {"s" => ["first_name asc", "name asc"]}
+      { 's' => ['first_name asc', 'name asc'] }
     end
 
     def clear_password_params
@@ -47,7 +47,11 @@ class UsersController < ApplicationController
 
     def password_params_set?
       return false unless params[:user]
-      ! params[:user].slice(:password, :password_confirmation).values.all?(&:blank?)
+      !password_params.values.all?(&:blank?)
+    end
+
+    def password_params
+      params[:user].slice(:password, :password_confirmation)
     end
 
     def after_action_path

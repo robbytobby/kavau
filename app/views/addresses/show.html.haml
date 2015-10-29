@@ -1,11 +1,11 @@
 - present(@address) do |address|
   %h1
     = address.full_name
-    = render :partial => 'actions_dropdown'
+    = render 'actions_dropdown'
   %p= address.detail_line
   = address.notes_paragraph
 
-  = render :partial => 'contacts'
-  = render :partial => 'accounts'
-  = render :partial => 'credit_agreements'
+  = render 'contacts'
+  = render 'accounts'
+  = render 'credit_agreements'
 

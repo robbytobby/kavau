@@ -1,8 +1,8 @@
 module AddressesHelper
   # not used?
-  #def new_model_path
-  #  send("new_#{@type.underscore}_path")
-  #end
+  # def new_model_path
+  #   send("new_#{@type.underscore}_path")
+  # end
 
   def edit_address_path(address)
     send("edit_#{address.type.underscore}_path", address)
@@ -18,10 +18,14 @@ module AddressesHelper
 
   def icon_popover(icon, content, title = '', placement = 'top')
     return if content.blank?
-    content_tag(:span, '', 
-                class: "glyphicon glyphicon-#{icon} text-info", 
-                data: {toggle: 'popover', content: content, placement: placement},
+    content_tag(:span,
+                '',
+                class: "glyphicon glyphicon-#{icon} text-info",
+                data: {
+                  toggle: 'popover',
+                  content: content,
+                  placement: placement
+                },
                 title: title)
-
   end
 end

@@ -14,27 +14,36 @@ module LoadAuthorized
 
   private
     def find_collection
-      instance_variable_set( instance_variable_name(plural: true), policy_scope(klass) )
+      instance_variable_set(
+        instance_variable_name(plural: true),
+        policy_scope(klass)
+      )
     end
 
     def scope_collection
       return unless respond_to?(:scope, true)
-      instance_variable_set( 
+      instance_variable_set(
         instance_variable_name(plural: true),
-        instance_variable_get( instance_variable_name(plural: true) ).send(scope) 
+        instance_variable_get(instance_variable_name(plural: true)).send(scope)
       )
     end
 
     def authorize_collection
-      authorize instance_variable_get( instance_variable_name(plural: true) )
+      authorize instance_variable_get(instance_variable_name(plural: true))
     end
 
     def build_record
-      instance_variable_set( instance_variable_name, klass.new )
+      instance_variable_set(
+        instance_variable_name,
+        klass.new
+      )
     end
 
     def create_record
-      instance_variable_set( instance_variable_name, klass.new( create_params ) )
+      instance_variable_set(
+        instance_variable_name,
+        klass.new(create_params)
+      )
     end
 
     def authorize_record
@@ -42,7 +51,10 @@ module LoadAuthorized
     end
 
     def find_record
-      instance_variable_set( instance_variable_name, klass.find(params[:id]) )
+      instance_variable_set(
+        instance_variable_name,
+        klass.find(params[:id])
+      )
     end
 
     def instance_variable_name(plural: false)
@@ -50,15 +62,15 @@ module LoadAuthorized
     end
 
     def klass
-      base_name.camelize.constantize 
+      base_name.camelize.constantize
     end
-    
+
     def base_name
       controller_name.singularize
     end
 
     def instance_policy
-      policy( instance_variable_get(instance_variable_name) || klass.new )
+      policy(instance_variable_get(instance_variable_name) || klass.new)
     end
 
     def permitted_params
@@ -70,6 +82,6 @@ module LoadAuthorized
     end
 
     def create_params
-      permitted_params 
+      permitted_params
     end
 end

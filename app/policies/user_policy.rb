@@ -6,7 +6,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin? 
+    user.admin?
   end
 
   def show?
@@ -14,15 +14,15 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin? 
+    user.admin?
   end
 
   def update?
-    record.id == user.id || user.admin? 
+    record.id == user.id || user.admin?
   end
 
   def destroy?
-    user.admin? 
+    user.admin?
   end
 
   def permitted_params
@@ -30,7 +30,8 @@ class UserPolicy < ApplicationPolicy
   end
 
   def role_independent_params
-    [:login, :password, :password_confirmation, :first_name, :name, :email, :phone]
+    [:login, :password, :password_confirmation,
+     :first_name, :name, :email, :phone]
   end
 
   def role_dependent_params

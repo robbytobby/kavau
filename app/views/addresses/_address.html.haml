@@ -13,4 +13,4 @@
       = icon_popover(:earphone, a.phone_numbers, Creditor.human_attribute_name(:phone))
       = icon_mail_to(a.email, title: a.email)
       = icon_popover('info-sign', a.notes, Creditor.human_attribute_name(:notes))
-    = render :partial => address.list_action_partial_path, locals: {address: a}
+    = render partial: address.list_action_partial_path, locals: {address: a}
