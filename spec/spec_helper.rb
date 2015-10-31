@@ -1,14 +1,11 @@
 require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start do
-  add_filter 'concerns/encryption'
-  add_filter 'application_policy'
-end
+CodeClimate::TestReporter.start
 
-require 'simplecov'
-SimpleCov.start 'rails' do
-  add_filter 'concerns/encryption'
-  add_filter 'application_policy'
-end
+#require 'simplecov'
+#SimpleCov.start 'rails' do
+#  add_filter 'concerns/encryption'
+#  add_filter 'application_policy'
+#end
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

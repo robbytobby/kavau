@@ -487,7 +487,6 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   simple_form
-  simplecov
   spring
   spring-commands-rspec
   strip_attributes
