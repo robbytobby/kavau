@@ -2,6 +2,7 @@ class AddressesController < ApplicationController
   include Typed
   include LoadAuthorized
   include Searchable
+  default_sort ['name asc', 'first_name asc']
 
   def index
     respond_with @addresses
@@ -35,11 +36,7 @@ class AddressesController < ApplicationController
   end
 
   private
-    def default_sort
-      { 's' => ['name asc', 'first_name asc'] }
-    end
-
-    def klass # overwrite LoadAuthorized#klass
+    def klass
       @type.constantize
     end
 

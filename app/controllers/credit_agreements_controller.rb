@@ -2,6 +2,7 @@ class CreditAgreementsController < ApplicationController
   include TypedAssociated
   include LoadAuthorized
   include Searchable
+  default_sort 'id asc'
   @typed_associated_name = '@creditor'
 
   skip_before_action :set_type, only: :index
@@ -39,10 +40,6 @@ class CreditAgreementsController < ApplicationController
   end
 
   private
-    def default_sort
-      { 's' => 'id asc' }
-    end
-
     def create_params # overwrite LoadAuthorized#permitted_params
       permitted_params.merge(creditor: @creditor)
     end

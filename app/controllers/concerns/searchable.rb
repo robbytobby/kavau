@@ -30,4 +30,12 @@ module Searchable
     def default_sort
       {}
     end
+
+  module ClassMethods
+    def default_sort(value)
+      define_method :default_sort do
+        { 's' => value }
+      end
+    end
+  end
 end

@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :clear_password_params, only: :update
   include LoadAuthorized
   include Searchable
+  default_sort ['first_name asc', 'name asc']
   responders :collection
 
   def index
@@ -36,10 +37,6 @@ class UsersController < ApplicationController
   end
 
   private
-    def default_sort
-      { 's' => ['first_name asc', 'name asc'] }
-    end
-
     def clear_password_params
       return if password_params_set?
       params[:user].except!(:password, :password_confirmation)
