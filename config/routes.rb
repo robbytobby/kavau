@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   resources :addresses, except: :index
   resources :creditors, controller: :addresses, type: 'Creditor'
-  resources :credit_agreements, only: :index
+  resources :credit_agreements, only: [:index, :show] do
+    resources :payments
+    resources :deposits, controller: :payments, type: 'Deposit'
+    resources :disburses, controller: :payments, type: 'Disburse'
+  end
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
     resources :contacts, except: [:index, :show]
     resources :accounts, except: [:index, :show]

@@ -14,13 +14,13 @@ require 'rails_helper'
       end
     end
 
-    #describe "GET #show" do
-    #  it "assigns the requested credit_agreement as @credit_agreement" do
-    #    credit_agreement = CreditAgreement.create! valid_attributes
-    #    get :show, {:id => credit_agreement.to_param}, valid_session
-    #    expect(assigns(:credit_agreement)).to eq(credit_agreement)
-    #  end
-    #end
+    describe "GET #show" do
+      it "assigns the requested credit_agreement as @credit_agreement" do
+        credit_agreement = create :credit_agreement
+        get :show, {:id => credit_agreement.to_param}
+        expect(assigns(:credit_agreement)).to eq(credit_agreement)
+      end
+    end
 
     describe "GET #new for #{type}" do
       it "assigns a new credit_agreement as @credit_agreement" do

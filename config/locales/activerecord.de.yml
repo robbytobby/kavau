@@ -13,7 +13,10 @@ de:
       contact: 'Ansprechpartner_in'
       creditor: 'Kreditgeber_in'
       credit_agreement: 'Kreditvertrag'
+      deposit: 'Einzahlung'
+      disburse: 'Auszahlung'
       organization: 'Organisation'
+      payment: 'Zahlung'
       project_address: 'Projekt Addresse'
       user: 'User'
     attributes:
@@ -41,14 +44,23 @@ de:
         type: 'Typ'
         zip: 'Postleitzahl'
       credit_agreement:
-        id: 'Nr'
+        account: 'Konto'
+        account_id: 'Konto'
         amount: 'Betrag'
+        balance: 'Kontostand'
+        cancellation_period: 'Kündigungsfrist'
         creditor: 'Kreditgeber_in'
         creditor_id: 'Kreditgeber_in'
+        id: 'Nr'
+        interest: 'Zinsen'
         interest_rate: 'Zinssatz'
-        cancellation_period: 'Kündigungsfrist'
-        account_id: 'Konto'
-        account: 'Konto'
+        old_balance: 'Kontostand alt'
+        payment_amount: 'Betrag'
+        payment_type: 'Art'
+      payment:
+        amount: 'Betrag'
+        date: 'Datum'
+        type: 'Art'
       project_address:
         name: 'Name'
       organization:

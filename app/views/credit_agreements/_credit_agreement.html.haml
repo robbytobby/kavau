@@ -10,6 +10,9 @@
     %td.money= c.interest_rate
     %td.actions
       -if policy(credit_agreement).edit?
+        = icon_link_to 'folder-open', 
+          credit_agreement_path(credit_agreement),
+          title: t('links.show'), id: "show_credit_agreement_#{credit_agreement.id}"
         = icon_link_to 'edit', 
           edit_credit_agreement_path(credit_agreement),
           title: t('links.edit'), id: "edit_credit_agreement_#{credit_agreement.id}"

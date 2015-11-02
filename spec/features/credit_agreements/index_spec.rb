@@ -11,10 +11,12 @@ RSpec.describe "credit agreements index" do
       expect(current_path).to eq(credit_agreements_path)
     end
 
-    it "shows credits without creditor name and without edit and delete links"  do
+    it "shows credits without creditor name and without edit and delete links" do
       @credit_agreement = create :credit_agreement
       visit credit_agreements_path
       expect(page).to have_content(number_to_currency(@credit_agreement.amount))
+      # TODO: implement balance
+      #expect(page).to have_content(number_to_currency(@credit_agreement.balance))
       expect(page).to have_content(@credit_agreement.account.name)
       expect(page).to have_content(number_to_percentage(@credit_agreement.interest_rate))
       expect(page).to_not have_content(@credit_agreement.creditor.name)
@@ -34,7 +36,7 @@ RSpec.describe "credit agreements index" do
         expect(current_path).to eq(credit_agreements_path)
       end
 
-      it "shows credits with creditor and links"  do
+      it "shows credits with creditor and links" do
         @credit_agreement = create :credit_agreement
         visit credit_agreements_path
         expect(page).to have_content(number_to_currency(@credit_agreement.amount))
@@ -42,6 +44,7 @@ RSpec.describe "credit agreements index" do
         expect(page).to have_content(number_to_percentage(@credit_agreement.interest_rate))
         expect(page).to have_content(@credit_agreement.creditor.name)
         expect(page).to have_content(@credit_agreement.creditor.first_name)
+        expect(page).to have_css("a#show_credit_agreement_#{@credit_agreement.id}")
         expect(page).to have_css("a#edit_credit_agreement_#{@credit_agreement.id}")
         expect(page).to have_css("a#delete_credit_agreement_#{@credit_agreement.id}")
       end

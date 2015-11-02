@@ -81,6 +81,7 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'selenium-webdriver'
   #gem 'simplecov', :require => false
   gem "codeclimate-test-reporter", require: nil
 end

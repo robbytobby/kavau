@@ -5,16 +5,16 @@ class CreditAgreementsController < ApplicationController
   default_sort 'id asc'
   @typed_associated_name = '@creditor'
 
-  skip_before_action :set_type, only: :index
+  skip_before_action :set_type, only: [:index, :show]
+  skip_before_action :set_associated, only: [:index, :show]
 
   def index
     respond_with @credit_agreements
   end
 
-  # not yet implemented
-  # def show
-  #   respond_with @credit_agreement
-  # end
+   def show
+     respond_with @credit_agreement
+   end
 
   def new
     respond_with @credit_agreement

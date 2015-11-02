@@ -1,6 +1,32 @@
-%p#notice= notice
+- present(@credit_agreement) do |credit_agreement|
+  %h1
+    = t '.title', number: @credit_agreement.id
+  - present(@credit_agreement.creditor) do |creditor|
+    %p
+      = link_to creditor.full_name, creditor
+      |
+      = CreditAgreement.human_attribute_name(:amount) +':'
+      = credit_agreement.amount
+      |
+      = CreditAgreement.human_attribute_name(:interest_rate) +':'
+      = credit_agreement.interest_rate
+      |
+      = CreditAgreement.human_attribute_name(:cancellation_period) +':'
+      = credit_agreement.cancellation_period
 
+#new_payment_form
+  = render partial: 'payments/inline_form', locals: { credit_agreement: @credit_agreement, payment: Payment.new }
 
-= link_to 'Edit', edit_credit_agreement_path(@credit_agreement)
-\|
-= link_to 'Back', credit_agreements_path
+#payments
+  %h2= t '.payments'
+  %table.table.table-striped
+    %thead
+      %tr
+        %th= Payment.human_attribute_name(:date)
+        %th= Payment.human_attribute_name(:type)
+        %th.money= CreditAgreement.human_attribute_name(:old_balance)
+        %th.money= CreditAgreement.human_attribute_name(:interest)
+        %th.money= Payment.human_attribute_name(:amount)
+        %th.money= CreditAgreement.human_attribute_name(:balance)
+    %tbody
+      = render @credit_agreement.payments

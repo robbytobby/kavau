@@ -32,6 +32,9 @@ de:
     edit: 
       title: 'Ansprechpartner_in bearbeiten'
   credit_agreements:
+    show:
+      title: 'Kreditvertrag Nr. %{number}'
+      payments: 'Kontobewegungen'
     index:
       title: 'Kreditverträge'
     new:
@@ -40,6 +43,9 @@ de:
       title: 'Kreditvertrag bearbeiten'
     search:
       creditor_name_cont: 'Name d. Krditgeber_in enthält'
+  payments:
+    edit:
+      title: 'Zahlung bearbeiten'
   project:
     show:
       addresses: 'Addressen'

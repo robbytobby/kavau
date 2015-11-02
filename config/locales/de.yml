@@ -17,4 +17,6 @@ de:
   months:
     one: '1 Monat'
     other: '%{count} Monate'
+  hints:
+    please_choose: 'Bitte auswählen'
 
