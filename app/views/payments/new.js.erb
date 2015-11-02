@@ -1,0 +1,6 @@
+<%- if @payment.errors.any? %>
+  $('#new_payment_form').html("<%= escape_javascript(render partial: 'inline_form', locals: { credit_agreement: @payment.credit_agreement, payment: @payment }) %>")
+<%- else %>
+  $('#new_payment_form').html("<%= escape_javascript(render partial: 'inline_form', locals: { credit_agreement: @payment.credit_agreement, payment: Payment.new }) %>")
+  $('tbody').html("<%= escape_javascript(render @payment.credit_agreement.payments)%>")
+<%- end %>

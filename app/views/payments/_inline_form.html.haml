@@ -1,0 +1,9 @@
+= simple_form_for [credit_agreement, payment.becomes(Payment)], wrapper: :inline_form, remote: true, html: { class: 'form-inline' } do |f|
+  = f.input :type, as: :select, collection: payment_type_options, include_blank: t('hints.please_choose')
+  = f.input :amount do
+    .input-group
+      = f.number_field :amount, class: 'numeric decimal required form-control', placeholder: Payment.human_attribute_name(:amount)
+      .input-group-addon €
+  am
+  = f.input :date, label_html: { class: 'sr-only' }
+  = f.submit class: 'btn btn-default btn-primary', id: :submit

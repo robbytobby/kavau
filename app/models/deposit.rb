@@ -1,0 +1,2 @@
+class Deposit < Payment
+end

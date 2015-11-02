@@ -1,0 +1,2 @@
+class Disburse < Payment
+end

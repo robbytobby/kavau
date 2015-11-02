@@ -1,0 +1,11 @@
+= simple_form_for [@payment.credit_agreement, @payment.becomes(Payment)] do |f|
+  .form-inputs.col-sm-8
+    = f.input :type, as: :select, collection: payment_type_options, include_blank: t('hints.please_choose')
+    = f.input :amount do
+      .input-group
+        = f.number_field :amount, class: 'numeric decimal required form-control', placeholder: Payment.human_attribute_name(:amount)
+        .input-group-addon €
+    = f.input :date, wrapper: :horizontal_multi_select
+  .form-actions.col-sm-12
+    = f.button :submit, class: 'btn-primary', id: 'submit'
+    = quit_button(:cancel)

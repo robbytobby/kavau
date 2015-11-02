@@ -1,0 +1,2 @@
+class DisbursePolicy < PaymentPolicy
+end
