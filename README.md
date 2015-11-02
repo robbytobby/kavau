@@ -1,5 +1,5 @@
-<a href="https://codeclimate.com/github/robbytobby/kavau"><img src="https://codeclimate.com/github/robbytobby/kavau/badges/gpa.svg" /></a>
- <a href="https://codeclimate.com/github/robbytobby/kavau/coverage"><img src="https://codeclimate.com/github/robbytobby/kavau/badges/coverage.svg" /></a>
+[![Code Climate](https://codeclimate.com/github/robbytobby/kavau/badges/gpa.svg)](https://codeclimate.com/github/robbytobby/kavau)
+[![Test Coverage](https://codeclimate.com/github/robbytobby/kavau/badges/coverage.svg)](https://codeclimate.com/github/robbytobby/kavau/coverage)
 
 == README
 
