@@ -4,6 +4,14 @@ class PaymentPresenter < BasePresenter
   end
 
   def interest_days
-    "#{@model.this_years_interest.interest_days} / #{@model.this_years_interest.days_in_year}"
+    "#{@model.interest.interest_days} / #{@model.interest.days_in_year}"
+  end
+
+  def amount
+    h.number_to_currency(@model.sign * @model.amount)
+  end
+
+  def interest
+    h.number_to_currency(@model.interest.amount)
   end
 end

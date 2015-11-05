@@ -3,47 +3,26 @@ class Balance < ActiveRecord::Base
   after_initialize :set_date
   before_save :set_amount
 
-  def calculated_amount
-    start_amount +
-      deposits.sum(:amount) -
-      disburses.sum(:amount) + 
-      interests
-  end
-
-  def amount 
+  def end_amount 
     # FIXME recalculate amount if payment changes
-    self[:amount] ||= calculated_amount
+    self[:end_amount] ||= calculated_end_amount
   end
 
-  def interests
-    base_interest.amount + 
-    deposits.to_a.sum{ |d| d.this_years_interest(date).amount } - 
-    disburses.to_a.sum{ |d| d.this_years_interest(date).amount }
-  end
-
-  def base_interest
-    Interest.new(last_years_balance, date)
+  def interest_from_start_amount
+    BalanceInterest.new(last_years_balance, date)
   end
 
   def to_interest
-    Interest.new(self, date)
-  end
-
-  def deposits
-    credit_agreement.deposits.this_year_upto(date)
-  end
-
-  def disburses
-    credit_agreement.disburses.this_year_upto(date)
+    BalanceInterest.new(self, date)
   end
 
   def start_amount
-    last_years_balance.try(:amount) || 0
+    last_years_balance.try(:end_amount) || 0
   end
 
   def last_years_balance
-    return nil if credit_agreement.payments.until((date - 1.year).end_of_year).none?
-    Balance.find_or_create_by(credit_agreement_id: credit_agreement_id, date: (date - 1.year).end_of_year)
+    return nil if past_years_payments.none?
+    Balance.find_or_create_by(credit_agreement_id: credit_agreement_id, date: end_of_last_year)
   end
 
   private
@@ -52,7 +31,35 @@ class Balance < ActiveRecord::Base
     end
 
     def set_amount
-      self.amount = amount
+      self.end_amount = end_amount
     end
 
+    def past_years_payments
+      credit_agreement.payments.younger_than(end_of_last_year)
+    end
+
+    def deposits
+      credit_agreement.deposits.this_year_upto(date)
+    end
+
+    def disburses
+      credit_agreement.disburses.this_year_upto(date)
+    end
+
+    def interests
+      [interest_from_start_amount] + 
+        deposits.map{ |d| d.interest(date) } + 
+        disburses.map{ |d| d.interest(date) }
+    end
+
+    def calculated_end_amount
+      start_amount +
+        deposits.sum(:amount) -
+        disburses.sum(:amount) + 
+        interests.sum(&:amount)
+    end
+
+    def end_of_last_year
+      (date - 1.year).end_of_year
+    end
 end

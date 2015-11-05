@@ -6,11 +6,7 @@ class Interest
 
   def amount
     return 0 if @object.nil?
-    (@object.amount * rate * interest_days / days_in_year).round(2)
-  end
-
-  def date
-    @to_date > @object.date.end_of_year ? @object.date.end_of_year : @to_date
+    (object_amount * rate * interest_days / days_in_year).round(2)
   end
 
   def interest_days
@@ -28,9 +24,5 @@ class Interest
 
     def to_date
       @to_date == @to_date.end_of_year ? @to_date + 1.day : @to_date
-    end
-    
-    def from_date
-      @object.is_a?(Balance) ? @to_date.beginning_of_year : @object.date
     end
 end

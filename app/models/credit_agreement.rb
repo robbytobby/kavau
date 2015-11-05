@@ -27,10 +27,23 @@ class CreditAgreement < ActiveRecord::Base
     sum('interest_rate * amount') / funded_credits_sum
   end
 
+  def balance_items
+    #TODO spec
+    create_missing_balances if payments.any?
+    balances.build
+    (payments + balances).sort_by(&:date)
+  end
+
   private
     def account_valid_for_credit_agreement?
       return if account_belongs_to_project?
       # TODO: translation
       errors.add(:base, 'only project accounts valid')
+    end
+
+    def create_missing_balances
+      (payments.first.date.year...Date.today.year).each do |year|
+        balances.find_or_create_by(date: Date.new(year, 12, 31))
+      end
     end
 end

@@ -6,19 +6,17 @@
       %td.money= b.start_amount
       %td.money
       %td.money= b.interest_days
-      %td.money= number_to_currency balance.base_interest.amount
+      %td.money= b.interest_from_start_amount
       %td.money
       %td.actions
   %tr[balance]
-    %td= l(balance.date)
+    %td= b.date
     %td= Balance.model_name.human
-    //%td.money= number_to_currency(balance.start_amount)
     %td
     %td.money
     %td
-    //%td.money= number_to_currency balance.interests
     %td
-    %td.money= number_to_currency(balance.amount)
+    %td.money= b.end_amount
     %td.actions
       -if balance.persisted?
         links

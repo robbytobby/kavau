@@ -13,7 +13,6 @@ class CreditAgreementsController < ApplicationController
   end
 
    def show
-     @credit_agreement.balances.build
      respond_with @credit_agreement
    end
 

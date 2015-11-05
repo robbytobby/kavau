@@ -7,6 +7,7 @@ class PaymentsController < ApplicationController
 
   def create
     @payment.save
+    @credit_agreement = @payment.credit_agreement
     respond_with @payment, location: @payment.credit_agreement do |format|
       format.js { render :new }
     end

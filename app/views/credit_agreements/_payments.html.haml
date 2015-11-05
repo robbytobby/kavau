@@ -1,0 +1,15 @@
+-if @credit_agreement.payments.any?
+  %h2= t '.payments'
+  %table.table.table-striped
+    %thead
+      %tr
+        %th= Payment.human_attribute_name(:date)
+        %th= Payment.human_attribute_name(:type)
+        %th.money= CreditAgreement.human_attribute_name(:old_balance)
+        %th.money= Payment.human_attribute_name(:amount)
+        %th.money= CreditAgreement.human_attribute_name(:interest_days)
+        %th.money= CreditAgreement.human_attribute_name(:interest)
+        %th.money= CreditAgreement.human_attribute_name(:balance)
+        %th
+    %tbody
+      = render @credit_agreement.balance_items

@@ -10,6 +10,7 @@ de:
     models:
       account: 'Bankverbindung'
       address: 'Addresse'
+      balance: 'Saldo'
       contact: 'Ansprechpartner_in'
       creditor: 'Kreditgeber_in'
       credit_agreement: 'Kreditvertrag'
@@ -53,6 +54,7 @@ de:
         creditor_id: 'Kreditgeber_in'
         id: 'Nr'
         interest: 'Zinsen'
+        interest_days: 'Zins-Tage'
         interest_rate: 'Zinssatz'
         old_balance: 'Kontostand alt'
         payment_amount: 'Betrag'
