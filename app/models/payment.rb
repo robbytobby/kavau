@@ -3,6 +3,7 @@ class Payment < ActiveRecord::Base
   belongs_to :credit_agreement
 
   scope :until, ->(to_date){ where(['date <= ?', to_date]) }
+  scope :this_year_upto, ->(to_date){ where(['date >= ?', to_date.beginning_of_year]).where(['date <= ?', to_date]) }
 
   def self.valid_types
     subclasses.map(&:name)
@@ -12,8 +13,10 @@ class Payment < ActiveRecord::Base
     "payments/payment"
   end
 
+  def this_years_interest(to_date = nil)
+    to_date ||= (Date.today.beginning_of_year > date ? date.end_of_year : Date.today)
+    Interest.new(self, to_date)
+  end
+
   private
-    def days_in_year(year)
-      Date.new(year).end_of_year.yday
-    end
 end

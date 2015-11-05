@@ -1,0 +1,24 @@
+- present balance do |b|
+  - if balance.last_years_balance
+    %tr.interest
+      %td= l(balance.date)
+      %td
+      %td.money= b.start_amount
+      %td.money
+      %td.money= b.interest_days
+      %td.money= number_to_currency balance.base_interest.amount
+      %td.money
+      %td.actions
+  %tr[balance]
+    %td= l(balance.date)
+    %td= Balance.model_name.human
+    //%td.money= number_to_currency(balance.start_amount)
+    %td
+    %td.money
+    %td
+    //%td.money= number_to_currency balance.interests
+    %td
+    %td.money= number_to_currency(balance.amount)
+    %td.actions
+      -if balance.persisted?
+        links

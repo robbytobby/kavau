@@ -1,0 +1,36 @@
+class Interest
+  def initialize(object, to_date)
+    @object = object
+    @to_date = to_date
+  end
+
+  def amount
+    return 0 if @object.nil?
+    (@object.amount * rate * interest_days / days_in_year).round(2)
+  end
+
+  def date
+    @to_date > @object.date.end_of_year ? @object.date.end_of_year : @to_date
+  end
+
+  def interest_days
+    (to_date - from_date).to_i
+  end
+
+  def days_in_year
+    @to_date.end_of_year.yday
+  end
+
+  private
+    def rate
+      @object.credit_agreement.interest_rate / 100
+    end
+
+    def to_date
+      @to_date == @to_date.end_of_year ? @to_date + 1.day : @to_date
+    end
+    
+    def from_date
+      @object.is_a?(Balance) ? @to_date.beginning_of_year : @object.date
+    end
+end

@@ -3,8 +3,9 @@
     %td= p.date
     %td= payment.class.model_name.human
     %td.money
-    %td.money
     %td.money= p.amount
+    %td.money= p.interest_days
+    %td.money= p.interest
     %td.money
     %td.actions
       -if policy(payment).edit?
