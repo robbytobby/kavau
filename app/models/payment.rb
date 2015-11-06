@@ -28,7 +28,7 @@ class Payment < ActiveRecord::Base
 
   private
     def update_balances
-      balances.older_than(date).each(&:save)
+      balances.older_than(date).each(&:update_end_amount)
     end
 
     def from_last_year?

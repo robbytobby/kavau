@@ -4,6 +4,8 @@ class Balance < ActiveRecord::Base
   before_save :set_amount
 
   scope :older_than, ->(from_date){ where(['date >= ?', from_date]) }
+  
+  alias_method :update_end_amount, :save
 
   def self.interest_sum
     all.to_a.sum{| b| b.interest_from_start_amount.amount }
