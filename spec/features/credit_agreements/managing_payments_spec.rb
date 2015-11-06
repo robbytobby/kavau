@@ -27,13 +27,13 @@ RSpec.describe "managing payments" do
         end
 
         it "I can create a incoming payment", js: true do
-          pending "debug js testing"
+          #pending "debug js testing"
           visit credit_agreement_path(@credit_agreement)
           fill_in :payment_amount, with: 500
           select 'Einzahlung', from: :payment_type
           click_on :submit
           # TODO: works put capybara does not get it
-          #expect(page).to have_content(number_to_currency(500))
+          expect(page).to have_content(number_to_currency(500))
         end
 
         it "I can destroy a #{payment_type}" do

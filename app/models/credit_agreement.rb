@@ -5,6 +5,7 @@ class CreditAgreement < ActiveRecord::Base
   belongs_to :creditor, class_name: 'Address'
   belongs_to :account
   delegate :belongs_to_project?, to: :account, prefix: true
+
   has_many :payments, -> { order 'date asc' }, dependent: :restrict_with_exception
   has_many :deposits, -> { order 'date asc' }
   has_many :disburses, -> { order 'date asc' }
@@ -28,7 +29,6 @@ class CreditAgreement < ActiveRecord::Base
   end
 
   def balance_items
-    #TODO spec
     create_missing_balances if payments.any?
     balances.build
     (payments + balances).sort_by(&:date)
@@ -37,13 +37,20 @@ class CreditAgreement < ActiveRecord::Base
   private
     def account_valid_for_credit_agreement?
       return if account_belongs_to_project?
-      # TODO: translation
-      errors.add(:base, 'only project accounts valid')
+      errors.add(:base, :only_project_accounts_valid)
     end
 
     def create_missing_balances
-      (payments.first.date.year...Date.today.year).each do |year|
+      (year_of_first_payment...this_year).each do |year|
         balances.find_or_create_by(date: Date.new(year, 12, 31))
       end
+    end
+
+    def year_of_first_payment
+      payments.first.date.year
+    end
+
+    def this_year
+      Date.today.year
     end
 end
