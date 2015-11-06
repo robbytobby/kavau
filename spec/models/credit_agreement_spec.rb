@@ -70,4 +70,24 @@ RSpec.describe CreditAgreement, type: :model do
     end
   end
 
+  describe "todays total" do
+    before(:each){ @credit_agreement = create :credit_agreement }
+
+    it "is the current end amount" do
+      @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000
+      @disburse = create :disburse, credit_agreement: @credit_agreement, amount: 100
+      expect(@credit_agreement.todays_total).to eq(900.3)
+    end
+  end
+
+  describe "total interest" do
+    before(:each){ @credit_agreement = create :credit_agreement }
+
+    it "is the sum of interests" do
+      @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000
+      @disburse = create :disburse, credit_agreement: @credit_agreement, amount: 100
+      expect(@credit_agreement.total_interest).to eq(0.3)
+    end
+  end
+
 end

@@ -52,7 +52,7 @@ RSpec.describe Balance, type: :model do
 
     it "is the end amount of last year if payments from previous years exist" do
       create_deposit (Date.today - 1.year).end_of_year, 5000
-      expect(balance.start_amount).to eq(5000.27)
+      expect(balance.start_amount).to eq(5000)
     end
   end
 
@@ -117,7 +117,7 @@ RSpec.describe Balance, type: :model do
 
     it "calculates correctly for the closing of year balance" do
       create_deposit '2014-12-1', 1000000
-      expect(balance('2014-12-31').end_amount).to eq(1000000 + (1000000 * 0.02 * 31 / 365).round(2))
+      expect(balance('2014-12-31').end_amount).to eq(1000000 + (1000000 * 0.02 * 30 / 365).round(2))
     end
   end
 

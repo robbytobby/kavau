@@ -52,12 +52,36 @@ RSpec.describe "On the home page" do
           @credit_1 = create :credit_agreement, account: @account, amount: 1000, interest_rate: '1'
           @credit_2 = create :credit_agreement, account: @account, amount: 2000, interest_rate: '2'
           @credit_3 = create :credit_agreement, amount: 4000, interest_rate: '3'
+          @deposit_1 = create :deposit, credit_agreement: @credit_2, amount: 1111
+          @deposit_2 = create :deposit, credit_agreement: @credit_3, amount: 4000
+          @disburse = create :disburse, credit_agreement: @credit_2, amount: 555
         end
 
         it "with the sum of credits for each account" do
           visit "/"
           within("tr#account_#{@account.id}") do
             expect(page).to have_content(number_to_currency(3000))
+          end
+        end
+
+        it "with the sum of deposits for each account" do
+          visit "/"
+          within("tr#account_#{@account.id}") do
+            expect(page).to have_content(number_to_currency(1111))
+          end
+        end
+
+        it "with the saldo for each account" do
+          visit "/"
+          within("tr#account_#{@account.id}") do
+            expect(page).to have_content(number_to_currency(556.19))
+          end
+        end
+
+        it "with the sum of disburses for each account" do
+          visit "/"
+          within("tr#account_#{@account.id}") do
+            expect(page).to have_content(number_to_currency(555))
           end
         end
 
@@ -79,6 +103,27 @@ RSpec.describe "On the home page" do
           visit "/"
           within("tr.sums") do
             expect(page).to have_content(number_to_percentage(2.43))
+          end
+        end
+
+        it "with the total of deposits" do
+          visit "/"
+          within("tr.sums") do
+            expect(page).to have_content(number_to_currency(5111))
+          end
+        end
+
+        it "with the total of disburses" do
+          visit "/"
+          within("tr.sums") do
+            expect(page).to have_content(number_to_currency(555))
+          end
+        end
+
+        it "with the total balanc" do
+          visit "/"
+          within("tr.sums") do
+            expect(page).to have_content(number_to_currency(4558.16))
           end
         end
       end

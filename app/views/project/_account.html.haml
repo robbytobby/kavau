@@ -2,3 +2,7 @@
   %td= account.name
   %td.money= number_to_currency(account.funded_credits_sum)
   %td.money= number_to_percentage(account.average_rate_of_interest)
+  %td.money= number_to_currency(account.deposits.sum(:amount))
+  %td.money= number_to_currency(account.disburses.sum(:amount))
+  %td.money= number_to_currency(account.credit_agreements.to_a.sum(&:total_interest))
+  %td.money= number_to_currency(account.credit_agreements.to_a.sum(&:todays_total))

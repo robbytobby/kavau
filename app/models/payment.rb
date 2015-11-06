@@ -10,6 +10,10 @@ class Payment < ActiveRecord::Base
     subclasses.map(&:name)
   end
 
+  def self.interest_sum
+    all.to_a.sum{ |p| p.interest.amount }
+  end
+
   def to_partial_path
     "payments/payment"
   end

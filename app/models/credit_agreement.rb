@@ -30,8 +30,16 @@ class CreditAgreement < ActiveRecord::Base
 
   def balance_items
     create_missing_balances if payments.any?
-    balances.build
+    todays_balance
     (payments + balances).sort_by(&:date)
+  end
+
+  def todays_total
+    todays_balance.end_amount
+  end
+
+  def total_interest
+    payments.interest_sum + balances.interest_sum + todays_balance.interest_from_start_amount.amount
   end
 
   private
@@ -44,6 +52,10 @@ class CreditAgreement < ActiveRecord::Base
       (year_of_first_payment...this_year).each do |year|
         balances.find_or_create_by(date: Date.new(year, 12, 31))
       end
+    end
+
+    def todays_balance
+      balances.build
     end
 
     def year_of_first_payment

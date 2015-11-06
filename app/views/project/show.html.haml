@@ -24,7 +24,10 @@
       %th= Account.human_attribute_name :name
       %th.money= Account.human_attribute_name :funded_credits_sum
       %th.money= Account.human_attribute_name :average_rate_of_interest
-      %th
+      %th.money eingegangen
+      %th.money zurückgezahlt
+      %th.money Zinsen
+      %th.money Kreditsaldo
 
   %tbody
     = render partial: 'account', collection: @accounts
@@ -32,3 +35,7 @@
       %td
       %td.money= number_to_currency(CreditAgreement.funded_credits_sum)
       %td.money= number_to_percentage(CreditAgreement.average_rate_of_interest)
+      %td.money= number_to_currency(Deposit.sum(:amount))
+      %td.money= number_to_currency(Disburse.sum(:amount))
+      %td.money= number_to_currency(CreditAgreement.all.to_a.sum(&:total_interest))
+      %td.money= number_to_currency(CreditAgreement.all.to_a.sum(&:todays_total))

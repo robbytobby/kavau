@@ -3,6 +3,10 @@ class Balance < ActiveRecord::Base
   after_initialize :set_date
   before_save :set_amount
 
+  def self.interest_sum
+    all.to_a.sum{| b| b.interest_from_start_amount.amount }
+  end
+
   def end_amount 
     # FIXME recalculate amount if payment changes
     self[:end_amount] ||= calculated_end_amount

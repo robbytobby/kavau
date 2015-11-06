@@ -1,7 +1,7 @@
 class BalanceInterest < Interest
   private
     def from_date
-      @to_date.beginning_of_year
+      @to_date.beginning_of_year - 1.day
     end
 
     def object_amount

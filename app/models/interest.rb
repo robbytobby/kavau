@@ -10,7 +10,7 @@ class Interest
   end
 
   def interest_days
-    (to_date - from_date).to_i
+    (@to_date - from_date).to_i
   end
 
   def days_in_year
@@ -20,9 +20,5 @@ class Interest
   private
     def rate
       @object.credit_agreement.interest_rate / 100
-    end
-
-    def to_date
-      @to_date == @to_date.end_of_year ? @to_date + 1.day : @to_date
     end
 end

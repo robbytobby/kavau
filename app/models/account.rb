@@ -8,6 +8,8 @@ class Account < ActiveRecord::Base
 
   belongs_to :address
   has_many :credit_agreements, dependent: :restrict_with_exception, inverse_of: :account
+  has_many :deposits, through: :credit_agreements
+  has_many :disburses, through: :credit_agreements
   delegate :funded_credits_sum, to: :credit_agreements
   delegate :average_rate_of_interest, to: :credit_agreements
 
