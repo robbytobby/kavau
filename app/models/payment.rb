@@ -1,10 +1,13 @@
 class Payment < ActiveRecord::Base
   validates_presence_of :amount, :type, :date, :credit_agreement_id
   belongs_to :credit_agreement
+  delegate :balances, to: :credit_agreement
 
   scope :younger_than, ->(to_date){ where(['date <= ?', to_date]) }
   scope :older_than, ->(from_date){ where(['date >= ?', from_date]) }
   scope :this_year_upto, ->(to_date){ younger_than(to_date).older_than(to_date.beginning_of_year) }
+
+  after_save :update_balances
 
   def self.valid_types
     subclasses.map(&:name)
@@ -24,6 +27,10 @@ class Payment < ActiveRecord::Base
   end
 
   private
+    def update_balances
+      balances.older_than(date).each(&:save)
+    end
+
     def from_last_year?
       Date.today.beginning_of_year > date
     end

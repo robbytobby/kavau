@@ -3,12 +3,13 @@ class Balance < ActiveRecord::Base
   after_initialize :set_date
   before_save :set_amount
 
+  scope :older_than, ->(from_date){ where(['date >= ?', from_date]) }
+
   def self.interest_sum
     all.to_a.sum{| b| b.interest_from_start_amount.amount }
   end
 
   def end_amount 
-    # FIXME recalculate amount if payment changes
     self[:end_amount] ||= calculated_end_amount
   end
 
@@ -35,7 +36,7 @@ class Balance < ActiveRecord::Base
     end
 
     def set_amount
-      self.end_amount = end_amount
+      self.end_amount = calculated_end_amount
     end
 
     def past_years_payments
