@@ -1,8 +1,4 @@
 class InterestSpanPresenter < BasePresenter
-  def date
-    h.l(@model.date)
-  end
-
   def type
     CreditAgreement.human_attribute_name :interest
   end
