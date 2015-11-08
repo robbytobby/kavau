@@ -1,10 +1,10 @@
 class AddressPresenter < BasePresenter
   def full_name(format = :formal)
-    if format == :formal
+    #if format == :formal
       [formal_name, first_name].compact.join(', ')
-    else
-      [first_name, name].compact.join(' ')
-    end
+    #else
+    #  [first_name, name].compact.join(' ')
+    #end
   end
 
   def detail_line
