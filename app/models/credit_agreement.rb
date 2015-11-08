@@ -32,7 +32,7 @@ class CreditAgreement < ActiveRecord::Base
 
   def balance_items
     todays_balance
-    (payments + balances + balances.map(&:interest_spans).flatten).sort_by(&:date)
+    (payments + balances + interest_spans).sort_by(&:date)
   end
 
   def todays_total
@@ -44,6 +44,10 @@ class CreditAgreement < ActiveRecord::Base
   end
 
   private
+    def interest_spans
+      balances.map(&:interest_spans).flatten
+    end
+
     def account_valid_for_credit_agreement?
       return if account_belongs_to_project?
       errors.add(:base, :only_project_accounts_valid)
