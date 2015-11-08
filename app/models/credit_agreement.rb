@@ -17,6 +17,8 @@ class CreditAgreement < ActiveRecord::Base
   validates_numericality_of :cancellation_period, greater_than_or_equal_to: 3
   validate :account_valid_for_credit_agreement?
 
+  after_initialize :create_missing_balances, if: ->{payments.any?}
+
   attr_accessor :payment_amount, :payment_type
 
   def self.funded_credits_sum
@@ -29,9 +31,8 @@ class CreditAgreement < ActiveRecord::Base
   end
 
   def balance_items
-    create_missing_balances if payments.any?
     todays_balance
-    (payments + balances).sort_by(&:date)
+    (payments + balances + balances.map(&:interest_spans).flatten).sort_by(&:date)
   end
 
   def todays_total
@@ -39,7 +40,7 @@ class CreditAgreement < ActiveRecord::Base
   end
 
   def total_interest
-    payments.interest_sum + balances.interest_sum + todays_balance.interest_from_start_amount.amount
+    balances.interest_sum + todays_balance.interests_sum
   end
 
   private

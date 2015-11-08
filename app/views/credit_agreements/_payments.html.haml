@@ -5,10 +5,10 @@
       %tr
         %th= Payment.human_attribute_name(:date)
         %th= Payment.human_attribute_name(:type)
-        %th.money= CreditAgreement.human_attribute_name(:old_balance)
+        %th= Balance.human_attribute_name(:interest_span)
+        %th.money= Balance.human_attribute_name(:interest_days)
+        %th.money= Balance.human_attribute_name(:interest_calculation)
         %th.money= Payment.human_attribute_name(:amount)
-        %th.money= CreditAgreement.human_attribute_name(:interest_days)
-        %th.money= CreditAgreement.human_attribute_name(:interest)
         %th.money= CreditAgreement.human_attribute_name(:balance)
         %th
     %tbody

@@ -5,34 +5,44 @@ class Balance < ActiveRecord::Base
 
   scope :older_than, ->(from_date){ where(['date >= ?', from_date]) }
   
-  alias_method :update_end_amount, :save
+  alias_method :update_end_amount!, :save
 
   def self.interest_sum
-    all.to_a.sum{| b| b.interest_from_start_amount.amount }
+    all.to_a.sum{| b| b.interests_sum }
   end
 
-  def end_amount 
-    self[:end_amount] ||= calculated_end_amount
+  def interests_sum
+    interest_spans.sum(&:amount)
   end
 
-  def interest_from_start_amount
-    BalanceInterest.new(last_years_balance, date)
-  end
-
-  def to_interest
-    BalanceInterest.new(self, date)
+  def interest_spans
+    breakpoints.each_cons(2).map do |pair|
+      InterestSpan.new(self, pair)
+    end
   end
 
   def start_amount
     last_years_balance.try(:end_amount) || 0
   end
 
-  def last_years_balance
-    return nil if past_years_payments.none?
-    Balance.find_or_create_by(credit_agreement_id: credit_agreement_id, date: end_of_last_year)
+  def end_amount 
+    self[:end_amount] ||= calculated_end_amount
   end
 
   private
+    def last_years_balance
+      return nil if past_years_payments.none?
+      @last_years_balance ||= Balance.find_or_create_by(
+        credit_agreement_id: credit_agreement_id, 
+        date: end_of_last_year)
+    end
+
+    def sum_upto(to_date)
+      start_amount +
+        deposits.younger_than(to_date).sum(:amount) -
+        disburses.younger_than(to_date).sum(:amount)
+    end
+
     def set_date
       self.date ||= Date.today
     end
@@ -53,17 +63,19 @@ class Balance < ActiveRecord::Base
       credit_agreement.disburses.this_year_upto(date)
     end
 
-    def interests
-      [interest_from_start_amount] + 
-        deposits.map{ |d| d.interest(date) } + 
-        disburses.map{ |d| d.interest(date) }
+    def payments
+      credit_agreement.payments.this_year_upto(date)
     end
 
     def calculated_end_amount
-      start_amount +
+      start_amount + 
         deposits.sum(:amount) -
         disburses.sum(:amount) + 
-        interests.sum(&:amount)
+        interests_sum
+    end
+
+    def breakpoints
+      [end_of_last_year] + payments.map(&:date) + [date]
     end
 
     def end_of_last_year

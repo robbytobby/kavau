@@ -1,0 +1,11 @@
+-if interest_span.show?
+  - present interest_span do |i|
+    %tr.interest_span
+      %td
+      %td= i.type 
+      %td= i.span
+      %td.money= i.interest_days
+      %td.money= i.calculation
+      %td.money= i.amount
+      %td
+      %td

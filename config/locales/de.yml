@@ -1,4 +1,6 @@
 de:
+  helpers:
+    for: 'auf'
   links:
     back: 'zurück zur Übersicht'
     cancel: 'abbrechen'

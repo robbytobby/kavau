@@ -18,9 +18,7 @@ RSpec.describe "balances" do
       within("tr#deposit_#{@deposit.id}") do
         expect(page).to have_content(l(@deposit.date))
         expect(page).to have_content('Einzahlung')
-        expect(page).to have_content(@deposit.interest.interest_days)
         expect(page).to have_content(number_to_currency(@deposit.amount))
-        expect(page).to have_content(number_to_currency(@deposit.interest.amount))
       end
 
       within("tr#balance_#{@balance.id}") do
@@ -33,12 +31,11 @@ RSpec.describe "balances" do
         expect(page).to have_content('Saldo')
         expect(page).to have_content(number_to_currency(@new_balance.end_amount))
       end
-      within('tr.interest') do
-        expect(page).to have_content(l(Date.today))
-        expect(page).to have_content(number_to_currency(@new_balance.start_amount))
-        expect(page).to have_content(@new_balance.to_interest.interest_days)
-        expect(page).to have_content(number_to_currency(@new_balance.interest_from_start_amount.amount))
-      end
+      #within('tr.interest_span') do
+      #  expect(page).to have_content(number_to_currency(@new_balance.start_amount))
+      #  expect(page).to have_content(@new_balance.interest_from_start_amount.interest_days)
+      #  expect(page).to have_content(number_to_currency(@new_balance.interest_from_start_amount.amount))
+      #end
     end
   end
 end

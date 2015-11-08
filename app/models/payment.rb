@@ -8,30 +8,18 @@ class Payment < ActiveRecord::Base
   scope :this_year_upto, ->(to_date){ younger_than(to_date).older_than(to_date.beginning_of_year) }
 
   after_save :update_balances
+  after_destroy :update_balances
 
   def self.valid_types
     subclasses.map(&:name)
-  end
-
-  def self.interest_sum
-    all.to_a.sum{ |p| p.interest.amount }
   end
 
   def to_partial_path
     "payments/payment"
   end
 
-  def interest(to_date = nil)
-    to_date ||= (from_last_year? ? date.end_of_year : Date.today)
-    PaymentInterest.new(self, to_date)
-  end
-
   private
     def update_balances
-      balances.older_than(date).each(&:update_end_amount)
-    end
-
-    def from_last_year?
-      Date.today.beginning_of_year > date
+      balances.older_than(date).each(&:update_end_amount!)
     end
 end

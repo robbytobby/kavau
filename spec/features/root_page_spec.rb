@@ -50,11 +50,14 @@ RSpec.describe "On the home page" do
         before :each do
           @account = create :project_account
           @credit_1 = create :credit_agreement, account: @account, amount: 1000, interest_rate: '1'
+          create :deposit, credit_agreement: @credit_1, amount: 1234, date: Date.today - 30.days
+          create :disburse, credit_agreement: @credit_1, amount: 543, date: Date.today - 10.days
           @credit_2 = create :credit_agreement, account: @account, amount: 2000, interest_rate: '2'
+          create :deposit, credit_agreement: @credit_2, amount: 1111, date: Date.today - 7.days
+          create :disburse, credit_agreement: @credit_2, amount: 555, date: Date.today - 2.days
           @credit_3 = create :credit_agreement, amount: 4000, interest_rate: '3'
-          @deposit_1 = create :deposit, credit_agreement: @credit_2, amount: 1111
-          @deposit_2 = create :deposit, credit_agreement: @credit_3, amount: 4000
-          @disburse = create :disburse, credit_agreement: @credit_2, amount: 555
+          create :deposit, credit_agreement: @credit_3, amount: 4000, date: Date.today - 11.days
+          create :disburse, credit_agreement: @credit_3, amount: 678, date: Date.today - 3.days
         end
 
         it "with the sum of credits for each account" do
@@ -67,21 +70,21 @@ RSpec.describe "On the home page" do
         it "with the sum of deposits for each account" do
           visit "/"
           within("tr#account_#{@account.id}") do
-            expect(page).to have_content(number_to_currency(1111))
+            expect(page).to have_content(number_to_currency(2345))
           end
         end
 
         it "with the saldo for each account" do
           visit "/"
           within("tr#account_#{@account.id}") do
-            expect(page).to have_content(number_to_currency(556.19))
+            expect(page).to have_content(number_to_currency(@account.credit_agreements.to_a.sum(&:todays_total)))
           end
         end
 
         it "with the sum of disburses for each account" do
           visit "/"
           within("tr#account_#{@account.id}") do
-            expect(page).to have_content(number_to_currency(555))
+            expect(page).to have_content(number_to_currency(1098))
           end
         end
 
@@ -109,21 +112,21 @@ RSpec.describe "On the home page" do
         it "with the total of deposits" do
           visit "/"
           within("tr.sums") do
-            expect(page).to have_content(number_to_currency(5111))
+            expect(page).to have_content(number_to_currency(6345))
           end
         end
 
         it "with the total of disburses" do
           visit "/"
           within("tr.sums") do
-            expect(page).to have_content(number_to_currency(555))
+            expect(page).to have_content(number_to_currency(1776))
           end
         end
 
-        it "with the total balanc" do
+        it "with the total balance" do
           visit "/"
           within("tr.sums") do
-            expect(page).to have_content(number_to_currency(4558.16))
+            expect(page).to have_content(number_to_currency(CreditAgreement.all.to_a.sum(&:todays_total)))
           end
         end
       end

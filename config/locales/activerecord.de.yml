@@ -44,6 +44,10 @@ de:
         title: 'Titel'
         type: 'Typ'
         zip: 'Postleitzahl'
+      balance:
+        interest_calculation: 'Zinsenberechnung'
+        interest_days: 'Zinstage'
+        interest_span: 'Zins-Zeitraum'
       credit_agreement:
         account: 'Konto'
         account_id: 'Konto'
@@ -54,7 +58,6 @@ de:
         creditor_id: 'Kreditgeber_in'
         id: 'Nr'
         interest: 'Zinsen'
-        interest_days: 'Zins-Tage'
         interest_rate: 'Zinssatz'
         old_balance: 'Kontostand alt'
         payment_amount: 'Betrag'

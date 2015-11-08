@@ -57,37 +57,53 @@ RSpec.describe CreditAgreement, type: :model do
       expect(@credit_agreement.balance_items).not_to include(@balance)
     end
 
-    it "creates missing balances" do
-      @deposit = create :deposit, credit_agreement: @credit_agreement, date: Date.today - 1.year
-      expect{
-        @credit_agreement.balance_items
-      }.to change(@credit_agreement.balances, :count).by(1)
-    end
-
     it "contains a new balance for the current year" do
       @deposit = create :deposit, credit_agreement: @credit_agreement
-      expect(@credit_agreement.balance_items.last).to be_a_new(Balance)
+      expect(@credit_agreement.balance_items.select{|i| i.is_a?(Balance)}.last).to be_a_new(Balance)
     end
   end
 
-  describe "todays total" do
-    before(:each){ @credit_agreement = create :credit_agreement }
-
-    it "is the current end amount" do
-      @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000
-      @disburse = create :disburse, credit_agreement: @credit_agreement, amount: 100
-      expect(@credit_agreement.todays_total).to eq(900.3)
-    end
+  it "todays_total" do
+    @credit_agreement = create :credit_agreement, amount: 2000, interest_rate: 2 
+    create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today.prev_day(455)
+    create :disburse, credit_agreement: @credit_agreement, amount: 9467, date: Date.today.prev_day(390)
+    create :deposit, credit_agreement: @credit_agreement, amount: 1111, date: Date.today.prev_day(7)
+    create :disburse, credit_agreement: @credit_agreement, amount: 555, date: Date.today.prev_day(2)
+    @credit_agreement.reload
+    expect(@credit_agreement.todays_total).to eq(
+      @credit_agreement.balances.build(date: Date.today).end_amount 
+    )
   end
 
-  describe "total interest" do
-    before(:each){ @credit_agreement = create :credit_agreement }
-
-    it "is the sum of interests" do
-      @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000
-      @disburse = create :disburse, credit_agreement: @credit_agreement, amount: 100
-      expect(@credit_agreement.total_interest).to eq(0.3)
-    end
+  it "total_interest" do
+    @credit_agreement = create :credit_agreement, amount: 2000, interest_rate: 2 
+    create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today.prev_day(455)
+    create :disburse, credit_agreement: @credit_agreement, amount: 9467, date: Date.today.prev_day(390)
+    create :deposit, credit_agreement: @credit_agreement, amount: 1111, date: Date.today.prev_day(7)
+    create :disburse, credit_agreement: @credit_agreement, amount: 555, date: Date.today.prev_day(2)
+    @credit_agreement.reload
+    expect(@credit_agreement.total_interest).to eq(
+      (@credit_agreement.balances.to_a).sum(&:interests_sum)
+    )
   end
 
+  def interest(amount, rate, num_days, total_num_days = total_days)
+    (amount.to_d * rate / 100 * num_days / total_num_days).round(2)
+  end
+
+  def total_days(date = Date.today)
+    date.end_of_year.yday
+  end
+
+  def total_days_last_year(date = Date.today)
+    total_days(date.prev_year)
+  end
+
+  def first_day_of_year(date = Date.today)
+    date.beginning_of_year
+  end
+
+  def last_day_of_last_year(date = Date.today)
+    first_day_of_year.prev_day
+  end
 end
