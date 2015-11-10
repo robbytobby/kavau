@@ -3,6 +3,8 @@ class Balance < ActiveRecord::Base
   after_initialize :set_date
   before_save :set_amount
 
+  delegate :interest_rate, to: :credit_agreement
+
   scope :older_than, ->(from_date){ where(['date >= ?', from_date]) }
   
   alias_method :update_end_amount!, :save
@@ -12,35 +14,33 @@ class Balance < ActiveRecord::Base
   end
 
   def interests_sum
-    interest_spans.sum(&:amount)
+    @interests_sum ||= interest_spans.sum(&:amount)
   end
 
   def interest_spans
-    breakpoints.each_cons(2).map do |pair|
-      InterestSpan.new(self, pair)
-    end
+    breakpoints.each_cons(2).map{ |pair| InterestSpan.new(self, pair) }
   end
 
   def start_amount
-    last_years_balance.try(:end_amount) || 0
+    @start_amount ||= last_years_balance.end_amount
   end
 
   def end_amount 
     self[:end_amount] ||= calculated_end_amount
   end
 
+  def sum_upto(to_date)
+    start_amount +
+      deposits.younger_than(to_date).sum(:amount) -
+      disburses.younger_than(to_date).sum(:amount)
+  end
+
   private
     def last_years_balance
-      return nil if past_years_payments.none?
-      @last_years_balance ||= Balance.find_or_create_by(
+      return NullBalance.new if past_years_payments.none?
+      Balance.find_or_create_by(
         credit_agreement_id: credit_agreement_id, 
         date: end_of_last_year)
-    end
-
-    def sum_upto(to_date)
-      start_amount +
-        deposits.younger_than(to_date).sum(:amount) -
-        disburses.younger_than(to_date).sum(:amount)
     end
 
     def set_date
@@ -68,10 +68,7 @@ class Balance < ActiveRecord::Base
     end
 
     def calculated_end_amount
-      start_amount + 
-        deposits.sum(:amount) -
-        disburses.sum(:amount) + 
-        interests_sum
+      sum_upto(date) + interests_sum
     end
 
     def breakpoints
@@ -79,6 +76,12 @@ class Balance < ActiveRecord::Base
     end
 
     def end_of_last_year
-      (date - 1.year).end_of_year
+      date.prev_year.end_of_year
     end
+
+  class NullBalance
+    def end_amount
+      0
+    end
+  end
 end

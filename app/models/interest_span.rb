@@ -4,8 +4,8 @@ class InterestSpan
   def initialize(balance, span)
     @start_date = span.first
     @end_date = span.last
-    @base_amount = balance.send(:sum_upto, @start_date)
-    @interest_rate = balance.credit_agreement.interest_rate
+    @base_amount = balance.sum_upto(@start_date)
+    @interest_rate = balance.interest_rate
   end
   
   def date
