@@ -1,0 +1,10 @@
+= simple_form_for [@credit_agreement, @balance] do |f|
+  .form-inputs.col-sm-8
+    = f.input :date, as: :string, disabled: true, input_html: {value: l(@balance.date)}
+    = f.input :end_amount do
+      .input-group
+        = f.number_field :end_amount, class: 'numeric decimal required form-control'
+        .input-group-addon €
+  .form-actions.col-sm-12
+    = f.button :submit, class: 'btn-primary', id: 'submit'
+    = quit_button(:cancel)

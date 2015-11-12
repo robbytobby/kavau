@@ -8,14 +8,5 @@
     %td.money= p.amount
     %td
     %td.actions
-      -if policy(payment).edit?
-        = icon_link_to :edit,
-          edit_credit_agreement_payment_path(payment.credit_agreement, payment),
-          id: "edit_payment_#{payment.id}",
-          title: t('links.edit')
-      -if policy(payment).destroy?
-        = icon_link_to :trash,
-          [payment.credit_agreement, payment], method: :delete,
-          data: { confirm: 'Are you sure?' },
-          id: "delete_payment_#{payment.id}",
-          title: t('links.delete')
+      = authorized_edit_icon_link(payment, nested_in: :credit_agreement)
+      = authorized_delete_icon_link(payment, nested_in: :credit_agreement)

@@ -23,6 +23,11 @@ de:
       contacts: 'Ansprechpartner_innen'
       accounts: 'Bankverbindungen'
       credit_agreements: 'Kreditverträge'
+  balances:
+    edit:
+      title: 'Saldo bearbeiten'
+    index:
+      title: 'Salden Übersicht'
   contacts:
     title: 
       one: 'Ansprechpartner_in'
@@ -63,6 +68,7 @@ de:
       name_cont: 'Name enthält'
   layouts:
     navigation:
+      balances: 'Salden'
       dashboard: 'Übersicht'
       creditors: 'Kreditgeber_innen'
       credit_agreements: 'Kreditverträge'

@@ -2,8 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :addresses, except: :index
+  resources :balances, only: :index
   resources :creditors, controller: :addresses, type: 'Creditor'
   resources :credit_agreements, only: [:index, :show] do
+    resources :balances, except: [:index, :show]
     resources :payments
     resources :deposits, controller: :payments, type: 'Deposit'
     resources :disburses, controller: :payments, type: 'Disburse'

@@ -45,9 +45,17 @@ de:
         type: 'Typ'
         zip: 'Postleitzahl'
       balance:
+        credit_agreement_id: 'Kredit Nr.'
+        date: 'Datum'
+        deposits: 'eingezahlt'
+        disburses: 'ausgezahlt'
+        interests: 'Zinsen'
+        end_amount: 'Kontostand'
+        manually_edited: 'manuell bearbeitet'
         interest_calculation: 'Zinsenberechnung'
         interest_days: 'Zinstage'
         interest_span: 'Zins-Zeitraum'
+        start_amount: 'Kontostand alt'
       credit_agreement:
         account: 'Konto'
         account_id: 'Konto'

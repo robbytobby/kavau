@@ -1,7 +1,9 @@
 class Payment < ActiveRecord::Base
-  validates_presence_of :amount, :type, :date, :credit_agreement_id
   belongs_to :credit_agreement
   delegate :balances, to: :credit_agreement
+  
+  validates_presence_of :amount, :type, :date, :credit_agreement_id
+  validates_numericality_of :amount, greater_than: 0
 
   scope :younger_than, ->(to_date){ where(['date <= ?', to_date]) }
   scope :older_than, ->(from_date){ where(['date >= ?', from_date]) }

@@ -9,12 +9,6 @@
     %td.money= c.amount
     %td.money= c.interest_rate
     %td.actions
-      -if policy(credit_agreement).edit?
-        = icon_link_to 'folder-open', 
-          credit_agreement_path(credit_agreement),
-          title: t('links.show'), id: "show_credit_agreement_#{credit_agreement.id}"
-        = icon_link_to 'edit', 
-          edit_credit_agreement_path(credit_agreement),
-          title: t('links.edit'), id: "edit_credit_agreement_#{credit_agreement.id}"
-      -if policy(credit_agreement).destroy?
-        = icon_link_to 'trash', [credit_agreement.creditor, credit_agreement], :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_credit_agreement_#{credit_agreement.id}"
+      = authorized_show_icon_link(credit_agreement, icon: 'folder-open')
+      = authorized_edit_icon_link(credit_agreement, nested_in: :creditor)
+      = authorized_delete_icon_link(credit_agreement, nested_in: :creditor)

@@ -1,7 +1,3 @@
 %td.actions
-  -if policy(address).edit?
-    = icon_link_to 'edit', 
-      send("edit_#{@type.underscore}_contact_path", @address, address), 
-      title: t('links.edit'), id: "edit_contact_#{address.id}"
-  -if policy(address).destroy?
-    = icon_link_to 'trash', [address.institution, address], :method => :delete, :data => { :confirm => 'Are you sure?' }, title: t('links.delete'), id: "delete_contact_#{address.id}"
+  = authorized_edit_icon_link(address, nested_in: :institution)
+  = authorized_delete_icon_link(address, nested_in: :institution)

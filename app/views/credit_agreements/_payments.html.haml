@@ -1,6 +1,6 @@
 -if @credit_agreement.payments.any?
   %h2= t '.payments'
-  %table.table.table-striped
+  %table.table
     %thead
       %tr
         %th= Payment.human_attribute_name(:date)

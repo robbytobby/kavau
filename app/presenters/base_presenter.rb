@@ -8,4 +8,8 @@ class BasePresenter < SimpleDelegator
   def h
     @view
   end
+
+  def model
+    @model
+  end
 end

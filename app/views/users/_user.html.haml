@@ -6,7 +6,5 @@
     %td= mail_to u.email if u.email
     %td= u.phone_numbers
     %td.actions
-      -if policy(user).edit?
-        = icon_link_to 'edit', edit_user_path(user), id: "edit_user_#{user.id}"
-      -if policy(user).destroy?
-        = icon_link_to 'trash', user, :method => :delete, :data => { :confirm => 'Are you sure?' }, id: "delete_user_#{user.id}"
+      = authorized_edit_icon_link user
+      = authorized_delete_icon_link user

@@ -1,14 +1,17 @@
 = simple_form_for [@creditor, @credit_agreement] do |f|
-  .form-inputs.col-sm-8
+  .form-inputs
     = f.input :amount do
-      = f.input_field :amount
-      %span €
+      .input-group.col-sm-3
+        = f.number_field :amount, class: 'numeric decimal required form-control'
+        .input-group-addon €
     = f.input :interest_rate do
-      =f.input_field :interest_rate
-      %span %
+      .input-group.col-sm-3
+        =f.number_field :interest_rate, class: 'numeric decimal required form-control'
+        .input-group-addon %
     = f.input :cancellation_period do
-      = f.input_field :cancellation_period
-      %span Monate
+      .input-group.col-sm-3
+        = f.number_field :cancellation_period, class: 'numeric decimal required form-control'
+        .input-group-addon Monate
     = f.association :account, collection: Account.project_accounts
 
   .form-actions.col-sm-12

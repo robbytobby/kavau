@@ -1,0 +1,32 @@
+%h1= t '.title'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th= Balance.human_attribute_name(:credit_agreement_id)
+      %th= Balance.human_attribute_name(:date)
+      -if policy(Creditor).show?
+        %th= Creditor.model_name.human
+      %th.money= Balance.human_attribute_name(:start_amount)
+      %th.money= Balance.human_attribute_name(:deposits)
+      %th.money= Balance.human_attribute_name(:disburses)
+      %th.money= Balance.human_attribute_name(:interests)
+      %th.money= Balance.human_attribute_name(:end_amount)
+      %th.actions
+
+  %tbody
+    - @balances.each do |balance|
+      - present(balance) do |b|
+        %tr
+          %td= b.credit_agreement_link
+          %td= b.date
+          %td= b.creditor_link
+          %td.money= b.start_amount
+          %td.money= b.deposits
+          %td.money= b.disburses
+          %td.money= b.interests
+          %td.money= b.end_amount
+          %td.actions
+            = authorized_edit_icon_link(balance, nested_in: :credit_agreement)
+            = authorized_delete_icon_link(balance, nested_in: :credit_agreement)
+

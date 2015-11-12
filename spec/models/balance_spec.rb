@@ -61,6 +61,33 @@ RSpec.describe Balance, type: :model do
       expect(balance('2015-10-10').end_amount).to eq(3000)
     end
 
+    it "gets updated if accourding payments are updated" do
+      @deposit = create_deposit Date.today, 5000
+      @balance = balance
+      expect(@balance.end_amount).to eq(5000)
+      @deposit.update(amount: 2000)
+      expect(@balance.reload.end_amount).to eq(2000)
+    end
+
+    it "does not update end_amount if manual flag is set" do
+      @deposit = create_deposit Date.today, 5000
+      @balance = balance
+      expect(@balance.end_amount).to eq(5000)
+      @balance.update(manually_edited: true)
+      @deposit.update(amount: 2000)
+      expect(@balance.reload.end_amount).to eq(5000)
+    end
+
+    it "gets updated on all later balances, if a balance is edited manually" do
+      @deposit = create_deposit Date.today.end_of_year.prev_year(3), 5000
+      expect(@credit_agreement.reload.balances.count).to eq(3)
+      @balance_1, @balance_2, @balance_3 = @credit_agreement.balances.order(:date)
+      @balance_1.update(manually_edited: true, end_amount: 6000)
+      @new_balance_1, @new_balance_2, @new_balance_3 = @credit_agreement.balances.reload.order(:date)
+      expect(@new_balance_2.end_amount).not_to eq(@balance_2.end_amount)
+      expect(@new_balance_3.end_amount).not_to eq(@balance_3.end_amount)
+    end
+
     context "interest calculations" do
       (1..5).map(&:to_d).each do |rate|
         context "rate #{rate}%" do

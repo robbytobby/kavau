@@ -18,8 +18,8 @@ RSpec.describe "managing payments" do
 
         it "I can edit a #{payment_type}" do
           visit credit_agreement_path(@credit_agreement)
-          click_on "edit_payment_#{@payment.id}"
-          expect(current_path).to eq edit_credit_agreement_payment_path(@credit_agreement, @payment)
+          click_on "edit_#{payment_type}_#{@payment.id}"
+          expect(current_path).to eq( send("edit_credit_agreement_#{payment_type}_path",@credit_agreement, @payment) )
           fill_in :payment_amount, with: 222
           click_on :submit
           expect(current_path).to eq(credit_agreement_path(@credit_agreement))
@@ -38,7 +38,7 @@ RSpec.describe "managing payments" do
 
         it "I can destroy a #{payment_type}" do
           visit credit_agreement_path(@credit_agreement)
-          click_on "delete_payment_#{@payment.id}"
+          click_on "delete_#{payment_type}_#{@payment.id}"
           expect(current_path).to eq(credit_agreement_path(@credit_agreement))
           expect(page).not_to have_css("tr##{payment_type}_#{@payment.id}")
         end

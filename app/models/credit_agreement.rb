@@ -45,7 +45,7 @@ class CreditAgreement < ActiveRecord::Base
 
   private
     def interest_spans
-      balances.map(&:interest_spans).flatten
+      (balances.automatic + [todays_balance]).map(&:interest_spans).flatten
     end
 
     def account_valid_for_credit_agreement?

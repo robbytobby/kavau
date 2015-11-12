@@ -1,7 +1,18 @@
+@import "bootstrap-sprockets"
+@import "bootstrap"
+
 #new_payment_form
   .form-group
     vertical-align: top
 
-tr.balance
-  td
-    font-weight: bold
+table
+  tr
+    &.balance
+      &.manual
+        @extend .bg-danger
+      &.automatic
+        @extend .bg-info 
+      td
+        font-weight: bold
+    &.interest
+      background-color: #F9F9F9
