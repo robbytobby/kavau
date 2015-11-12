@@ -22,7 +22,8 @@ class CreditAgreementPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.admin? || user.accountant?
+    return false unless user.admin? || user.accountant?
+    @record.payments.none?
   end
 
   def permitted_params

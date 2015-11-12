@@ -7,4 +7,8 @@ FactoryGirl.define do
     association :account, factory: :project_account
   end
 
+  trait :with_payment do
+    after(:create) { |object| create :deposit, credit_agreement: object }
+  end
+
 end

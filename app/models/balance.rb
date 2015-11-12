@@ -30,17 +30,13 @@ class Balance < ActiveRecord::Base
   end
 
   def sum_upto(to_date)
-    start_amount +
-      deposits.younger_than(to_date).sum(:amount) -
-      disburses.younger_than(to_date).sum(:amount)
+    start_amount + deposits.younger_than(to_date).sum(:amount) - disburses.younger_than(to_date).sum(:amount)
   end
 
   private
     def last_years_balance
       return NullBalance.new if past_years_payments.none?
-      Balance.find_or_create_by(
-        credit_agreement_id: credit_agreement_id, 
-        date: end_of_last_year)
+      Balance.find_or_create_by(credit_agreement_id: credit_agreement_id, date: end_of_last_year)
     end
 
     def set_date
