@@ -5,7 +5,12 @@ module Encryption
 
   class_methods do
     def encryption_key
-      ENV['TOKEN_KEY'] || Rails.env.production? ? raise('Must set token key!!') : 'test_key'
+      if Rails.env.production?
+        raise 'Must set token key!!' unless ENV['TOKEN_KEY']
+        ENV['TOKEN_KEY']
+      else
+        ENV['TOKEN_KEY'] ? ENV['TOKEN_KEY'] : 'test_key'
+      end
     end
   end
 end
