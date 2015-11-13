@@ -13,6 +13,7 @@ de:
         login: 'Login'
         search: 'suchen'
     placeholders:
+      credit_agreement_id_eq: 'Nr. ='
       name_cont: 'Name oder Vorname ~'
       login_cont: 'Login ~'
       role_eq: 'Rolle ='
@@ -25,4 +26,5 @@ de:
       account_id_eq: 'Konto ='
       lteq: '<='
       gteq: '>='
+      year_eq: 'Jahr ='
 

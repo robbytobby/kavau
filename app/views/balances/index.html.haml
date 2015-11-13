@@ -1,18 +1,20 @@
 %h1= t '.title'
 
-%table.table.table-striped
-  %thead
-    %tr
-      %th= Balance.human_attribute_name(:credit_agreement_id)
-      %th= Balance.human_attribute_name(:date)
-      -if policy(Creditor).show?
-        %th= Creditor.model_name.human
-      %th.money= Balance.human_attribute_name(:start_amount)
-      %th.money= Balance.human_attribute_name(:deposits)
-      %th.money= Balance.human_attribute_name(:disburses)
-      %th.money= Balance.human_attribute_name(:interests)
-      %th.money= Balance.human_attribute_name(:end_amount)
-      %th.actions
-
-  %tbody
-    = render :partial => 'index_balance', collection: @balances
+= search_form_for @q, url: balances_path, class: 'form-vertical' do |f|
+  %table.table.table-striped
+    %thead
+      %tr
+        %th= sort_link(@q, :credit_agreement_id, [:credit_agreement_id, 'date desc'], id: :sort_by_credit_agreement_id)
+        %th= sort_link(@q, :date, [:date, 'credit_agreement_id asc'], id: :sort_by_date)
+        -if policy(Creditor).show?
+          %th= Creditor.model_name.human
+        %th.money= Balance.human_attribute_name(:start_amount)
+        %th.money= Balance.human_attribute_name(:deposits)
+        %th.money= Balance.human_attribute_name(:disburses)
+        %th.money= Balance.human_attribute_name(:interests)
+        %th.money= sort_link(@q, :end_amount, id: :sort_by_end_amount)
+        %th.actions
+      = render :partial => 'search', locals: {f: f}
+    %tbody
+      = render :partial => 'index_balance', collection: @balances
+  = paginate @balances

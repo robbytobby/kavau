@@ -1,5 +1,7 @@
 class BalancesController < ApplicationController
   include LoadAuthorized
+  include Searchable
+  default_sort ['date desc', 'credit_agreement_id asc']
   before_action :set_credit_agreement, except: :index
 
   def index

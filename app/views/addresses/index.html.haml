@@ -13,7 +13,7 @@
         %th= sort_link(@q, :country_code)
         %th
         %th
-      = render partial: 'search', locals: {f: f}    
+      = render partial: 'search', locals: {f: f}
     %tbody
       = render @addresses
   = paginate @addresses
