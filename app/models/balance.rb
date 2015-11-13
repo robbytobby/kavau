@@ -14,7 +14,7 @@ class Balance < ActiveRecord::Base
   alias_method :update_end_amount!, :save
 
   ransacker :year do
-    Arel.sql('extract(year  from date)')
+    Arel.sql('extract(year from date)')
   end
 
   def self.interest_sum

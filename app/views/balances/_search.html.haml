@@ -1,12 +1,10 @@
 %tr.search
   %td
   %td.col-sm-2
-    .form-group
-      = f.search_field :year_eq, class: 'form-control', placeholder: t('simple_form.placeholders.year_eq')
+    = f.search_field :year_eq, class: 'form-control', placeholder: t('simple_form.placeholders.year_eq')
   %td
-    .form-group
-      = f.search_field :credit_agreement_creditor_name_or_credit_agreement_creditor_first_name_cont, 
-        class: 'form-control', placeholder: t('simple_form.placeholders.name_cont')
+    = f.search_field :credit_agreement_creditor_name_or_credit_agreement_creditor_first_name_cont, 
+      class: 'form-control', placeholder: t('simple_form.placeholders.name_cont')
   %td
   %td
   %td
