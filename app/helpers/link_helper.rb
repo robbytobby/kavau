@@ -20,11 +20,6 @@ module LinkHelper
     send(link_method(options), text, link.url, link.options) 
   end
 
-  def authorized_show_link(name, record)
-    return name unless policy(record).show?
-    link_to name, record
-  end
-
   def icon_link(path, options = {})
     options.reverse_merge!(text: '')
     send(icon_link_method(options), path, options)

@@ -4,12 +4,12 @@ class BalancePresenter < PaymentPresenter
   end
 
   def credit_agreement_link
-    h.authorized_show_link @model.credit_agreement_id, @model.credit_agreement
+    h.link_to_if h.policy(@model.credit_agreement).show?, @model.credit_agreement_id, @model.credit_agreement
   end
 
   def creditor_link
     h.present(@model.creditor) do |c| 
-      h.authorized_show_link(c.full_name, @model.creditor)
+      h.link_to_if h.policy(@model.creditor).show?, c.full_name, @model.creditor
     end
   end
 
