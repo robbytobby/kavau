@@ -37,4 +37,8 @@ class BalancePresenter < PaymentPresenter
     return unless @model.manually_edited
     Balance.human_attribute_name(:manually_edited)
   end
+
+  def klass
+    @model.manually_edited ? 'manual' : 'automatic'
+  end
 end

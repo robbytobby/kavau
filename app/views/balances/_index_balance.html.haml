@@ -1,0 +1,14 @@
+- present(index_balance) do |b|
+  %tr
+    %td= b.credit_agreement_link
+    %td= b.date
+    %td= b.creditor_link
+    %td.money= b.start_amount
+    %td.money= b.deposits
+    %td.money= b.disburses
+    %td.money= b.interests
+    %td.money= b.end_amount
+    %td.actions
+      = authorized_icon_link :edit, index_balance, nested_in: :credit_agreement
+      = authorized_icon_link :delete, index_balance, nested_in: :credit_agreement
+

@@ -1,8 +1,7 @@
 %h1 
   = t '.addresses'
-  -if policy(:project_address).new?
-    .pull-right
-      %small= icon_link_to 'plus', new_project_address_path, id: 'new_project_address'
+  .pull-right
+    = authorized_icon_link :new, :project_address, wrap: :small, id: 'new_project_address'
 
 %table.table.table-striped.addresses
   %thead
@@ -12,12 +11,10 @@
       %th= ProjectAddress.human_attribute_name :email
       %th= ProjectAddress.human_attribute_name :phone
       %th
-
   %tbody
     = render @addresses
 
-%h1 
-  = t '.accounts'
+%h1= t '.accounts'
 %table.table.table-striped.accounts
   %thead
     %tr
@@ -28,14 +25,6 @@
       %th.money zurückgezahlt
       %th.money Zinsen
       %th.money Kreditsaldo
-
   %tbody
     = render partial: 'account', collection: @accounts
-    %tr.sums
-      %td
-      %td.money= number_to_currency(CreditAgreement.funded_credits_sum)
-      %td.money= number_to_percentage(CreditAgreement.average_rate_of_interest)
-      %td.money= number_to_currency(Deposit.sum(:amount))
-      %td.money= number_to_currency(Disburse.sum(:amount))
-      %td.money= number_to_currency(CreditAgreement.all.to_a.sum(&:total_interest))
-      %td.money= number_to_currency(CreditAgreement.all.to_a.sum(&:todays_total))
+    = render :partial => 'sums'

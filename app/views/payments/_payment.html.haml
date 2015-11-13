@@ -8,5 +8,5 @@
     %td.money= p.amount
     %td
     %td.actions
-      = authorized_edit_icon_link(payment, nested_in: :credit_agreement)
-      = authorized_delete_icon_link(payment, nested_in: :credit_agreement)
+      = authorized_icon_link :edit, payment, nested_in: :credit_agreement
+      = authorized_icon_link :delete, payment, nested_in: :credit_agreement

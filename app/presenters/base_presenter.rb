@@ -12,4 +12,8 @@ class BasePresenter < SimpleDelegator
   def model
     @model
   end
+
+  def mail_to
+    h.mail_to(@model.email) if @model.email
+  end
 end

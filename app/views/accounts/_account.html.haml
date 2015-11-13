@@ -6,5 +6,5 @@
     %td= a.owner
     %td= a.name
     %td.actions
-      = authorized_edit_icon_link(account, nested_in: :address)
-      = authorized_delete_icon_link(account, nested_in: :address)
+      = authorized_icon_link :edit, account, nested_in: :address
+      = authorized_icon_link :delete, account, nested_in: :address

@@ -1,5 +1,5 @@
 - present balance do |b|
-  %tr[balance]{class: balance.manually_edited ? 'manual' : 'automatic'}
+  %tr[balance]{class: b.klass}
     %td= b.date
     %td= Balance.model_name.human
     %td= b.manually_edited
@@ -8,5 +8,5 @@
     %td
     %td.money= b.end_amount
     %td.actions
-      = authorized_edit_icon_link balance, nested_in: :credit_agreement
-      = authorized_delete_icon_link balance, nested_in: :credit_agreement
+      = authorized_icon_link :edit, balance, nested_in: :credit_agreement
+      = authorized_icon_link :delete, balance, nested_in: :credit_agreement

@@ -1,14 +1,13 @@
 -present credit_agreement do |c|
   %tr[credit_agreement]
-    -if policy(CreditAgreement).edit?
-      %td= c.id
+    = authorized_link :show, credit_agreement, c.id, nested_in: :creditor, wrap: :td, id: ''
     %td= c.account.name
-    -if policy(:creditor).show? &&  controller_name != 'addresses'
-      %td= link_to CreditorPresenter.new(c.creditor, self).full_name, c.creditor
+    = authorized_link :show, c.creditor, CreditorPresenter.new(c.creditor, self).full_name,
+      wrap: :td, condition: controller_name != 'addresses', title: t('links.show')
     %td= c.cancellation_period
     %td.money= c.amount
     %td.money= c.interest_rate
     %td.actions
-      = authorized_show_icon_link(credit_agreement, icon: 'folder-open')
-      = authorized_edit_icon_link(credit_agreement, nested_in: :creditor)
-      = authorized_delete_icon_link(credit_agreement, nested_in: :creditor)
+      = authorized_icon_link :show, credit_agreement, icon: 'folder-open'
+      = authorized_icon_link :edit, credit_agreement, nested_in: :creditor
+      = authorized_icon_link :delete, credit_agreement, nested_in: :creditor

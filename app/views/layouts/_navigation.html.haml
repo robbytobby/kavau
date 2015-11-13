@@ -12,20 +12,16 @@
         %ul.nav.navbar-nav
           %li{class: controller.controller_name == 'project' ? 'active' : ''}
             = link_to t('.dashboard'), project_path
-          - if policy(:creditor).index?
-            %li{class: controller.controller_name == 'addresses' && @type == 'Creditor' ? 'active' : ''}
-              = link_to t('.creditors'), creditors_path
-          - if policy(:credit_agreement).index?
-            %li{class: controller.controller_name == 'credit_agreements' ? 'active' : ''}
-              = link_to t('.credit_agreements'), credit_agreements_path, id: 'credit_agreements_index'
-          - if policy(:balance).index?
-            %li{class: controller.controller_name == 'balances' ? 'active' : ''}
-              = link_to t('.balances'), balances_path, id: 'balances_index'
-          - if policy(:user).index?
-            %li{class: controller.controller_name == 'users' ? 'active' : ''}
-              = link_to t('.users'), users_path
+          = authorized_link :index, :creditor, t('.creditors'), wrap: :li, 
+            wrapper_class: nav_class('addresses', @type == 'Creditor')
+          = authorized_link :index, :credit_agreement, t('.credit_agreements'), wrap: :li,
+            id: 'credit_agreements_index', wrapper_class: nav_class('credit_agreements')
+          = authorized_link :index, :balance, t('.balances'), wrap: :li,
+            id: 'balances_index', wrapper_class: nav_class('balances')
+          = authorized_link :index, :user, t('.users'), wrap: :li,
+            id: 'users_index', wrapper_class: nav_class('users')
         %ul.nav.navbar-nav.pull-right
-          %li
-            = icon_link_to 'cog', edit_user_path(current_user), id: 'edit_profile', title: t('.edit_profile')
-          %li
-            = icon_link_to 'log-out', destroy_user_session_path, method: :delete, title: t('devise.actions.log_out')
+          = authorized_icon_link :edit, current_user, 
+            icon: 'cog', wrap: :li, id: 'edit_profile', title: t('.edit_profile')
+          = icon_link destroy_user_session_path, method: :delete, 
+            wrap: :li, title: t('devise.actions.log_out'), icon: 'log-out'

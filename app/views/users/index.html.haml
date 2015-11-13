@@ -1,9 +1,8 @@
 %h1
   = t '.title'
   %small.entries-info= page_entries_info @users
-  -if policy(:user).new?
-    %div.pull-right
-      %small= icon_link_to 'plus', new_user_path, id: 'new_user'
+  %div.pull-right
+    = authorized_icon_link :new, :user, id: 'new_user', wrap: :small
 
 = search_form_for @q, class: 'form-vertical' do |f|
   %table.table.table-striped

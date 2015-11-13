@@ -1,31 +1,20 @@
 .dropdown.pull-right.actions
-  %button.btn.btn-default.dropdown-toggle{type: "button", id: "add_creditor", data: {toggle: "dropdown"}}
+  %button.btn.btn-default.dropdown-toggle{type: "button", id: "action-dropdown", data: {toggle: "dropdown"}}
     =link_to 'Aktion', ''
     %span.caret
   %ul.dropdown-menu
-    -if policy(:address).index?
-      %li
-        = link_to cancel_path(@address), id: 'back' do
-          %span.glyphicon.glyphicon-th-list
-          = t('links.back') 
-    -if policy(@address).edit?
-      %li
-        = link_to edit_address_path(@address), id: 'edit' do
-          %span.glyphicon.glyphicon-edit
-          = t('links.edit')
-    -if policy(:contact).new? && @type != 'Person'
-      %li
-        = link_to send("new_#{@type.underscore}_contact_path", @address), id: 'add_contact' do
-          %span.glyphicon.glyphicon-user
-          = t 'links.new_contact'
-    -if policy(:contact).new?
-      %li
-        = link_to send("new_#{@type.underscore}_account_path", @address), id: 'add_account' do
-          %span.glyphicon.glyphicon-credit-card
-          = t('links.new_account')
-    -if @type != 'ProjectAddress' && policy(:credit_agreement).new?
-      %li
-        = link_to send("new_#{@type.underscore}_credit_agreement_path", @address), id: 'add_credit_agreement' do
-          %span.glyphicon.glyphicon-file
-          = t('links.new_credit_agreement')
-
+    = authorized_icon_link :index, :address, 
+      icon: 'th-list', path: cancel_path(@address),
+      id: 'back', text: t('links.back'), wrap: :li
+    = authorized_icon_link :edit, @address, 
+      icon: 'edit', wrap: :li,
+      id: 'edit', text: t('links.edit')
+    = authorized_icon_link :new, :contact, 
+      icon: 'user', nested_in: @address, condition: (@type != 'Person'), wrap: :li,
+      id: 'add_contact', text: t('links.new_contact')
+    = authorized_icon_link :new, :account, 
+      icon: 'credit-card', nested_in: @address, wrap: :li,
+      id: 'add_account', text: t('links.new_account')
+    = authorized_icon_link :new, :credit_agreement, 
+      icon: 'file', nested_in: @address, condition: (@type != 'ProjectAddress'), wrap: :li,
+      id: 'add_credit_agreement', text: t('links.new_credit_agreement')

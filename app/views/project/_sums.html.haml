@@ -1,0 +1,8 @@
+%tr.sums
+  %td
+  %td.money= number_to_currency(CreditAgreement.funded_credits_sum)
+  %td.money= number_to_percentage(CreditAgreement.average_rate_of_interest)
+  %td.money= number_to_currency(Deposit.sum(:amount))
+  %td.money= number_to_currency(Disburse.sum(:amount))
+  %td.money= number_to_currency(CreditAgreement.all.to_a.sum(&:total_interest))
+  %td.money= number_to_currency(CreditAgreement.all.to_a.sum(&:todays_total))

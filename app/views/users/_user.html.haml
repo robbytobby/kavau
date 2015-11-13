@@ -6,5 +6,5 @@
     %td= mail_to u.email if u.email
     %td= u.phone_numbers
     %td.actions
-      = authorized_edit_icon_link user
-      = authorized_delete_icon_link user
+      = authorized_icon_link :edit, user
+      = authorized_icon_link :delete, user

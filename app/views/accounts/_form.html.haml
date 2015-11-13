@@ -1,12 +1,10 @@
 = simple_form_for [@address, @account] do |f|
-
   .form-inputs
     = f.input :bank
     = f.input :bic
     = f.input :iban
     = f.input :owner
     = f.input :name
-
   .form-actions
     = f.button :submit, class: 'btn-primary', id: 'submit'
     = quit_button(:cancel)
