@@ -64,6 +64,7 @@ module LinkHelper
   end
 
   class Link
+    include ApplicationHelper
     def initialize(action, record, current_user, options = {})
       @action = action
       @record = record
@@ -113,7 +114,11 @@ module LinkHelper
 
     def action_dependent_options
       return {} unless @action == :delete
-      { method: :delete, data: { confirm: 'Are you sure?' } }
+      { method: :delete, data: { confirm: I18n.t('helpers.sure?', label: delete_confirmation_label)} }
+    end
+
+    def delete_confirmation_label
+      present(record){|r| r.confirmation_label}
     end
     
     def url

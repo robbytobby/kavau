@@ -16,4 +16,8 @@ class BasePresenter < SimpleDelegator
   def mail_to
     h.mail_to(@model.email) if @model.email
   end
+
+  def confirmation_label
+    [@model.model_name.human, @model.id].join(" ")
+  end
 end

@@ -1,6 +1,8 @@
 de:
   helpers:
     for: 'auf'
+    sure?: 'Bist du sicher, dass du %{label} löschen willst?'
+    not_auhtorized: 'Diese Aktion ist dir nicht gestattet'
   links:
     back: 'zurück zur Übersicht'
     cancel: 'abbrechen'
@@ -21,4 +23,15 @@ de:
     other: '%{count} Monate'
   hints:
     please_choose: 'Bitte auswählen'
+  confirmation_label:
+    account: 'die Bankverbindung von'
+    balance: 'den Saldo vom'
+    deposit: 'die Einzahlung vom'
+    disburse: 'die Auszahlung vom'
+    with_amount: 'in Höhe von'
+    with_iban: 'mit der IBAN'
+    credit_agreement: 'den Kreditvertrag'
+    of:
+      organization: 'der/des'
+      person: 'von'
 

@@ -10,4 +10,13 @@ class CreditAgreementPresenter < BasePresenter
   def cancellation_period
     h.t('months', count: @model.cancellation_period)
   end
+
+  def confirmation_label
+    [
+      I18n.t('confirmation_label.credit_agreement'),
+      'Nr.', id,
+      I18n.t("confirmation_label.of.#{@model.creditor.type.underscore}"),
+      [@model.creditor.first_name, @model.creditor.name].compact.join(' '),
+    ].join(' ')
+  end
 end

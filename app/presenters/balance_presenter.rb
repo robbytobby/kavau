@@ -41,4 +41,11 @@ class BalancePresenter < PaymentPresenter
   def klass
     @model.manually_edited ? 'manual' : 'automatic'
   end
+
+  def confirmation_label
+    [
+      I18n.t('confirmation_label.balance'),
+      I18n.l(@model.date)
+    ].join(' ')
+  end
 end
