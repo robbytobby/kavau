@@ -95,7 +95,7 @@ guard :rspec, cmd: 'spring rspec' do
 
   watch(rails.controllers) do |m|
     [
-      #rspec.spec.("routing/#{m[1]}_routing"),
+      rspec.spec.("routing/#{m[1]}_routing"),
       rspec.spec.("controllers/#{m[1]}_controller") #,
       #rspec.spec.("acceptance/#{m[1]}")
     ]

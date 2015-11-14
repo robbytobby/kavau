@@ -1,14 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :addresses, except: :index
+  #resources :addresses, except: :index
   resources :balances, only: :index
+  resources :balances, only: :show, format: true, constraints: {format: :pdf}
   resources :creditors, controller: :addresses, type: 'Creditor'
-  resources :credit_agreements, only: [:index, :show] do
+  resources :credit_agreements, only: :index
+  resources :credit_agreements, only: :show, constraints: {id: /\d+/} do
     resources :balances, except: [:index, :show]
-    resources :payments
-    resources :deposits, controller: :payments, type: 'Deposit'
-    resources :disburses, controller: :payments, type: 'Disburse'
+    resources :payments, except: [:index, :show, :new]
+    resources :deposits, except: [:index, :show, :new], controller: :payments, type: 'Deposit'
+    resources :disburses, except: [:index, :show, :new], controller: :payments, type: 'Disburse'
   end
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
     resources :contacts, except: [:index, :show]
@@ -29,7 +31,7 @@ Rails.application.routes.draw do
   authenticated :user do
     root to: 'project#show', as: :authenticated_root
   end
-  
+
   root to: redirect('/users/sign_in')
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
