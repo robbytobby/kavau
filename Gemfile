@@ -44,6 +44,8 @@ gem 'email_validator'
 gem 'goldiloader'
 gem 'kaminari'
 gem 'ransack'
+gem 'prawn'
+gem 'prawn-table'
 
 
 group :development, :test do
@@ -84,5 +86,6 @@ group :test do
   gem 'selenium-webdriver'
   #gem 'simplecov', :require => false
   gem "codeclimate-test-reporter", require: nil
+  gem 'pdf-inspector'
 end
 
