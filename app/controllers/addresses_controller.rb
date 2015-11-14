@@ -5,6 +5,7 @@ class AddressesController < ApplicationController
   default_sort ['name asc', 'first_name asc']
 
   def index
+    @addresses = @addresses.includes(:credit_agreements)
     respond_with @addresses
   end
 

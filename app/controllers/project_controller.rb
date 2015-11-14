@@ -4,7 +4,7 @@ class ProjectController < ApplicationController
 
   def show
     @type = 'ProjectAddress'
-    @addresses = policy_scope(ProjectAddress).order(:name)
+    @addresses = policy_scope(ProjectAddress).includes(:credit_agreements).order(:name)
     @accounts = policy_scope(Account).project_accounts
   end
 end

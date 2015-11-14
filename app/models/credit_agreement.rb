@@ -17,7 +17,7 @@ class CreditAgreement < ActiveRecord::Base
   validates_numericality_of :cancellation_period, greater_than_or_equal_to: 3
   validate :account_valid_for_credit_agreement?
 
-  after_initialize :create_missing_balances
+  after_find :create_missing_balances
 
   attr_accessor :payment_amount, :payment_type
 
@@ -54,7 +54,7 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def create_missing_balances
-      return unless payments.any?
+      return unless payments.exists?
       (year_of_first_payment...this_year).each do |year|
         balances.find_or_create_by(date: Date.new(year, 12, 31))
       end
