@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, skip: [:registrations, :confirmations]
 
   #resources :addresses, except: :index
   resources :balances, only: :index
