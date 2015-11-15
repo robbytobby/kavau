@@ -63,10 +63,9 @@ RSpec.describe Balance, type: :model do
 
     it "gets updated if accourding payments are updated" do
       @deposit = create_deposit Date.today, 5000
-      @balance = balance
-      expect(@balance.end_amount).to eq(5000)
+      expect(balance.end_amount).to eq(5000)
       @deposit.update(amount: 2000)
-      expect(@balance.reload.end_amount).to eq(2000)
+      expect(balance.end_amount).to eq(2000)
     end
 
     it "does not update end_amount if manual flag is set" do
@@ -76,6 +75,16 @@ RSpec.describe Balance, type: :model do
       @balance.update(manually_edited: true)
       @deposit.update(amount: 2000)
       expect(@balance.reload.end_amount).to eq(5000)
+    end
+
+    it "recreates necesary balances on delete of a balacne" do
+      datum = Date.today.prev_year.end_of_year
+      @deposit = create_deposit datum, 5000
+      @balance = balance(datum)
+      expect(@balance.end_amount).to eq(5000)
+      @balance.destroy
+      @balance = Balance.find_by(credit_agreement_id: @credit_agreement.id, date: datum)
+      expect(@balance.end_amount).to eq(5000)
     end
 
     it "gets updated on all later balances, if a balance is edited manually" do
@@ -165,7 +174,7 @@ RSpec.describe Balance, type: :model do
   end
 
   def balance(date = Date.today)
-    create :balance, credit_agreement: @credit_agreement, date: date
+    @credit_agreement.balances.reload.find_or_create_by(date: date)
   end
 
   def interest(amount, rate, num_days, total_num_days = total_days)

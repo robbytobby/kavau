@@ -17,8 +17,7 @@ class CreditAgreement < ActiveRecord::Base
   validates_numericality_of :cancellation_period, greater_than_or_equal_to: 3
   validate :account_valid_for_credit_agreement?
 
-  after_find :create_missing_balances
-
+  after_touch :create_missing_balances, :delete_unnecessary_balances, :update_balances
   attr_accessor :payment_amount, :payment_type
 
   def self.funded_credits_sum
@@ -53,22 +52,44 @@ class CreditAgreement < ActiveRecord::Base
       errors.add(:base, :only_project_accounts_valid)
     end
 
+    def update_balances
+      balances.each(&:update_end_amount!)
+    end
+
+    def delete_unnecessary_balances
+      balances.younger_than(date_of_first_payment).destroy_all
+    end
+
     def create_missing_balances
-      return unless payments.exists?
-      (year_of_first_payment...this_year).each do |year|
-        balances.find_or_create_by(date: Date.new(year, 12, 31))
+      (obligatory_balances_dates - balances_dates).each do |balance_date|
+        balances.create(date: balance_date)
       end
+    end
+
+    def balances_dates
+      balances.pluck(:date)
+    end
+
+    def obligatory_balances_dates
+      (date_of_first_payment.year...this_year).map{ |y| Date.new(y, 12, 31) }
     end
 
     def todays_balance
       balances.build
     end
 
-    def year_of_first_payment
-      payments.first.date.year
+    def date_of_first_payment
+      (payments.first || NullPayment.new).date
     end
 
     def this_year
       Date.today.year
     end
+
+  class NullPayment
+    def date
+      Date.today
+    end
+  end
 end
+

@@ -4,11 +4,13 @@ class Balance < ActiveRecord::Base
   after_initialize :set_date
   before_save :set_amount
   after_save :update_following
+  after_destroy ->{ credit_agreement.touch }
 
   delegate :interest_rate, to: :credit_agreement
   delegate :creditor, to: :credit_agreement
 
-  scope :older_than, ->(from_date){ where(['date >= ?', from_date]) }
+  scope :older_than, ->(from_date){ where(['date > ?', from_date]) }
+  scope :younger_than, ->(from_date){ where(['date < ?', from_date]) }
   scope :automatic, ->{ where(manually_edited: false) }
   
   alias_method :update_end_amount!, :save
@@ -22,7 +24,8 @@ class Balance < ActiveRecord::Base
   end
 
   def interests_sum
-    @interests_sum ||= interest_spans.sum(&:amount)
+    #memorization fails!
+    interest_spans.sum(&:amount)
   end
 
   def interest_spans
@@ -38,7 +41,7 @@ class Balance < ActiveRecord::Base
   end
 
   def sum_upto(to_date)
-    start_amount + deposits.younger_than(to_date).sum(:amount) - disburses.younger_than(to_date).sum(:amount)
+    start_amount + deposits.younger_than_inc(to_date).sum(:amount) - disburses.younger_than_inc(to_date).sum(:amount)
   end
 
   def deposits
@@ -51,8 +54,7 @@ class Balance < ActiveRecord::Base
 
   private
     def last_years_balance
-      return NullBalance.new if past_years_payments.none?
-      Balance.find_or_create_by(credit_agreement_id: credit_agreement_id, date: end_of_last_year)
+      Balance.find_by(credit_agreement_id: credit_agreement_id, date: end_of_last_year) || NullBalance.new
     end
 
     def set_date
@@ -69,7 +71,7 @@ class Balance < ActiveRecord::Base
     end
 
     def following_balance
-      credit_agreement.balances.older_than(date + 1.day).order(:date).first || NullBalance.new
+      credit_agreement.balances.older_than(date).order(:date).first || NullBalance.new
     end
 
     def payments
@@ -77,7 +79,7 @@ class Balance < ActiveRecord::Base
     end
 
     def past_years_payments
-      credit_agreement.payments.younger_than(end_of_last_year)
+      credit_agreement.payments.younger_than_inc(end_of_last_year)
     end
 
     def calculated_end_amount
@@ -85,7 +87,7 @@ class Balance < ActiveRecord::Base
     end
 
     def breakpoints
-      [end_of_last_year] + payments.map(&:date) + [date]
+      [end_of_last_year] + payments.pluck(:date) + [date]
     end
 
     def end_of_last_year
