@@ -2,9 +2,9 @@ class Balance < ActiveRecord::Base
   include ActiveModel::Dirty
   belongs_to :credit_agreement
   after_initialize :set_date
-  before_save :set_amount
+  before_save :set_amount, :set_interest_sum
   after_save :update_following
-  after_destroy ->{ credit_agreement.touch }
+  after_destroy :touch_credit_agreement
 
   delegate :interest_rate, to: :credit_agreement
   delegate :creditor, to: :credit_agreement
@@ -24,8 +24,7 @@ class Balance < ActiveRecord::Base
   end
 
   def interests_sum
-    #memorization fails!
-    interest_spans.sum(&:amount)
+    self[:interests_sum] ||= calculated_interests_sum
   end
 
   def interest_spans
@@ -66,6 +65,11 @@ class Balance < ActiveRecord::Base
       self.end_amount = calculated_end_amount
     end
 
+    def set_interest_sum
+      return if manually_edited
+      self.interests_sum = calculated_interests_sum
+    end
+
     def update_following
       following_balance.update_end_amount!
     end
@@ -82,6 +86,10 @@ class Balance < ActiveRecord::Base
       credit_agreement.payments.younger_than_inc(end_of_last_year)
     end
 
+    def calculated_interests_sum
+      interest_spans.sum(&:amount)
+    end
+
     def calculated_end_amount
       sum_upto(date) + interests_sum
     end
@@ -92,6 +100,10 @@ class Balance < ActiveRecord::Base
 
     def end_of_last_year
       date.prev_year.end_of_year
+    end
+
+    def touch_credit_agreement
+      credit_agreement.touch
     end
 
   class NullBalance

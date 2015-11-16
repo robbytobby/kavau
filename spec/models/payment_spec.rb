@@ -10,17 +10,17 @@ RSpec.describe Payment, type: :model do
       it "updates existing balances on being changed - payment_date: #{date}" do
         @credit_agreement = create :credit_agreement
         @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: date
-        @balance = @credit_agreement.balances.create(date: Date.strptime(date))
-        expect(@balance.end_amount).to eq(1000)
-        expect(@balance).to be_persisted
+        @balance = @credit_agreement.balances.find_by(date: Date.strptime(date).end_of_year)
+        old_end_amount = @balance.end_amount
         @deposit.update(amount: 2000)
-        expect(@balance.reload.end_amount).to eq(2000)
+        expect(@balance.reload.end_amount - old_end_amount).to eq(1000)
       end
     end
 
     context "date change" do
       (1..10).each do |number|
         it "by -#{number} years" do
+          allow_any_instance_of(CreditAgreement).to receive(:update_balances).and_return(true)
           @credit_agreement = create :credit_agreement
           @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2015-10-31'
           expect(@credit_agreement.reload.balances.count).to eq(0)
@@ -30,6 +30,7 @@ RSpec.describe Payment, type: :model do
         end
 
         it "by #{number} years" do
+          allow_any_instance_of(CreditAgreement).to receive(:update_balances).and_return(true)
           @credit_agreement = create :credit_agreement
           @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2005-10-31'
           expect(@credit_agreement.reload.balances.count).to eq(10)
@@ -40,6 +41,7 @@ RSpec.describe Payment, type: :model do
       end
       
       it "changing twice by -5 years" do
+        allow_any_instance_of(CreditAgreement).to receive(:update_balances).and_return(true)
         @credit_agreement = create :credit_agreement
         @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2017-11-15'
         expect(@credit_agreement.reload.balances.count).to eq(0)
@@ -50,6 +52,7 @@ RSpec.describe Payment, type: :model do
       end
 
       it "changing twice by +5 years" do
+        allow_any_instance_of(CreditAgreement).to receive(:update_balances).and_return(true)
         @credit_agreement = create :credit_agreement
         @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2007-11-15'
         expect(@credit_agreement.reload.balances.count).to eq(8)
@@ -59,13 +62,14 @@ RSpec.describe Payment, type: :model do
         expect(@credit_agreement.reload.balances.count).to eq(0)
       end
 
-      ['2004-1-1', '2004-2-3', '2004-12-31'].each do |date|
+      ['2012-1-1', '2012-2-3', '2012-12-31'].each do |date|
         it "deleting a payment also deletes unnecessary blances" do
+          allow_any_instance_of(CreditAgreement).to receive(:update_balances).and_return(true)
           @credit_agreement = create :credit_agreement
           create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2014-11-15'
           expect(@credit_agreement.reload.balances.count).to eq(1)
           @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: date
-          expect(@credit_agreement.reload.balances.count).to eq(11)
+          expect(@credit_agreement.reload.balances.count).to eq(3)
           @deposit.destroy
           expect(@credit_agreement.reload.balances.count).to eq(1)
         end
@@ -73,12 +77,13 @@ RSpec.describe Payment, type: :model do
 
       ['2004-1-1', '2013-2-3', '2014-12-31', '2015-1-1'].each do |date|
         it "does not delete the necessary balances while being deleted" do
+          allow_any_instance_of(CreditAgreement).to receive(:update_balances).and_return(true)
           @credit_agreement = create :credit_agreement
           create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2014-11-15'
-          expect(@credit_agreement.reload.balances.count).to eq(1)
+          expect(@credit_agreement.balances.count).to eq(1)
           @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: date
           @deposit.destroy
-          expect(@credit_agreement.reload.balances.count).to eq(1)
+          expect(@credit_agreement.balances.count).to eq(1)
         end
       end
     end
