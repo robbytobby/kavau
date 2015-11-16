@@ -1,4 +1,4 @@
-RSpec.shared_examples "standard_address" do
+RSpec.shared_examples "address_policy" do
   context "for an admin" do
     let(:user){ create :admin }
     permits :all
@@ -13,5 +13,4 @@ RSpec.shared_examples "standard_address" do
     let(:user){ create :user }
     permits :none
   end
-
 end

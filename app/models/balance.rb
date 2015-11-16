@@ -2,7 +2,6 @@ class Balance < ActiveRecord::Base
   include ActiveModel::Dirty
   belongs_to :credit_agreement
   after_initialize :set_date
-  before_save :set_amount, :set_interest_sum
   after_save :update_following
   after_destroy :touch_credit_agreement
 
@@ -12,10 +11,14 @@ class Balance < ActiveRecord::Base
   scope :older_than, ->(from_date){ where(['date > ?', from_date]) }
   scope :younger_than, ->(from_date){ where(['date < ?', from_date]) }
   scope :automatic, ->{ where(manually_edited: false) }
-  
+
   alias_method :update_end_amount!, :save
 
   ransacker(:year){ Arel.sql('extract(year from date)') }
+
+  def to_partial_path
+    'balances/balance'
+  end
 
   def self.interest_sum
     all.to_a.sum{| b| b.interests_sum }
@@ -26,15 +29,11 @@ class Balance < ActiveRecord::Base
   end
 
   def interest_spans
-    breakpoints.each_cons(2).map{ |pair| interest_span_type.new(self, pair) }
+    breakpoints.each_cons(2).map{ |pair| interest_span_class.new(self, pair) }
   end
 
   def start_amount
     @start_amount ||= last_years_balance.end_amount
-  end
-
-  def end_amount 
-    self[:end_amount] ||= calculated_end_amount
   end
 
   def sum_upto(to_date)
@@ -54,21 +53,12 @@ class Balance < ActiveRecord::Base
   end
 
   private
-    def interest_span_type
-      manually_edited ? ManualInterestSpan : InterestSpan 
-    end
-    
     def last_years_balance
       Balance.find_by(credit_agreement_id: credit_agreement_id, date: end_of_last_year) || NullBalance.new
     end
 
     def set_date
       self.date ||= Date.today
-    end
-
-    def set_amount
-      return if manually_edited
-      self.end_amount = calculated_end_amount
     end
 
     def set_interest_sum
@@ -80,7 +70,7 @@ class Balance < ActiveRecord::Base
     end
 
     def following_balance
-      credit_agreement.balances.older_than(date).order(:date).first || NullBalance.new
+      credit_agreement.balances.reload.older_than(date).order(:date).first || NullBalance.new
     end
 
     def past_years_payments
@@ -89,26 +79,6 @@ class Balance < ActiveRecord::Base
 
     def calculated_interests_sum
       interest_spans.sum(&:amount)
-    end
-
-    def calculated_end_amount
-      sum_upto(date) + interests_sum
-    end
-
-    def breakpoints
-      return [manual_start, date] if manually_edited
-      [automatic_start, payments.pluck(:date), date].compact.flatten
-    end
-
-    def manual_start
-      return date unless last_years_balance.is_a?(NullBalance)
-      return date if payments.none?
-      payments.first.date
-    end
-
-    def automatic_start
-      return if last_years_balance.is_a?(NullBalance)
-      end_of_last_year
     end
 
     def end_of_last_year

@@ -10,6 +10,7 @@ class CreditAgreement < ActiveRecord::Base
   has_many :deposits, -> { order 'date asc' }
   has_many :disburses, -> { order 'date asc' }
   has_many :balances, -> { order 'date asc' }
+  has_many :auto_balances, -> { order 'date asc' }
 
   validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id
   validates_numericality_of :amount, greater_than_or_equal_to: 500
@@ -30,8 +31,7 @@ class CreditAgreement < ActiveRecord::Base
   end
 
   def balance_items
-    todays_balance
-    (payments + balances + interest_spans).sort_by(&:date)
+    (payments + balances + [todays_balance] + interest_spans).sort_by(&:date)
   end
 
   def todays_total
@@ -44,7 +44,7 @@ class CreditAgreement < ActiveRecord::Base
 
   private
     def interest_spans
-      (balances).map(&:interest_spans).flatten
+      (balances + [todays_balance]).map(&:interest_spans).flatten
     end
 
     def account_valid_for_credit_agreement?
@@ -53,7 +53,7 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def update_balances
-      balances.each(&:update_end_amount!)
+      auto_balances.each(&:update_end_amount!)
     end
 
     def delete_unnecessary_balances
@@ -62,7 +62,7 @@ class CreditAgreement < ActiveRecord::Base
 
     def create_missing_balances
       (obligatory_balances_dates - balances_dates).each do |balance_date|
-        balances.create(date: balance_date)
+        auto_balances.create(date: balance_date)
       end
     end
 
@@ -75,7 +75,7 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def todays_balance
-      balances.build
+      auto_balances.build
     end
 
     def date_of_first_payment

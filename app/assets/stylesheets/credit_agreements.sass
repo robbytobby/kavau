@@ -7,11 +7,11 @@
 
 table
   tr
-    &.balance
-      &.manual
-        @extend .bg-danger
-      &.automatic
-        @extend .bg-info 
+    &.manual_balance
+      @extend .bg-danger
+    &.auto_balance
+      @extend .bg-info 
+    &.manual_balance, &.auto_balance
       td
         font-weight: bold
     &.interest

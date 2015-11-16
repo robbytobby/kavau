@@ -33,15 +33,6 @@ class BalancePresenter < PaymentPresenter
     h.number_to_currency @model.interests_sum
   end
 
-  def manually_edited
-    return unless @model.manually_edited
-    Balance.human_attribute_name(:manually_edited)
-  end
-
-  def klass
-    @model.manually_edited ? 'manual' : 'automatic'
-  end
-
   def confirmation_label
     [
       I18n.t('confirmation_label.balance'),

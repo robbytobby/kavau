@@ -59,7 +59,7 @@ RSpec.describe CreditAgreement, type: :model do
 
     it "contains a new balance for the current year" do
       @deposit = create :deposit, credit_agreement: @credit_agreement
-      expect(@credit_agreement.balance_items.select{|i| i.is_a?(Balance)}.last).to be_a_new(Balance)
+      expect(@credit_agreement.balance_items.select{|i| i.is_a?(AutoBalance)}.last).to be_a_new(AutoBalance)
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe CreditAgreement, type: :model do
     create :disburse, credit_agreement: @credit_agreement, amount: 555, date: Date.today.prev_day(2)
     @credit_agreement.reload
     expect(@credit_agreement.todays_total).to eq(
-      @credit_agreement.balances.build(date: Date.today).end_amount 
+      @credit_agreement.auto_balances.build(date: Date.today).end_amount 
     )
   end
 
@@ -83,7 +83,7 @@ RSpec.describe CreditAgreement, type: :model do
     create :disburse, credit_agreement: @credit_agreement, amount: 555, date: Date.today.prev_day(2)
     @credit_agreement.reload
     expect(@credit_agreement.total_interest).to eq(
-      (@credit_agreement.balances.to_a).sum(&:interests_sum)
+      (@credit_agreement.balances.to_a + [@credit_agreement.send(:todays_balance)]).sum(&:interests_sum)
     )
   end
 

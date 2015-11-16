@@ -1,10 +1,10 @@
 - present balance do |b|
-  %tr[balance]{class: b.klass}
+  %tr[balance]
     %td= b.date
     %td= Balance.model_name.human
-    %td= b.manually_edited
+    %td
     %td.money
-    %td.money
+    %td.money= b.manually_edited
     %td
     %td.money= b.end_amount
     %td.actions

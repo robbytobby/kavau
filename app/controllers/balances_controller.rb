@@ -1,4 +1,5 @@
 class BalancesController < ApplicationController
+  include Typed
   include LoadAuthorized
   include Searchable
   default_sort ['date desc', 'credit_agreement_id asc']
@@ -22,7 +23,7 @@ class BalancesController < ApplicationController
   end
 
   def update
-    set_manual_flag
+    set_balance_type
     @balance.update(permitted_params)
     respond_with @balance, location: @credit_agreement
   end
@@ -38,9 +39,19 @@ class BalancesController < ApplicationController
       @balance.credit_agreement = @credit_agreement
     end
 
-    def set_manual_flag
+    def set_balance_type
       return unless permitted_params[:end_amount]
       return if permitted_params[:end_amount].to_d == @balance.end_amount
-      @balance.manually_edited = true
+      @balance = @balance.becomes(ManualBalance)
+      @balance.type  = 'ManualBalance'
     end
+
+    def required_params_key # overwrite LoadAuthorized#required_params_key
+      @type.underscore.to_sym
+    end
+
+    def create_record
+      @balance = @type.constantize.new(create_params)
+    end
+
 end

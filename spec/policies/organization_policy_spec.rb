@@ -4,7 +4,7 @@ RSpec.describe OrganizationPolicy do
   subject { OrganizationPolicy.new(user, address) }
   let(:address) { FactoryGirl.create(:organization) }
 
-  it_behaves_like "standard_address"
+  it_behaves_like "address_policy"
 
   [:accountant, :admin].each do |type|
     context "as #{type}" do

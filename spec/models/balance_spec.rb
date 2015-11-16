@@ -64,6 +64,7 @@ RSpec.describe Balance, type: :model do
     it "gets updated if accourding payments are updated" do
       @deposit = create_deposit Date.today, 5000
       expect(balance.end_amount).to eq(5000)
+      @credit_agreement.reload
       @deposit.update(amount: 2000)
       expect(balance.end_amount).to eq(2000)
     end
@@ -72,7 +73,9 @@ RSpec.describe Balance, type: :model do
       @deposit = create_deposit Date.today, 5000
       @balance = balance
       expect(@balance.end_amount).to eq(5000)
-      @balance.update(manually_edited: true)
+      @balance.update(type: 'ManualBalance')
+      @credit_agreement.reload
+      @balance = Balance.find(@balance.id)
       @deposit.update(amount: 2000)
       expect(@balance.reload.end_amount).to eq(5000)
     end
@@ -91,10 +94,14 @@ RSpec.describe Balance, type: :model do
       @deposit = create_deposit Date.today.end_of_year.prev_year(3), 5000
       expect(@credit_agreement.reload.balances.count).to eq(3)
       @balance_1, @balance_2, @balance_3 = @credit_agreement.balances.order(:date)
-      @balance_1.update(manually_edited: true, end_amount: 6000)
-      @new_balance_1, @new_balance_2, @new_balance_3 = @credit_agreement.balances.reload.order(:date)
+      @balance_1.update(type: 'ManualBalance')
+      @balance_1 = Balance.find(@balance_1.id)
+      @balance_3.update(type: 'ManualBalance')
+      @balance_3 = Balance.find(@balance_3.id)
+      @balance_1.update(end_amount: 6000)
+      @new_balance_1, @new_balance_2, @new_balance_3 = @credit_agreement.balances.order(:date)
       expect(@new_balance_2.end_amount).not_to eq(@balance_2.end_amount)
-      expect(@new_balance_3.end_amount).not_to eq(@balance_3.end_amount)
+      expect(@new_balance_3.end_amount).to eq(@balance_3.end_amount)
     end
 
     context "interest calculations" do
@@ -167,15 +174,16 @@ RSpec.describe Balance, type: :model do
         it "interests sum is calculated from end_amount" do
           create_deposit '2014-12-1', 10000
           create_disburse '2014-12-1', 1000
-          @balance = balance '2014-12-31'
-          @balance.update(manually_edited: true, end_amount: 9020)
+          @balance = create :manual_balance, credit_agreement: @credit_agreement, date: '2014-12-31', end_amount: 9020
           expect(@balance.interests_sum).to eq(20)
         end
 
         it "have one interest span" do
+          create_deposit '2014-10-1', 10000
           create_deposit '2014-12-1', 10000
           @balance = balance '2014-12-31'
-          @balance.update(manually_edited: true, end_amount: 11000)
+          @balance.update(type: 'ManualBalance')
+          @balance = Balance.find(@balance.id)
           expect(@balance.interest_spans.count).to eq(1)
         end
       end
@@ -191,7 +199,7 @@ RSpec.describe Balance, type: :model do
   end
 
   def balance(date = Date.today)
-    @credit_agreement.balances.reload.find_or_create_by(date: date)
+    @credit_agreement.balances.reload.find_or_create_by(date: date, type: 'AutoBalance')
   end
 
   def interest(amount, rate, num_days, total_num_days = total_days)
