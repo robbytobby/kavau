@@ -9,7 +9,7 @@ class CreditAgreement < ActiveRecord::Base
   has_many :payments, -> { order 'date asc' }, dependent: :restrict_with_exception
   has_many :deposits, -> { order 'date asc' }
   has_many :disburses, -> { order 'date asc' }
-  has_many :balances
+  has_many :balances, -> { order 'date asc' }
 
   validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id
   validates_numericality_of :amount, greater_than_or_equal_to: 500
@@ -44,7 +44,7 @@ class CreditAgreement < ActiveRecord::Base
 
   private
     def interest_spans
-      (balances.automatic + [todays_balance]).map(&:interest_spans).flatten
+      (balances).map(&:interest_spans).flatten
     end
 
     def account_valid_for_credit_agreement?

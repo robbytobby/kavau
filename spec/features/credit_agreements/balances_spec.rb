@@ -40,11 +40,15 @@ RSpec.describe "balances" do
           visit credit_agreement_path(@credit_agreement)
           @balance = Balance.find_by(credit_agreement_id: @credit_agreement.id, date: (Date.today - 1.year).end_of_year)
           click_on "edit_balance_#{@balance.id}"
-          fill_in "balance_end_amount", with: 9999
+          fill_in "balance_end_amount", with: 20100
           click_on :submit
           expect(current_path).to eq(credit_agreement_path(@credit_agreement))
           within("tr#balance_#{@balance.id}.manual") do
-            expect(page).to have_content(number_to_currency(9999))
+            expect(page).to have_content(number_to_currency(20100))
+          end
+          within("tr.interest.manual") do
+            expect(page).to have_content(number_to_currency(100))
+            expect(page).to have_content('manuell berechnet')
           end
         end
 

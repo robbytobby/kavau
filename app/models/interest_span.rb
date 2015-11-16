@@ -40,5 +40,5 @@ class InterestSpan
     def rate
       interest_rate / 100
     end
-
 end
+

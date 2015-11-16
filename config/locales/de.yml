@@ -3,6 +3,7 @@ de:
     for: 'auf'
     sure?: 'Bist du sicher, dass du %{label} löschen willst?'
     not_auhtorized: 'Diese Aktion ist dir nicht gestattet'
+    manually_calculated: 'manuell berechnet'
   links:
     back: 'zurück zur Übersicht'
     cancel: 'abbrechen'

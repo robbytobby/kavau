@@ -1,6 +1,10 @@
 class InterestSpanPresenter < BasePresenter
-  def type
+  def name
     CreditAgreement.human_attribute_name :interest
+  end
+
+  def klass
+    'interest'
   end
 
   def span

@@ -162,6 +162,23 @@ RSpec.describe Balance, type: :model do
           end
         end
       end
+
+      context "manual edited balances" do
+        it "interests sum is calculated from end_amount" do
+          create_deposit '2014-12-1', 10000
+          create_disburse '2014-12-1', 1000
+          @balance = balance '2014-12-31'
+          @balance.update(manually_edited: true, end_amount: 9020)
+          expect(@balance.interests_sum).to eq(20)
+        end
+
+        it "have one interest span" do
+          create_deposit '2014-12-1', 10000
+          @balance = balance '2014-12-31'
+          @balance.update(manually_edited: true, end_amount: 11000)
+          expect(@balance.interest_spans.count).to eq(1)
+        end
+      end
     end
   end
 

@@ -87,6 +87,15 @@ RSpec.describe CreditAgreement, type: :model do
     )
   end
 
+  it "balances are sorted by date ascending" do
+    @credit_agreement = create :credit_agreement
+    create :balance, credit_agreement: @credit_agreement, date: Date.today
+    create :balance, credit_agreement: @credit_agreement, date: Date.today - 2.years
+    create :balance, credit_agreement: @credit_agreement, date: Date.today - 1.years
+    expected_order = [Date.today - 2.years, Date.today - 1.years, Date.today]
+    expect(@credit_agreement.balances.pluck(:date)).to eq(expected_order)
+  end
+
   def interest(amount, rate, num_days, total_num_days = total_days)
     (amount.to_d * rate / 100 * num_days / total_num_days).round(2)
   end

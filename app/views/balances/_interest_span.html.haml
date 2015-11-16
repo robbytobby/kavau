@@ -1,11 +1,10 @@
--if interest_span.show?
-  - present interest_span do |i|
-    %tr.interest
-      %td
-      %td= i.type 
-      %td= i.span
-      %td.money= i.interest_days
-      %td.money= i.calculation
-      %td.money= i.amount
-      %td
-      %td
+- present interest_span do |i|
+  %tr{class: i.klass}
+    %td
+    %td= i.name
+    %td= i.span
+    %td.money= i.interest_days
+    %td.money= i.calculation
+    %td.money= i.amount
+    %td
+    %td

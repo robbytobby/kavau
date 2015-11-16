@@ -15,9 +15,7 @@ class Balance < ActiveRecord::Base
   
   alias_method :update_end_amount!, :save
 
-  ransacker :year do
-    Arel.sql('extract(year from date)')
-  end
+  ransacker(:year){ Arel.sql('extract(year from date)') }
 
   def self.interest_sum
     all.to_a.sum{| b| b.interests_sum }
@@ -28,7 +26,7 @@ class Balance < ActiveRecord::Base
   end
 
   def interest_spans
-    breakpoints.each_cons(2).map{ |pair| InterestSpan.new(self, pair) }
+    breakpoints.each_cons(2).map{ |pair| interest_span_type.new(self, pair) }
   end
 
   def start_amount
@@ -51,7 +49,15 @@ class Balance < ActiveRecord::Base
     credit_agreement.disburses.this_year_upto(date)
   end
 
+  def payments
+    credit_agreement.payments.this_year_upto(date)
+  end
+
   private
+    def interest_span_type
+      manually_edited ? ManualInterestSpan : InterestSpan 
+    end
+    
     def last_years_balance
       Balance.find_by(credit_agreement_id: credit_agreement_id, date: end_of_last_year) || NullBalance.new
     end
@@ -66,7 +72,6 @@ class Balance < ActiveRecord::Base
     end
 
     def set_interest_sum
-      return if manually_edited
       self.interests_sum = calculated_interests_sum
     end
 
@@ -76,10 +81,6 @@ class Balance < ActiveRecord::Base
 
     def following_balance
       credit_agreement.balances.older_than(date).order(:date).first || NullBalance.new
-    end
-
-    def payments
-      credit_agreement.payments.this_year_upto(date)
     end
 
     def past_years_payments
@@ -95,7 +96,19 @@ class Balance < ActiveRecord::Base
     end
 
     def breakpoints
-      [end_of_last_year] + payments.pluck(:date) + [date]
+      return [manual_start, date] if manually_edited
+      [automatic_start, payments.pluck(:date), date].compact.flatten
+    end
+
+    def manual_start
+      return date unless last_years_balance.is_a?(NullBalance)
+      return date if payments.none?
+      payments.first.date
+    end
+
+    def automatic_start
+      return if last_years_balance.is_a?(NullBalance)
+      end_of_last_year
     end
 
     def end_of_last_year
