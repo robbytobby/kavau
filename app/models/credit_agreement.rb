@@ -17,7 +17,6 @@ class CreditAgreement < ActiveRecord::Base
   validate :account_valid_for_credit_agreement?
 
   after_touch :create_missing_balances, :delete_unnecessary_balances, :update_balances
-  #attr_accessor :payment_amount, :payment_type
 
   def self.funded_credits_sum
     sum(:amount)

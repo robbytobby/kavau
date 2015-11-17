@@ -30,7 +30,7 @@ class Balance < ActiveRecord::Base
   end
 
   def start_amount
-    @start_amount ||= last_years_balance.end_amount
+    last_years_balance.end_amount
   end
 
   def sum_upto(to_date)
