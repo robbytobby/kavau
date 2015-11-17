@@ -7,7 +7,7 @@ RSpec.describe AutoBalance, type: :model do
 
   it_behaves_like "balance" 
 
-  describe "interest_spans", focus: true do
+  describe "interest_spans" do
     it "has 1 interest span if no payments for the year exist" do
       create_deposit Date.new(2013,12,1), 1000
       expect(balance(Date.new(2014,12,31)).interest_spans.count).to eq(1)

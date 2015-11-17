@@ -64,24 +64,4 @@ RSpec.describe CreditAgreement, type: :model do
     expected_order = [Date.today - 2.years, Date.today - 1.years, Date.today]
     expect(@credit_agreement.balances.pluck(:date)).to eq(expected_order)
   end
-
-  def interest(amount, rate, num_days, total_num_days = total_days)
-    (amount.to_d * rate / 100 * num_days / total_num_days).round(2)
-  end
-
-  def total_days(date = Date.today)
-    date.end_of_year.yday
-  end
-
-  def total_days_last_year(date = Date.today)
-    total_days(date.prev_year)
-  end
-
-  def first_day_of_year(date = Date.today)
-    date.beginning_of_year
-  end
-
-  def last_day_of_last_year(date = Date.today)
-    first_day_of_year.prev_day
-  end
 end
