@@ -7,6 +7,54 @@ RSpec.describe AutoBalance, type: :model do
 
   it_behaves_like "balance" 
 
+  describe "interest_spans", focus: true do
+    it "has 1 interest span if no payments for the year exist" do
+      create_deposit Date.new(2013,12,1), 1000
+      expect(balance(Date.new(2014,12,31)).interest_spans.count).to eq(1)
+    end
+
+    it "for the first year begins with the first payment" do
+      create_deposit Date.new(2013,12,1), 1000
+      spans = balance(Date.new(2013,12,31)).interest_spans
+      expect(spans.count).to eq(1)
+      expect(spans.first.start_date).to eq(Date.new(2013,12,1))
+      expect(spans.first.end_date).to eq(Date.new(2013,12,31))
+    end
+
+    it "there's none for paymement at the balances date" do
+      create_deposit Date.new(2013,12,31), 1000
+      spans = balance(Date.new(2013,12,31)).interest_spans
+      expect(spans.count).to eq(0)
+    end
+
+    it "there is one for a pament at the first of january" do
+      create_deposit Date.new(2013,1,1), 1000
+      create_deposit Date.new(2014,1,1), 1000
+      spans = balance(Date.new(2014,12,31)).interest_spans
+      expect(spans.count).to eq(2)
+      expect(spans.first.start_date).to eq(Date.new(2013,12,31))
+      expect(spans.first.end_date).to eq(Date.new(2014,1,1))
+    end
+
+    it "there is one for each payment" do
+      create_deposit Date.new(2013,1,1), 1000
+      create_deposit Date.new(2014,2,1), 1000
+      create_deposit Date.new(2014,4,1), 1000
+      create_deposit Date.new(2014,6,1), 1000
+      create_deposit Date.new(2014,8,1), 1000
+      spans = balance(Date.new(2014,12,31)).interest_spans
+      expect(spans.count).to eq(5)
+    end
+
+    it "there is none for payment at the same date" do
+      create_deposit Date.new(2013,1,1), 1000
+      create_deposit Date.new(2014,2,1), 1000
+      create_deposit Date.new(2014,2,1), 1000
+      spans = balance(Date.new(2014,12,31)).interest_spans
+      expect(spans.count).to eq(2)
+    end
+  end
+
   describe "end_amount" do
     it "is 0 for a new credit_agreement" do
       expect(balance.end_amount).to eq(0)

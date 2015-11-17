@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Account, type: :model do
-  it "is not valid withot name if asocciated to project" do
+  it "is not valid without name if asocciated to project address" do
     account = build :project_account, name: nil
     expect(account).not_to be_valid
   end
