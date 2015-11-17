@@ -77,6 +77,12 @@ RSpec.describe PaymentsController, type: :controller do
           expect(assigns(:payment)).to eq(@payment)
         end
 
+        it "changes the payments class if necessary" do
+          new_type = payment_type == :deposit ? 'Disburse' : 'Deposit'
+          put :update, update_params.deep_merge(payment: {type: new_type})
+          expect(assigns(:payment)).to be_a(new_type.constantize)
+        end
+
         it "redirects to the associated credit_agreement" do
           put :update, update_params
           expect(response).to redirect_to(@payment.credit_agreement)

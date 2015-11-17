@@ -1,8 +1,9 @@
-%tr[account]
-  %td= account.name
-  %td.money= number_to_currency(account.funded_credits_sum)
-  %td.money= number_to_percentage(account.average_rate_of_interest)
-  %td.money= number_to_currency(account.deposits.sum(:amount))
-  %td.money= number_to_currency(account.disburses.sum(:amount))
-  %td.money= number_to_currency(account.credit_agreements.to_a.sum(&:total_interest))
-  %td.money= number_to_currency(account.credit_agreements.to_a.sum(&:todays_total))
+- present(account) do |acc|
+  %tr[account]
+    %td= acc.name
+    %td.money= number_to_currency(acc.funded_credits_sum)
+    %td.money= number_to_percentage(acc.average_rate_of_interest)
+    %td.money= number_to_currency(acc.deposits)
+    %td.money= number_to_currency(acc.disburses)
+    %td.money= number_to_currency(acc.credit_agreements.to_a.sum(&:total_interest))
+    %td.money= number_to_currency(acc.credit_agreements.to_a.sum(&:todays_total))

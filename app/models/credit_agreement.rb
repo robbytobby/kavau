@@ -4,14 +4,11 @@ class CreditAgreement < ActiveRecord::Base
   # TODO: Add notes
   belongs_to :creditor, class_name: 'Address'
   belongs_to :account
-
-  delegate :belongs_to_project?, to: :account, prefix: true
-
   has_many :payments, -> { order 'date asc' }, dependent: :restrict_with_exception
-  has_many :deposits, -> { order 'date asc' }
-  has_many :disburses, -> { order 'date asc' }
   has_many :balances, -> { order 'date asc' }
   has_many :auto_balances, -> { order 'date asc' }
+
+  delegate :belongs_to_project?, to: :account, prefix: true
 
   validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id
   validates_numericality_of :amount, greater_than_or_equal_to: 500
@@ -20,7 +17,7 @@ class CreditAgreement < ActiveRecord::Base
   validate :account_valid_for_credit_agreement?
 
   after_touch :create_missing_balances, :delete_unnecessary_balances, :update_balances
-  attr_accessor :payment_amount, :payment_type
+  #attr_accessor :payment_amount, :payment_type
 
   def self.funded_credits_sum
     sum(:amount)

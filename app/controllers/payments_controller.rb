@@ -14,6 +14,7 @@ class PaymentsController < ApplicationController
   end
 
   def update
+    set_type if permitted_params[:type]
     @payment.update(permitted_params)
     respond_with @payment, location: @payment.credit_agreement
   end
@@ -26,5 +27,9 @@ class PaymentsController < ApplicationController
   private
     def create_params
       permitted_params.merge(credit_agreement_id: params[:credit_agreement_id])
+    end
+
+    def set_type
+      @payment = @payment.becomes(permitted_params[:type].constantize)
     end
 end

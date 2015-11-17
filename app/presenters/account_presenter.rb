@@ -7,6 +7,14 @@ class AccountPresenter < BasePresenter
     IBANTools::IBAN.new(@model.iban).prettify
   end
 
+  def disburses
+    payments.where(sign: -1).sum(:amount)
+  end
+
+  def deposits
+    payments.where(sign: 1).sum(:amount)
+  end
+
   def confirmation_label
     [
       I18n.t('confirmation_label.account'),

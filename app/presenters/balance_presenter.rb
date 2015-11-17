@@ -22,11 +22,11 @@ class BalancePresenter < PaymentPresenter
   end
 
   def deposits
-    h.number_to_currency @model.deposits.sum(:amount)
+    h.number_to_currency @model.payments.where(sign: 1).sum(:amount)
   end
 
   def disburses
-    h.number_to_currency @model.disburses.sum(:amount)
+    h.number_to_currency @model.payments.where(sign: -1).sum(:amount)
   end
 
   def interests

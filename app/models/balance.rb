@@ -9,7 +9,7 @@ class Balance < ActiveRecord::Base
 
   delegate :interest_rate, :creditor, :balances, to: :credit_agreement
 
-  scope :older_than, ->(from_date){ where(['date > ?', from_date]) }
+  scope :older_than,   ->(from_date){ where(['date > ?', from_date]) }
   scope :younger_than, ->(from_date){ where(['date < ?', from_date]) }
 
   alias_method :update_end_amount!, :save
@@ -33,19 +33,8 @@ class Balance < ActiveRecord::Base
     @start_amount ||= last_years_balance.end_amount
   end
 
-  #TODO set sign in Database than kick deposits and disburses - as well in CreditAgreement
   def sum_upto(to_date)
-    start_amount +
-      deposits.younger_than_inc(to_date).sum(:amount) -
-      disburses.younger_than_inc(to_date).sum(:amount)
-  end
-
-  def deposits
-    credit_agreement.deposits.this_year_upto(date)
-  end
-
-  def disburses
-    credit_agreement.disburses.this_year_upto(date)
+    start_amount + payments.younger_than_inc(to_date).sum('amount * sign')
   end
 
   def payments
