@@ -28,10 +28,6 @@ class InterestSpan
     'balances/interest_span'
   end
 
-  def show?
-    base_amount > 0
-  end
-
   private
     def exact_amount
       base_amount * rate * interest_days / days_in_year 
