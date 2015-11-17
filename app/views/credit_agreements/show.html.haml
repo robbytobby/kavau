@@ -14,8 +14,8 @@
       = CreditAgreement.human_attribute_name(:cancellation_period) +':'
       = credit_agreement.cancellation_period
 
-#new_payment_form
-  = render partial: 'payments/inline_form', locals: { credit_agreement: @credit_agreement, payment: Payment.new }
+  #new_payment_form
+    = render partial: 'payments/inline_form', locals: { credit_agreement: @credit_agreement, payment: Payment.new }
 
-#payments
-  = render :partial => 'payments'
+  #balances
+    = render :partial => 'balances'

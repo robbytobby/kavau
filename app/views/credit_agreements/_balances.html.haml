@@ -1,5 +1,5 @@
 -if @credit_agreement.payments.any?
-  %h2= t '.payments'
+  %h2= t '.balances'
   %table.table
     %thead
       %tr
@@ -12,4 +12,5 @@
         %th.money= CreditAgreement.human_attribute_name(:balance)
         %th
     %tbody
-      = render @credit_agreement.balance_items
+      -present(@credit_agreement) do |credit|
+        = render credit.balance_items

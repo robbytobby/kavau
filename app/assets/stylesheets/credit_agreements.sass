@@ -1,14 +1,10 @@
-@import "bootstrap-sprockets"
-@import "bootstrap"
+@import balances
 
 #new_payment_form
   .form-group
     vertical-align: top
-
 table
   tr
-    &.manual_balance
-      @extend .bg-danger
     &.auto_balance
       @extend .bg-info 
     &.manual_balance, &.auto_balance

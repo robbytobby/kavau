@@ -4,6 +4,7 @@ class CreditAgreement < ActiveRecord::Base
   # TODO: Add notes
   belongs_to :creditor, class_name: 'Address'
   belongs_to :account
+
   delegate :belongs_to_project?, to: :account, prefix: true
 
   has_many :payments, -> { order 'date asc' }, dependent: :restrict_with_exception
@@ -30,10 +31,6 @@ class CreditAgreement < ActiveRecord::Base
     sum('interest_rate * amount') / funded_credits_sum
   end
 
-  def balance_items
-    (payments + balances + [todays_balance] + interest_spans).sort_by(&:date)
-  end
-
   def todays_total
     todays_balance.end_amount
   end
@@ -42,11 +39,11 @@ class CreditAgreement < ActiveRecord::Base
     balances.interest_sum + todays_balance.interests_sum
   end
 
-  private
-    def interest_spans
-      (balances + [todays_balance]).map(&:interest_spans).flatten
-    end
+  def todays_balance
+    auto_balances.build
+  end
 
+  private
     def account_valid_for_credit_agreement?
       return if account_belongs_to_project?
       errors.add(:base, :only_project_accounts_valid)
@@ -61,21 +58,17 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def create_missing_balances
-      (obligatory_balances_dates - balances_dates).each do |balance_date|
+      (obligatory_balances_dates - existing_balances_dates).each do |balance_date|
         auto_balances.create(date: balance_date)
       end
     end
 
-    def balances_dates
+    def existing_balances_dates
       balances.pluck(:date)
     end
 
     def obligatory_balances_dates
       (date_of_first_payment.year...this_year).map{ |y| Date.new(y, 12, 31) }
-    end
-
-    def todays_balance
-      auto_balances.build
     end
 
     def date_of_first_payment
@@ -92,4 +85,3 @@ class CreditAgreement < ActiveRecord::Base
     end
   end
 end
-

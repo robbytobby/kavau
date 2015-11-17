@@ -25,42 +25,11 @@ RSpec.describe CreditAgreement, type: :model do
     expect(@credit_agreement).not_to be_valid
   end
 
-  describe "balance_items" do
-    before(:each){ @credit_agreement = create :credit_agreement }
-    it "contain all associated deposits" do
-      @deposit = create :deposit, credit_agreement: @credit_agreement
-      expect(@credit_agreement.balance_items).to include(@deposit)
-    end
-
-    it "does not contain deposits for other credit agreements" do
-      @deposit = create :deposit
-      expect(@credit_agreement.balance_items).not_to include(@deposit)
-    end
-
-    it "contain all associated disburses" do
-      @disburse = create :disburse, credit_agreement: @credit_agreement
-      expect(@credit_agreement.balance_items).to include(@disburse)
-    end
-
-    it "does not contain disburses for other credit agreements" do
-      @disburse = create :disburse
-      expect(@credit_agreement.balance_items).not_to include(@disburse)
-    end
-
-    it "contain all associated balances" do
-      @balance = create :balance, credit_agreement: @credit_agreement
-      expect(@credit_agreement.balance_items).to include(@balance)
-    end
-
-    it "does not contain balances for other credit agreements" do
-      @balance = create :balance
-      expect(@credit_agreement.balance_items).not_to include(@balance)
-    end
-
-    it "contains a new balance for the current year" do
-      @deposit = create :deposit, credit_agreement: @credit_agreement
-      expect(@credit_agreement.balance_items.select{|i| i.is_a?(AutoBalance)}.last).to be_a_new(AutoBalance)
-    end
+  it "has a todays balance" do
+    @credit_agreement = build :credit_agreement
+    expect(@credit_agreement.todays_balance.date).to eq(Date.today)
+    expect(@credit_agreement.todays_balance).to be_a(AutoBalance)
+    expect(@credit_agreement.todays_balance).not_to be_persisted
   end
 
   it "todays_total" do

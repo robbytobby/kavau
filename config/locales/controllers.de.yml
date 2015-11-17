@@ -39,8 +39,8 @@ de:
   credit_agreements:
     show:
       title: 'Kreditvertrag Nr. %{number}'
-    payments:
-      payments: 'Kontobewegungen'
+    balances:
+      balances: 'Kontobewegungen'
     index:
       title: 'Kreditverträge'
     new:

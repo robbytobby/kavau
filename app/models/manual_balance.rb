@@ -11,7 +11,7 @@ class ManualBalance < Balance
     end
 
     def start
-      return date if !last_years_balance.is_a?(NullBalance) || payments.none?
+      return date.beginning_of_year.prev_day if !last_years_balance.is_a?(NullBalance) || payments.none?
       payments.first.date
     end
 

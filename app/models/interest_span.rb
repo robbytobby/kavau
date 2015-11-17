@@ -7,7 +7,7 @@ class InterestSpan
     @base_amount = balance.sum_upto(@start_date)
     @interest_rate = balance.interest_rate
   end
-  
+
   def date
     @end_date - 1.day
   end

@@ -1,16 +1,16 @@
 class Balance < ActiveRecord::Base
   include ActiveModel::Dirty
+
   belongs_to :credit_agreement
+
   after_initialize :set_date
   after_save :update_following
   after_destroy :touch_credit_agreement
 
-  delegate :interest_rate, to: :credit_agreement
-  delegate :creditor, to: :credit_agreement
+  delegate :interest_rate, :creditor, :balances, to: :credit_agreement
 
   scope :older_than, ->(from_date){ where(['date > ?', from_date]) }
   scope :younger_than, ->(from_date){ where(['date < ?', from_date]) }
-  scope :automatic, ->{ where(manually_edited: false) }
 
   alias_method :update_end_amount!, :save
 
@@ -20,24 +20,24 @@ class Balance < ActiveRecord::Base
     'balances/balance'
   end
 
+  #TODO rename to interests_sum
   def self.interest_sum
-    all.to_a.sum{| b| b.interests_sum }
+    sum(:interests_sum)
   end
 
   def interests_sum
     self[:interests_sum] ||= calculated_interests_sum
   end
 
-  def interest_spans
-    breakpoints.each_cons(2).map{ |pair| interest_span_class.new(self, pair) }
-  end
-
   def start_amount
     @start_amount ||= last_years_balance.end_amount
   end
 
+  #TODO set sign in Database than kick deposits and disburses - as well in CreditAgreement
   def sum_upto(to_date)
-    start_amount + deposits.younger_than_inc(to_date).sum(:amount) - disburses.younger_than_inc(to_date).sum(:amount)
+    start_amount +
+      deposits.younger_than_inc(to_date).sum(:amount) -
+      disburses.younger_than_inc(to_date).sum(:amount)
   end
 
   def deposits
@@ -52,9 +52,23 @@ class Balance < ActiveRecord::Base
     credit_agreement.payments.this_year_upto(date)
   end
 
+  def interest_spans
+    breakpoints.each_cons(2).map{ |pair| interest_span(pair) }.compact
+  end
+
+  def becomes_manual_balance
+    self.type  = 'ManualBalance'
+    becomes(ManualBalance)
+  end
+
   private
+    def interest_span(date_pair)
+      return if date_pair.uniq.one?
+      interest_span_class.new(self, date_pair)
+    end
+
     def last_years_balance
-      Balance.find_by(credit_agreement_id: credit_agreement_id, date: end_of_last_year) || NullBalance.new
+      balances.find_by(date: end_of_last_year) || NullBalance.new
     end
 
     def set_date
@@ -70,11 +84,7 @@ class Balance < ActiveRecord::Base
     end
 
     def following_balance
-      credit_agreement.balances.reload.older_than(date).order(:date).first || NullBalance.new
-    end
-
-    def past_years_payments
-      credit_agreement.payments.younger_than_inc(end_of_last_year)
+      balances.older_than(date).first || NullBalance.new
     end
 
     def calculated_interests_sum

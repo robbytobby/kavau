@@ -2,5 +2,5 @@
   $('#new_payment_form').html("<%= escape_javascript(render partial: 'inline_form', locals: { credit_agreement: @payment.credit_agreement, payment: @payment }) %>")
 <%- else %>
   $('#new_payment_form').html("<%= escape_javascript(render partial: 'inline_form', locals: { credit_agreement: @payment.credit_agreement, payment: Payment.new }) %>")
-  $('#payments').html("<%= escape_javascript(render partial: 'credit_agreements/payments')%>")
+  $('#balances').html("<%= escape_javascript(render partial: 'credit_agreements/balances')%>")
 <%- end %>

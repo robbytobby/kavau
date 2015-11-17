@@ -19,4 +19,14 @@ class CreditAgreementPresenter < BasePresenter
       [@model.creditor.first_name, @model.creditor.name].compact.join(' '),
     ].join(' ')
   end
+
+  def balance_items
+    (payments + balances_and_interests).sort_by(&:date)
+  end
+
+  def balances_and_interests
+    (balances + [todays_balance]).map{ |bal|
+      [bal.interest_spans, bal]
+    }.flatten
+  end
 end

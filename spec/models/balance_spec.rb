@@ -73,7 +73,7 @@ RSpec.describe Balance, type: :model do
       @deposit = create_deposit Date.today, 5000
       @balance = balance
       expect(@balance.end_amount).to eq(5000)
-      @balance.update(type: 'ManualBalance')
+      @balance.becomes_manual_balance.save
       @credit_agreement.reload
       @balance = Balance.find(@balance.id)
       @deposit.update(amount: 2000)
@@ -94,9 +94,9 @@ RSpec.describe Balance, type: :model do
       @deposit = create_deposit Date.today.end_of_year.prev_year(3), 5000
       expect(@credit_agreement.reload.balances.count).to eq(3)
       @balance_1, @balance_2, @balance_3 = @credit_agreement.balances.order(:date)
-      @balance_1.update(type: 'ManualBalance')
+      @balance_1.becomes_manual_balance.save
       @balance_1 = Balance.find(@balance_1.id)
-      @balance_3.update(type: 'ManualBalance')
+      @balance_3.becomes_manual_balance.save
       @balance_3 = Balance.find(@balance_3.id)
       @balance_1.update(end_amount: 6000)
       @new_balance_1, @new_balance_2, @new_balance_3 = @credit_agreement.balances.order(:date)
@@ -182,9 +182,9 @@ RSpec.describe Balance, type: :model do
           create_deposit '2014-10-1', 10000
           create_deposit '2014-12-1', 10000
           @balance = balance '2014-12-31'
-          @balance.update(type: 'ManualBalance')
+          @balance.becomes_manual_balance.save
           @balance = Balance.find(@balance.id)
-          expect(@balance.interest_spans.count).to eq(1)
+          expect(@balance.send(:interest_spans).count).to eq(1)
         end
       end
     end

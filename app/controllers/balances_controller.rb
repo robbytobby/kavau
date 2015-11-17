@@ -23,7 +23,7 @@ class BalancesController < ApplicationController
   end
 
   def update
-    set_balance_type
+    mark_manual unless permitted_params[:end_amount].blank?
     @balance.update(permitted_params)
     respond_with @balance, location: @credit_agreement
   end
@@ -39,11 +39,9 @@ class BalancesController < ApplicationController
       @balance.credit_agreement = @credit_agreement
     end
 
-    def set_balance_type
-      return unless permitted_params[:end_amount]
-      return if permitted_params[:end_amount].to_d == @balance.end_amount
-      @balance = @balance.becomes(ManualBalance)
-      @balance.type  = 'ManualBalance'
+    def mark_manual
+      return if permitted_params[:end_amount] == @balance.end_amount
+      @balance = @balance.becomes_manual_balance
     end
 
     def required_params_key # overwrite LoadAuthorized#required_params_key
