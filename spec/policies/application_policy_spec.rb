@@ -9,12 +9,12 @@ RSpec.describe ApplicationPolicy do
 
   context "for an admin" do
     let(:user){ create :admin }
-    permits :none
+    permits :all
   end
 
   context "for an accountant" do
     let(:user){ create :accountant }
-    permits  :none
+    permits :all 
   end
 
   context "for a non privileged user" do
@@ -32,7 +32,5 @@ RSpec.describe ApplicationPolicy do
       expect(ApplicationPolicy.new(user, record).scope).to eq(Address)
     end
   end
-
-
 end
 

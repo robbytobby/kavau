@@ -4,6 +4,6 @@ class AutoBalancePolicy < BalancePolicy
   end
 
   def destroy?
-    return false
+    false
   end
 end

@@ -1,3 +1,4 @@
+#TODO conditional redirects
 class BalancesController < ApplicationController
   include Typed
   include LoadAuthorized
@@ -9,17 +10,8 @@ class BalancesController < ApplicationController
     respond_with @balances
   end
 
-  def new
-    respond_with @balance
-  end
-
   def edit
     respond_with @balance
-  end
-
-  def create
-    @balance.save
-    respond_with @balance, location: @credit_agreement
   end
 
   def update
@@ -47,9 +39,4 @@ class BalancesController < ApplicationController
     def required_params_key # overwrite LoadAuthorized#required_params_key
       @type.underscore.to_sym
     end
-
-    def create_record
-      @balance = @type.constantize.new(create_params)
-    end
-
 end

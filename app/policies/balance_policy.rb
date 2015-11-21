@@ -5,10 +5,6 @@ class BalancePolicy < ApplicationPolicy
     end
   end
 
-  def index?
-    user.admin? || user.accountant?
-  end
-
   def new?
     false
   end
@@ -19,13 +15,16 @@ class BalancePolicy < ApplicationPolicy
 
   def create?
     false
-    #user.admin? || user.accountant?
   end
   
   def update?
     return false if record.credit_agreement.terminated?
     return false unless record.persisted?
     user.admin? || user.accountant?
+  end
+
+  def destroy?
+    false
   end
 
   def permitted_params

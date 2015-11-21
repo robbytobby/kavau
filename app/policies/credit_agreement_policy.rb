@@ -9,18 +9,6 @@ class CreditAgreementPolicy < ApplicationPolicy
     true
   end
 
-  def show?
-    user.admin? || user.accountant?
-  end
-
-  def create?
-    user.admin? || user.accountant?
-  end
-
-  def update?
-    user.admin? || user.accountant?
-  end
-
   def destroy?
     return false unless user.admin? || user.accountant?
     @record.payments.none?

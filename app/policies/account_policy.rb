@@ -5,22 +5,6 @@ class AccountPolicy < ApplicationPolicy
     end
   end
 
-  def index?
-    user.admin? || user.accountant?
-  end
-
-  def show?
-    user.admin? || user.accountant?
-  end
-
-  def create?
-    user.admin? || user.accountant?
-  end
-
-  def update?
-    user.admin? || user.accountant?
-  end
-
   def destroy?
     return false unless user.admin? || user.accountant?
     return false if @record.credit_agreements.any?

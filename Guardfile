@@ -103,6 +103,8 @@ guard :rspec, cmd: 'spring rspec' do
   
   # InterestSpan is speced indirectly in balances_spec
   watch('app/models/interest_span.rb') {"spec/models/balance_spec.rb"}
+  
+  watch('app/policies/application_policy.rb') { "#{rspec.spec_dir}/policies" }
 
   # Rails config changes
   watch(rails.spec_helper)     { rspec.spec_dir }
