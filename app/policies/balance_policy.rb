@@ -9,16 +9,21 @@ class BalancePolicy < ApplicationPolicy
     user.admin? || user.accountant?
   end
 
+  def new?
+    false
+  end
+
   def show?
-    return false unless record.persisted?
-    user.admin? || user.accountant?
+    false
   end
 
   def create?
-    user.admin? || user.accountant?
+    false
+    #user.admin? || user.accountant?
   end
   
   def update?
+    return false if record.credit_agreement.terminated?
     return false unless record.persisted?
     user.admin? || user.accountant?
   end

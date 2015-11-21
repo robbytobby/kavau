@@ -2,6 +2,16 @@ de:
   activerecord:
     errors:
       models:
+        disburse:
+          attributes:
+            amount:
+              to_much: 'zu groß (max %{max})'
+            date:
+              in_the_future: 'darf nicht in der Zukunft liegen'
+        deposit:
+          attributes:
+            date:
+              in_the_future: 'darf nicht in der Zukunft liegen'
         user:
           attributes:
             password:

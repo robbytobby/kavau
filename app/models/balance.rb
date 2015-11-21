@@ -38,7 +38,7 @@ class Balance < ActiveRecord::Base
   end
 
   def payments
-    credit_agreement.payments.this_year_upto(date)
+    credit_agreement.payments.this_year_upto(date).where.not(id: @excluded_payment_id)
   end
 
   def interest_spans
@@ -49,6 +49,12 @@ class Balance < ActiveRecord::Base
     self.type  = 'ManualBalance'
     becomes(ManualBalance)
   end
+
+  def without(payment)
+    @excluded_payment_id = payment.id
+    self
+  end
+
 
   private
     def interest_span(date_pair)

@@ -19,6 +19,26 @@ require 'rails_helper'
       let(:user){ create :user }
       permits [:index, :show]
     end
+
+    context "for a terminated credit_agreement" do
+      before(:each){ allow_any_instance_of(CreditAgreement).to receive(:terminated?).and_return(true) }
+
+      context "for an admin" do
+        let(:user){ create :admin }
+        permits [:index, :show]
+      end
+
+      context "for an accountant" do
+        let(:user){ create :accountant }
+        permits [:index, :show]
+      end
+
+      context "for a non privileged user" do
+        let(:user){ create :user }
+        permits [:index, :show]
+      end
+
+    end
   end
 end
 

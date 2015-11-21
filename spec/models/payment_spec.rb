@@ -5,15 +5,27 @@ RSpec.describe Payment, type: :model do
     expect(Payment.valid_types.sort).to eq(["Deposit", "Disburse"])
   end
 
+  it "future payments are invalid" do
+    @disburse = build :disburse, date: Date.tomorrow
+    @deposit = build :deposit, date: Date.tomorrow
+    expect(@disburse).not_to be_valid
+    expect(@deposit).not_to be_valid
+    expect(@disburse.errors.messages[:date].first).to eq('darf nicht in der Zukunft liegen')
+    expect(@deposit.errors.messages[:date].first).to eq('darf nicht in der Zukunft liegen')
+  end
+
   describe "a change also changes associated balances" do
     ['2013-1-1', '2013-6-6', '2013-12-31', '2014-1-1', '2014-6-6', '2014-12-13'].each do |date|
       it "updates existing balances on being changed - payment_date: #{date}" do
-        @credit_agreement = create :credit_agreement
+        @credit_agreement = create :credit_agreement, interest_rate: 1
         @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: date
         @balance = @credit_agreement.balances.find_by(date: Date.strptime(date).end_of_year)
+        interest = 0.01 * 1000 * (Date.strptime(date).end_of_year - Date.strptime(date)) / Date.strptime(date).end_of_year.yday
+        expect(@balance.end_amount).to eq(1000 + interest.round(2))
         old_end_amount = @balance.end_amount
         @deposit.update(amount: 2000)
-        expect(@balance.reload.end_amount - old_end_amount).to eq(1000)
+        interest = 0.01 * 2000 * (Date.strptime(date).end_of_year - Date.strptime(date)) / Date.strptime(date).end_of_year.yday
+        expect(@balance.reload.end_amount).to eq(2000 + interest.round(2))
       end
     end
 
@@ -43,21 +55,21 @@ RSpec.describe Payment, type: :model do
       it "changing twice by -5 years" do
         allow_any_instance_of(CreditAgreement).to receive(:update_balances).and_return(true)
         @credit_agreement = create :credit_agreement
-        @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2017-11-15'
+        @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2015-11-15'
         expect(@credit_agreement.reload.balances.count).to eq(0)
         @deposit.update(date: @deposit.date - 5.years)
-        expect(@credit_agreement.reload.balances.count).to eq(3)
+        expect(@credit_agreement.reload.balances.count).to eq(5)
         @deposit.update(date: @deposit.date - 5.years)
-        expect(@credit_agreement.reload.balances.count).to eq(8)
+        expect(@credit_agreement.reload.balances.count).to eq(10)
       end
 
       it "changing twice by +5 years" do
         allow_any_instance_of(CreditAgreement).to receive(:update_balances).and_return(true)
         @credit_agreement = create :credit_agreement
-        @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2007-11-15'
-        expect(@credit_agreement.reload.balances.count).to eq(8)
+        @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: '2005-11-15'
+        expect(@credit_agreement.reload.balances.count).to eq(10)
         @deposit.update(date: @deposit.date + 5.years)
-        expect(@credit_agreement.reload.balances.count).to eq(3)
+        expect(@credit_agreement.reload.balances.count).to eq(5)
         @deposit.update(date: @deposit.date + 5.years)
         expect(@credit_agreement.reload.balances.count).to eq(0)
       end

@@ -92,11 +92,11 @@ RSpec.describe AutoBalance, type: :model do
     end
 
     it "gets updated if according payments are updated" do
-      @deposit = create_deposit Date.today, 5000
-      expect(balance.end_amount).to eq(5000)
+      @deposit = create_deposit Date.today.beginning_of_year.prev_day, 5000
+      expect(balance(Date.today.end_of_year).end_amount).to eq(5100)
       @credit_agreement.reload
-      @deposit.update(amount: 2000)
-      expect(balance.end_amount).to eq(2000)
+      @deposit.update(amount: 1000)
+      expect(balance(Date.today.end_of_year).end_amount).to eq(1020)
     end
 
     it "gets updated on all later balances, if a previous balance is updated" do

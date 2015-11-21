@@ -8,7 +8,7 @@ RSpec.describe "managing payments" do
         before :each do
           login_as create(type)
           @credit_agreement = create :credit_agreement
-          @payment = create payment_type, credit_agreement: @credit_agreement
+          @payment = create payment_type, credit_agreement: @credit_agreement, amount: 1000
         end
 
         it "the credit_agreement page shows the associated #{payment_type.to_s.pluralize}" do
@@ -20,10 +20,10 @@ RSpec.describe "managing payments" do
           visit credit_agreement_path(@credit_agreement)
           click_on "edit_#{payment_type}_#{@payment.id}"
           expect(current_path).to eq( send("edit_credit_agreement_#{payment_type}_path",@credit_agreement, @payment) )
-          fill_in :payment_amount, with: 222
+          fill_in :payment_amount, with: 1100
           click_on :submit
           expect(current_path).to eq(credit_agreement_path(@credit_agreement))
-          expect(page).to have_content(number_to_currency(222))
+          expect(page).to have_content(number_to_currency(1100))
         end
 
         it "I can create a incoming payment", js: true do

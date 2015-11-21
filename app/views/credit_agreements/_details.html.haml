@@ -1,0 +1,12 @@
+- present(credit_agreement.creditor) do |creditor|
+  %p
+    = link_to creditor.full_name, creditor
+    |
+    = CreditAgreement.human_attribute_name(:amount) +':'
+    = credit_agreement.amount
+    |
+    = CreditAgreement.human_attribute_name(:interest_rate) +':'
+    = credit_agreement.interest_rate
+    |
+    = CreditAgreement.human_attribute_name(:cancellation_period) +':'
+    = credit_agreement.cancellation_period

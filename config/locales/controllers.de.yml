@@ -39,8 +39,9 @@ de:
   credit_agreements:
     show:
       title: 'Kreditvertrag Nr. %{number}'
-    balances:
       balances: 'Kontobewegungen'
+    termination_form:
+      terminate: 'kündigen'
     index:
       title: 'Kreditverträge'
     new:

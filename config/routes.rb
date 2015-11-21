@@ -7,9 +7,10 @@ Rails.application.routes.draw do
   resources :creditors, controller: :addresses, type: 'Creditor'
   resources :credit_agreements, only: :index
   resources :credit_agreements, only: :show, constraints: {id: /\d+/} do
-    resources :balances, except: [:index, :show]
-    resources :manual_balances, controller: :balances, type: 'ManualBalance', except: [:index, :show]
-    resources :auto_balances, controller: :balances, type: 'AutoBalance', except: [:index, :show]
+    #resources :balances, except: [:index, :show]
+    resources :manual_balances, controller: :balances, type: 'ManualBalance', only: [:edit, :update, :destroy]
+    resources :auto_balances, controller: :balances, type: 'AutoBalance', only: [:edit, :update]
+    resources :termination_balances, controller: :balances, type: 'TerminationBalance', only: :destroy
     resources :payments, except: [:index, :show, :new]
     resources :deposits, except: [:index, :show, :new], controller: :payments, type: 'Deposit'
     resources :disburses, except: [:index, :show, :new], controller: :payments, type: 'Disburse'

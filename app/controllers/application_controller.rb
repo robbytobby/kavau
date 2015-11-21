@@ -1,3 +1,5 @@
+#TODO setup mailer
+#TODO forbid creating payments if end_of_year balance has not been compleeted
 require 'application_responder'
 
 class ApplicationController < ActionController::Base

@@ -2,7 +2,7 @@ class AutoBalance < Balance
   before_save :set_amount, :set_interest_sum
 
   def end_amount 
-    self[:end_amount] ||= calculated_end_amount
+    calculated_end_amount
   end
 
   private

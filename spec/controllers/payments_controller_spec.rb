@@ -13,6 +13,8 @@ RSpec.describe PaymentsController, type: :controller do
       let(:valid_params){ { payment: attributes_for(payment_type) } }
 
       context "with valid params" do
+        before(:each){ allow_any_instance_of(Disburse).to receive(:amount_fits).and_return(true) }
+
         it 'creates a new Payment' do
           expect {
             post :create, valid_params.merge(credit_agreement_params).merge(format: :js)

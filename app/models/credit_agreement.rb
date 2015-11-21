@@ -7,6 +7,7 @@ class CreditAgreement < ActiveRecord::Base
   has_many :payments, -> { order 'date asc' }, dependent: :restrict_with_exception
   has_many :balances, -> { order 'date asc' }
   has_many :auto_balances, -> { order 'date asc' }
+  has_one :termination_balance
 
   delegate :belongs_to_project?, to: :account, prefix: true
 
@@ -17,6 +18,7 @@ class CreditAgreement < ActiveRecord::Base
   validate :account_valid_for_credit_agreement?
 
   after_touch :create_missing_balances, :delete_unnecessary_balances, :update_balances
+  before_save :make_termination_balance
 
   def self.funded_credits_sum
     sum(:amount)
@@ -39,6 +41,15 @@ class CreditAgreement < ActiveRecord::Base
     auto_balances.build
   end
 
+  def terminated?
+    !terminated_at.blank?
+  end
+
+  def reopen!
+    unset_terminated_at
+    save
+  end
+
   private
     def account_valid_for_credit_agreement?
       return if account_belongs_to_project?
@@ -59,6 +70,11 @@ class CreditAgreement < ActiveRecord::Base
       end
     end
 
+    def make_termination_balance
+      return unless terminated_at
+      create_termination_balance(date: terminated_at)
+    end
+
     def existing_balances_dates
       balances.pluck(:date)
     end
@@ -69,6 +85,10 @@ class CreditAgreement < ActiveRecord::Base
 
     def date_of_first_payment
       (payments.first || NullPayment.new).date
+    end
+
+    def unset_terminated_at
+      self.terminated_at = nil
     end
 
     def this_year

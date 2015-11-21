@@ -5,12 +5,12 @@ RSpec.shared_examples "balance_policy" do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:index, :new, :create]
+      permits [:index]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:index, :new, :create]
+      permits [:index]
     end
 
     context "for a non privileged user" do

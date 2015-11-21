@@ -64,4 +64,37 @@ RSpec.describe CreditAgreement, type: :model do
     expected_order = [Date.today - 2.years, Date.today - 1.years, Date.today]
     expect(@credit_agreement.balances.pluck(:date)).to eq(expected_order)
   end
+
+  it "termination date is nil by default" do
+    @credit_agreement = create :credit_agreement
+    expect(@credit_agreement.terminated_at).to be_nil
+  end
+
+  it "is not terminated if no termination date is set" do
+    @credit_agreement = build :credit_agreement
+    expect(@credit_agreement).not_to be_terminated
+  end
+
+  it "is terminated if termination date is set" do
+    @credit_agreement = build :credit_agreement, terminated_at: Date.today
+    expect(@credit_agreement).to be_terminated
+  end
+
+  it "can be reopened" do
+    @credit_agreement = build :credit_agreement, terminated_at: Date.today
+    @credit_agreement.reopen!
+    expect(@credit_agreement).not_to be_terminated
+  end
+
+  it "creates a termination balance if terminated at is set" do
+    @credit_agreement = create :credit_agreement
+    create :deposit, credit_agreement: @credit_agreement
+    expect(@credit_agreement.termination_balance).to be_nil
+    @credit_agreement.terminated_at = Date.today
+    @credit_agreement.save
+    expect(@credit_agreement.termination_balance).to be_a(TerminationBalance)
+    expect(@credit_agreement.termination_balance.date).to eq(Date.today)
+    expect(@credit_agreement.termination_balance.end_amount).to eq(0)
+  end
 end
+  

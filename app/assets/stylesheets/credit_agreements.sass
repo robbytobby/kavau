@@ -3,11 +3,12 @@
 #new_payment_form
   .form-group
     vertical-align: top
+    margin-bottom: 1em
 table
   tr
     &.auto_balance
       @extend .bg-info 
-    &.manual_balance, &.auto_balance
+    &.manual_balance, &.auto_balance, &.termination_balance
       td
         font-weight: bold
     &.interest

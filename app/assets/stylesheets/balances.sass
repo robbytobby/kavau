@@ -1,7 +1,9 @@
 @import "bootstrap-sprockets"
 @import "bootstrap"
 
-table
+table, table.table.table-striped
   tr
     &.manual_balance
       @extend .bg-danger
+    &.termination_balance
+      @extend .bg-success

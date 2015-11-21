@@ -1,21 +1,15 @@
 - present(@credit_agreement) do |credit_agreement|
   %h1
     = t '.title', number: @credit_agreement.id
-  - present(@credit_agreement.creditor) do |creditor|
-    %p
-      = link_to creditor.full_name, creditor
-      |
-      = CreditAgreement.human_attribute_name(:amount) +':'
-      = credit_agreement.amount
-      |
-      = CreditAgreement.human_attribute_name(:interest_rate) +':'
-      = credit_agreement.interest_rate
-      |
-      = CreditAgreement.human_attribute_name(:cancellation_period) +':'
-      = credit_agreement.cancellation_period
+  = render partial: 'details', locals: { credit_agreement: credit_agreement }
 
-  #new_payment_form
-    = render partial: 'payments/inline_form', locals: { credit_agreement: @credit_agreement, payment: Payment.new }
+  -unless @credit_agreement.terminated?
+    = render :partial => 'termination_form'
+
+  %h2= t '.balances'
+  -if policy(Payment.new(credit_agreement_id: @credit_agreement.id)).create?
+    #new_payment_form
+      = render partial: 'payments/inline_form', locals: { credit_agreement: @credit_agreement, payment: Payment.new }
 
   #balances
     = render :partial => 'balances'

@@ -14,14 +14,17 @@ class PaymentPolicy < ApplicationPolicy
   end
 
   def create?
+    return false if record.credit_agreement.terminated?
     user.admin? || user.accountant?
   end
 
   def update?
+    return false if record.credit_agreement.terminated?
     user.admin? || user.accountant?
   end
 
   def destroy?
+    return false if record.credit_agreement.terminated?
     user.admin? || user.accountant?
   end
 
