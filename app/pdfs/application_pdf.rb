@@ -62,7 +62,7 @@ class ApplicationPdf < Prawn::Document
 
   def footer
     font_size(9){
-      footer_line(1, legal_information)
+      footer_line(1, legal_information_line)
       footer_line(2, management_line)
       footer_line(3, @sender.bank_details)
     }
@@ -74,7 +74,7 @@ class ApplicationPdf < Prawn::Document
 
   def management_line
     raise MissingInformationError.new(@sender.model) if @sender.contacts.none?
-    management_label + ': ' + manager_names
+    "#{management_label}: #{manager_names}"
   end
 
   def management_label
@@ -89,10 +89,19 @@ class ApplicationPdf < Prawn::Document
     managers.map{ |manager| manager.full_name(:pdf) }.join(', ')
   end
 
-  def legal_information
+  def legal_information_line
     raise MissingInformationError.new(@sender.model) if @sender.legal_information_missing?
-    [@sender.full_name, with_explanation('based_in'), @sender.register_court,
-     with_explanation('registration_number'), with_explanation(tax_information) ].join(', ') 
+    legal_information.join(', ') 
+  end
+
+  def legal_information
+    [
+      @sender.full_name, 
+      with_explanation('based_in'), 
+      @sender.register_court,
+      with_explanation('registration_number'), 
+      with_explanation(tax_information) 
+    ]
   end
 
   def with_explanation(key)
