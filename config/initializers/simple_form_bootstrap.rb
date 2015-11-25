@@ -182,9 +182,9 @@ SimpleForm.setup do |config|
   config.default_wrapper = :horizontal_form
   config.wrapper_mappings = {
     check_boxes: :vertical_radio_and_checkboxes,
-    radio_buttons: :vertical_radio_and_checkboxes,
+    radio_buttons: :horizontal_radio_and_checkboxes,
     file: :vertical_file_input,
-    boolean: :vertical_boolean,
+    boolean: :horizontal_boolean,
     datetime: :multi_select,
     date: :multi_select,
     time: :multi_select

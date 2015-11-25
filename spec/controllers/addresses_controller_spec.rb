@@ -25,6 +25,34 @@ RSpec.describe AddressesController, type: :controller do
     end
   end
 
+  describe "flash on project_address show" do
+    it "sets flash warning for contacts" do
+      @address = create :project_address
+      get :show, type: 'ProjectAddress', id: @address
+      expect(flash[:warning].first).to include('Geschäftsführer')
+    end
+
+    it "sets flash warning for legal informations" do
+      @address = create :project_address, :with_contacts
+      get :show, type: 'ProjectAddress', id: @address
+      ['Sitz', 'Registergericht', 'Register-Nr', 'UST-Id-Nr', 'Steuernummer'].each do |missing|
+        expect(flash[:warning].first).to include(missing)
+      end
+    end
+
+    it "sets flash warning for missing default account" do
+      @address = create :project_address, :with_contacts, :with_legals
+      get :show, type: 'ProjectAddress', id: @address
+      expect(flash[:warning].first).to include('Standard-Konto')
+    end
+
+    it "sets no flash warnig if address has contacts and legal_information" do
+      @address = create :complete_project_address
+      get :show, type: 'ProjectAddress', id: @address
+      expect(flash[:warning]).to be_empty
+    end
+  end
+
   ['Person', 'Organization', 'ProjectAddress'].each do |type|
     describe "Get show #{type}" do
       before(:each){ @address = create type.underscore.to_sym }

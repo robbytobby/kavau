@@ -2,6 +2,8 @@ class AddressPresenter < BasePresenter
   def full_name(format = :formal)
     if format == :formal
       [formal_name, first_name].compact.join(', ')
+    elsif format == :pdf
+      [title, first_name, name].compact.join(' ')
     else
       [first_name, name].compact.join(' ')
     end
@@ -45,5 +47,10 @@ class AddressPresenter < BasePresenter
 
   def confirmation_label
     full_name(:informal)
+  end
+
+  def bank_details
+    raise MissingInformationError.new(model) unless default_account
+    "#{I18n.t('helpers.bank_details')}: #{default_account.bank}, BIC: #{default_account.bic}, IBAN: #{IBANTools::IBAN.new(default_account.iban).prettify}"
   end
 end

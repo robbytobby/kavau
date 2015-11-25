@@ -11,6 +11,19 @@ de:
         creditor: 'Neue_r Kreditgeber_in'
     edit: 
       title: "%{model} bearbeiten"
+    flash:
+      no_contacts_for:
+        project_address:
+          limited: 'Wichtig: Für die %{name} GmbH müssen noch Geschäftsführer_innen angelegt werden.'
+          registered_society: 'Wichtig: Für den %{name} e.V. müssen noch Vorständ_innen angelegt werden.' 
+      missing_legal_information:
+        project_address:
+          limited: "Für die %{name} GmbH fehlen noch folgende Angaben: %{missing}"
+          registered_society: "Für den %{name} e.V. fehlen noch folgende Angaben: %{missing}"
+      missing_default_account:
+        project_address:
+          limited: "Für die %{name} GmbH muß ein Standard-Konto angelegt werden"
+          registered_society: "Für den %{name} e.V. muß ein Standard-Konto angelegt werden"
     index:
       title:
         creditor: 'Kreditgeber_innen'
@@ -20,7 +33,8 @@ de:
     search:
       name_cont: 'Name enthält'
     show:
-      contacts: 'Ansprechpartner_innen'
+      contacts_for: 
+        project_address: 'Geschäftsführung / Vorstand'
       accounts: 'Bankverbindungen'
       credit_agreements: 'Kreditverträge'
   balances:
@@ -33,7 +47,11 @@ de:
       one: 'Ansprechpartner_in'
       other: 'Ansprechpartner_innen'
     new:
-      title: 'Neue_r Ansprechpartner_in'
+      title: 
+        organization: 'Neue_r Ansprechpartner_in'
+        project_address: 
+          limited:  'Neue_r Geschäftsführer_in'
+          registered_society: 'Neue_r Vorstand / Vorständin'
     edit: 
       title: 'Ansprechpartner_in bearbeiten'
   credit_agreements:

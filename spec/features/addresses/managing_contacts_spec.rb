@@ -25,7 +25,7 @@ require 'rails_helper'
           fill_in :contact_name, with: 'Name'
           click_on :submit
           expect(current_path).to eq(model_path(@address))
-          expect(page).to have_selector('div.alert-success')
+          expect(page).to have_selector('div.alert-notice')
         end
 
         it "I can cancel adding a contact to a #{type.underscore}" do
@@ -44,7 +44,7 @@ require 'rails_helper'
             fill_in :contact_name, with: 'New Name'
             click_on :submit
             expect(current_path).to eq(model_path(@address))
-            expect(page).to have_selector('div.alert-success')
+            expect(page).to have_selector('div.alert-notice')
           end
 
           it "I can cancel editing a contact of a #{type.underscore}" do
@@ -58,7 +58,7 @@ require 'rails_helper'
             visit model_path(@address)
             click_on "delete_contact_#{@contact.id}"
             expect(current_path).to eq(model_path(@address))
-            expect(page).to have_selector('div.alert-success')
+            expect(page).to have_selector('div.alert-notice')
           end
         end
       end

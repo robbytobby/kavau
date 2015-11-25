@@ -13,6 +13,10 @@ class BasePresenter < SimpleDelegator
     @model
   end
 
+  def name
+    @model.respond_to?(:name) ? @model.name : @model.class.model_name.human
+  end
+
   def mail_to
     h.mail_to(@model.email) if @model.email
   end

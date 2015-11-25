@@ -17,4 +17,12 @@ module ApplicationHelper
     presenter = klass.new(record, self)
     yield(presenter) if block_given?
   end
+
+  def flash_class(type)
+    "alert alert-#{type}"
+  end
+
+  def close_button_attributes
+    { class: "close", aria: {hidden: "true"}, data: {dismiss: "alert"}, type: "button" }
+  end
 end

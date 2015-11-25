@@ -14,6 +14,7 @@ class Account < ActiveRecord::Base
   delegate :belongs_to_project?, to: :address
 
   before_save :set_address_type
+  after_save :delete_old_default
 
   validates_presence_of :bank, :iban
   validates_presence_of :name, if: :belongs_to_project?
@@ -26,4 +27,18 @@ class Account < ActiveRecord::Base
     def set_address_type
       self.address_type = address.class.to_s
     end
+
+    def delete_old_default
+      return unless default
+      old_default.update(default: false)
+    end
+
+    def old_default
+      Account.where(address_id: address_id, default: true).where.not(id: id).first || NullAccount.new
+    end
+end
+
+class NullAccount
+  def method_missing(*)
+  end
 end

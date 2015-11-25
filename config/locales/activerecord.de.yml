@@ -39,8 +39,10 @@ de:
         iban: 'Iban'
         owner: 'Kontoinhaber_in'
         name: 'Bezeichnung'
+        default: 'Standard (für Briefe etc.)'
       address:
         address: 'Anschrift'
+        based_in: 'Sitz'
         city: 'Stadt'
         country_code: 'Land'
         email: 'Email'
@@ -49,11 +51,16 @@ de:
         name: 'Nachname'
         notes: 'Notizen'
         phone: 'Telefon'
+        register_court: 'Registergericht'
+        registration_number: 'Register-Nr'
         salutation: 'Anrede'
         street_number: 'Straße & Nr'
         title: 'Titel'
         type: 'Typ'
-        zip: 'Postleitzahl'
+        ust_id: 'UST-Id-Nr'
+        ust_id_or_tax_number: 'UST-Id-Nr oder Steuernummer'
+        tax_number: 'Steuernummer'
+        zip: 'PLZ'
       balance:
         credit_agreement_id: 'Kredit Nr.'
         date: 'Datum'
@@ -86,8 +93,14 @@ de:
         type: 'Art'
       project_address:
         name: 'Name'
+        legal_form: 'Rechtsform'
+        registered_society:
+          contacts: 'Vorstand'
+        limited:
+          contacts: 'Geschäftsführung'
       organization:
         name: 'Name'
+        contacts: 'Ansprechpartner_innen'
       user:
         email: 'Email'
         first_name: 'Vorname'

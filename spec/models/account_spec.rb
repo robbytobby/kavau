@@ -30,4 +30,11 @@ RSpec.describe Account, type: :model do
       expect(@account_2.average_rate_of_interest).to eq(3.0)
     end
   end
+
+  it "there is allways only one default account for an address" do
+    @account1 = create :project_account, default: true
+    @account2 = create :account, address: @account1.address, default: true
+    expect(@account2.default).to be_truthy
+    expect(@account1.reload.default).to be_falsy
+  end
 end

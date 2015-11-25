@@ -16,7 +16,7 @@ RSpec.describe "Managing creditors"  do
       select "Deutschland", from: "#{type}_country_code"
       click_on :submit
       expect(current_path).to eq(send("#{type}_path", Address.last))
-      expect(page).to have_selector('div.alert-success')
+      expect(page).to have_selector('div.alert-notice')
     end
 
     it "canceling creating a #{type} is possible" do
@@ -35,7 +35,7 @@ RSpec.describe "Managing creditors"  do
         fill_in "#{type}_name", with: 'New Name'
         click_on :submit
         expect(current_path).to eq(creditors_path)
-        expect(page).to have_selector('div.alert-success')
+        expect(page).to have_selector('div.alert-notice')
       end
 
       it "canceling editing possible" do
@@ -49,7 +49,7 @@ RSpec.describe "Managing creditors"  do
         visit creditors_path
         click_on "delete_#{type}_#{@creditor.id}"
         expect(current_path).to eq(creditors_path)
-        expect(page).to have_selector('div.alert-success')
+        expect(page).to have_selector('div.alert-notice')
       end
     end
   end

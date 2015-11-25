@@ -147,14 +147,20 @@ RSpec.describe "On the home page" do
         click_on 'new_project_address'
         expect(current_path).to eq(new_project_address_path)
         fill_in('project_address_name', with: 'Test Name')
+        select 'e.V.', from: :project_address_legal_form
         fill_in('project_address_street_number', with: 'Test Street')
         fill_in('project_address_zip', with: 'Test Zip')
         fill_in('project_address_city', with: 'Test City')
         select('Deutschland', from: 'project_address_country_code')
-        click_on 'Addresse erstellen'
+        fill_in 'project_address_based_in', with: 'City'
+        fill_in 'project_address_register_court', with: 'Court'
+        fill_in 'project_address_registration_number', with: 'RegistrationNumber'
+        fill_in 'project_address_tax_number', with: 'TaxNumber'
+        fill_in 'project_address_ust_id', with: 'UstId'
+        click_on 'submit'
         # redirect to the new address
         expect(current_path).to eq(project_address_path(Address.first))
-        expect(page).to have_selector('div.alert-success')
+        expect(page).to have_selector('div.alert-notice')
         # go back to index
         click_on('zurück')
         within('tr.project_address') do 
@@ -180,7 +186,7 @@ RSpec.describe "On the home page" do
         # redirects back to project#index if thats where you came from
         expect(current_path).to eq(project_path)
         expect(page).to have_selector('td', text: 'New Name')
-        expect(page).to have_selector('div.alert-success')
+        expect(page).to have_selector('div.alert-notice')
         # redirects back to the Address if thats where you came from
         find_link('anzeigen', href: project_address_path(@address)).click
         click_on 'bearbeiten'
@@ -209,7 +215,7 @@ RSpec.describe "On the home page" do
         find_link('löschen', href: project_address_path(@address)).click
         expect(current_path).to eq(project_path)
         expect(page).not_to have_selector('td', text: 'THING')
-        expect(page).to have_selector('div.alert-success')
+        expect(page).to have_selector('div.alert-notice')
       end
     end
 

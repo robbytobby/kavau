@@ -7,8 +7,12 @@ class InterestSpanPresenter < BasePresenter
     'interest'
   end
 
+  def date
+    ''
+  end
+
   def span
-    "#{h.l(start_date)} - #{h.l(end_date)}"
+    "#{I18n.l(start_date)} - #{I18n.l(end_date)}"
   end
 
   def base_amount

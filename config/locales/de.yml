@@ -4,13 +4,19 @@ de:
     sure?: 'Bist du sicher, dass du %{label} löschen willst?'
     not_auhtorized: 'Diese Aktion ist dir nicht gestattet'
     manually_calculated: 'manuell berechnet'
+    bank_details: 'Bankverbindung'
+    or: 'oder'
   links:
     back: 'zurück zur Übersicht'
     cancel: 'abbrechen'
     edit: 'bearbeiten'
     show: 'anzeigen'
     delete: 'löschen'
-    new_contact: 'neue_r Ansprechpartner_in'
+    new_contact: 
+      for_organization: 'neue Ansprechpartner_in'
+      for_project_address:
+        registered_society: 'neue_r Vorstand / Vorständin'
+        limited: 'neue_r Geschäftsführer_in'
     new_account: 'neue Bankverbindung'
     new_credit_agreement: 'neuer Kreditvertrag'
     prev: 'voherige Seite'
@@ -19,6 +25,9 @@ de:
     user: 'User'
     accountant: 'Buchhalter_in'
     admin: 'Administrator_in'
+  legal_forms:
+    limited: 'GmbH'
+    registered_society: 'e.V.'
   months:
     one: '1 Monat'
     other: '%{count} Monate'

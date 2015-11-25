@@ -10,7 +10,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
       click_on "edit_#{type}_#{@address.id}"
       click_on 'submit'
       expect(current_path).to eq(creditors_path)
-      expect(page).to have_selector('div.alert-success')
+      expect(page).to have_selector('div.alert-notice')
     end
 
     it "coming from the #{type}s page, then successfully editing a #{type.pluralize} leads back to the #{type}s page" do
@@ -43,7 +43,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
       click_on "delete_#{type}_#{@address.id}"
       expect(current_path).to eq(creditors_path)
       expect(page).not_to have_selector("tr##{type}_#{@address.id}")
-      expect(page).to have_selector('div.alert-success')
+      expect(page).to have_selector('div.alert-notice')
     end
 
     it "creating a #{type} leads to the newly created record" do
@@ -57,7 +57,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
       select 'Deutschland', from: "#{type}_country_code"
       click_on 'submit'
       expect(current_path).to match(/\/#{type.pluralize}\/\d+/)
-      expect(page).to have_selector('div.alert-success')
+      expect(page).to have_selector('div.alert-notice')
     end
   end
 end

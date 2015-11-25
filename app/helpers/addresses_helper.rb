@@ -12,6 +12,10 @@ module AddressesHelper
     end
   end
 
+  def legal_form_options
+    I18n.t('legal_forms').stringify_keys.to_a.map(&:reverse)
+  end
+
   def icon_popover(icon, content, title = '', placement = 'top')
     return if content.blank?
     content_tag(:span,

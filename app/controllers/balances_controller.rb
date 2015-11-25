@@ -4,10 +4,14 @@ class BalancesController < ApplicationController
   include LoadAuthorized
   include Searchable
   default_sort ['date desc', 'credit_agreement_id asc']
-  before_action :set_credit_agreement, except: :index
+  before_action :set_credit_agreement, except: [:index, :show]
 
   def index
     respond_with @balances
+  end
+
+  def show
+    send_data @balance.pdf.render, type: 'application/pdf', disposition: :inline
   end
 
   def edit

@@ -1,6 +1,6 @@
 class BalancePresenter < PaymentPresenter
   def date
-    h.l @model.date
+    I18n.l @model.date
   end
 
   def credit_agreement_link
@@ -20,6 +20,7 @@ class BalancePresenter < PaymentPresenter
   def end_amount
     h.number_to_currency @model.end_amount
   end
+  alias_method :amount, :end_amount
 
   def deposits
     h.number_to_currency @model.payments.where(sign: 1).sum(:amount)

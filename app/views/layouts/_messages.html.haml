@@ -1,23 +1,11 @@
 -# Rails flash messages styled for Bootstrap 3.0
-- flash.each do |name, msg|
-  - if msg.is_a?(String)
-    %div{:class => "alert alert-#{name.to_s == 'notice' ? "success" : "danger"}"}
-      %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
-      = content_tag :div, msg, :id => "flash_#{name}"
-  - elsif msg.is_a?(Array)
-    %div{:class => "alert alert-#{name.to_s == 'notice' ? "success" : "danger"}"}
-      %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
-      %div{id: "flash_#{name}"}
-        %ul
-          - msg.each do |i|
-            %li= i
-  - elsif msg.is_a?(Hash)
-    %div{:class => "alert alert-#{name.to_s == 'notice' ? "success" : "danger"}"}
-      %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
-      %div{id: "flash_#{name}"}
-        = msg[:header]
-        %ul
-          - msg[:body].each do |i|
-            %li= i
-
-
+- flash.each do |key, value|
+  - if value.is_a?(String)
+    %div{:class => flash_class(key)}
+      %button{close_button_attributes} &times;
+      = content_tag :div, value, :id => "flash_#{key}"
+  - elsif value.is_a?(Array)
+    - value.uniq.each do |message|
+      %div{:class => flash_class(key)}
+        %button{close_button_attributes} &times;
+        = content_tag :div, message, :id => "flash_#{key}"

@@ -55,6 +55,10 @@ class Balance < ActiveRecord::Base
     self
   end
 
+  def pdf
+    #TODO everything
+    BalancePdf.new(self)
+  end
 
   private
     def interest_span(date_pair)
@@ -63,7 +67,7 @@ class Balance < ActiveRecord::Base
     end
 
     def last_years_balance
-      balances.find_by(date: end_of_last_year) || NullBalance.new
+      balances.find_by(date: end_of_last_year) || NullBalance.new(payments.first.try(:date))
     end
 
     def set_date
@@ -79,7 +83,7 @@ class Balance < ActiveRecord::Base
     end
 
     def following_balance
-      balances.older_than(date).first || NullBalance.new
+      balances.older_than(date).first || NullBalance.new(date)
     end
 
     def calculated_interests_sum
@@ -93,13 +97,4 @@ class Balance < ActiveRecord::Base
     def touch_credit_agreement
       credit_agreement.touch
     end
-
-  class NullBalance
-    def end_amount
-      0
-    end
-
-    def update_end_amount!
-    end
-  end
 end

@@ -24,4 +24,9 @@ class AccountPresenter < BasePresenter
       iban
     ].join(' ')
   end
+
+  def default
+    return unless @model.default
+    h.content_tag :span, nil, class: 'with_help glyphicon glyphicon-asterisk', title: Account.human_attribute_name(:default)
+  end
 end

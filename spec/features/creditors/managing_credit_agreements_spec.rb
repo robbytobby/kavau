@@ -18,7 +18,7 @@ RSpec.describe "managing credit aggreements" do
           select 'Account', from: 'credit_agreement_account_id'
           click_on :submit
           expect(current_path).to eq(model_path(@creditor))
-          expect(page).to have_selector('div.alert.alert-success')
+          expect(page).to have_selector('div.alert.alert-notice')
         end
 
         it "I can cancel adding a credit agreement to a #{type.underscore}" do
@@ -37,7 +37,7 @@ RSpec.describe "managing credit aggreements" do
             fill_in :credit_agreement_amount, with: '20000'
             click_on :submit
             expect(current_path).to eq(model_path(@creditor))
-            expect(page).to have_selector('div.alert-success')
+            expect(page).to have_selector('div.alert-notice')
           end
 
           it "of a #{type.underscore} - cancel editing is possible" do
@@ -51,7 +51,7 @@ RSpec.describe "managing credit aggreements" do
             visit model_path(@creditor)
             click_on "delete_credit_agreement_#{@credit_agreement.id}"
             expect(current_path).to eq(model_path(@creditor))
-            expect(page).to have_selector('div.alert-success')
+            expect(page).to have_selector('div.alert-notice')
           end
         end
         

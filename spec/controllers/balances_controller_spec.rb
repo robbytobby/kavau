@@ -5,12 +5,32 @@ RSpec.describe BalancesController, type: :controller do
   before(:each){ @credit_agreement = create :credit_agreement }
   let(:credit_agreement_params){ { credit_agreement_id: @credit_agreement.id } }
 
-  context "all balances" do
-    describe "GET #index" do
-      it "assigns all balances as @balances" do
-        balance = create :balance
-        get :index
-        expect(assigns(:balances)).to eq([balance])
+  ['AutoBalance', 'ManualBalance', 'TerminationBalance'].each do |balance_type|
+    context "#{balance_type}" do
+      let(:key){ balance_type.underscore.to_sym }
+      before(:each){ @balance = create key }
+
+      describe "GET #index" do
+        it "assigns all balances as @balances" do
+          get :index
+          expect(assigns(:balances)).to eq([@balance])
+        end
+      end
+
+      describe "GET #show format: pdf" do
+        before(:each){ allow(@balance).to receive(:pdf).and_return(true) }
+
+        it "assigns the requested balance as @balance" do
+          get :show, id: @balance.id, format: 'pdf'
+          expect(assigns(:balance)).to eq(@balance)
+        end
+
+        it "sends the balances pdf" do
+          pending "dont know how to spec"
+          get :show, id: @balance.id, format: 'pdf'
+          allow_any_instance_of(BalancesController).to receive(:send_data).and_return(true)
+          expect(controller).to have_received(:send_data)
+        end
       end
     end
   end

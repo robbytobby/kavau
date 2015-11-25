@@ -12,6 +12,6 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def permitted_params
-    [:bic, :iban, :bank, :name, :owner]
+    [:bic, :iban, :bank, :name, :owner, :default]
   end
 end

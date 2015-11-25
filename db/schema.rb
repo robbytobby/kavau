@@ -11,16 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151121163725) do
+ActiveRecord::Schema.define(version: 20151125150805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "accounts", force: :cascade do |t|
     t.string   "encrypted_bic"
     t.string   "encrypted_owner"
-    t.string   "encrypted_iban",       null: false
-    t.string   "encrypted_bank",       null: false
+    t.string   "encrypted_iban",                       null: false
+    t.string   "encrypted_bank",                       null: false
     t.string   "encrypted_name"
     t.string   "encrypted_bic_salt"
     t.string   "encrypted_owner_salt"
@@ -32,22 +33,23 @@ ActiveRecord::Schema.define(version: 20151121163725) do
     t.string   "encrypted_iban_iv"
     t.string   "encrypted_bank_iv"
     t.string   "encrypted_name_iv"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-    t.string   "address_id",           null: false
-    t.string   "address_type",         null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.string   "address_id",                           null: false
+    t.string   "address_type",                         null: false
+    t.boolean  "default",              default: false
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.string   "name",             null: false
+    t.string   "name",              null: false
     t.string   "first_name"
     t.string   "street_number"
     t.string   "city"
     t.string   "country_code"
     t.string   "salutation"
-    t.string   "type",             null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.string   "type",              null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.string   "zip"
     t.string   "title"
     t.string   "email"
@@ -55,6 +57,8 @@ ActiveRecord::Schema.define(version: 20151121163725) do
     t.text     "notes"
     t.integer  "institution_id"
     t.string   "institution_type"
+    t.string   "legal_form"
+    t.hstore   "legal_information"
   end
 
   create_table "balances", force: :cascade do |t|

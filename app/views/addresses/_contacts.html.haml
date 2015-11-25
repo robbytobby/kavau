@@ -1,7 +1,7 @@
 -if @type != 'Person' && @address.contacts.any?
   .contacts
     %h2
-      = t('addresses.show.contacts')
+      = t(key_with_legal_form(@address) + '.contacts', scope: 'activerecord.attributes')
     %table.table.table-striped
       %thead
         %tr

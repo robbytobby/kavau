@@ -1,6 +1,8 @@
 - present account do |a|
   %tr[account]
-    %td= a.bank
+    %td
+      = a.default
+      = a.bank
     %td= a.bic
     %td= a.iban
     %td= a.owner

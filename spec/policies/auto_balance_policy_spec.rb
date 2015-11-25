@@ -8,12 +8,12 @@ RSpec.describe AutoBalancePolicy do
 
   context "for an admin" do
     let(:user){ create :admin }
-    permits [:edit, :update]
+    permits [:show, :edit, :update]
   end
 
   context "for an accountant" do
     let(:user){ create :accountant }
-    permits [:edit, :update]
+    permits [:show, :edit, :update]
   end
 
   context "of terminated credit agreement" do
@@ -21,12 +21,12 @@ RSpec.describe AutoBalancePolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits :none
+      permits [:show]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits :none
+      permits [:show]
     end
   end
 end

@@ -13,7 +13,7 @@ require 'rails_helper'
       fill_in :user_login, with: 'New Login'
       click_on :submit
       expect(current_path).to eq('/project')
-      expect(page).to have_selector('div.alert-success')
+      expect(page).to have_selector('div.alert-notice')
     end
 
     it "I can cancel editing own account" do

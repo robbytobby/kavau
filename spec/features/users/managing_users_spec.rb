@@ -17,7 +17,7 @@ RSpec.describe "Managing users (only possible for admins)"  do
       fill_in :user_email, with: 'name@test.org'
       click_on :submit
       expect(current_path).to eq(users_path)
-      expect(page).to have_selector('div.alert-success')
+      expect(page).to have_selector('div.alert-notice')
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe "Managing users (only possible for admins)"  do
         fill_in :user_name, with: 'New Name'
         click_on :submit
         expect(current_path).to eq(users_path)
-        expect(page).to have_selector('div.alert-success')
+        expect(page).to have_selector('div.alert-notice')
       end
 
       it "canceling edit is possible" do
@@ -52,7 +52,7 @@ RSpec.describe "Managing users (only possible for admins)"  do
         visit users_path
         click_on "delete_user_#{@user.id}"
         expect(current_path).to eq(users_path)
-        expect(page).to have_selector('div.alert-success')
+        expect(page).to have_selector('div.alert-notice')
       end
     end
   end

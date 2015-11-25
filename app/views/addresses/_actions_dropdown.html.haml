@@ -11,7 +11,7 @@
       id: 'edit', text: t('links.edit')
     = authorized_icon_link :new, :contact, 
       icon: 'user', nested_in: @address, condition: (@type != 'Person'), wrap: :li,
-      id: 'add_contact', text: t('links.new_contact')
+      id: 'add_contact', text: t("for_#{key_with_legal_form(@address)}", scope: 'links.new_contact')
     = authorized_icon_link :new, :account, 
       icon: 'credit-card', nested_in: @address, wrap: :li,
       id: 'add_account', text: t('links.new_account')

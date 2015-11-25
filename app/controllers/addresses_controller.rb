@@ -2,7 +2,10 @@ class AddressesController < ApplicationController
   include Typed
   include LoadAuthorized
   include Searchable
+  include CheckProjectAddress
   default_sort ['name asc', 'first_name asc']
+
+  before_action :check_contacts, :legal_information_given?, :default_account_set, only: :show
 
   def index
     @addresses = @addresses.includes(:credit_agreements)
@@ -51,5 +54,20 @@ class AddressesController < ApplicationController
 
     def after_action_path
       action_name == 'create' ? send("#{@type.underscore}_path", @address) : session[:back_url]
+    end
+
+    def check_contacts
+      return unless @type == 'ProjectAddress'
+      check_for_contacs(@address)
+    end
+
+    def legal_information_given?
+      return unless @type == 'ProjectAddress'
+      check_legal_information(@address)
+    end
+
+    def default_account_set
+      return unless @type == 'ProjectAddress'
+      check_default_account(@address)
     end
 end

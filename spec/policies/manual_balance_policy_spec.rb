@@ -8,12 +8,12 @@ RSpec.describe ManualBalancePolicy do
 
   context "for an admin" do
     let(:user){ create :admin }
-    permits [:edit, :update, :destroy]
+    permits [:show, :edit, :update, :destroy]
   end
 
   context "for an accountant" do
     let(:user){ create :accountant }
-    permits [:edit, :update, :destroy]
+    permits [:show, :edit, :update, :destroy]
   end
 
   context "of terminated credit agreement" do
@@ -21,12 +21,12 @@ RSpec.describe ManualBalancePolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits :none
+      permits [:show]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits :none
+      permits [:show]
     end
   end
 end

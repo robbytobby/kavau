@@ -9,10 +9,6 @@ class BalancePolicy < ApplicationPolicy
     false
   end
 
-  def show?
-    false
-  end
-
   def create?
     false
   end
