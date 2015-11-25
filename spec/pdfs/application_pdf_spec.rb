@@ -30,7 +30,6 @@ RSpec.describe ApplicationPdf do
   end
 
   it "includes banking info" do
-    binding.pry
     pending 'pdf-inspector does not find footer!!!'
     expect(text_analysis).to include('DiBaDu')
   end

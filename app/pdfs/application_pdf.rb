@@ -62,16 +62,31 @@ class ApplicationPdf < Prawn::Document
 
   def footer
     font_size(9){
-      text_box legal_information, footer_options.merge(at: [0, 0 - footer_line_height - 0.8.cm ])
-      text_box management, footer_options.merge(at: [0, 0 - 2 * footer_line_height - 0.8.cm ])
-      text_box @sender.bank_details, footer_options.merge(at: [0, 0 - 3 * footer_line_height - 0.8.cm ])
+      footer_line(1, legal_information)
+      footer_line(2, management_line)
+      footer_line(3, @sender.bank_details)
     }
   end
 
-  def management
-    raise MissingInformationError.new(@sender.model) if @sender.model.contacts.none?
-    I18n.t(key_with_legal_form(@sender.model, :contacts), scope: 'activerecord.attributes') + ': ' +
-      @sender.contacts.map{|contact| [contact.title, contact.first_name, contact.name].join(' ')}.join(', ')
+  def footer_line(number, text)
+    text_box text, footer_options.merge(footer_line_position(number))
+  end
+
+  def management_line
+    raise MissingInformationError.new(@sender.model) if @sender.contacts.none?
+    management_label + ': ' + manager_names
+  end
+
+  def management_label
+    I18n.t(key_with_legal_form(@sender.model, :contacts), scope: 'activerecord.attributes')
+  end
+
+  def managers
+    @sender.contacts.map{|contact| AddressPresenter.new(contact, self) }
+  end
+
+  def manager_names
+    managers.map{ |manager| manager.full_name(:pdf) }.join(', ')
   end
 
   def legal_information
@@ -152,6 +167,10 @@ class ApplicationPdf < Prawn::Document
 
   def footer_line_height
     (page.margins[:bottom] - 2.0.cm) / 3
+  end
+
+  def footer_line_position(number)
+    { at: [0, 0 - number * footer_line_height - 0.8.cm ] }
   end
 end
 
