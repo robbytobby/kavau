@@ -1,4 +1,17 @@
 de:
   pdf:
-    auto_balance: 'Jahresabschluss'
-    manual_balance: 'Jahresabschluss'
+    balance:
+      auto_balance: 'Jahresabschluss'
+      manual_balance: 'Jahresabschluss'
+      interest_method: 'Die Berechnung der Zinstage erfolgt nach der Effektivzinsmethode. Informationen zur Zinsmethode befinden sich auf unserer Website unter %{url}.' 
+      interest_presentation: 'Da das Darlehen per annum verzinst wird, werden Zinsen am Jahresende dem Kontostand zugeschlagen. Der besseren Verständlichkeit halber sind sie jedoch vor bzw. nach entsprechenden Kontobewegungen dargestellt.'
+
+    interest_certificate:
+      heading: 'Zinsbescheinigung für das Jahr %{year}'
+      text: '%{creditor} hat %{project_address} einen zinsgünstigen Direktkredit zur Verfügung gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten Mietshausprojektes %{project_name}.'
+      interest_rate: 'Zinssatz: %{rate} p.a.'
+      interests_sum: 'Jahreszinsbetrag %{year}: %{amount}'
+      thanks: 'Wir bedanken uns für die Unterstützung.'
+      name_with_article:
+        limited: 'der %{name} GmbH'
+        registered_society: 'dem %{name} e.V.'

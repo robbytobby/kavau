@@ -6,7 +6,7 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to 'KV LaMa', project_path, class: 'navbar-brand active'
+      = link_to "KV #{Settings.project_name}", project_path, class: 'navbar-brand active'
     -if user_signed_in?
       .collapse.navbar-collapse{id: "main-navigation"}
         %ul.nav.navbar-nav

@@ -7,15 +7,28 @@ class BalancePdf < ApplicationPdf
   
   def content
     move_cursor_to 16.cm
-    heading
+    balance_heading
     move_down 20
     balance_table
+    annotations
   end
 
-  def heading
-    font('Helvetica', style: :bold){
-      text [credit_agreement_number, balance_year].join(' - ')
-    }
+  def annotations
+    move_down(30)
+    font_size(10) do
+      text I18n.t('pdf.balance.interest_method', url: Settings.interest_method_url)
+      payment_annotations
+    end
+  end
+
+  def payment_annotations
+    return unless @record.payments.any?
+    move_down(10)
+    text I18n.t('pdf.balance.interest_presentation')
+  end
+
+  def balance_heading
+    heading [credit_agreement_number, balance_year].join(' - ')
   end
 
   def credit_agreement_number
@@ -27,7 +40,7 @@ class BalancePdf < ApplicationPdf
   end
 
   def balance_year
-    [I18n.t(@record.class.to_s.underscore, scope: :pdf), @record.date.year].join(' ')
+    [I18n.t(@record.class.to_s.underscore, scope: 'pdf.balance'), @record.date.year].join(' ')
   end
 
   def balance_table

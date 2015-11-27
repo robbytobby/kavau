@@ -25,6 +25,7 @@ class ApplicationPdf < Prawn::Document
   def setup_instance_variables
     @recipient = CreditorPresenter.new(@record.creditor, self)
     @sender = ProjectAddressPresenter.new(@record.credit_agreement.account.address, self)
+    @date = Date.today
     setup_style_variables
   end
 
@@ -53,7 +54,24 @@ class ApplicationPdf < Prawn::Document
 
   def logo
     return unless FileTest.exists?(logo_path)
-    bounding_box(logo_box_position, logo_box_options){ image logo_path, logo_options }
+    bounding_box(logo_box_position, logo_box_options) do
+      image logo_path, logo_options 
+      move_down 50
+      contact_data
+    end
+  end
+
+  def contact_data
+    font_size(10) do
+      contact_line Settings.website_url
+      contact_line @sender.email
+      contact_line @sender.phone
+    end
+  end
+
+  def contact_line(string)
+    return if string.blank?
+    text string, align: :right
   end
 
   def logo_path
@@ -113,6 +131,12 @@ class ApplicationPdf < Prawn::Document
     'tax_number'
   end
 
+  def heading(content)
+    font('Helvetica', style: :bold){
+      text content
+    }
+  end
+
   def content
   end
 
@@ -121,7 +145,6 @@ class ApplicationPdf < Prawn::Document
     @pager_width = 5.cm
     @logo_size = 6.cm
     @line_width = 0.1
-    @date = Date.today
     default_leading 3
     self.line_width = @line_width
   end
@@ -163,7 +186,7 @@ class ApplicationPdf < Prawn::Document
   end
 
   def logo_box_options
-    { :width => @logo_size, :height => @logo_size }
+    { :width => @logo_size}
   end
 
   def logo_options

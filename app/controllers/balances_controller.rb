@@ -11,7 +11,7 @@ class BalancesController < ApplicationController
   end
 
   def show
-    send_data @balance.pdf.render, type: 'application/pdf', disposition: :inline
+    send_data @balance.pdf, type: 'application/pdf', disposition: :inline
   end
 
   def edit
