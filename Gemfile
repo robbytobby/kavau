@@ -46,6 +46,8 @@ gem 'kaminari'
 gem 'ransack'
 gem 'prawn'
 gem 'prawn-table'
+gem 'combine_pdf'
+gem 'config'
 
 
 group :development, :test do
