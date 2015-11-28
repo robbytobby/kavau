@@ -48,7 +48,7 @@ gem 'prawn'
 gem 'prawn-table'
 gem 'combine_pdf'
 gem 'config'
-
+gem 'exception_notification'
 
 group :development, :test do
   gem 'byebug', '~> 6.0'

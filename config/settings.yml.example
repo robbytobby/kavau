@@ -9,3 +9,10 @@ smtp_settings:
   enable_starttls_auto: true
   user_name: 
   password: 
+exception_mailer:
+  email: 
+    email_prefix: '[Prefix] '
+    sender_address: 'sender@example.org'
+    exception_recipients: 
+      - 'recipient.one@example.org'
+      - 'recipient.two@example.org'
