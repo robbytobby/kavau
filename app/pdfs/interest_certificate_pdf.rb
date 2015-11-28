@@ -1,4 +1,9 @@
 class InterestCertificatePdf < ApplicationPdf
+  def initialize(balance)
+    @balance = balance
+    super @balance.credit_agreement.account.address, @balance.creditor
+  end
+  
   private
   def content
     move_cursor_to 16.cm
@@ -13,7 +18,7 @@ class InterestCertificatePdf < ApplicationPdf
   end
 
   def interest_certificate_heading
-    heading I18n.t('pdf.interest_certificate.heading', year: @record.date.year)
+    heading I18n.t('pdf.interest_certificate.heading', year: @balance.date.year)
   end
 
   def preamble
@@ -25,13 +30,13 @@ class InterestCertificatePdf < ApplicationPdf
 
   def interest_rate_line
     heading I18n.t('pdf.interest_certificate.interest_rate',
-                   rate: number_to_percentage(@record.interest_rate))
+                   rate: number_to_percentage(@balance.interest_rate))
   end
 
   def interest_sum_line
     heading I18n.t('pdf.interest_certificate.interests_sum',
-                   year: @record.date.year,
-                   amount: number_to_currency(@record.interests_sum))
+                   year: @balance.date.year,
+                   amount: number_to_currency(@balance.interests_sum))
   end
 
   def thanks
@@ -40,8 +45,6 @@ class InterestCertificatePdf < ApplicationPdf
   end
 
   def project_name_with_article
-    I18n.t(@sender.model.legal_form, scope: 'pdf.interest_certificate.name_with_article', name: @sender.name)
+    I18n.t(@sender.legal_form, scope: 'pdf.interest_certificate.name_with_article', name: @sender.name)
   end
-
-  
 end

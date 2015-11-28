@@ -1,10 +1,10 @@
 class BalancePdf < ApplicationPdf
-  
-  private
-  def setup_instance_variables
-    super
+  def initialize(balance)
+    @balance = balance
+    super @balance.credit_agreement.account.address, @balance.creditor
   end
   
+  private
   def content
     move_cursor_to 16.cm
     balance_heading
@@ -22,7 +22,7 @@ class BalancePdf < ApplicationPdf
   end
 
   def payment_annotations
-    return unless @record.payments.any?
+    return unless @balance.payments.any?
     move_down(10)
     text I18n.t('pdf.balance.interest_presentation')
   end
@@ -35,12 +35,12 @@ class BalancePdf < ApplicationPdf
     [
       CreditAgreement.model_name.human, 
       CreditAgreement.human_attribute_name(:id), 
-      @record.credit_agreement.id
+      @balance.credit_agreement.id
     ].join(' ')
   end
 
   def balance_year
-    [I18n.t(@record.class.to_s.underscore, scope: 'pdf.balance'), @record.date.year].join(' ')
+    [I18n.t(@balance.class.to_s.underscore, scope: 'pdf.balance'), @balance.date.year].join(' ')
   end
 
   def balance_table
@@ -49,8 +49,8 @@ class BalancePdf < ApplicationPdf
       table.row(1).font_style = :bold
       table.row(-1).font_style = :bold
       table.row(-1).borders = [:top]
-      table.row(1).border_width = 5 * @line_width
-      table.row(-1).border_width = 5 * @line_width
+      table.row(1).border_width = 5 * style.line_width
+      table.row(-1).border_width = 5 * style.line_width
     end
   end
 
@@ -70,10 +70,10 @@ class BalancePdf < ApplicationPdf
 
   def table_items
     [
-      @record.send(:last_years_balance),
-      @record.payments,
-      @record.interest_spans, 
-      @record
+      @balance.send(:last_years_balance),
+      @balance.payments,
+      @balance.interest_spans, 
+      @balance
     ].flatten.sort_by(&:date).map{|item| presenter(item) }
   end
 
@@ -99,8 +99,7 @@ class BalancePdf < ApplicationPdf
   def table_options
     { 
       cell_style: cell_defaults,
-      width: bounds.width,
-      column_widths: default_column_widths 
+      width: bounds.width
     }
   end
 
@@ -108,13 +107,9 @@ class BalancePdf < ApplicationPdf
     { 
       size: 10, 
       borders: [:bottom], 
-      border_width: @line_width,
+      border_width: style.line_width,
       inline_format: true, 
       overflow: :shrink_to_fit
     }
-  end
-
-  def default_column_widths
-    {}
   end
 end
