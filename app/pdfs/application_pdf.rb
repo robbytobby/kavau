@@ -44,7 +44,6 @@ class ApplicationPdf < Prawn::Document
   def content
   end
 
-  # styles & positions
   def page_definition
     { 
       page_size: 'A4', 

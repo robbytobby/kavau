@@ -69,7 +69,7 @@ de:
         interests: 'Zinsen'
         end_amount: 'Kontostand'
         manually_edited: 'manuell bearbeitet'
-        interest_calculation: 'Zinsenberechnung'
+        interest_calculation: 'Zinsberechnung'
         interest_days: 'Zinstage'
         interest_span: 'Zins-Zeitraum'
         start_amount: 'Kontostand alt'
