@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  concern(:has_contacts){ resources :contacts, except: [:index, :show] }
+  concern(:has_accounts){ resources :accounts, except: [:index, :show] }
+  concern(:has_credit_agreements){ resources :credit_agreements, except: [:index, :show] }
+
   devise_for :users, skip: [:registrations, :confirmations]
 
   #resources :addresses, except: :index
@@ -16,17 +20,13 @@ Rails.application.routes.draw do
     resources :disburses, except: [:index, :show, :new], controller: :payments, type: 'Disburse'
   end
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
-    resources :contacts, except: [:index, :show]
-    resources :accounts, except: [:index, :show]
-    resources :credit_agreements, except: [:index, :show]
+    concerns :has_contacts, :has_accounts, :has_credit_agreements
   end
   resources :people, controller: :addresses, type: 'Person', except: :index do
-    resources :accounts, except: [:index, :show]
-    resources :credit_agreements, except: [:index, :show]
+    concerns :has_accounts, :has_credit_agreements
   end
   resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
-    resources :contacts, except: [:index, :show]
-    resources :accounts, except: [:index, :show]
+    concerns :has_contacts, :has_accounts
   end
   resources :users
   get 'project' => 'project#show'
