@@ -14,6 +14,7 @@ logo.png
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
 config/secrets.yml
+config/settings.yml
 
 ## Environment normalisation:
 /.bundle
@@ -21,6 +22,7 @@ config/secrets.yml
 
 ## Deployment - don't include Project specific configuration
 config/deploy/lama_production.rb
+config/deploy/luftschloss_production.rb
 
 # these should all be checked in to normalise the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
