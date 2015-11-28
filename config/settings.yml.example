@@ -1,3 +1,11 @@
 project_name: 
 website_url: 
 interest_method_url: 
+mailer_sender: 
+smtp_settings:
+  address: 
+  port: 
+  authentication: 
+  enable_starttls_auto: true
+  user_name: 
+  password: 
