@@ -27,6 +27,6 @@ module Kavau
     config.active_record.raise_in_transactional_callbacks = true
 
     # Handle http errors through errors controller
-    config.excecptions_app = self.routes
+    config.exceptions_app = self.routes
   end
 end
