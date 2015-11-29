@@ -1,0 +1,15 @@
+.dropdown.pull-right.actions
+  %button.btn.btn-default.dropdown-toggle{type: "button", id: "action-dropdown", data: {toggle: "dropdown"}}
+    =link_to 'Aktion', ''
+    %span.caret
+  %ul.dropdown-menu
+    = authorized_icon_link :index, :letter, 
+      icon: 'th-list', path: letters_path,
+      id: 'back', text: t('links.back'), wrap: :li
+    = authorized_icon_link :edit, @letter, 
+      icon: 'edit', wrap: :li,
+      id: 'edit', text: t('links.edit')
+    = authorized_icon_link :delete, @letter, 
+      icon: 'trash', wrap: :li,
+      id: 'destroy', text: t('links.delete')
+

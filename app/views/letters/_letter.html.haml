@@ -1,0 +1,9 @@
+-present letter do |l|
+  %tr[letter]
+    %td= l.created_at
+    %td= l.subject
+    %td= l.type
+    %td.actions
+      = authorized_icon_link :edit, letter
+      = authorized_icon_link :delete, letter
+    

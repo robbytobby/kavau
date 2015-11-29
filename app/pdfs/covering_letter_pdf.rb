@@ -10,6 +10,7 @@ class CoveringLetterPdf < ApplicationPdf
     salutation
     move_down 10
     main_content
+    move_down 10
     thanks
   end
 

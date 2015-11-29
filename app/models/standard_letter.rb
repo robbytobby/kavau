@@ -1,0 +1,3 @@
+class StandardLetter < Letter
+
+end

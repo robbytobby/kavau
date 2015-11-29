@@ -19,6 +19,10 @@ Rails.application.routes.draw do
     resources :deposits, except: [:index, :show, :new], controller: :payments, type: 'Deposit'
     resources :disburses, except: [:index, :show, :new], controller: :payments, type: 'Disburse'
   end
+  resources :letters, only: :index, type: 'Letter'
+  resources :balance_letters, controller: :letters, except: :index, type: 'BalanceLetter'
+  resources :termination_letters, controller: :letters, except: :index, type: 'TerminationLetter'
+  resources :standard_letters, controller: :letters, except: :index, type: 'StandardLetter'
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
     concerns :has_contacts, :has_accounts, :has_credit_agreements
   end

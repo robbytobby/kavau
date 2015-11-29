@@ -1,0 +1,13 @@
+%h1
+  = t '.title'
+  = render :partial => 'index_actions'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th= Letter.human_attribute_name :created_at
+      %th= Letter.human_attribute_name :subject
+      %th= Letter.human_attribute_name :type
+      %th
+  %tbody
+    = render @letters

@@ -34,6 +34,7 @@ FactoryGirl.define do
     end
 
     factory :person, class: Person do
+      salutation 'female'
       first_name 'Vorname'
       type 'Person'
     end

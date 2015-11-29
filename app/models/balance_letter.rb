@@ -1,0 +1,2 @@
+class BalanceLetter < Letter
+end

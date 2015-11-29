@@ -1,0 +1,8 @@
+- present @letter do |l|
+  %h1
+    = l.title
+    = render :partial => 'actions_dropdown'
+  %div.letter
+    %p= l.subject_line
+    %p Lieber Vorname Nachname
+    %p= l.content

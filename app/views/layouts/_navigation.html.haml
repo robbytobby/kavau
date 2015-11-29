@@ -18,6 +18,8 @@
             id: 'credit_agreements_index', wrapper_class: nav_class('credit_agreements')
           = authorized_link :index, :balance, t('.balances'), wrap: :li,
             id: 'balances_index', wrapper_class: nav_class('balances')
+          = authorized_link :index, :letter, t('.letters'), wrap: :li,
+            id: 'letters_index', wrapper_class: nav_class('letters')
           = authorized_link :index, :user, t('.users'), wrap: :li,
             id: 'users_index', wrapper_class: nav_class('users')
         %ul.nav.navbar-nav.pull-right

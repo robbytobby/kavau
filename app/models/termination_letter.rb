@@ -1,0 +1,3 @@
+class TerminationLetter < Letter
+
+end

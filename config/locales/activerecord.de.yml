@@ -26,6 +26,10 @@ de:
       credit_agreement: 'Kreditvertrag'
       deposit: 'Einzahlung'
       disburse: 'Auszahlung'
+      letter: 'Briefvorlage'
+      standard_letter: 'Briefvorlage'
+      termination_letter: 'Anschreiben für Kreditkündigungen'
+      balance_letter: 'Anschreiben für Jahresbilanzen'
       organization: 'Organisation'
       payment: 'Zahlung'
       project_address: 'Projekt Addresse'
@@ -87,6 +91,12 @@ de:
         old_balance: 'Kontostand alt'
         payment_amount: 'Betrag'
         payment_type: 'Art'
+      letter:
+        content: 'Text'
+        created_at: 'angelegt am'
+        subject: 'Betreff'
+        type: ''
+        year: 'Jahr'
       payment:
         amount: 'Betrag'
         date: 'Datum'

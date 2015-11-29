@@ -1,0 +1,3 @@
+class BalanceLetterPolicy < LetterPolicy
+end
+

@@ -81,6 +81,18 @@ de:
       title: 'Änderung nicht akzeptiert'
       sub_title: 'Die Änderung, die du machen wolltest, wurde zurückgewiesen.'
       text: 'Solltest du über einen Click innerhalb der App zu dieser Seite gelangt sein, informiere den Admin welche Änderung welches Datensatzes dich hierher gebeamt hat.' 
+  letters:
+    index:
+      title: 'Briefvorlagen'
+    index_actions:
+      new_standard_letter: 'neue Briefvorlage'
+      new_balance_letter: 'neues Anschreiben für Jahresabschluss'
+      new_termination_letter: 'neues Anschreiben für Kredit-Kündigungen'
+    new:
+      title:
+        standard_letter: 'neue Briefvorlage'
+        balance_letter: 'neues Anschreiben für Jahresabschluss'
+        termination_letter: 'neues Anschreiben für Kredit-Kündigungen'
   payments:
     edit:
       title: 'Zahlung bearbeiten'
@@ -105,4 +117,5 @@ de:
       creditors: 'Kreditgeber_innen'
       credit_agreements: 'Kreditverträge'
       edit_profile: 'Eigene Daten bearbeiten'
+      letters: 'Briefvorlagen'
       users: 'User'

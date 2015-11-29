@@ -1,0 +1,3 @@
+class TerminationLetterPolicy < LetterPolicy
+end
+
