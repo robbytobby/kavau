@@ -6,6 +6,9 @@ de:
     manually_calculated: 'manuell berechnet'
     bank_details: 'Bankverbindung'
     or: 'oder'
+    salutation:
+      male: 'Herr'
+      female: 'Frau'
   links:
     back: 'zurück zur Übersicht'
     cancel: 'abbrechen'

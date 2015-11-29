@@ -1,5 +1,5 @@
 .col-sm-6
-  = f.input :salutation
+  = f.input :salutation, as: :select, collection: salutation_options
   = f.input :title
   = f.input :first_name
   = f.input :name

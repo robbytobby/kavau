@@ -61,7 +61,8 @@ class Balance < ActiveRecord::Base
   end
 
   def combined_pdf
-    CombinePDF.parse(BalancePdf.new(self).render) <<
+    CombinePDF.parse(CoveringLetterPdf.new(self).render) <<
+      CombinePDF.parse(BalancePdf.new(self).render) <<
       CombinePDF.parse(InterestCertificatePdf.new(self).render)
   end
 

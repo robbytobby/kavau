@@ -1,5 +1,8 @@
 de:
   pdf:
+    salutation:
+      herr: 'Lieber %{name}'
+      frau: 'Liebe %{name}'
     balance:
       auto_balance: 'Jahresabschluss'
       manual_balance: 'Jahresabschluss'

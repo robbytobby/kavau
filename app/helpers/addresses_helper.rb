@@ -12,6 +12,10 @@ module AddressesHelper
     end
   end
 
+  def salutation_options
+    ['male', 'female'].map{|string| [t(string, scope: [:helpers, :salutation]), string] }
+  end
+
   def legal_form_options
     I18n.t('legal_forms').stringify_keys.to_a.map(&:reverse)
   end
