@@ -49,6 +49,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
     it "creating a #{type} leads to the newly created record" do
       visit creditors_path
       click_on "add_#{type}"
+      select 'Herr', from: "#{type}_salutation" if type == 'person'
       fill_in "#{type}_first_name", with: 'First Name' if type == 'person'
       fill_in "#{type}_name", with: 'Name'
       fill_in "#{type}_street_number", with: 'Street Number'

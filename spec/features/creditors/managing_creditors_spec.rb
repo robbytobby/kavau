@@ -8,6 +8,7 @@ RSpec.describe "Managing creditors"  do
       visit creditors_path
       click_on "add_#{type}"
       expect(current_path).to eq(send("new_#{type}_path"))
+      select 'Herr', from: "#{type}_salutation" if type == :person
       fill_in "#{type}_name", with: 'Name'
       fill_in "#{type}_first_name", with: 'Name' if type == :person
       fill_in "#{type}_street_number", with: 'Street Number'
