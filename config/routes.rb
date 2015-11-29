@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'errors/not_found'
+
+  get 'errors/internal_server_error'
+
   concern(:has_contacts){ resources :contacts, except: [:index, :show] }
   concern(:has_accounts){ resources :accounts, except: [:index, :show] }
   concern(:has_credit_agreements){ resources :credit_agreements, except: [:index, :show] }
@@ -34,6 +38,10 @@ Rails.application.routes.draw do
   authenticated :user do
     root to: 'project#show', as: :authenticated_root
   end
+
+  get "/404" => "errors#not_found"
+  get "/422" => "errors#change_rejected"
+  get "/500" => "errors#internal_server_error"
 
   root to: redirect('/users/sign_in')
   # The priority is based upon order of creation: first created -> highest priority.

@@ -67,7 +67,20 @@ de:
     edit:
       title: 'Kreditvertrag bearbeiten'
     search:
-      creditor_name_cont: 'Name d. Krditgeber_in enthält'
+      creditor_name_cont: 'Name d. Kreditgeber_in enthält'
+  errors:
+    not_found:
+      title: 'Seite nicht gefunden!'
+      sub_title: 'Die angeforderte Seite konnte nicht gefunden werden.'
+      text: 'Solltest du über einen Click innerhalb der App zu dieser Seite gelangt sein, informiere den Admin welcher Link auf welcher Seite dich hierher gebeamt hat.' 
+    internal_server_error:
+      title: 'Interner Server Error!'
+      sub_title: 'Im Programmcode ist ein Fehler aufgetreten.'
+      text: 'Der / die Verantwortliche wurde über den Fehler per Email informiert'
+    change_rejected:
+      title: 'Änderung nicht akzeptiert'
+      sub_title: 'Die Änderung, die du machen wolltest, wurde zurückgewiesen.'
+      text: 'Solltest du über einen Click innerhalb der App zu dieser Seite gelangt sein, informiere den Admin welche Änderung welches Datensatzes dich hierher gebeamt hat.' 
   payments:
     edit:
       title: 'Zahlung bearbeiten'

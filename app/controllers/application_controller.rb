@@ -1,4 +1,3 @@
-#TODO setup mailer
 #TODO forbid creating payments if end_of_year balance has not been compleeted
 require 'application_responder'
 
@@ -6,9 +5,6 @@ class ApplicationController < ActionController::Base
   include Pundit
   include I18nKeyHelper
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  #rescue_from DefaultAccountMissingError, with: :missing_address_information
-  #rescue_from LegalInformationMissingError, with: :missing_address_information
-  #rescue_from ContactMissingError, with: :missing_address_information
   rescue_from MissingInformationError, with: :missing_address_information
 
   self.responder = ApplicationResponder
