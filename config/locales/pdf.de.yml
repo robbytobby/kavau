@@ -1,8 +1,10 @@
 de:
   pdf:
     salutation:
-      herr: 'Lieber %{name}'
-      frau: 'Liebe %{name}'
+      male: 'Lieber %{name}'
+      female: 'Liebe %{name}'
+      limited: 'Liebe %{name}'
+      registered_society: 'Lieber %{name}'
     balance:
       auto_balance: 'Jahresabschluss'
       manual_balance: 'Jahresabschluss'
@@ -12,9 +14,22 @@ de:
     interest_certificate:
       heading: 'Zinsbescheinigung für das Jahr %{year}'
       text: '%{creditor} hat %{project_address} einen zinsgünstigen Direktkredit zur Verfügung gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten Mietshausprojektes %{project_name}.'
-      interest_rate: 'Zinssatz: %{rate} p.a.'
-      interests_sum: 'Jahreszinsbetrag %{year}: %{amount}'
+      interest_rate: '%{rate} p.a.'
+      interests_year_amount: 'Jahreszinsbetrag %{year}'
       thanks: 'Wir bedanken uns für die Unterstützung.'
+      sum: 'Summe: %{amount}'
       name_with_article:
         limited: 'der %{name} GmbH'
         registered_society: 'dem %{name} e.V.'
+      text1:
+        person: '%{name}'
+        organization:
+          limited: 'Die %{name}'
+          registered_society: 'Der %{name}'
+      text2:
+        limited: 'hat der %{name}'
+        registered_society: 'hat dem %{name}'
+      text3:
+        one: 'einen zinsgünstigen Direktkredit zur Verfügung gestellt,'
+        other: 'zinsgünstige Direktkredite zur Verfügung gestellt,' 
+      text4: 'zur Unterstützung der sozialen Zwecke des selbstorganisiserten Mietshausprojektes %{name}'

@@ -34,6 +34,12 @@ class LettersController < ApplicationController
     respond_with @letter, location: '/letters'
   end
 
+  def create_pdfs
+    @letter.create_pdfs
+    flash[:notice] = I18n.t('letters.flash.pdfs_created')
+    respond_with(@letter, location: letters_path)
+  end
+
   private
     def klass
       @type.constantize

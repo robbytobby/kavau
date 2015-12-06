@@ -16,6 +16,10 @@ class Balance < ActiveRecord::Base
 
   ransacker(:year){ Arel.sql('extract(year from date)') }
 
+  def project_address
+    credit_agreement.account.address
+  end
+
   def to_partial_path
     'balances/balance'
   end
@@ -56,14 +60,8 @@ class Balance < ActiveRecord::Base
   end
 
   def pdf
-    #TODO everything
-    combined_pdf.to_pdf
-  end
-
-  def combined_pdf
-    CombinePDF.parse(CoveringLetterPdf.new(self).render) <<
-      CombinePDF.parse(BalancePdf.new(self).render) <<
-      CombinePDF.parse(InterestCertificatePdf.new(self).render)
+    #TODO: make real - load pdf from file or create
+    BalancePdf.new(self).render
   end
 
   private

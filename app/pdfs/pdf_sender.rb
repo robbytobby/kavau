@@ -1,11 +1,10 @@
 class PdfSender
-  include Prawn::View
+  include BuildingBlock
   attr_reader :model, :presented
 
   delegate :legal_form, :contacts, :legal_information_missing?, to: :model
   delegate :name, :full_name, :email, :phone, :register_court, :based_in, :ust_id, :tax_number,
-    :bank_details, :street_number, :city_line, :registration_number, to: :presented
-  delegate :style, :contact_data, to: :document
+    :default_account, :street_number, :city_line, :registration_number, to: :presented
 
   def initialize(project_address, doc)
     @document = doc
@@ -18,9 +17,11 @@ class PdfSender
   end
 
   def over_address_line
-    font_size(style.sender_font_size){
-      text_box sender_line, style.over_address_line
-      stroke_line style.over_address_line_ruler
+    bounding_box(*style.over_address_line){
+      font_size(style.sender_font_size){
+        text sender_line
+        stroke_horizontal_rule
+      }
     }
   end
 
@@ -35,18 +36,35 @@ class PdfSender
     font_size(style.footer_font_size){
       footer_line(1, legal_information_line)
       footer_line(2, management_line)
-      footer_line(3, bank_details)
+      footer_line(3, bank_details_line)
     }
   end
 
   private
+  def contact_data
+    [Settings.website_url, sender.email, sender.phone]
+  end
+
   def footer_line(number, text)
     text_box text, style.footer_line(number)
   end
 
+  def bank_details_line
+    "<b>#{I18n.t('helpers.bank_details')}:</b> #{bank_details.join(' | ')}"
+  end
+
+  def bank_details
+    raise MissingInformationError.new(model) unless default_account
+    [ 
+      default_account.bank, 
+      ['BIC:', default_account.bic].join(' '), 
+      ['IBAN:', IBANTools::IBAN.new(default_account.iban).prettify].join(' ')
+    ]
+  end
+
   def management_line
     raise MissingInformationError.new(@model) if contacts.none?
-    "#{management_label}: #{manager_names}"
+    "<b>#{management_label}:</b> #{manager_names}"
   end
 
   def management_label
@@ -58,20 +76,18 @@ class PdfSender
   end
 
   def manager_names
-    managers.map{ |manager| manager.full_name(:pdf) }.join(', ')
+    managers.map{ |manager| manager.full_name(:pdf) }.join(' | ')
   end
 
   def legal_information_line
     raise MissingInformationError.new(@model) if legal_information_missing?
-    legal_information.join(', ') 
+    "<b>#{full_name}</b> #{legal_information.join(' | ')}"
   end
 
   def legal_information
     [
-      full_name, 
       with_explanation('based_in'), 
-      register_court,
-      with_explanation('registration_number'), 
+      [register_court, registration_number,].join(' '), 
       with_explanation(tax_information) 
     ]
   end
@@ -86,7 +102,15 @@ class PdfSender
   end
   
   def sender_line
-    [full_name, street_number, city_line].join(', ')
+    [full_name, street_number, city_line].map{|string| nowrap(string)}.join(', ')
+  end
+
+  def nowrap(string)
+    string.gsub(/ /,nbsp) 
+  end
+
+  def nbsp
+    Prawn::Text::NBSP
   end
 
   def contact_line(string)

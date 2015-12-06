@@ -28,5 +28,13 @@ module Kavau
 
     # Handle http errors through errors controller
     config.exceptions_app = self.routes
+
+    # create directories for pdfs
+    #TODO has problems on migrations when Letters table is not setup
+    config.after_initialize do
+      Letter.subclasses.each do |klass|
+        FileUtils.mkdir_p(Pdf.new(letter: klass.new).send(:directory))
+      end
+    end
   end
 end

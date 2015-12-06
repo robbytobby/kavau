@@ -1,6 +1,5 @@
 class PdfLogo
-  include Prawn::View
-  delegate :style, to: :document
+  include BuildingBlock
 
   def initialize(doc)
     @document = doc

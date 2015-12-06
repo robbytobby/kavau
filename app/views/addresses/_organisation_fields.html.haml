@@ -4,9 +4,9 @@
   = render :partial => 'contact_fields', locals: {f: f}
   - unless @address.project_address?
     = f.input :notes
-- if @address.project_address?
-  .col-sm-6
-    = f.input :legal_form, as: :select, collection: legal_form_options
+.col-sm-6
+  = f.input :legal_form, as: :select, collection: legal_form_options
+  - if @address.project_address?
     = f.input :based_in
     = f.input :register_court
     = f.input :registration_number

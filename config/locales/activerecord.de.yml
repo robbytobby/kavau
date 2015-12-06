@@ -32,6 +32,7 @@ de:
       balance_letter: 'Anschreiben für Jahresbilanzen'
       organization: 'Organisation'
       payment: 'Zahlung'
+      pdf: 'Brief'
       project_address: 'Projekt Addresse'
       user: 'User'
     attributes:
@@ -101,6 +102,11 @@ de:
         amount: 'Betrag'
         date: 'Datum'
         type: 'Art'
+      pdf:
+        created_at: 'angelegt am'
+        title: 'Titel'
+        letter: 'Vorlage'
+        letter_id: 'Vorlage'
       project_address:
         name: 'Name'
         legal_form: 'Rechtsform'
@@ -111,6 +117,11 @@ de:
       organization:
         name: 'Name'
         contacts: 'Ansprechpartner_innen'
+        legal_form: 'Rechtsform'
+        limited:
+          contacts: 'Ansprechpartner_innen'
+        registered_society:
+          contacts: 'Ansprechpartner_innen'
       user:
         email: 'Email'
         first_name: 'Vorname'

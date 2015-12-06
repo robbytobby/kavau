@@ -10,6 +10,7 @@
           %th= CreditAgreement.human_attribute_name :cancellation_period
           %th.money= CreditAgreement.human_attribute_name :amount
           %th.money= CreditAgreement.human_attribute_name :interest_rate
+          %th.money= CreditAgreement.human_attribute_name :balance
           %th
         %tbody
           = render @address.credit_agreements

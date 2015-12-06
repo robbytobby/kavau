@@ -126,4 +126,38 @@ RSpec.describe LettersController, type: :controller do
       end
     end
   end
+
+  ['StandardLetter', 'BalanceLetter'].each do |letter_type|
+    context "#{letter_type}" do
+      describe "get create_pdfs" do
+        before(:each){ @letter = create letter_type.underscore, year: 2014 }
+
+        it "assigns the requested letter" do
+          post :create_pdfs, type: 'Letter', id: @letter.id
+          expect(assigns(:letter)).to eq(@letter)
+        end
+
+        it "is successfull" do
+          post :create_pdfs, type: 'Letter', id: @letter.id
+          expect(response.status).to eq 302
+        end
+
+        it "creates pds for the letter" do
+          allow_any_instance_of(letter_type.constantize).to receive(:create_pdfs).and_return(true)
+          post :create_pdfs, type: 'Letter', id: @letter.id
+          expect(assigns(:letter)).to have_received(:create_pdfs)
+        end
+
+        it "set the pdfs_created marker" do
+          post :create_pdfs, type: 'Letter', id: @letter.id
+          expect(assigns(:letter).pdfs_created?).to be_truthy
+        end
+
+        it "redirects to the letters index" do
+          post :create_pdfs, type: 'Letter', id: @letter.id
+          expect(response).to redirect_to('/letters')
+        end
+      end
+    end
+  end
 end

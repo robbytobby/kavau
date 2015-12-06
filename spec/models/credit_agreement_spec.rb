@@ -25,6 +25,11 @@ RSpec.describe CreditAgreement, type: :model do
     expect(@credit_agreement).not_to be_valid
   end
 
+  it "is not valid without account" do
+    @credit_agreement = build :credit_agreement, account: nil
+    expect(@credit_agreement).not_to be_valid
+  end
+
   it "has a todays balance" do
     @credit_agreement = build :credit_agreement
     expect(@credit_agreement.todays_balance.date).to eq(Date.today)

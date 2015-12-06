@@ -18,7 +18,7 @@ RSpec.describe BalancesController, type: :controller do
       end
 
       describe "GET #show format: pdf" do
-        before(:each){ allow(@balance).to receive(:pdf).and_return(true) }
+        before(:each){ allow_any_instance_of(Balance).to receive(:pdf).and_return(true) }
 
         it "assigns the requested balance as @balance" do
           get :show, id: @balance.id, format: 'pdf'

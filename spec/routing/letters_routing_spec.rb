@@ -5,6 +5,18 @@ RSpec.describe LettersController, type: :routing do
     expect(get: "/letters").to route_to('letters#index', type: 'Letter')
   end
 
+  it "routes to create_pdfs" do
+    letter = create :letter
+    expect(post: "/letters/1/create_pdfs").to route_to('letters#create_pdfs', type: 'Letter', id: "1")
+    expect(post: create_pdfs_for_letter_path(letter)).to route_to('letters#create_pdfs', type: 'Letter', id: letter.id.to_s)
+  end
+
+  it "routes to get_pdfs" do
+    letter = create :letter
+    expect(get: "/letters/1/get_pdfs").to route_to('letters#get_pdfs', type: 'Letter', id: "1")
+    expect(get: get_pdfs_for_letter_path(letter)).to route_to('letters#get_pdfs', type: 'Letter', id: letter.id.to_s)
+  end
+
   it "does not route to show" do
     expect(get: "/letters/1").not_to be_routable
   end

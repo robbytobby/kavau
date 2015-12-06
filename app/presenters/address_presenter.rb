@@ -48,9 +48,4 @@ class AddressPresenter < BasePresenter
   def confirmation_label
     full_name(:informal)
   end
-
-  def bank_details
-    raise MissingInformationError.new(model) unless default_account
-    "#{I18n.t('helpers.bank_details')}: #{default_account.bank}, BIC: #{default_account.bic}, IBAN: #{IBANTools::IBAN.new(default_account.iban).prettify}"
-  end
 end

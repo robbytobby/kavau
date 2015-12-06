@@ -1,0 +1,10 @@
+.pdfs
+  %h2= t('addresses.show.pdfs')
+  %table.table.table-striped
+    %thead
+      %tr
+        %th= Pdf.human_attribute_name(:created_at)
+        %th= Pdf.human_attribute_name(:title)
+        %th
+    %tbody
+      = render @address.pdfs

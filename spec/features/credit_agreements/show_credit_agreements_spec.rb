@@ -25,6 +25,7 @@ RSpec.describe "managing credit agreements" do
       it "the credit agreement page show the basic data" do
         visit credit_agreement_path(@credit)
         expect(page).to have_content(@credit.id)
+        expect(page).to have_content(@credit.account.name)
         expect(page).to have_content(@credit.creditor.name)
         expect(page).to have_content(number_to_currency(@credit.amount))
         expect(page).to have_content(number_to_percentage(@credit.interest_rate))

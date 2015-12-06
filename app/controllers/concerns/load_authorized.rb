@@ -5,7 +5,7 @@ module LoadAuthorized
   included do
     before_action :find_collection, only: :index
     before_action :scope_collection, only: :index
-    before_action :find_record, only: [:show, :edit, :update, :destroy]
+    before_action :find_record, except: [:index, :new, :create]
     before_action :build_record, only: :new
     before_action :create_record, only: :create
     before_action :authorize_collection, only: :index

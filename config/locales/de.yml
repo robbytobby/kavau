@@ -9,19 +9,26 @@ de:
     salutation:
       male: 'Herr'
       female: 'Frau'
+    the_letter: 'den Brief'
   links:
     back: 'zurück zur Übersicht'
     cancel: 'abbrechen'
+    create_pdfs: 'PDFs erzeugen'
     edit: 'bearbeiten'
+    get_pdfs: 'PDFs runter laden'
     show: 'anzeigen'
     delete: 'löschen'
+    update: 'aktualisieren'
     new_contact: 
-      for_organization: 'neue Ansprechpartner_in'
+      for_organization: 
+        registered_society: 'neue Ansprechpartner_in'
+        limited: 'neue Ansprechpartner_in'
       for_project_address:
         registered_society: 'neue_r Vorstand / Vorständin'
         limited: 'neue_r Geschäftsführer_in'
     new_account: 'neue Bankverbindung'
     new_credit_agreement: 'neuer Kreditvertrag'
+    new_pdf: 'neuer Brief aus Vorlage'
     prev: 'voherige Seite'
     next: 'nächste Seite'
   roles:
@@ -47,4 +54,14 @@ de:
     of:
       organization: 'der/des'
       person: 'von'
+  directories:
+    standard_letters: 'rundbriefe'
+    termination_letters: 'kuendigungsbriefe'
+    balance_letters: 'jahresabschluss_briefe'
+  pdf:
+    title:
+      standard_letter: '%{text}'
+      balance_letter: 'Jahresbilanz %{text}'
+      termination_letter: 'Kündigungs-Schreiben'
+    
 

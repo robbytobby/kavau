@@ -30,4 +30,8 @@ class CreditAgreementPresenter < BasePresenter
     }.flatten
   end
 
+  def todays_total
+    h.number_to_currency(@model.todays_total)
+  end
+
 end

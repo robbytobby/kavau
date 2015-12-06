@@ -7,14 +7,13 @@ FactoryGirl.define do
 
   factory :termination_letter, class: TerminationLetter do
     type 'TerminationLetter'
-    subject 'Termination of credit agreemnet'
     content 'Termination content'
   end
 
   factory :balance_letter, class: BalanceLetter do
     type 'BalanceLetter'
-    subject 'Termination of credit agreemnet'
-    content 'Termination content'
+    content 'Balance content'
+    year '2014'
   end
 
   factory :standard_letter, class: StandardLetter do

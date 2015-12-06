@@ -5,7 +5,7 @@ class CreditAgreement < ActiveRecord::Base
   belongs_to :creditor, class_name: 'Address'
   belongs_to :account
   has_many :payments, -> { order 'date asc' }, dependent: :restrict_with_exception
-  has_many :balances, -> { order 'date asc' }
+  has_many :balances, -> { order 'date asc' }, dependent: :destroy
   has_many :auto_balances, -> { order 'date asc' }
   has_one :termination_balance
 
@@ -52,6 +52,7 @@ class CreditAgreement < ActiveRecord::Base
 
   private
     def account_valid_for_credit_agreement?
+      return unless account
       return if account_belongs_to_project?
       errors.add(:base, :only_project_accounts_valid)
     end

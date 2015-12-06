@@ -18,3 +18,6 @@
     = authorized_icon_link :new, :credit_agreement, 
       icon: 'file', nested_in: @address, condition: (@type != 'ProjectAddress'), wrap: :li,
       id: 'add_credit_agreement', text: t('links.new_credit_agreement')
+    = authorized_icon_link :new, :pdf, nested_in: @address,
+      icon: 'envelope', condition: (@type != 'ProjectAddress'), wrap: :li,
+      id: 'add_pdf', text: t('links.new_pdf')

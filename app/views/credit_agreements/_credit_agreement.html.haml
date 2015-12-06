@@ -7,6 +7,7 @@
     %td= c.cancellation_period
     %td.money= c.amount
     %td.money= c.interest_rate
+    %td.money= c.todays_total
     %td.actions
       = authorized_icon_link :show, credit_agreement, icon: 'folder-open'
       = authorized_icon_link :edit, credit_agreement, nested_in: :creditor

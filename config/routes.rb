@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   concern(:has_contacts){ resources :contacts, except: [:index, :show] }
   concern(:has_accounts){ resources :accounts, except: [:index, :show] }
   concern(:has_credit_agreements){ resources :credit_agreements, except: [:index, :show] }
+  concern(:has_pdfs){ resources :pdfs, only: [:new, :create] }
 
   devise_for :users, skip: [:registrations, :confirmations]
 
@@ -19,15 +20,20 @@ Rails.application.routes.draw do
     resources :deposits, except: [:index, :show, :new], controller: :payments, type: 'Deposit'
     resources :disburses, except: [:index, :show, :new], controller: :payments, type: 'Disburse'
   end
-  resources :letters, only: :index, type: 'Letter'
+  resources :letters, only: :index, type: 'Letter' do
+    member{ post 'create_pdfs', as: 'create_pdfs_for' }
+    member{ get 'get_pdfs', as: 'get_pdfs_for' }
+  end
   resources :balance_letters, controller: :letters, except: :index, type: 'BalanceLetter'
   resources :termination_letters, controller: :letters, except: :index, type: 'TerminationLetter'
   resources :standard_letters, controller: :letters, except: :index, type: 'StandardLetter'
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
-    concerns :has_contacts, :has_accounts, :has_credit_agreements
+    concerns :has_contacts, :has_accounts, :has_credit_agreements, :has_pdfs
   end
+  resources :pdfs, only: :show, format: true, constraints: {format: :pdf}
+  resources :pdfs, only: [:destroy, :update]
   resources :people, controller: :addresses, type: 'Person', except: :index do
-    concerns :has_accounts, :has_credit_agreements
+    concerns :has_accounts, :has_credit_agreements, :has_pdfs
   end
   resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
     concerns :has_contacts, :has_accounts

@@ -37,6 +37,7 @@ de:
         project_address: 'Geschäftsführung / Vorstand'
       accounts: 'Bankverbindungen'
       credit_agreements: 'Kreditverträge'
+      pdfs: 'Briefe'
   balances:
     edit:
       title: 'Saldo bearbeiten'
@@ -93,9 +94,19 @@ de:
         standard_letter: 'neue Briefvorlage'
         balance_letter: 'neues Anschreiben für Jahresabschluss'
         termination_letter: 'neues Anschreiben für Kredit-Kündigungen'
+    edit:
+      title:
+        standard_letter: 'Briefvorlage "%{text}" bearbeiten'
+        balance_letter: 'Anschreiben für %{text} bearbeiten'
+        termination_letter: 'Anschreiben für %{text} bearbeiten'
+    flash:
+      pdfs_created: 'Die PDFs wurden erstellt.'
   payments:
     edit:
       title: 'Zahlung bearbeiten'
+  pdfs:
+    new:
+      title: 'Brief erstellen für %{name}'
   project:
     show:
       addresses: 'Addressen'

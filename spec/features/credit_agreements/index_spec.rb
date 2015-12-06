@@ -24,6 +24,13 @@ RSpec.describe "credit agreements index" do
       expect(page).to_not have_css("a#edit_credit_agreement_#{@credit_agreement.id}")
       expect(page).to_not have_css("a#delete_credit_agreement_#{@credit_agreement.id}")
     end
+
+    it "shows todays total" do
+      @credit_agreement = create :credit_agreement
+      create :deposit, credit_agreement: @credit_agreement, amount: 122
+      visit credit_agreements_path
+      expect(page).to have_content(number_to_currency(@credit_agreement.todays_total))
+    end
   end
 
   [:accountant, :admin].each do |type|
@@ -47,6 +54,13 @@ RSpec.describe "credit agreements index" do
         expect(page).to have_css("a#show_credit_agreement_#{@credit_agreement.id}")
         expect(page).to have_css("a#edit_credit_agreement_#{@credit_agreement.id}")
         expect(page).to have_css("a#delete_credit_agreement_#{@credit_agreement.id}")
+      end
+
+      it "shows todays total" do
+        @credit_agreement = create :credit_agreement
+        create :deposit, credit_agreement: @credit_agreement, amount: 122
+        visit credit_agreements_path
+        expect(page).to have_content(number_to_currency(@credit_agreement.todays_total))
       end
     end
   end

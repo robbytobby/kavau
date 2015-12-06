@@ -1,0 +1,10 @@
+- present @address do |address|
+  %h1= t '.title', name: address.full_name(:pdf)
+
+  = simple_form_for [@address, @pdf] do |f|
+    .form-inputs
+      = f.input :letter_id, as: :radio_buttons, collection: options_for_letters(@address)
+    .form-actions
+      = f.button :submit, class: 'btn-primary', id: 'submit'
+      = quit_button(:cancel)
+

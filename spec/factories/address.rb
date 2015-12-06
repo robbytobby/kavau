@@ -41,6 +41,7 @@ FactoryGirl.define do
 
     factory :organization, class: Organization do
       type 'Organization'
+      legal_form 'limited'
     end
 
     factory :contact, class: Contact do

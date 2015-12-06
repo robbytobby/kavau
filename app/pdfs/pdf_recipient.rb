@@ -1,7 +1,7 @@
 class PdfRecipient
-  include Prawn::View
+  include BuildingBlock
+
   attr_reader :model, :presented
-  delegate :style, to: :document
   delegate :full_name, :street_number, :city_line, :country_name, :salutation, to: :presented
 
   def initialize(recipient, doc)

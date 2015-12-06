@@ -1,2 +1,2 @@
-%h1= t '.title'
+%h1= t @letter.type.underscore, scope: 'letters.edit.title', text: @letter.title
 = render 'form'

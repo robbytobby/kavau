@@ -1,5 +1,5 @@
 class PdfStyles
-  include Prawn::View
+  include BuildingBlock
   attr_reader :line_width
 
   def initialize(doc)
@@ -19,11 +19,11 @@ class PdfStyles
   end
 
   def recipient
-    { at: [0, 22.cm], height: 3.cm, width: 8.cm, overflow: :shrink_to_fit }
+    { at: [0, 21.5.cm], height: 3.cm, width: 8.cm, overflow: :shrink_to_fit }
   end
 
   def over_address_line
-    { at: [0, 22.8.cm], height: 0.7.cm, width: 8.cm, overflow: :shrink_to_fit }
+    [[0, 22.8.cm], {width: 8.cm, overflow: :shrink_to_fit}]
   end
 
   def over_address_line_ruler

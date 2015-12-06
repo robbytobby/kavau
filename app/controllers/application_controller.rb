@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   include I18nKeyHelper
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from MissingInformationError, with: :missing_address_information
+  rescue_from MissingTemplateError, with: :missing_template
 
   self.responder = ApplicationResponder
   respond_to :html
@@ -31,5 +32,10 @@ class ApplicationController < ActionController::Base
 
     def missing_address_information(exception)
       redirect_to exception.address
+    end
+
+    def missing_template(exception)
+      flash[:warning] = 'Missing Template'
+      redirect_to letters_path
     end
 end

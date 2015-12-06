@@ -4,6 +4,8 @@
     %td= l.subject
     %td= l.type
     %td.actions
+      = authorized_icon_link :get_pdfs, letter, icon: 'download', path: get_pdfs_for_letter_path(letter)
+      = authorized_icon_link :create_pdfs, letter, icon: 'duplicate', path: create_pdfs_for_letter_path(letter), method: :post
       = authorized_icon_link :edit, letter
       = authorized_icon_link :delete, letter
     

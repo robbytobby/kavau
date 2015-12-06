@@ -13,6 +13,7 @@ RSpec.describe BalancePdf do
     create :deposit, amount: 1000, credit_agreement: @credit_agreement, date: Date.today.end_of_year.prev_year
     @deposit = create :deposit, amount: 2000, credit_agreement: @credit_agreement, date: Date.today.beginning_of_year.next_day(30)
     @balance = create :balance, credit_agreement: @credit_agreement, date: Date.today.end_of_year
+    @letter = BalanceLetter.create(content: 'Text')
     @pdf = BalancePdf.new(@balance)
   end
 

@@ -14,6 +14,7 @@
         %th= sort_link(@q, :cancellation_period)
         %th.money= sort_link(@q, :amount)
         %th.money= sort_link(@q, :interest_rate)
+        %th.money= CreditAgreement.human_attribute_name :balance
         %th
       = render :partial => 'search', locals: {f: f}
 
