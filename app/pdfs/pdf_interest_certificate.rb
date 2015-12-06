@@ -51,12 +51,7 @@ class PdfInterestCertificate
 
   def interests_table
     table (table_header + table_content + table_sum), table_options do |table|
-      table.columns(1..2).align = :right
-      table.row(0).font_style = :bold
-      table.row(-1).font_style = :bold
-      table.row(-1).borders = [:top]
-      table.row(0).border_width = 5 * style.line_width
-      table.row(-1).border_width = 5 * style.line_width
+      style.standard_table(table, right_align: 1..2, bold_rows: [0, -1], thick_border_rows: [0, -1])
     end
   end
 

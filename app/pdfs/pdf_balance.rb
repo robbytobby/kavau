@@ -52,12 +52,7 @@ class PdfBalance
 
   def balance_table
     table (table_header + table_content), table_options do |table|
-      table.columns(2..4).align = :right
-      table.row(1).font_style = :bold
-      table.row(-1).font_style = :bold
-      table.row(-1).borders = [:top]
-      table.row(1).border_width = 5 * style.line_width
-      table.row(-1).border_width = 5 * style.line_width
+      style.standard_table(table, right_align: 2..4, bold_rows: [1, -1], thick_border_rows: [1, -1])
     end
   end
 
