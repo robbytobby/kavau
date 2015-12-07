@@ -56,7 +56,7 @@ RSpec.describe "conditional redirects for creditors in address_controller" do
       fill_in "#{type}_street_number", with: 'Street Number'
       fill_in "#{type}_zip", with: 'Zip'
       fill_in "#{type}_city", with: 'City'
-      select 'Deutschland', from: "#{type}_country_code"
+      select 'Deutschland', from: "#{type}_country_code", match: :first
       click_on 'submit'
       expect(current_path).to match(/\/#{type.pluralize}\/\d+/)
       expect(page).to have_selector('div.alert-notice')

@@ -15,7 +15,7 @@ RSpec.describe "Managing creditors"  do
       fill_in "#{type}_street_number", with: 'Street Number'
       fill_in "#{type}_zip", with: 'Zip'
       fill_in "#{type}_city", with: 'City'
-      select "Deutschland", from: "#{type}_country_code"
+      select "Deutschland", from: "#{type}_country_code", match: :first
       click_on :submit
       expect(current_path).to eq(send("#{type}_path", Address.last))
       expect(page).to have_selector('div.alert-notice')

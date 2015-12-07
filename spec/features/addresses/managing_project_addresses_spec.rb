@@ -14,7 +14,7 @@ RSpec.describe "Managing project_addresses"  do
         fill_in :project_address_street_number, with: 'StreetNumber'
         fill_in :project_address_zip, with: 'Zip'
         fill_in :project_address_city, with: 'City'
-        select 'Deutschland', from: :project_address_country_code
+        select 'Deutschland', from: :project_address_country_code, match: :first
         click_on :submit
         expect(current_path).to eq(project_address_path(ProjectAddress.last))
         expect(page).to have_selector('div.alert-notice')

@@ -21,7 +21,7 @@ RSpec.describe "balances pdfs for project address with missing information" do
 
   context "template for covering letter exists" do
     before :each do
-      BalanceLetter.create(content: 'Text')
+      create :balance_letter
     end
 
     it "no contacts given" do

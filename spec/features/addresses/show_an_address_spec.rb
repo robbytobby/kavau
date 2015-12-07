@@ -49,7 +49,7 @@ RSpec.describe "Address view"  do
           within 'div.pdfs' do
             expect(page).to have_content(I18n.l(Date.today))
             expect(page).to have_content(letter.subject) if letter_type == :standard_letter
-            expect(page).to have_content('Jahresabschluss 2014') if letter_type == :balance_letter
+            expect(page).to have_content('Jahresbilanz 2014') if letter_type == :balance_letter
             expect(page).to have_content('Kündigungsschreiben') if letter_type == :termination_letter
             expect(page).to have_link('', href: "/pdfs/#{@address.pdfs.first.id}.pdf")
             expect(page).to have_selector("a[href='/pdfs/#{@address.pdfs.first.id}'][data-method='put']")

@@ -13,16 +13,47 @@ RSpec.describe BalancePdf do
     create :deposit, amount: 1000, credit_agreement: @credit_agreement, date: Date.today.end_of_year.prev_year
     @deposit = create :deposit, amount: 2000, credit_agreement: @credit_agreement, date: Date.today.beginning_of_year.next_day(30)
     @balance = create :balance, credit_agreement: @credit_agreement, date: Date.today.end_of_year
-    @letter = BalanceLetter.create(content: 'Text')
+    @letter = create :balance_letter, year: Date.today.year, content: 'Covering Letter', subject: 'TheSubject'
     @pdf = BalancePdf.new(@balance)
   end
 
-  it "stores the balance" do
-    expect(@pdf.instance_variable_get('@balance')).to eq(@balance)
-  end
-
   it "has the right content" do
-    text_analysis = PDF::Inspector::Text.analyze(@pdf.render).strings 
+    page_analysis = PDF::Inspector::Page.analyze(@pdf.render)
+    expect(page_analysis.pages.size).to eq(3)
+
+    ### FIRST PAGE: covering letter
+    text_analysis = page_analysis.pages[0][:strings]
+    #address_field
+    expect(text_analysis).to include("Das Projekt GmbH, Weg 1, 7800 Städtl")
+    expect(text_analysis).to include("Dr. Albert Meier")
+    expect(text_analysis).to include("Strasse 1")
+    expect(text_analysis).to include("79100 Freiburg")
+    expect(text_analysis).to include("Deutschland")
+
+    #main part
+    expect(text_analysis).to include(I18n.l(Date.today))
+    expect(text_analysis).to include("Betreff:")
+    expect(text_analysis).to include(" TheSubject")
+    expect(text_analysis).to include("Covering Letter")
+
+    #footer
+    expect(text_analysis).to include("Das Projekt GmbH")
+    expect(text_analysis).to include(" Sitz: City | Court RegistragionNumber | Steuernummer: TaxNumber")
+    expect(text_analysis).to include("Geschäftsführung:")
+    expect(text_analysis).to include(" Vorname Test Name")
+    expect(text_analysis).to include("Bankverbindung:")
+    expect(text_analysis).to include(" DiBaDu | BIC: GENODEF1S02 | IBAN: RO49 AAAA 1B31 0075 9384 0000")
+
+    ### SECOND PAGE: balance
+    text_analysis = page_analysis.pages[1][:strings]
+    #address_field
+    expect(text_analysis).to include("Das Projekt GmbH, Weg 1, 7800 Städtl")
+    expect(text_analysis).to include("Dr. Albert Meier")
+    expect(text_analysis).to include("Strasse 1")
+    expect(text_analysis).to include("79100 Freiburg")
+    expect(text_analysis).to include("Deutschland")
+
+    #main part
     expect(text_analysis).to include("Kreditvertrag Nr #{@credit_agreement.id} - Jahresabschluss #{@balance.date.year}")
     expect(text_analysis).to include("Datum")
     expect(text_analysis).to include("Zinstage")
@@ -42,6 +73,46 @@ RSpec.describe BalancePdf do
     expect(text_analysis).to include("Zinsen")
     expect(text_analysis).to include(I18n.l(Date.today.end_of_year))
     expect(text_analysis).to include("3.056,60 €")
+
+    #footer
+    expect(text_analysis).to include("Das Projekt GmbH")
+    expect(text_analysis).to include(" Sitz: City | Court RegistragionNumber | Steuernummer: TaxNumber")
+    expect(text_analysis).to include("Geschäftsführung:")
+    expect(text_analysis).to include(" Vorname Test Name")
+    expect(text_analysis).to include("Bankverbindung:")
+    expect(text_analysis).to include(" DiBaDu | BIC: GENODEF1S02 | IBAN: RO49 AAAA 1B31 0075 9384 0000")
+
+    ### THIRD PAGE: interest certificate
+    text_analysis = page_analysis.pages[2][:strings]
+    #address_field
+    expect(text_analysis).to include("Das Projekt GmbH, Weg 1, 7800 Städtl")
+    expect(text_analysis).to include("Dr. Albert Meier")
+    expect(text_analysis).to include("Strasse 1")
+    expect(text_analysis).to include("79100 Freiburg")
+    expect(text_analysis).to include("Deutschland")
+
+    #main part
+    expect(text_analysis).to include(I18n.l(Date.today))
+    expect(text_analysis).to include("Zinsbescheinigung für das Jahr 2015")
+    expect(text_analysis).to include("Dr. Albert Meier hat der Das Projekt GmbH einen zinsgünstigen Direktkredit zur Verfügung")
+    expect(text_analysis).to include("gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten")
+    expect(text_analysis).to include("Mietshausprojektes LAMA")
+    expect(text_analysis).to include("Kreditvertrag-Nr")
+    expect(text_analysis).to include("Zinssatz")
+    expect(text_analysis).to include("Jahreszinsbetrag #{@balance.date.year}")
+    expect(text_analysis).to include(@credit_agreement.id.to_s)
+    expect(text_analysis).to include("2,00% p.a.")
+    expect(text_analysis).to include("56,60 €")
+    expect(text_analysis).to include("Wir bedanken uns für die Unterstützung.")
+    expect(text_analysis).to include("Das Projekt GmbH")
+
+    #footer
+    expect(text_analysis).to include("Das Projekt GmbH")
+    expect(text_analysis).to include(" Sitz: City | Court RegistragionNumber | Steuernummer: TaxNumber")
+    expect(text_analysis).to include("Geschäftsführung:")
+    expect(text_analysis).to include(" Vorname Test Name")
+    expect(text_analysis).to include("Bankverbindung:")
+    expect(text_analysis).to include(" DiBaDu | BIC: GENODEF1S02 | IBAN: RO49 AAAA 1B31 0075 9384 0000")
   end
 end
 

@@ -151,7 +151,7 @@ RSpec.describe "On the home page" do
         fill_in('project_address_street_number', with: 'Test Street')
         fill_in('project_address_zip', with: 'Test Zip')
         fill_in('project_address_city', with: 'Test City')
-        select('Deutschland', from: 'project_address_country_code')
+        select('Deutschland', from: 'project_address_country_code', match: :first)
         fill_in 'project_address_based_in', with: 'City'
         fill_in 'project_address_register_court', with: 'Court'
         fill_in 'project_address_registration_number', with: 'RegistrationNumber'

@@ -10,7 +10,8 @@ class PdfLetter
     sender.over_address_line
     recipient.address
     date_box
-    move_cursor_to 16.cm
+    move_cursor_to 17.cm
+    subject
     salutation
     move_down 10
     main_content
@@ -20,6 +21,12 @@ class PdfLetter
   private
   def salutation
     text I18n.t(salutation_key, scope: [:pdf, :salutation], name: recipient.full_name(:informal)) + ','
+  end
+
+  def subject
+    return if @letter.subject.blank?
+    text "<b>#{Letter.human_attribute_name(:subject)}:</b> #{@letter.subject}", inline_format: true
+    move_down 20
   end
 
   def salutation_key

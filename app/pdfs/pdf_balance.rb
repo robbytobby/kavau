@@ -11,7 +11,7 @@ class PdfBalance
     @sender.over_address_line
     recipient.address
     date_box
-    move_cursor_to 16.cm
+    move_cursor_to 17.cm
     balance_heading
     move_down 20
     balance_table

@@ -17,7 +17,7 @@ RSpec.describe BalanceLetter, type: :model do
   end
 
   it "title is the standard title if no Subject is given" do
-    expect(@letter.title).to eq('Jahresabschluss 2014')
+    expect(@letter.title).to eq('Jahresbilanz 2014')
   end
 
   it "creates pdfs for each creditor with a balance for that year" do
