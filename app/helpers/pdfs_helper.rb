@@ -8,6 +8,7 @@ module PdfsHelper
   end
 
   def possible_balance_letters(creditor)
+    return [] if creditor.payments.none?
     BalanceLetter.where(['year >= ?', year_of_first_payment(creditor)]).all.select{ |letter| letter.pdfs.where(creditor_id: creditor.id).empty? }
   end
 

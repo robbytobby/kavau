@@ -8,6 +8,8 @@ class Pdf < ActiveRecord::Base
   validates :creditor_id, :letter_id, presence: true
   validates_uniqueness_of :letter_id, scope: :creditor_id
 
+  delegate :title, to: :letter
+
   def update_file
     create_file
   end
