@@ -51,9 +51,15 @@ class PdfBalance
   end
 
   def balance_table
-    table (table_header + table_content), table_options do |table|
-      style.standard_table(table, right_align: 2..4, bold_rows: [1, -1], thick_border_rows: [1, -1])
-    end
+    PdfTable.new(@document, table_data, table_options).draw
+  end
+
+  def table_data
+    table_header + table_content
+  end
+
+  def table_options
+    { right_align: 2..4, bold_rows: [1, -1], thick_border_rows: [1, -1] }
   end
 
   def table_header
@@ -95,23 +101,5 @@ class PdfBalance
       item.respond_to?(:calculation) ? item.calculation : '',
       item.amount,
     ]
-  end
-
-  #layout
-  def table_options
-    { 
-      cell_style: cell_defaults,
-      width: bounds.width
-    }
-  end
-
-  def cell_defaults
-    { 
-      size: 10, 
-      borders: [:bottom], 
-      border_width: style.line_width,
-      inline_format: true, 
-      overflow: :shrink_to_fit
-    }
   end
 end

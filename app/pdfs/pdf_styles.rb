@@ -58,28 +58,6 @@ class PdfStyles
   def logo_box
     [ [bounds.width - @logo_size, 25.5.cm], { :width => @logo_size} ]
   end
-  
-  def standard_table(table, options)
-    right_align(table, options[:right_align])
-    bold_rows(table, options[:bold_rows])
-    table.row(-1).borders = [:top]
-  end
-
-  def right_align(table, columns)
-    table.columns(columns).align = :right
-  end
-
-  def bold_rows(table, rows)
-    rows.each do |r|
-      table.row(r).font_style = :bold
-    end
-  end
-
-  def thick_border_rows(table, rows)
-    rows.each do |r|
-      table.row(r).border_width = 5 * line_width
-    end
-  end
 
   private
   def footer_options

@@ -50,9 +50,15 @@ class PdfInterestCertificate
   end
 
   def interests_table
-    table (table_header + table_content + table_sum), table_options do |table|
-      style.standard_table(table, right_align: 1..2, bold_rows: [0, -1], thick_border_rows: [0, -1])
-    end
+    PdfTable.new(@document, table_data, table_options).draw
+  end
+
+  def table_data
+    table_header + table_content
+  end
+
+  def table_options
+    { right_align: 1..2, bold_rows: [0, -1], thick_border_rows: [0, -1] }
   end
 
   def table_header
@@ -76,22 +82,5 @@ class PdfInterestCertificate
   def table_sum
     return [] if @balances.one?
     [ [ '', '', I18n.t('pdf.interest_certificate.sum', amount: number_to_currency(@balances.sum(&:interests_sum))) ]]
-  end
-
-  def table_options
-    { 
-      cell_style: cell_defaults,
-      width: bounds.width
-    }
-  end
-
-  def cell_defaults
-    { 
-      size: 10, 
-      borders: [:bottom], 
-      border_width: style.line_width,
-      inline_format: true, 
-      overflow: :shrink_to_fit
-    }
   end
 end
