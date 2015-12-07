@@ -1,7 +1,9 @@
 class Pdf < ActiveRecord::Base
   belongs_to :letter
   belongs_to :creditor
+  belongs_to :credit_agreement
 
+  before_validation :set_creditor_id
   before_save :set_path, :create_file
   after_destroy :delete_file
 
@@ -24,11 +26,19 @@ class Pdf < ActiveRecord::Base
   end
 
   def file_content
-    letter.to_pdf(creditor)
+    if letter.is_a?(TerminationLetter)
+      letter.to_pdf(credit_agreement)
+    else
+      letter.to_pdf(creditor)
+    end
   end
 
   def set_path
     self.path = "#{directory}/#{file_name}"
+  end
+
+  def set_creditor_id
+    self.creditor ||= credit_agreement.try(:creditor)
   end
 
   def directory

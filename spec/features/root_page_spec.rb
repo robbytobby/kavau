@@ -159,7 +159,7 @@ RSpec.describe "On the home page" do
         fill_in 'project_address_ust_id', with: 'UstId'
         click_on 'submit'
         # redirect to the new address
-        expect(current_path).to eq(project_address_path(Address.first))
+        expect(current_path).to eq(project_address_path(ProjectAddress.first))
         expect(page).to have_selector('div.alert-notice')
         # go back to index
         click_on('zurück')

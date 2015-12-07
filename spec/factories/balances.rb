@@ -23,7 +23,21 @@ FactoryGirl.define do
   end
 
   factory :termination_balance, class: 'TerminationBalance' do
+    transient do
+      creditor nil
+    end
     association :credit_agreement
     date Date.today
+
+    before :create do |balance, evaluator|
+      create :termination_letter
+      project_address = create :complete_project_address, legal_form: 'registered_society'
+      if evaluator.creditor
+        credit_agreement = create :credit_agreement, account: project_address.default_account, creditor: evaluator.creditor
+      else
+        credit_agreement = create :credit_agreement, account: project_address.default_account
+      end
+      balance.credit_agreement = credit_agreement
+    end
   end
 end

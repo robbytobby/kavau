@@ -4,7 +4,7 @@
     %small= "- #{@credit_agreement.account.name}"
   = render partial: 'details', locals: { credit_agreement: credit_agreement }
 
-  -unless @credit_agreement.terminated?
+  -if @credit_agreement.active?
     = render :partial => 'termination_form'
 
   %h2= t '.balances'

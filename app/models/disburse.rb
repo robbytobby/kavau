@@ -25,4 +25,9 @@ class Disburse < Payment
     def termination_disburse?
       amount == AutoBalance.new(credit_agreement_id: credit_agreement_id, date: date).end_amount
     end
+
+    def not_in_the_future
+      return if termination_disburse?
+      super
+    end
 end

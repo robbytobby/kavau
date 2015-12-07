@@ -10,7 +10,7 @@ end
 
 class MissingTemplateError < StandardError
   attr_reader :klass, :year
-  def initialize(klass, year)
+  def initialize(klass, year = nil)
     @klass = klass
     @year = year
   end

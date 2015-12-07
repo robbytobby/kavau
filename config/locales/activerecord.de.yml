@@ -2,6 +2,10 @@ de:
   activerecord:
     errors:
       models:
+        credit_agreement:
+          attributes:
+            terminated_at:
+              before_last_payment: 'muß nach der letzten Kontobewegung liegen'
         disburse:
           attributes:
             amount:

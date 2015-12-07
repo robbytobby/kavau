@@ -8,6 +8,6 @@
   = render 'contacts'
   = render 'accounts'
   = render 'credit_agreements'
-  - if @address.creditor? 
+  - if @address.creditor? && @address.pdfs.any?
     = render 'pdfs'
 

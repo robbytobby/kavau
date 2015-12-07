@@ -26,10 +26,10 @@ RSpec.describe BalancesController, type: :controller do
         end
 
         it "sends the balances pdf" do
-          pending "dont know how to spec"
+          pending 'get this test working - complains about missing template'
           get :show, id: @balance.id, format: 'pdf'
-          allow_any_instance_of(BalancesController).to receive(:send_data).and_return(true)
-          expect(controller).to have_received(:send_data)
+          rendered_pdf = BalancePdf.new(@balance).render
+          expect(response.body).to eq(rendered_pdf)
         end
       end
     end

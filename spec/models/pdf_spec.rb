@@ -28,11 +28,17 @@ RSpec.describe Pdf, type: :model do
       context "saving it" do
         before(:each){ 
           @project_address = create :complete_project_address, legal_form: 'registered_society'
-          @pdf = Pdf.new(letter: @letter, creditor: @creditor) 
+          if letter_type == :termination_letter
+            @credit_agreement = create :credit_agreement, account: @project_address.default_account, creditor: @creditor
+            @balance = create :balance, credit_agreement: @credit_agreement
+            @balance.update_column(:type, 'TerminationBalance')
+            @pdf = Pdf.new(letter: @letter, credit_agreement: @credit_agreement) 
+          else
+            @pdf = Pdf.new(letter: @letter, creditor: @creditor) 
+          end
         }
 
         it "the combination of letter_id and creditor_id has to be unique" do
-          pending "to_pdf for termination_letters not yet implemented" if letter_type == :termination_letter
           @pdf.save
           expect(Pdf.new(letter: @letter, creditor: @creditor)).not_to be_valid
           expect(Pdf.new(letter: @letter, creditor: (create :person))).to be_valid
@@ -41,44 +47,48 @@ RSpec.describe Pdf, type: :model do
 
 
         it "sets the correct path" do
-          pending "to_pdf for termination_letters not yet implemented" if letter_type == :termination_letter
           @pdf.save
           expect(@pdf).to be_persisted
           expect(@pdf.path).to match(path(letter_type))
         end
 
         it "creates the file" do
-          pending "to_pdf for termination_letters not yet implemented" if letter_type == :termination_letter
           @pdf.save
           expect(File).to exist(@pdf.path)
         end
 
         it "build the correct pdf" do
-          pending "to_pdf for termination_letters not yet implemented" if letter_type == :termination_letter
           allow(@letter).to receive(:to_pdf).and_return(true)
           @pdf.save
-          expect(@letter).to have_received(:to_pdf).with(@creditor)
+          argument = letter_type == :termination_letter ? @credit_agreement : @creditor
+          expect(@letter).to have_received(:to_pdf).with(argument)
         end
 
         it "updates the pdf" do
-          pending "to_pdf for termination_letters not yet implemented" if letter_type == :termination_letter
           @pdf.save
           allow(IO).to receive(:binwrite).and_return(:true)
           allow(@letter).to receive(:to_pdf).and_return(true)
           @pdf.update_file
           expect(IO).to have_received(:binwrite)
-          expect(@letter).to have_received(:to_pdf).with(@creditor)
+          argument = letter_type == :termination_letter ? @credit_agreement : @creditor
+          expect(@letter).to have_received(:to_pdf).with(argument)
         end
       end
 
       context "destroying it" do
         before(:each){ 
           @project_address = create :complete_project_address, legal_form: 'registered_society'
-          @pdf = Pdf.create(letter: @letter, creditor: @creditor) unless letter_type == :termination_letter
+          if letter_type == :termination_letter
+            @credit_agreement = create :credit_agreement, account: @project_address.default_account, creditor: @creditor
+            @balance = create :balance, credit_agreement: @credit_agreement
+            @balance.update_column(:type, 'TerminationBalance')
+            @pdf = Pdf.create(letter: @letter, credit_agreement: @credit_agreement) 
+          else
+            @pdf = Pdf.create(letter: @letter, creditor: @creditor) 
+          end
         }
 
         it "deletes the correspoding file" do
-          pending "to_pdf for termination_letters not yet implemented" if letter_type == :termination_letter
           @pdf.destroy
           expect(File).not_to exist(@pdf.path)
         end

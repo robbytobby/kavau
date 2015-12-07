@@ -16,6 +16,7 @@ class CreditAgreement < ActiveRecord::Base
   validates_numericality_of :interest_rate, greater_than_or_equal_to: 0, less_than: 100
   validates_numericality_of :cancellation_period, greater_than_or_equal_to: 3
   validate :account_valid_for_credit_agreement?
+  validate :termination_date_after_payments
 
   after_touch :create_missing_balances, :delete_unnecessary_balances, :update_balances
   before_save :make_termination_balance
@@ -41,7 +42,12 @@ class CreditAgreement < ActiveRecord::Base
     auto_balances.build
   end
 
+  def active?
+    !terminated? && payments.any?
+  end
+
   def terminated?
+    return false if errors[:terminated_at].any?
     !terminated_at.blank?
   end
 
@@ -55,6 +61,12 @@ class CreditAgreement < ActiveRecord::Base
       return unless account
       return if account_belongs_to_project?
       errors.add(:base, :only_project_accounts_valid)
+    end
+
+    def termination_date_after_payments
+      return if terminated_at.blank? || payments.none?
+      return if terminated_at >= payments.last.date
+      errors.add(:terminated_at, :before_last_payment)
     end
 
     def update_balances

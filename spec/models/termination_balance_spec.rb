@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe TerminationBalance, type: :model do
   before :each do
-    @credit_agreement = create :credit_agreement, interest_rate: 2
+    create :termination_letter
+    @project_address = create :complete_project_address
+    @credit_agreement = create :credit_agreement, interest_rate: 2, account: @project_address.default_account
   end
 
   it "end_amount is allways 0" do
@@ -23,10 +25,10 @@ RSpec.describe TerminationBalance, type: :model do
 
   it "deletes the last corresponding disburse on being deleted" do
     create_deposit Date.today.prev_year(2).end_of_year, 5000
-    balance
+    @balance = TerminationBalance.create(credit_agreement_id: @credit_agreement.id, date: Date.tomorrow)
     expect{
-      balance.destroy
-    }.to change(@credit_agreement.payments, :count).by(-1)
+      @balance.destroy
+    }.to change(@credit_agreement.payments.reload, :count).by(-1)
   end
 
   it "reopens the credit_agreement on being deleted" do

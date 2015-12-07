@@ -18,9 +18,8 @@ RSpec.describe "creating letters for creditors"  do
 
   after :all do
     Letter.delete_all
-    @creditor.delete
-    @project_address.delete
-    @credit_agreement.delete
+    Address.delete_all
+    CreditAgreement.delete_all
   end
 
   it "is possible" do

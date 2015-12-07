@@ -37,6 +37,30 @@ RSpec.describe CreditAgreement, type: :model do
     expect(@credit_agreement.todays_balance).not_to be_persisted
   end
 
+  context "termination_date" do
+    before :each do
+      @credit_agreement = create :credit_agreement, amount: 2000, interest_rate: 2 
+      create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today.prev_year
+      create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today
+      @credit_agreement.reload
+    end
+
+    it "is not valid if it has payments after termination date" do
+      @credit_agreement.terminated_at = Date.yesterday
+      expect(@credit_agreement).not_to be_valid
+    end
+
+    it "is valid if the last payment is on the same date" do
+      @credit_agreement.terminated_at = Date.today
+      expect(@credit_agreement).to be_valid
+    end
+
+    it "is valid if termination date is after the last payment" do
+      @credit_agreement.terminated_at = Date.tomorrow
+      expect(@credit_agreement).to be_valid
+    end
+  end
+
   it "todays_total" do
     @credit_agreement = create :credit_agreement, amount: 2000, interest_rate: 2 
     create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today.prev_day(455)
@@ -68,6 +92,24 @@ RSpec.describe CreditAgreement, type: :model do
     create :balance, credit_agreement: @credit_agreement, date: Date.today - 1.years
     expected_order = [Date.today - 2.years, Date.today - 1.years, Date.today]
     expect(@credit_agreement.balances.pluck(:date)).to eq(expected_order)
+  end
+
+  it "not active if it has no payments" do
+    @credit_agreement = create :credit_agreement
+    expect(@credit_agreement).not_to be_active
+  end
+
+  it "is active if it has payments" do
+    @credit_agreement = create :credit_agreement
+    create :deposit, credit_agreement: @credit_agreement
+    expect(@credit_agreement.reload).to be_active
+  end
+  
+  it "is not active if it is terminated" do
+    @credit_agreement = create :credit_agreement
+    create :deposit, credit_agreement: @credit_agreement
+    allow(@credit_agreement).to receive(:terminated?).and_return(true)
+    expect(@credit_agreement.reload).not_to be_active
   end
 
   it "termination date is nil by default" do

@@ -168,23 +168,6 @@ RSpec.describe "managing credit agreements" do
           end
         end
       end
-      describe "I can terminate it" do
-        it "works" do
-          create :deposit, credit_agreement: @credit, amount: 1000, date: Date.today.prev_year
-          visit credit_agreement_path(@credit)
-          select '1', from: 'credit_agreement_terminated_at_3i'
-          select 'April', from: 'credit_agreement_terminated_at_2i'
-          select Date.today.year, from: 'credit_agreement_terminated_at_1i'
-          click_on 'terminate'
-          expect(current_path).to eq(credit_agreement_path(@credit))
-          expect(page).not_to have_css('#new_payment_form')
-          expect(page).not_to have_css('tr#auto_balance_new')
-          expect(page).to have_css('tr.termination_balance')
-          within 'tr.termination_balance' do
-            expect(page).to have_content('01.04.2015')
-          end
-        end
-      end
     end
   end
 

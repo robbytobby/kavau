@@ -94,7 +94,6 @@ require 'rails_helper'
 
                               
       context "with valid params" do
-
         it "updates the requested credit_agreement" do
           put :update, request_params
           @credit_agreement.reload
@@ -122,6 +121,15 @@ require 'rails_helper'
           do_not(:save, CreditAgreement)
           put :update, request_params
           expect(response).to render_template("edit")
+        end
+
+        it "redirect to the show page if terminat_date is the problem" do
+          request_params = { :id => @credit_agreement.to_param, 
+                             :credit_agreement => {terminated_at: Date.today}
+                           }.merge(creditor_params)
+          do_not(:save, CreditAgreement, :terminated_at)
+          put :update, request_params
+          expect(response).to render_template("show")
         end
       end
     end

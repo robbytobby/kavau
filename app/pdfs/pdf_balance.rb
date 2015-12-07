@@ -47,7 +47,7 @@ class PdfBalance
   end
 
   def balance_year
-    [I18n.t(@balance.class.to_s.underscore, scope: 'pdf.balance'), @balance.date.year].join(' ')
+    I18n.t(@balance.class.to_s.underscore, scope: 'pdf.balance', year: @balance.date.year)
   end
 
   def balance_table

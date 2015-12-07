@@ -6,8 +6,9 @@ de:
       limited: 'Liebe %{name}'
       registered_society: 'Lieber %{name}'
     balance:
-      auto_balance: 'Jahresabschluss'
-      manual_balance: 'Jahresabschluss'
+      auto_balance: 'Jahresabschluss %{year}'
+      manual_balance: 'Jahresabschluss %{year}'
+      termination_balance: 'Abschlussbilanz'
       interest_method: 'Die Berechnung der Zinstage erfolgt nach der Effektivzinsmethode. Informationen zur Zinsmethode befinden sich auf unserer Website unter %{url}.' 
       interest_presentation: 'Da das Darlehen per annum verzinst wird, werden Zinsen am Jahresende dem Kontostand zugeschlagen. Der besseren Verständlichkeit halber sind sie jedoch vor bzw. nach entsprechenden Kontobewegungen dargestellt.'
 
