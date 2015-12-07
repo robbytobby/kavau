@@ -54,7 +54,7 @@ class PdfInterestCertificate
   end
 
   def table_data
-    table_header + table_content
+    table_header + table_content + table_sum
   end
 
   def table_options

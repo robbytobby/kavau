@@ -23,12 +23,6 @@ class ApplicationPdf < Prawn::Document
   end
 
   private
-  def heading(string)
-    font('Helvetica', style: :bold){
-      text string
-    }
-  end
-
   def content
   end
 

@@ -26,10 +26,6 @@ class PdfStyles
     [[0, 22.8.cm], {width: 8.cm, overflow: :shrink_to_fit}]
   end
 
-  def over_address_line_ruler
-   [[0, 22.4.cm], [8.cm, 22.4.cm]]
-  end
-
   def date
     { 
       at: [bounds.width - date_box_width, 18.cm], 
