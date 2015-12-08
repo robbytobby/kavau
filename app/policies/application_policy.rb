@@ -50,6 +50,10 @@ class ApplicationPolicy
     permitted_params.include?(attribute)
   end
 
+  def credit_agreement_or_year_terminated?
+    record.year_terminated? || record.credit_agreement.terminated?
+  end
+
   class Scope
     attr_reader :user, :scope
 
