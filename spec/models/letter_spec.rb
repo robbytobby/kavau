@@ -27,4 +27,11 @@ RSpec.describe Letter, type: :model do
       expect(letter).to be_balance_letter
     end
   end
+
+  describe "combined_pdf" do
+    it "" do
+      pending "spec not yet implemented"
+      raise "not implemented"
+    end
+  end
 end

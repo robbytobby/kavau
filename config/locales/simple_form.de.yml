@@ -27,7 +27,17 @@ de:
       lteq: '<='
       gteq: '>='
       year_eq: 'Jahr ='
-      subject: 'kann frei bleiben, dann wird keine Betreffzeile erzeugt'
-      content: 'keine Anrede eingeben, die kommt automatisch dazu'
-      year: 'kann frei bleiben - ist dann der Standard'
+      standard_letter:
+        subject: ''
+        content: 'keine Anrede eingeben, die kommt automatisch dazu'
+        year: 'kann frei bleiben - ist dann der Standard'
+      balance_letter:
+        subject: 'kann frei bleiben, dann wird keine Betreffzeile erzeugt'
+        content: 'keine Anrede eingeben, die kommt automatisch dazu'
+        year: ''
+      termination_letter:
+        subject: 'kann frei bleiben, dann wird keine Betreffzeile erzeugt'
+        content: 'keine Anrede eingeben, die kommt automatisch dazu'
+        year: ''
+
 

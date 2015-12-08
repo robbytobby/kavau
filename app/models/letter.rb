@@ -6,6 +6,14 @@ class Letter < ActiveRecord::Base
   validates :content, presence: true
   validates_numericality_of :year, only_integer: true, allow_blank: true
 
+  def combined_pdf
+    combined = CombinePDF.new
+    pdfs.each do |pdf|
+      combined << CombinePDF.load(pdf.path)
+    end
+    combined.to_pdf
+  end
+
   def to_partial_path
     'letters/letter'
   end

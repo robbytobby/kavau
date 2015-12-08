@@ -34,7 +34,7 @@ class PdfLetter
   end
 
   def main_content
-    text @letter.content
+    text @letter.content, inline_format: true
   end
 end
   

@@ -37,8 +37,12 @@ class LettersController < ApplicationController
     respond_with @letter, location: '/letters'
   end
 
+  def get_pdfs
+    send_data @letter.combined_pdf, filename: "#{@letter.title}.pdf", type: 'application/pdf', disposition: :attachment
+  end
+
   def create_pdfs
-    # nur wo pdf noch nicht existiert
+    #TODO nur wo pdf noch nicht existiert
     @letter.create_pdfs
     flash[:notice] = I18n.t('letters.flash.pdfs_created')
     respond_with(@letter, location: letters_path)

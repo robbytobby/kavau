@@ -165,6 +165,25 @@ RSpec.describe LettersController, type: :controller do
           expect(response).to redirect_to('/letters')
         end
       end
+
+      describe "get get_pdfs" do
+        before(:each){ @letter = create letter_type.underscore, year: 2014 }
+
+        it "assigns the requested letter" do
+          get :get_pdfs, type: 'Letter', id: @letter.id
+          expect(assigns(:letter)).to eq(@letter)
+        end
+
+        it "is successfull" do
+          get :get_pdfs, type: 'Letter', id: @letter.id
+          expect(response.status).to eq 302
+        end
+
+        it "delivers the combined_pdfs" do
+          pending "the old send_file problem"
+          raise 'not implemented'
+        end
+      end
     end
   end
 end

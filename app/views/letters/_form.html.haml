@@ -1,8 +1,9 @@
+= render :partial => 'help'
 = simple_form_for @letter do |f|
   .form-inputs
-    = f.input :subject, as: :string, placeholder: t(:subject, scope: [:simple_form, :placeholders])
-    = f.input :content, placeholder: t(:content, scope: [:simple_form, :placeholders])
-    = f.input :year, as: :string, placeholder: t(:year, scope: [:simple_form, :placeholders]) if @letter.is_a?(BalanceLetter)
+    = f.input :subject, as: :string, placeholder: placeholder(@letter, :subject)
+    = f.input :content, placeholder: placeholder(@letter, :content)
+    = f.input :year, as: :string if @letter.is_a?(BalanceLetter)
   .form-actions
     = f.button :submit, class: 'btn-primary', id: 'submit'
     = quit_button(:cancel)
