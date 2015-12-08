@@ -1,4 +1,3 @@
-#TODO forbid creating payments if end_of_year balance has not been compleeted
 require 'application_responder'
 
 class ApplicationController < ActionController::Base
@@ -35,7 +34,7 @@ class ApplicationController < ActionController::Base
     end
 
     def missing_template(exception)
-      flash[:warning] = 'Missing Template'
+      flash[:warning] = I18n.t(exception.klass.model_name.singular, scope: [:exceptions, :missing_template_error], year: exception.year)
       redirect_to letters_path
     end
 end

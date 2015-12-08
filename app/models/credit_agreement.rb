@@ -10,6 +10,7 @@ class CreditAgreement < ActiveRecord::Base
   has_one :termination_balance
 
   delegate :belongs_to_project?, to: :account, prefix: true
+  delegate :last_terminated_year, :year_terminated?, to: :creditor
 
   validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id
   validates_numericality_of :amount, greater_than_or_equal_to: 500

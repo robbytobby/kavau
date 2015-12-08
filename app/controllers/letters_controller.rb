@@ -42,7 +42,6 @@ class LettersController < ApplicationController
   end
 
   def create_pdfs
-    #TODO nur wo pdf noch nicht existiert
     @letter.create_pdfs
     flash[:notice] = I18n.t('letters.flash.pdfs_created')
     respond_with(@letter, location: letters_path)

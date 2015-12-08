@@ -4,7 +4,7 @@ class ManualBalancePolicy < BalancePolicy
   end
 
   def destroy?
-    # TODO forbid destroy if balance has been sent to creditor
+    return false if record.year_terminated?
     return false if record.credit_agreement.terminated?
     user.admin? || user.accountant?
   end

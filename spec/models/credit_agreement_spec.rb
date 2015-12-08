@@ -37,6 +37,23 @@ RSpec.describe CreditAgreement, type: :model do
     expect(@credit_agreement.todays_balance).not_to be_persisted
   end
 
+  describe "year_terminated?" do
+    it "is false if no balance_pdf exists" do
+      @credit_agreement = create :credit_agreement
+      expect(@credit_agreement.year_terminated?(2014)).to be_falsy
+    end
+
+    it "is true if a balance_pdf for that or a later year exists" do
+      allow_any_instance_of(BalanceLetter).to receive(:to_pdf).and_return(:true)
+      @credit_agreement = create :credit_agreement
+      @letter = create :balance_letter, year: 2014
+      create :pdf, letter: @letter, creditor: @credit_agreement.creditor
+      expect(@credit_agreement.year_terminated?(2013)).to be_truthy
+      expect(@credit_agreement.year_terminated?(2014)).to be_truthy
+      expect(@credit_agreement.year_terminated?(2015)).to be_falsy
+    end
+  end
+
   context "termination_date" do
     before :each do
       @credit_agreement = create :credit_agreement, amount: 2000, interest_rate: 2 

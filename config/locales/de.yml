@@ -63,5 +63,10 @@ de:
       standard_letter: '%{text}'
       balance_letter: 'Jahresbilanz %{text}'
       termination_letter: 'Kündigungs-Schreiben'
+  exceptions:
+    missing_template_error:
+      balance_letter: 'Es muß erst eine Vorlage für den Jahresabschluss %{year} angelegt werden.'
+      termination_letter: 'Es muß erst eine Vorlage für das Kündigungs-Schreiben angelegt werden.'
+    
     
 

@@ -14,7 +14,7 @@ RSpec.describe Payment, type: :model do
     expect(@deposit.errors.messages[:date].first).to eq('darf nicht in der Zukunft liegen')
   end
 
-  it "payments for a terminated year are invalid", focus: true do
+  it "payments for a terminated year are invalid" do
     allow_any_instance_of(BalanceLetter).to receive(:to_pdf).and_return(true)
     @credit_agreement = create :credit_agreement, interest_rate: 1
     @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: Date.today.prev_year
@@ -25,6 +25,14 @@ RSpec.describe Payment, type: :model do
     @disburse = build :disburse, credit_agreement: @credit_agreement, date: Date.today.prev_year
     expect(@deposit).not_to be_valid
     expect(@disburse).not_to be_valid
+  end
+
+  it "delegates year_terminated? to credit agreement" do
+    @credit_agreement = create :credit_agreement
+    @deposit = build :deposit, credit_agreement: @credit_agreement
+    allow(@credit_agreement).to receive(:year_terminated?).and_return(true)
+    @deposit.year_terminated?
+    expect(@credit_agreement).to have_received(:year_terminated?).with(@deposit.date.year)
   end
 
   describe "a change also changes associated balances" do

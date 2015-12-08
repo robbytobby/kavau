@@ -29,5 +29,19 @@ RSpec.describe ManualBalancePolicy do
       permits [:show]
     end
   end
+
+  context "of terminated year" do
+    before(:each){ allow_any_instance_of(CreditAgreement).to receive(:year_terminated?).and_return(true) }
+
+    context "for an admin" do
+      let(:user){ create :admin }
+      permits [:show]
+    end
+
+    context "for an accountant" do
+      let(:user){ create :accountant }
+      permits [:show]
+    end
+  end
 end
 

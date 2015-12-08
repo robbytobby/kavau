@@ -37,7 +37,6 @@ require 'rails_helper'
         let(:user){ create :user }
         permits [:index, :show]
       end
-
     end
   end
 end

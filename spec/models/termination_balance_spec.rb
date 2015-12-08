@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe TerminationBalance, type: :model do
   before :each do
+    allow_any_instance_of(TerminationLetter).to receive(:to_pdf).and_return true
     create :termination_letter
-    @project_address = create :complete_project_address
-    @credit_agreement = create :credit_agreement, interest_rate: 2, account: @project_address.default_account
+    @credit_agreement = create :credit_agreement, interest_rate: 2
   end
 
   it "end_amount is allways 0" do

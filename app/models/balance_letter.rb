@@ -16,4 +16,8 @@ class BalanceLetter < Letter
   def title
     I18n.t('pdf.title.balance_letter', text: year)
   end
+
+  def self.last_for(creditor_id)
+    joins(:pdfs).where(pdfs: {creditor_id: creditor_id}).order(year: :desc).first
+  end
 end

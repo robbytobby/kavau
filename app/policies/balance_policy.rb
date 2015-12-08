@@ -14,6 +14,7 @@ class BalancePolicy < ApplicationPolicy
   end
   
   def update?
+    return false if record.year_terminated?
     return false if record.credit_agreement.terminated?
     return false unless record.persisted?
     user.admin? || user.accountant?

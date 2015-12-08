@@ -59,8 +59,13 @@ class Balance < ActiveRecord::Base
     self
   end
 
+  def year_terminated?
+    #todo spec
+    return false unless date
+    credit_agreement.year_terminated?(date.year)
+  end
+
   def pdf
-    #TODO: make real - load pdf from file or create
     BalancePdf.new(self).render
   end
 

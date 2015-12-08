@@ -58,7 +58,6 @@ class Pdf < ActiveRecord::Base
 
   def file_name_prefix
     return unless letter.is_a?(StandardLetter)
-    #TODO: replace with_name
     letter.subject
   end
 

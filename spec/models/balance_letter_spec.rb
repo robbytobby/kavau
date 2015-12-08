@@ -21,6 +21,7 @@ RSpec.describe BalanceLetter, type: :model do
   end
 
   it "creates pdfs for each creditor with a balance for that year" do
+    allow_any_instance_of(BalanceLetter).to receive(:to_pdf).and_return(:true)
     @person = create :person
     @address = create :complete_project_address, legal_form: 'registered_society'
     @credit_agreement = create :credit_agreement, creditor: @person, account: @address.default_account
@@ -32,6 +33,7 @@ RSpec.describe BalanceLetter, type: :model do
   end
   
   it "knows if pdfs have been created" do
+    allow_any_instance_of(BalanceLetter).to receive(:to_pdf).and_return(:true)
     create :person
     create :complete_project_address, legal_form: 'registered_society'
     @letter.create_pdfs
@@ -44,6 +46,15 @@ RSpec.describe BalanceLetter, type: :model do
     allow(YearlyBalancePdf).to receive(:new).and_call_original
     @letter.to_pdf(person)
     expect(YearlyBalancePdf).to have_received(:new).with(person, @letter)
+  end
+
+  it "last one for a creditor is found" do
+    allow_any_instance_of(BalanceLetter).to receive(:to_pdf).and_return(:true)
+    @creditor = create :person
+    @letter2 = create :balance_letter, year: 2013
+    create :pdf, letter: @letter, creditor: @creditor
+    create :pdf, letter: @letter2, creditor: @creditor
+    expect(BalanceLetter.last_for(@creditor.id)).to eq(@letter)
   end
 end
 

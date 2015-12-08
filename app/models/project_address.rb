@@ -9,11 +9,6 @@ class ProjectAddress < Address
 
   validates :name, :street_number, :zip, :city, :country_code, :legal_form, presence: true
 
-  #TODO: make changeable, spec
-  #def default_account
-  #  accounts.first
-  #end
-
   def legal_information_missing?
     missing_legals.any?
   end

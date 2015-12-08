@@ -1,4 +1,3 @@
-#TODO conditional redirects
 class BalancesController < ApplicationController
   include Typed
   include LoadAuthorized
