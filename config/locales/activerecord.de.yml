@@ -6,16 +6,15 @@ de:
           attributes:
             terminated_at:
               before_last_payment: 'muß nach der letzten Kontobewegung liegen'
+        payment:
+          attributes:
+            date:
+              in_the_future: 'darf nicht in der Zukunft liegen'
+              allready_closed: 'das Konto ist für %{year} schon geschlossen'
         disburse:
           attributes:
             amount:
               to_much: 'zu groß (max %{max})'
-            date:
-              in_the_future: 'darf nicht in der Zukunft liegen'
-        deposit:
-          attributes:
-            date:
-              in_the_future: 'darf nicht in der Zukunft liegen'
         user:
           attributes:
             password:

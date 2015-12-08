@@ -10,7 +10,6 @@ RSpec.describe "Generating PDFs for letters" do
     expect(current_path).to eq('/letters')
     expect(page).to have_selector('div.alert-notice')
     click_on "get_pdfs_standard_letter_#{letter.id}"
-    
-
+    #TODO: spec the resulting combined pdf
   end
 end
