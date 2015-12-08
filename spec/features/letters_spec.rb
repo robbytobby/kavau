@@ -61,7 +61,7 @@ RSpec.describe "Letters" do
             expect(page).to have_selector("a#destroy[href='/#{letter_type}/#{letter.id}']")
           end
 
-          it "I can get a pdf preview", focus: true do
+          it "I can get a pdf preview" do
             letter = create singular
             visit "/letters"
             expect(page).to have_selector("a[href='/#{letter_type}/#{letter.id}.pdf']")
