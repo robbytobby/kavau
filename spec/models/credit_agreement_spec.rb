@@ -134,7 +134,9 @@ RSpec.describe CreditAgreement, type: :model do
   end
 
   it "creates a termination balance if terminated at is set" do
-    @credit_agreement = create :credit_agreement
+    @project_address = create :complete_project_address, legal_form: 'registered_society'
+    create :termination_letter
+    @credit_agreement = create :credit_agreement, account: @project_address.default_account
     create :deposit, credit_agreement: @credit_agreement
     expect(@credit_agreement.termination_balance).to be_nil
     @credit_agreement.terminated_at = Date.today

@@ -23,6 +23,14 @@ RSpec.describe TerminationBalance, type: :model do
     expect(@credit_agreement.payments.last.amount).to eq(5100)
   end
 
+  it "creates a pdf on being saved" do
+    create_deposit Date.today.prev_year(2).end_of_year, 5000
+    @balance = TerminationBalance.new(credit_agreement_id: @credit_agreement.id, date: Date.tomorrow)
+    expect{
+      @balance.save
+    }.to change(Pdf, :count).by(1)
+  end
+
   it "deletes the last corresponding disburse on being deleted" do
     create_deposit Date.today.prev_year(2).end_of_year, 5000
     @balance = TerminationBalance.create(credit_agreement_id: @credit_agreement.id, date: Date.tomorrow)
@@ -31,14 +39,20 @@ RSpec.describe TerminationBalance, type: :model do
     }.to change(@credit_agreement.payments.reload, :count).by(-1)
   end
 
+  it "deletes the corresponding pdf on being deleted" do
+    create_deposit Date.today.prev_year(2).end_of_year, 5000
+    @balance = TerminationBalance.create(credit_agreement_id: @credit_agreement.id, date: Date.tomorrow)
+    expect{
+      @balance.destroy
+    }.to change(Pdf, :count).by(-1)
+  end
+
   it "reopens the credit_agreement on being deleted" do
     create_deposit Date.today.prev_year(2).end_of_year, 5000
     @balance = balance
     @balance.destroy
     expect(@credit_agreement).not_to be_terminated
   end
-
-
 
   def balance(date = Date.today)
     TerminationBalance.find_or_create_by(credit_agreement_id: @credit_agreement.id, date: date)

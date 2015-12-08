@@ -11,9 +11,9 @@ RSpec.describe BalanceLetter, type: :model do
     expect(@letter.pdfs_created?).to be_falsy
   end
 
-  it "titel contains is the subject if given" do
+  it "title is the standard title even if Subject is given" do
     @letter = create :balance_letter, year: 2014, subject: 'Subject'
-    expect(@letter.title).to eq('Subject')
+    expect(@letter.title).to eq('Jahresbilanz 2014')
   end
 
   it "title is the standard title if no Subject is given" do

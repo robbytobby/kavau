@@ -23,7 +23,7 @@ RSpec.describe "Letters" do
             fill_in "#{singular}_content", with: 'Text of Letter'
             fill_in "#{singular}_year", with: '2013' if letter_type == :balance_letters
             click_on :submit
-            expect(current_path).to eq("/#{letter_type}/#{Letter.last.id}")
+            expect(current_path).to eq("/letters")
             expect(page).to have_selector('div.alert-notice')
           end
 
@@ -41,7 +41,7 @@ RSpec.describe "Letters" do
             expect(current_path).to eq(send("edit_#{singular}_path", letter))
             fill_in "#{singular}_content", with: 'New Text'
             click_on :submit
-            expect(current_path).to eq("/#{letter_type}/#{letter.id}")
+            expect(current_path).to eq("/letters")
             expect(page).to have_selector('div.alert-notice')
           end
 
@@ -59,6 +59,12 @@ RSpec.describe "Letters" do
             expect(page).to have_selector("a#back[href='/letters']")
             expect(page).to have_selector("a#edit[href='/#{letter_type}/#{letter.id}/edit']")
             expect(page).to have_selector("a#destroy[href='/#{letter_type}/#{letter.id}']")
+          end
+
+          it "I can get a pdf preview", focus: true do
+            letter = create singular
+            visit "/letters"
+            expect(page).to have_selector("a[href='/#{letter_type}/#{letter.id}.pdf']")
           end
         end
       end

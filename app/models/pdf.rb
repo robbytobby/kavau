@@ -10,13 +10,12 @@ class Pdf < ActiveRecord::Base
   validates :creditor_id, :letter_id, presence: true
   validates_uniqueness_of :letter_id, scope: :creditor_id
 
-  delegate :title, to: :letter
+  delegate :title, :termination_letter?, :standard_letter?, :balance_letter?, to: :letter
 
   def update_file
     create_file
   end
 
-  private
   def create_file
     IO.binwrite path, file_content
   end
@@ -54,7 +53,7 @@ class Pdf < ActiveRecord::Base
   end
 
   def file_base_name
-    [year, file_name_prefix, creditor.name, creditor.first_name, creditor_id, letter_id].compact.join('_').gsub(/ /,'-')
+    [year, file_name_prefix, creditor.name, creditor.first_name, creditor_id, credit_agreement_id, letter_id].compact.join('_').gsub(/ /,'-')
   end
 
   def file_name_prefix

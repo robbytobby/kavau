@@ -10,4 +10,21 @@ RSpec.describe Letter, type: :model do
     letter = create :letter
     expect(letter.pdfs_created?).to be_falsy
   end
+
+  describe "knows its type" do
+    it "termination_letter" do
+      letter = create :termination_letter
+      expect(letter).to be_termination_letter
+    end
+
+    it "standard_letter" do
+      letter = create :standard_letter
+      expect(letter).to be_standard_letter
+    end
+
+    it "standard_letter" do
+      letter = create :balance_letter
+      expect(letter).to be_balance_letter
+    end
+  end
 end

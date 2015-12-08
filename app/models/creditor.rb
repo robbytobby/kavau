@@ -5,6 +5,5 @@ class Creditor < Address
   has_many :credit_agreements, inverse_of: :creditor, dependent: :restrict_with_exception
   has_many :balances, through: :credit_agreements
   has_many :payments, through: :credit_agreements
-  has_many :pdfs
-
+  has_many :pdfs, -> { order created_at: :asc }, dependent: :restrict_with_exception
 end

@@ -14,6 +14,6 @@ class BalanceLetter < Letter
   end
 
   def title
-    self[:subject] || I18n.t('pdf.title.balance_letter', text: year)
+    I18n.t('pdf.title.balance_letter', text: year)
   end
 end

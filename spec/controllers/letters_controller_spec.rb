@@ -30,6 +30,13 @@ RSpec.describe LettersController, type: :controller do
           get :show, type: letter_type, id: @letter
           expect(response).to render_template(:show)
         end
+
+        it "sends a pdf if requested" do
+          pending 'get this test working - complains about missing template'
+          get :show, type: letter_type, id: @letter, format: :pdf
+          rendered_pdf = BalancePdf.new(@balance).render
+          expect(response.body).to eq(rendered_pdf)
+        end
       end
 
       describe "get new" do
@@ -59,7 +66,7 @@ RSpec.describe LettersController, type: :controller do
 
         it "redirects to the letter" do
           post :create, type: letter_type, letter_type.underscore => attributes_for(letter_type.underscore)
-          expect(response).to redirect_to("/#{letter_type.underscore.pluralize}/#{Letter.last.id}")
+          expect(response).to redirect_to("/letters")
         end
 
         it "renders the new template if it fails" do
@@ -100,7 +107,7 @@ RSpec.describe LettersController, type: :controller do
 
         it "redirects to the letter" do
           put :update, type: letter_type, id: @letter, letter_type.underscore => {content: 'New text'}
-          expect(response).to redirect_to("/#{letter_type.underscore.pluralize}/#{@letter.id}")
+          expect(response).to redirect_to("/letters")
         end
 
         it "rerenders edit if update fails" do

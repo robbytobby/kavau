@@ -1,6 +1,6 @@
 class TerminationBalance < AutoBalance
   before_save :create_disburse
-  after_destroy :delete_disburse, :reopen!
+  after_destroy :delete_disburse, :delete_pdf, :reopen!
   after_create :create_termination_pdf
 
   delegate :reopen!, to: :credit_agreement
@@ -18,6 +18,8 @@ class TerminationBalance < AutoBalance
     raise MissingTemplateError.new(TerminationLetter) unless TerminationLetter.exists?
     Pdf.create!(letter: TerminationLetter.first, creditor: creditor, credit_agreement: credit_agreement)
   end
-  #destroy pdf on destroy
 
+  def delete_pdf
+    Pdf.find_by(letter: TerminationLetter.first, creditor: creditor, credit_agreement: credit_agreement).destroy
+  end
 end

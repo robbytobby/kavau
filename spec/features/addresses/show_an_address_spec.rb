@@ -64,7 +64,7 @@ RSpec.describe "Address view"  do
           expect(page).to have_content('Kündigungs-Schreiben')
           expect(page).to have_link('', href: "/pdfs/#{@address.pdfs.first.id}.pdf")
           expect(page).to have_selector("a[href='/pdfs/#{@address.pdfs.first.id}'][data-method='put']")
-          expect(page).to have_selector("a[href='/pdfs/#{@address.pdfs.first.id}'][data-method='delete']")
+          expect(page).not_to have_selector("a[href='/pdfs/#{@address.pdfs.first.id}'][data-method='delete']")
         end
       end
     end

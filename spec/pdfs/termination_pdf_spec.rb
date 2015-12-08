@@ -14,11 +14,11 @@ RSpec.describe BalancePdf do
     create :deposit, amount: 1000, credit_agreement: @credit_agreement, date: Date.today.end_of_year.prev_year
     @credit_agreement.terminated_at = Date.today
     @credit_agreement.save
-    @pdf = IO.binread(@creditor.pdfs.first.path)
+    @pdf = TerminationPdf.new(@credit_agreement, @letter)
   end
 
   it "has the right content" do
-    page_analysis = PDF::Inspector::Page.analyze(@pdf)
+    page_analysis = PDF::Inspector::Page.analyze(@pdf.render)
     expect(page_analysis.pages.size).to eq(3)
 
     ### FIRST PAGE: covering letter

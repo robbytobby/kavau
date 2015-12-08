@@ -1,4 +1,14 @@
 class LetterPolicy < ApplicationPolicy
+  class Scope < Scope
+    def resolve
+      scope.all.order(type: :asc, year: :desc, created_at: :desc)
+    end
+  end
+
+  def destroy?
+    return false if @record.pdfs.any? || @record.pdfs_created?
+    super
+  end
 
   def create_pdfs?
     return false if @record.pdfs_created?

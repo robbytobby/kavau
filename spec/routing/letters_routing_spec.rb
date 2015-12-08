@@ -58,6 +58,7 @@ RSpec.describe LettersController, type: :routing do
 
         it "routes to #show" do
           expect(get: "/#{resource}/1").to route_to("letters#show", typed_params)
+          expect(get: "/#{resource}/1.pdf").to route_to("letters#show", typed_params.merge(format: 'pdf'))
         end
 
         it "does not route to #edit" do

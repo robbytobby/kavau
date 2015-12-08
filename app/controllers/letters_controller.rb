@@ -3,12 +3,15 @@ class LettersController < ApplicationController
   include LoadAuthorized
 
   def index
-    @letters = Letter.all
+    @letters = @letters.includes(:pdfs)
     respond_with @letters
   end
 
   def show
-    respond_with @letter
+    respond_with @letter do |format|
+      format.html
+      format.pdf { send_data LetterPdf.new(Address.creditors.first, @letter).render, type: 'application/pdf', disposition: :inline  }
+    end
   end
 
   def new
@@ -21,12 +24,12 @@ class LettersController < ApplicationController
 
   def create
     @letter.save
-    respond_with @letter
+    respond_with @letter, location: '/letters'
   end
 
   def update
     @letter.update(permitted_params)
-    respond_with @letter
+    respond_with @letter, location: '/letters'
   end
 
   def destroy
@@ -35,6 +38,7 @@ class LettersController < ApplicationController
   end
 
   def create_pdfs
+    # nur wo pdf noch nicht existiert
     @letter.create_pdfs
     flash[:notice] = I18n.t('letters.flash.pdfs_created')
     respond_with(@letter, location: letters_path)
