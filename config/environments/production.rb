@@ -65,6 +65,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
   raise 'environment variable HOST not set !!' if ENV['HOST'].blank?
   config.action_mailer.default_url_options = { host: ENV['HOST'] }
+  raise 'smpt settings missing in settings.yml' if Settings.smtp_settings.blank?
   config.action_mailer.smtp_settings = Settings.smtp_settings.to_hash
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
