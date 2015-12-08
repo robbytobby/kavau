@@ -23,12 +23,24 @@ set :keep_releases, 5
 
 namespace :deploy do
   after :deploy, :restart
+  before :restart, :setup_pdf_dirs
 
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       execute :touch, release_path.join('tmp/restart.txt')
       #invoke 'delayed_job:restart'
+    end
+  end
+
+  desc 'Setup required directories for pdfs'
+  task :setup_pdf_dirs do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'setup:pdf_dirs'
+        end
+      end
     end
   end
 
@@ -40,6 +52,4 @@ namespace :deploy do
       # end
     end
   end
-
-
 end
