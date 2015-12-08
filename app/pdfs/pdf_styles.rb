@@ -4,7 +4,7 @@ class PdfStyles
 
   def initialize(doc)
     @document = doc
-    @logo_size = 6.cm
+    @logo_size = 5.cm
     @line_width = 0.1
     doc.line_width = @line_width
     doc.default_leading 3

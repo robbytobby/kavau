@@ -26,7 +26,7 @@ class PdfSender
   end
 
   def contact_information
-    move_down 40
+    move_down 20
     font_size(style.contact_information_font_size) {
       contact_data.map{ |string|  contact_line(string) } 
     }
