@@ -1,4 +1,6 @@
-%h1= t '.title'
+%h1
+  = t '.title'
+  %small.entries-info= page_entries_info @balances
 
 = search_form_for @q, url: balances_path, class: 'form-vertical' do |f|
   %table.table.table-striped
