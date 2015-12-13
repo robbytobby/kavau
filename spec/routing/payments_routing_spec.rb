@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PaymentsController, type: :routing do
   describe "simple routing" do
     it "routes to #index" do
-      expect(get: "/payments").not_to be_routable
+      expect(get: "/payments").to route_to('payments#index')
     end
 
     it "does not route to #new" do

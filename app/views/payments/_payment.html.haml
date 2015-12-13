@@ -2,11 +2,18 @@
   %tr[payment]
     %td= p.date
     %td= payment.class.model_name.human
-    %td.money
-    %td.money
-    %td.money
-    %td.money= p.amount
-    %td
+    -if controller_name == 'payments'
+      - present p.credit_agreement.creditor do |creditor|
+        %td= authorized_link :show, creditor.model, creditor.full_name
+      %td= authorized_link :show, p.credit_agreement, p.credit_agreement_id
+      %td= p.credit_agreement.account.name
+      %td.money= p.amount
+    -else
+      %td.money
+      %td.money
+      %td.money
+      %td.money= p.amount
+      %td
     %td.actions
       = authorized_icon_link :edit, payment, nested_in: :credit_agreement
       = authorized_icon_link :delete, payment, nested_in: :credit_agreement

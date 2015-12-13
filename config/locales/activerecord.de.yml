@@ -105,6 +105,8 @@ de:
         amount: 'Betrag'
         date: 'Datum'
         type: 'Art'
+        account: 'Konto'
+        credit_agreement_id: 'Kreditvertrag'
       pdf:
         created_at: 'angelegt am'
         title: 'Titel'

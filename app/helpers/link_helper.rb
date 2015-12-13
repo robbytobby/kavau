@@ -13,7 +13,7 @@ module LinkHelper
     icon_link(link.url, link.options) 
   end
 
-  def authorized_link(action, record, text, options)
+  def authorized_link(action, record, text, options = {})
     return unless condition_met?(options)
     link = Link.new(action, record, current_user, options.reverse_merge(title: text))
     return unless link.authorized?

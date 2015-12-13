@@ -9,6 +9,22 @@ RSpec.describe PaymentsController, type: :controller do
   let(:credit_agreement_params){ { credit_agreement_id: @credit_agreement.id } }
 
   [:deposit, :disburse].each do |payment_type|
+    describe "GET #index" do
+      before :each do
+        @deposit = create :deposit
+        @disburse = create :disburse
+      end
+
+      it "assigns the payments as @payments" do
+        get :index
+        expect(assigns(:payments)).to include(@deposit, @disburse)
+      end
+
+      it "renders the index template" do
+        get :index
+        expect(response).to render_template(:index)
+      end
+    end
     describe "POST #create" do
       let(:valid_params){ { payment: attributes_for(payment_type) } }
 

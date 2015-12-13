@@ -1,5 +1,11 @@
 class PaymentsController < ApplicationController
   include LoadAuthorized
+  include Searchable
+  default_sort 'date desc'
+
+  def index
+    respond_with @payments
+  end
 
   def edit
     respond_with @payment

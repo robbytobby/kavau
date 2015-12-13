@@ -1,0 +1,24 @@
+%tr.search
+  %td.col-sm-1
+    = f.search_field :year_eq, class: 'form-control', placeholder: t('simple_form.placeholders.year_eq')
+  %td.col-sm-2
+    = f.select :type_eq, Payment.subclasses.map{|type| [type.model_name.human, type.model_name.name]},
+      {include_blank: t('simple_form.placeholders.payment_type_eq')}, 
+      {class: 'form-control'}
+  -if policy(:creditor).show?
+    %td
+      = f.search_field :credit_agreement_creditor_name_or_credit_agreement_creditor_first_name_cont, class: 'form-control',
+        placeholder: t('simple_form.placeholders.name_cont')
+  -if policy(:credit_agreement).show?
+    %td.col-sm-1
+      = f.search_field :credit_agreement_id_eq, class: 'form-control',
+      placeholder: t('simple_form.placeholders.id_eq')
+  %td
+    = f.select :credit_agreement_account_id_eq, Account.project_accounts.map{|i| [i.name, i.id]}, 
+      {include_blank: t('simple_form.placeholders.account_id_eq')}, 
+      {class: 'form-control'}
+  %td
+  %td.actions
+    %button.btn.btn-default.btn-primary{type: :submit, title: t('simple_form.labels.defaults.search')}
+      %span.glyphicon.glyphicon-search
+  

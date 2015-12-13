@@ -1,0 +1,17 @@
+%h1= t '.title'
+
+= search_form_for @q, class: 'form-vertical' do |f|
+  %table.table.table-striped
+    %thead
+      %tr
+        %th= sort_link(@q, :date)
+        %th= sort_link(@q, :type)
+        %th= CreditAgreement.human_attribute_name(:creditor) if policy(:creditor).show?
+        %th= sort_link(@q, :credit_agreement_id) if policy(:credit_agreement).show?
+        %th= CreditAgreement.human_attribute_name(:account)
+        %th.money= sort_link(@q, :amount)
+        %th.actions
+      = render :partial => 'search', locals: {f: f}
+    %tbody
+      = render @payments
+  = paginate @payments

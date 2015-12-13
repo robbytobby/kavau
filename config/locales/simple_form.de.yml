@@ -13,6 +13,7 @@ de:
         login: 'Login'
         search: 'suchen'
     placeholders:
+      payment_type_eq: 'Art ='
       credit_agreement_id_eq: 'Nr. ='
       name_cont: 'Name oder Vorname ~'
       login_cont: 'Login ~'

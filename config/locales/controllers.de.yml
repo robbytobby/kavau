@@ -102,6 +102,8 @@ de:
     flash:
       pdfs_created: 'Die PDFs wurden erstellt.'
   payments:
+    index: 
+      title: 'Ein- und Auszahlungen'
     edit:
       title: 'Zahlung bearbeiten'
   pdfs:
@@ -129,4 +131,5 @@ de:
       credit_agreements: 'Kreditverträge'
       edit_profile: 'Eigene Daten bearbeiten'
       letters: 'Briefvorlagen'
+      payments: 'Zahlungen'
       users: 'User'

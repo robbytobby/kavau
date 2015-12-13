@@ -24,4 +24,10 @@ class PaymentPolicy < ApplicationPolicy
   def permitted_params
     [:amount, :type, :date]
   end
+
+  class Scope < Scope
+    def resolve
+      scope.all
+    end
+  end
 end
