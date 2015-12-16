@@ -10,7 +10,10 @@ class Payment < ActiveRecord::Base
   scope :older_than, ->(from_date){ where(['date > ?', from_date]) }
   scope :this_year_upto, ->(to_date){ younger_than_inc(to_date).older_than(to_date.beginning_of_year.prev_day) }
 
-  ransacker(:year){ Arel.sql('extract(year from date)') }
+  ransacker :year, formatter: lambda{ |v| v.gsub!(/.*(\d{4}).*/,'\1') } do
+    Arel.sql('extract(year from date)')
+  end
+
 
   def self.valid_types
     subclasses.map(&:name)

@@ -14,7 +14,9 @@ class Balance < ActiveRecord::Base
 
   alias_method :update_end_amount!, :save
 
-  ransacker(:year){ Arel.sql('extract(year from date)') }
+  ransacker :year, formatter: lambda{ |v| v.gsub!(/.*(\d{4}).*/,'\1') } do
+    Arel.sql('extract(year from date)')
+  end
 
   def project_address
     credit_agreement.account.address
