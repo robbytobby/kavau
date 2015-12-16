@@ -68,7 +68,7 @@ class Balance < ActiveRecord::Base
   end
 
   def pdf
-    BalancePdf.new(self).render
+    BalancePdf.new(self, pages: :balance_only).render
   end
 
   private

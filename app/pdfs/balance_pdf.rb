@@ -1,6 +1,7 @@
 class BalancePdf < ApplicationPdf
-  def initialize(balance)
+  def initialize(balance, pages = :all)
     @balance = balance
+    @pages = pages
     @template = get_template
     @pdf_letter = PdfLetter.new(template, self)
     @pdf_balance = PdfBalance.new(@balance, self)
@@ -10,11 +11,15 @@ class BalancePdf < ApplicationPdf
   
   private
   def content
-    @pdf_letter.content
-    start_new_page
+    if @pages == :all
+      @pdf_letter.content
+      start_new_page
+    end
     @pdf_balance.content
-    start_new_page
-    @interest_certificate.content
+    if @pages == :all
+      start_new_page
+      @interest_certificate.content
+    end
   end
 
   def template
