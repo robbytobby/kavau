@@ -15,3 +15,7 @@ class MissingTemplateError < StandardError
     @year = year
   end
 end
+
+class MissingRegisteredSocietyError < StandardError
+
+end

@@ -67,6 +67,7 @@ de:
     missing_template_error:
       balance_letter: 'Es muß erst eine Vorlage für den Jahresabschluss %{year} angelegt werden.'
       termination_letter: 'Es muß erst eine Vorlage für das Kündigungs-Schreiben angelegt werden.'
+    registered_society_missing: 'Der Absender für jeden Brief ist der Hausverein. Es ist aber noch kein Hausverein angelegt, das mußt du erst noch tun, bevor du Briefe erstellen kannst.'
     
     
 

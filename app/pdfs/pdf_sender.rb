@@ -7,6 +7,7 @@ class PdfSender
     :default_account, :street_number, :city_line, :registration_number, to: :presented
 
   def initialize(project_address, doc)
+    raise MissingRegisteredSocietyError.new if project_address.blank?
     @document = doc
     @model = project_address
     @presented = ProjectAddressPresenter.new(@model, self)
