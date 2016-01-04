@@ -14,14 +14,14 @@ RSpec.describe "balances pdfs for project address with missing information" do
       visit "/balances/#{@balance.id}.pdf"
       expect(current_path).to eq(letters_path)
       within '#flash_warning' do
-        expect(page).to have_content('Es muß erst eine Vorlage für den Jahresabschluss 2014 angelegt werden.')
+        expect(page).to have_content("Es muß erst eine Vorlage für den Jahresabschluss #{Date.today.prev_year.year} angelegt werden.")
       end
     end
   end
 
   context "template for covering letter exists" do
     before :each do
-      create :balance_letter
+      create :balance_letter, year: Date.today.prev_year.year
     end
 
     it "no contacts given" do

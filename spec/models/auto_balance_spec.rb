@@ -76,10 +76,11 @@ RSpec.describe AutoBalance, type: :model do
       expect(balance.end_amount).to eq(3000)
     end
 
-    it "does not include dispurses on other credit_agreements" do
+    it "does not include disburses on other credit_agreements" do
       create_deposit Date.today, 5000
       create_disburse Date.today, 2000
-      other_disburse = create :disburse, amount: 1111, date: Date.today
+      other_deposit = create :deposit, amount: 3333, date: Date.today
+      other_disburse = create :disburse, amount: 1111, date: Date.today, credit_agreement: other_deposit.credit_agreement
       expect(balance.end_amount).to eq(3000)
     end
 
@@ -120,25 +121,28 @@ RSpec.describe AutoBalance, type: :model do
           old_deposit = create_deposit Date.today.beginning_of_year.prev_day(31), 20000
           old_disburse = create_disburse Date.today.beginning_of_year.prev_day(21), 10000
           old_end_amount = 20000 - 10000 +
-            interest(20000, rate, 10)+
-            interest(10000, rate, 20)
-          new_deposit = create_deposit Date.today.beginning_of_year.next_day(100), 22222
-          new_disburse = create_disburse Date.today.beginning_of_year.next_day(200), 12345
-          new_end_amount = old_end_amount + 22222 - 12345 +
+            interest(20000, rate, 10, total_days(old_deposit.date))+
+            interest(10000, rate, 20, total_days(old_deposit.date))
+          expect(balance(Date.today.prev_year.end_of_year).end_amount).to eq(old_end_amount)
+          new_deposit = create_deposit Date.today.beginning_of_year, 22222
+          new_deposit.update_column(:date, Date.today.beginning_of_year.next_day(100))
+          new_disburse = create_disburse Date.today.beginning_of_year, 10001
+          new_disburse.update_column(:date, Date.today.beginning_of_year.next_day(200))
+          new_end_amount = old_end_amount + 22222 - 10001 +
             interest(old_end_amount, rate, 101) +
             interest(old_end_amount + 22222, rate, 100) +
-            interest(old_end_amount + 22222 - 12345, rate, Date.today.end_of_year.yday - 201)
+            interest(old_end_amount + 22222 - 10001, rate, Date.today.end_of_year.yday - 201)
           expect(balance(Date.today.end_of_year).end_amount).to eq(new_end_amount)
         end
 
         it "calculates correctly since start of year" do
           create_deposit '2015-01-01', 10000
-          expect(balance('2015-01-31').end_amount).to eq(10000 + interest(10000, rate, 30))
+          expect(balance('2015-01-31').end_amount).to eq(10000 + interest(10000, rate, 30, 365))
         end
 
         it "calculates correctly for the closing of year balance" do
           create_deposit '2014-12-1', 10000
-          expect(balance('2014-12-31').end_amount).to eq(10000 + interest(10000, rate, 30))
+          expect(balance('2014-12-31').end_amount).to eq(10000 + interest(10000, rate, 30, 365))
         end
       end
     end
@@ -159,24 +163,24 @@ RSpec.describe AutoBalance, type: :model do
 
           it "takes a deposit into account" do
             create_deposit '2015-10-1', 5000
-            expect(balance('2015-10-31').interests_sum).to eq(interest(5000, rate, 30))
+            expect(balance('2015-10-31').interests_sum).to eq(interest(5000, rate, 30, 365))
           end
 
           it "takes  a disburse into account" do
             create_deposit '2015-10-1', 5000
             create_disburse '2015-10-1', 2000
-            expect(balance('2015-10-31').interests_sum).to eq(interest(3000, rate, 30))
+            expect(balance('2015-10-31').interests_sum).to eq(interest(3000, rate, 30, 365))
           end
 
           it "takes last years balance into account" do
             create_deposit '2014-10-1', 10000
-            last_years_end_amount = 10000 + interest(10000, rate, 91)
+            last_years_end_amount = 10000 + interest(10000, rate, 91, 365)
             create_deposit '2015-01-10', 5000
             create_disburse '2015-01-20', 2000
             expect(balance('2015-01-31').interests_sum).to eq(
-              interest(last_years_end_amount, rate, 10) +
-              interest(last_years_end_amount + 5000, rate, 10) +
-              interest(last_years_end_amount + 5000 - 2000, rate, 11)
+              interest(last_years_end_amount, rate, 10, 365) +
+              interest(last_years_end_amount + 5000, rate, 10, 365) +
+              interest(last_years_end_amount + 5000 - 2000, rate, 11, 365)
             )
           end
         end

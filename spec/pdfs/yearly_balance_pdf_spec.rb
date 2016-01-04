@@ -30,6 +30,7 @@ RSpec.describe YearlyBalancePdf do
   end
 
   it "has the right content" do
+    year_days = Date.today.end_of_year.yday
     page_analysis = PDF::Inspector::Page.analyze(@pdf.render)
     expect(page_analysis.pages.size).to eq(6)
 
@@ -75,8 +76,8 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("Saldo")
     expect(text_analysis).to include(number_to_currency(1000))
     expect(text_analysis).to include("Zinsen")
-    expect(text_analysis).to include("365")
-    expect(text_analysis).to include("365 / 365 x 0,00% x 1.000,00 €")
+    expect(text_analysis).to include(year_days.to_s)
+    expect(text_analysis).to include("#{year_days} / #{year_days} x 0,00% x 1.000,00 €")
     expect(text_analysis).to include("0,00 €")
     expect(text_analysis).to include(I18n.l(Date.today.end_of_year))
     expect(text_analysis).to include("Die Berechnung der Zinstage erfolgt nach der Effektivzinsmethode. Informationen zur Zinsmethode befinden")
@@ -109,8 +110,8 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("Saldo")
     expect(text_analysis).to include(number_to_currency(2000))
     expect(text_analysis).to include("Zinsen")
-    expect(text_analysis).to include("365")
-    expect(text_analysis).to include("365 / 365 x 1,00% x 2.000,00 €")
+    expect(text_analysis).to include("#{year_days}")
+    expect(text_analysis).to include("#{year_days} / #{year_days} x 1,00% x 2.000,00 €")
     expect(text_analysis).to include("20,00 €")
     expect(text_analysis).to include(I18n.l(Date.today.end_of_year))
     expect(text_analysis).to include("Die Berechnung der Zinstage erfolgt nach der Effektivzinsmethode. Informationen zur Zinsmethode befinden")
@@ -143,8 +144,8 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("Saldo")
     expect(text_analysis).to include(number_to_currency(3000))
     expect(text_analysis).to include("Zinsen")
-    expect(text_analysis).to include("365")
-    expect(text_analysis).to include("365 / 365 x 2,00% x 3.000,00 €")
+    expect(text_analysis).to include("#{year_days}")
+    expect(text_analysis).to include("#{year_days} / #{year_days} x 2,00% x 3.000,00 €")
     expect(text_analysis).to include("60,00 €")
     expect(text_analysis).to include(I18n.l(Date.today.end_of_year))
     expect(text_analysis).to include("Die Berechnung der Zinstage erfolgt nach der Effektivzinsmethode. Informationen zur Zinsmethode befinden")
@@ -170,7 +171,7 @@ RSpec.describe YearlyBalancePdf do
     #
     #main part
     expect(text_analysis).to include(I18n.l(Date.today))
-    expect(text_analysis).to include("Zinsbescheinigung für das Jahr 2015")
+    expect(text_analysis).to include("Zinsbescheinigung für das Jahr #{Date.today.year}")
     expect(text_analysis).to include("Dr. Albert Meier hat dem Der Verein e.V. zinsgünstige Direktkredite zur Verfügung gestellt,")
     expect(text_analysis).to include("zur Unterstützung der sozialen Zwecke des selbstorganisiserten Mietshausprojektes")
     expect(text_analysis).to include("LAMA")
@@ -207,7 +208,7 @@ RSpec.describe YearlyBalancePdf do
     #
     #main part
     expect(text_analysis).to include(I18n.l(Date.today))
-    expect(text_analysis).to include("Zinsbescheinigung für das Jahr 2015")
+    expect(text_analysis).to include("Zinsbescheinigung für das Jahr #{Date.today.year}")
     expect(text_analysis).to include("Dr. Albert Meier hat der Die Gmbh GmbH einen zinsgünstigen Direktkredit zur Verfügung")
     expect(text_analysis).to include("gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten")
     expect(text_analysis).to include("Mietshausprojektes LAMA")

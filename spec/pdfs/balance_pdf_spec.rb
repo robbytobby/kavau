@@ -11,10 +11,12 @@ RSpec.describe BalancePdf do
     @account = create :account, address: @project_address, bank: 'DiBaDu', default: true
     @credit_agreement = create :credit_agreement, account: @account, creditor: @creditor
     create :deposit, amount: 1000, credit_agreement: @credit_agreement, date: Date.today.end_of_year.prev_year
-    @deposit = create :deposit, amount: 2000, credit_agreement: @credit_agreement, date: Date.today.beginning_of_year.next_day(30)
+    @deposit = create :deposit, amount: 2000, credit_agreement: @credit_agreement, date: Date.today
+    @deposit.update_column(:date, Date.today.beginning_of_year.next_day(30) )
     @balance = create :balance, credit_agreement: @credit_agreement, date: Date.today.end_of_year
     @letter = create :balance_letter, year: Date.today.year, content: 'Covering Letter', subject: 'TheSubject'
     @pdf = BalancePdf.new(@balance)
+    @days = Date.today.end_of_year.yday
   end
 
   it "has the right content" do
@@ -62,17 +64,19 @@ RSpec.describe BalancePdf do
     expect(text_analysis).to include(I18n.l(Date.today.prev_year.end_of_year))
     expect(text_analysis).to include(number_to_currency(1000))
     expect(text_analysis).to include('31')
-    expect(text_analysis).to include("31 / 365 x 2,00% x 1.000,00 €")
-    expect(text_analysis).to include("1,70 €")
+    expect(text_analysis).to include("31 / #{@days} x 2,00% x 1.000,00 €")
+    interest = (31.0 / @days * 0.02 * 1000).round(2)
+    expect(text_analysis).to include(number_to_currency(interest))
     expect(text_analysis).to include("Einzahlung")
     expect(text_analysis).to include("2.000,00 €")
-    expect(text_analysis).to include("334")
-    expect(text_analysis).to include("334 / 365 x 2,00% x 3.000,00 €")
-    expect(text_analysis).to include("54,90 €")
+    expect(text_analysis).to include("#{@days - 31}")
+    expect(text_analysis).to include("#{@days - 31} / #{@days} x 2,00% x 3.000,00 €")
+    interest2 = ( (@days - 31).to_f / @days * 0.02 * 3000 ).round(2)
+    expect(text_analysis).to include(number_to_currency(interest2))
     expect(text_analysis).to include("Saldo")
     expect(text_analysis).to include("Zinsen")
     expect(text_analysis).to include(I18n.l(Date.today.end_of_year))
-    expect(text_analysis).to include("3.056,60 €")
+    expect(text_analysis).to include(number_to_currency(3000 + interest + interest2))
 
     #footer
     expect(text_analysis).to include("Das Projekt GmbH")
@@ -93,7 +97,7 @@ RSpec.describe BalancePdf do
 
     #main part
     expect(text_analysis).to include(I18n.l(Date.today))
-    expect(text_analysis).to include("Zinsbescheinigung für das Jahr 2015")
+    expect(text_analysis).to include("Zinsbescheinigung für das Jahr #{Date.today.year}")
     expect(text_analysis).to include("Dr. Albert Meier hat der Das Projekt GmbH einen zinsgünstigen Direktkredit zur Verfügung")
     expect(text_analysis).to include("gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten")
     expect(text_analysis).to include("Mietshausprojektes LAMA")
@@ -102,7 +106,7 @@ RSpec.describe BalancePdf do
     expect(text_analysis).to include("Jahreszinsbetrag #{@balance.date.year}")
     expect(text_analysis).to include(@credit_agreement.id.to_s)
     expect(text_analysis).to include("2,00% p.a.")
-    expect(text_analysis).to include("56,60 €")
+    expect(text_analysis).to include(number_to_currency(interest + interest2))
     expect(text_analysis).to include("Wir bedanken uns für die Unterstützung.")
     expect(text_analysis).to include("Das Projekt GmbH")
 

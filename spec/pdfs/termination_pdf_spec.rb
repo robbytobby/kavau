@@ -86,7 +86,7 @@ RSpec.describe BalancePdf do
 
     #main part
     expect(text_analysis).to include(I18n.l(Date.today))
-    expect(text_analysis).to include("Zinsbescheinigung für das Jahr 2015")
+    expect(text_analysis).to include("Zinsbescheinigung für das Jahr #{Date.today.year}")
     expect(text_analysis).to include("Dr. Albert Meier hat der Das Projekt GmbH einen zinsgünstigen Direktkredit zur Verfügung")
     expect(text_analysis).to include("gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten")
     expect(text_analysis).to include("Mietshausprojektes LAMA")
