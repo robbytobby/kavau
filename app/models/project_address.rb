@@ -28,7 +28,8 @@ class ProjectAddress < Address
     end
 
     def missing_tax_number_keys
-      return  unless [ust_id, tax_number].all?(&:blank?)
+      return if legal_form == 'registered_society'
+      return unless [ust_id, tax_number].all?(&:blank?)
       [:ust_id, :tax_number]
     end
 end

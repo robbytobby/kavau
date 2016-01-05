@@ -32,6 +32,22 @@ RSpec.describe ProjectController, type: :controller do
         end
       end
 
+      it "sets flash warning for missing tax id for limited" do
+        address = create :project_address, :with_contacts, legal_form: 'limited'
+        get :show
+        ['UST-Id-Nr', 'Steuernummer'].each do |missing|
+          expect(flash[:warning].first).to include(missing)
+        end
+      end
+
+      it "does not sets flash warning for missing tax id for registered_society" do
+        address = create :project_address, :with_contacts, legal_form: 'registered_society'
+        get :show
+        ['UST-Id-Nr', 'Steuernummer'].each do |missing|
+          expect(flash[:warning].first).not_to include(missing)
+        end
+      end
+
       it "sets flash warning for missing default_account" do
         address = create :project_address, :with_contacts, :with_legals
         get :show

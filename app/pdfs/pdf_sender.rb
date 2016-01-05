@@ -82,7 +82,7 @@ class PdfSender
 
   def legal_information_line
     raise MissingInformationError.new(@model) if legal_information_missing?
-    "<b>#{full_name}</b> #{legal_information.join(' | ')}"
+    "<b>#{full_name}</b> #{legal_information.compact.join(' | ')}"
   end
 
   def legal_information
@@ -94,6 +94,7 @@ class PdfSender
   end
 
   def with_explanation(key)
+    return if send(key).blank?
     "#{ProjectAddress.human_attribute_name(key)}: #{send(key)}"
   end
 
