@@ -15,6 +15,7 @@ class YearlyBalancePdf < ApplicationPdf
       PdfBalance.new(balance, self).content
     end
     @balances.group_by(&:project_address).each do |project_address, balances|
+      next if balances.all?{|b| b.credit_agreement.interest_rate == 0 }
       start_new_page
       PdfInterestCertificate.new(project_address, balances, self).content
     end

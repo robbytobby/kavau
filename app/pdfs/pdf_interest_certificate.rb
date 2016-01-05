@@ -70,7 +70,7 @@ class PdfInterestCertificate
   end
 
   def table_content
-    @balances.sort_by{|b| b.credit_agreement.id}.map{ |balance|
+    @balances.sort_by{|b| b.credit_agreement.id}.reject{|b| b.credit_agreement.interest_rate == 0 }.map{ |balance|
       [
         balance.credit_agreement.id,
         I18n.t('pdf.interest_certificate.interest_rate', rate: number_to_percentage(balance.interest_rate)),
