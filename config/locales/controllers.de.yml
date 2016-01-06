@@ -101,6 +101,7 @@ de:
         termination_letter: 'Anschreiben für %{text} bearbeiten'
     flash:
       pdfs_created: 'Die PDFs wurden erstellt.'
+      pdfs_deleted: 'Die PDFs wurden gelöscht.'
   payments:
     index: 
       title: 'Ein- und Auszahlungen'

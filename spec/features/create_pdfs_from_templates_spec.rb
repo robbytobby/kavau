@@ -12,4 +12,14 @@ RSpec.describe "Generating PDFs for letters" do
     click_on "get_pdfs_standard_letter_#{letter.id}"
     #TODO: spec the resulting combined pdf
   end
+
+  it "I can delete pdfs for standard letters for all creditors" do
+    letter = create :standard_letter
+    letter.create_pdfs
+    visit '/letters'
+    click_on "delete_pdfs_standard_letter_#{letter.id}"
+    expect(current_path).to eq('/letters')
+    expect(page).to have_selector('div.alert-notice')
+    expect(letter.pdfs.count).to eq(0)
+  end
 end

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   end
   resources :letters, only: :index, type: 'Letter' do
     member{ post 'create_pdfs', as: 'create_pdfs_for' }
+    member{ delete 'delete_pdfs', as: 'delete_pdfs_for' }
     member{ get 'get_pdfs', as: 'get_pdfs_for' }
   end
   resources :balance_letters, controller: :letters, except: :index, type: 'BalanceLetter'

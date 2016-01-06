@@ -47,6 +47,13 @@ class LettersController < ApplicationController
     respond_with(@letter, location: letters_path)
   end
 
+  def delete_pdfs
+    @letter.pdfs.destroy_all
+    @letter.update!(pdfs_created_at: nil)
+    flash[:notice] = I18n.t('letters.flash.pdfs_deleted')
+    respond_with(@letter, location: letters_path)
+  end
+
   private
     def klass
       @type.constantize

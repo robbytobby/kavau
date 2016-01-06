@@ -17,6 +17,12 @@ RSpec.describe LettersController, type: :routing do
     expect(get: get_pdfs_for_letter_path(letter)).to route_to('letters#get_pdfs', type: 'Letter', id: letter.id.to_s)
   end
 
+  it "routes to delete_pdfs" do
+    letter = create :letter
+    expect(delete: "/letters/1/delete_pdfs").to route_to('letters#delete_pdfs', type: 'Letter', id: "1")
+    expect(delete: delete_pdfs_for_letter_path(letter)).to route_to('letters#delete_pdfs', type: 'Letter', id: letter.id.to_s)
+  end
+
   it "does not route to show" do
     expect(get: "/letters/1").not_to be_routable
   end

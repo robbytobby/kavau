@@ -7,6 +7,7 @@
       = authorized_icon_link :show, letter, icon: 'eye-open', path: [letter, format: :pdf]
       = authorized_icon_link :get_pdfs, letter, icon: 'download', path: get_pdfs_for_letter_path(letter)
       = authorized_icon_link :create_pdfs, letter, icon: 'duplicate', path: create_pdfs_for_letter_path(letter), method: :post
+      = authorized_icon_link :delete_pdfs, letter, icon: 'fire', path: delete_pdfs_for_letter_path(letter), method: :delete
       = authorized_icon_link :edit, letter
       = authorized_icon_link :delete, letter
     

@@ -14,6 +14,7 @@ de:
     back: 'zurück zur Übersicht'
     cancel: 'abbrechen'
     create_pdfs: 'PDFs erzeugen'
+    delete_pdfs: 'PDFs löschen'
     edit: 'bearbeiten'
     get_pdfs: 'PDFs runter laden'
     show: 'anzeigen'

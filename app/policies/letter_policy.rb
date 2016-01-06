@@ -15,6 +15,11 @@ class LetterPolicy < ApplicationPolicy
     user.admin? || user.accountant?
   end
 
+  def delete_pdfs?
+    return false if !@record.pdfs_created?
+    user.admin? || user.accountant?
+  end
+
   def get_pdfs?
     return false unless @record.pdfs_created?
     user.admin? || user.accountant?

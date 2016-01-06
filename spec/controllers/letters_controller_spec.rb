@@ -184,6 +184,38 @@ RSpec.describe LettersController, type: :controller do
           raise 'not implemented'
         end
       end
+
+      describe "delete delete_pdfs" do
+        before :each do
+          allow_any_instance_of(Pdf).to receive(:create_file).and_return(true)
+          allow_any_instance_of(Pdf).to receive(:delete_file).and_return(true)
+          create :person
+          @letter = create letter_type.underscore, year: 2014
+          @letter.create_pdfs
+        end
+
+        it "assigns the requested letter" do
+          delete :delete_pdfs, type: 'Letter', id: @letter.id
+          expect(assigns(:letter)).to eq(@letter)
+        end
+
+        it "is successfull" do
+          delete :delete_pdfs, type: 'Letter', id: @letter.id
+          expect(response.status).to eq 302
+        end
+
+        it "destroys all pdfs for that letter" do
+          delete :delete_pdfs, type: 'Letter', id: @letter.id
+          expect(@letter.pdfs.count).to eq(0)
+        end
+
+        it "resets pdfs_created_at" do
+          delete :delete_pdfs, type: 'Letter', id: @letter.id
+          @letter.reload
+          expect(@letter.pdfs_created_at).to be_nil
+        end
+
+      end
     end
   end
 end
