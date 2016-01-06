@@ -54,7 +54,7 @@ RSpec.describe BalancePdf do
     expect(text_analysis).to include("Deutschland")
 
     #main part
-    expect(text_analysis).to include("Kreditvertrag Nr #{@credit_agreement.id} - Abschlussbilanz" )
+    expect(text_analysis).to include("Kreditvertrag Nr #{@credit_agreement.number} - Abschlussbilanz" )
     expect(text_analysis).to include("Datum")
     expect(text_analysis).to include("Zinstage")
     expect(text_analysis).to include("Zinsberechnung")
@@ -93,7 +93,7 @@ RSpec.describe BalancePdf do
     expect(text_analysis).to include("Kreditvertrag-Nr")
     expect(text_analysis).to include("Zinssatz")
     expect(text_analysis).to include("Jahreszinsbetrag #{Date.today.year}")
-    expect(text_analysis).to include(@credit_agreement.id.to_s)
+    expect(text_analysis).to include(@credit_agreement.number)
     expect(text_analysis).to include("2,00% p.a.")
     expect(text_analysis).to include(number_to_currency(@credit_agreement.termination_balance.interests_sum))
     expect(text_analysis).to include("Wir bedanken uns für die Unterstützung.")

@@ -78,7 +78,7 @@ RSpec.describe "balances" do
           @balances.each do |bal|
             expect(page).to have_css("tr#auto_balance_#{bal.id}")
             within "tr#auto_balance_#{bal.id}" do
-              expect(page).to have_content bal.credit_agreement.id
+              expect(page).to have_content bal.credit_agreement.number
               expect(page).to have_content I18n.l(bal.date)
               expect(page).to have_content bal.creditor.name
               expect(page).to have_content number_to_currency(bal.start_amount)

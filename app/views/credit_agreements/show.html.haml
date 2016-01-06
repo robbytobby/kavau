@@ -1,6 +1,6 @@
 - present(@credit_agreement) do |credit_agreement|
   %h1
-    = t '.title', number: @credit_agreement.id
+    = t '.title', number: credit_agreement.number
     %small= "- #{@credit_agreement.account.name}"
   = render partial: 'details', locals: { credit_agreement: credit_agreement }
 

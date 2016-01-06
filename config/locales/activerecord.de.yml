@@ -92,6 +92,7 @@ de:
         id: 'Nr'
         interest: 'Zinsen'
         interest_rate: 'Zinssatz'
+        number: 'Nr'
         old_balance: 'Kontostand alt'
         payment_amount: 'Betrag'
         payment_type: 'Art'

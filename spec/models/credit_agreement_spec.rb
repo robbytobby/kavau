@@ -30,6 +30,30 @@ RSpec.describe CreditAgreement, type: :model do
     expect(@credit_agreement).not_to be_valid
   end
 
+  describe 'number' do
+    it "may be left blank" do
+      @credit_agreement = build :credit_agreement, number: nil
+      expect(@credit_agreement).to be_valid
+    end
+
+    it "is set automatically" do
+      @credit_agreement = create :credit_agreement, number: nil
+      expect(@credit_agreement.number).to eq("#{@credit_agreement.account_id}0001")
+    end
+
+    it "has to be uniq" do
+      @credit_agreement = create :credit_agreement, number: 21
+      @credit_agreement2 = build :credit_agreement, number: 21
+      expect(@credit_agreement2).not_to be_valid
+    end
+
+    it "will be autoincremented" do
+      @credit_agreement = create :credit_agreement, number: 'AB0001'
+      @credit_agreement2 = create :credit_agreement, account: @credit_agreement.account, number: nil
+      expect(@credit_agreement2.number).to eq('AB0002')
+    end
+  end
+
   it "has a todays balance" do
     @credit_agreement = build :credit_agreement
     expect(@credit_agreement.todays_balance.date).to eq(Date.today)

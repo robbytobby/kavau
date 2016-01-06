@@ -5,7 +5,8 @@
     -if controller_name == 'payments'
       - present p.credit_agreement.creditor do |creditor|
         %td= authorized_link :show, creditor.model, creditor.full_name
-      %td= authorized_link :show, p.credit_agreement, p.credit_agreement_id
+      - present p.credit_agreement do |credit_agreement|
+        %td= authorized_link :show, credit_agreement, credit_agreement.number
       %td= p.credit_agreement.account.name
       %td.money= p.amount
     -else

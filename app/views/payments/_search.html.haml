@@ -11,7 +11,7 @@
         placeholder: t('simple_form.placeholders.name_cont')
   -if policy(:credit_agreement).show?
     %td.col-sm-1
-      = f.search_field :credit_agreement_id_eq, class: 'form-control',
+      = f.search_field :credit_agreement_number_eq, class: 'form-control',
       placeholder: t('simple_form.placeholders.id_eq')
   %td
     = f.select :credit_agreement_account_id_eq, Account.project_accounts.map{|i| [i.name, i.id]}, 

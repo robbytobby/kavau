@@ -1,7 +1,7 @@
 %tr.search
   -if policy(CreditAgreement).edit?
     %td.col-sm-1
-      = f.search_field :id_eq, class: 'form-control',
+      = f.search_field :number_eq, class: 'form-control',
       placeholder: t('simple_form.placeholders.id_eq')
   %td
     = f.select :account_id_eq, Account.project_accounts.map{|i| [i.name, i.id]}, 

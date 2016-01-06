@@ -1,6 +1,6 @@
 -present credit_agreement do |c|
   %tr[credit_agreement]
-    = authorized_link :show, credit_agreement, c.id, wrap: :td, id: ''
+    = authorized_link :show, credit_agreement, c.number, wrap: :td
     %td= c.account.name
     = authorized_link :show, c.creditor, CreditorPresenter.new(c.creditor, self).full_name,
       wrap: :td, condition: controller_name != 'addresses', title: t('links.show')

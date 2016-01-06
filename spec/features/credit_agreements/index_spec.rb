@@ -68,13 +68,13 @@ RSpec.describe "credit agreements index" do
   describe "is searchable" do
     before(:each){ login_as create(:accountant) }
 
-    it "by id" do
+    it "by number" do
       c1 = create :credit_agreement
       c2 = create :credit_agreement
       c3 = create :credit_agreement
 
       visit '/credit_agreements'
-      fill_in :q_id_eq, with: c1.id
+      fill_in :q_number_eq, with: c1.number
       click_on :suchen
       expect(page).to have_css("tr#credit_agreement_#{c1.id}")
       expect(page).not_to have_css("tr#credit_agreement_#{c2.id}")

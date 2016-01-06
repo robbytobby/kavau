@@ -15,6 +15,7 @@ RSpec.describe "managing credit aggreements" do
           fill_in :credit_agreement_amount, with: '1000'
           fill_in :credit_agreement_interest_rate, with: '1'
           fill_in :credit_agreement_cancellation_period, with:'3'
+          fill_in :credit_agreement_number, with: ''
           select 'Account', from: 'credit_agreement_account_id'
           click_on :submit
           expect(current_path).to eq(model_path(@creditor))

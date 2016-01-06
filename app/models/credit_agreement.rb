@@ -16,11 +16,13 @@ class CreditAgreement < ActiveRecord::Base
   validates_numericality_of :amount, greater_than_or_equal_to: 500
   validates_numericality_of :interest_rate, greater_than_or_equal_to: 0, less_than: 100
   validates_numericality_of :cancellation_period, greater_than_or_equal_to: 3
+  validates_uniqueness_of :number, allow_blank: true
   validate :account_valid_for_credit_agreement?
   validate :termination_date_after_payments
 
   after_touch :create_missing_balances, :delete_unnecessary_balances, :update_balances
   before_save :make_termination_balance
+  before_validation :set_number
 
   def self.funded_credits_sum
     sum(:amount)
@@ -87,6 +89,16 @@ class CreditAgreement < ActiveRecord::Base
     def make_termination_balance
       return unless terminated_at
       create_termination_balance(date: terminated_at)
+    end
+
+    def set_number
+      return unless account_id
+      return unless number.blank?
+      self.number = last_used_number.try(:next) || "#{account_id}0001"
+    end
+
+    def last_used_number
+      CreditAgreement.where(account_id: account_id).where.not(number: nil).order(number: :desc).first.try(:number)
     end
 
     def existing_balances_dates

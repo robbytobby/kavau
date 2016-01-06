@@ -67,7 +67,7 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("Deutschland")
 
     #main part
-    expect(text_analysis).to include("Kreditvertrag Nr #{@credit_agreement1.id} - Jahresabschluss #{@balance1.date.year}")
+    expect(text_analysis).to include("Kreditvertrag Nr #{@credit_agreement1.number} - Jahresabschluss #{@balance1.date.year}")
     expect(text_analysis).to include("Datum")
     expect(text_analysis).to include("Zinstage")
     expect(text_analysis).to include("Zinsberechnung")
@@ -101,7 +101,7 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("Deutschland")
 
     #main part
-    expect(text_analysis).to include("Kreditvertrag Nr #{@credit_agreement2.id} - Jahresabschluss #{@balance2.date.year}")
+    expect(text_analysis).to include("Kreditvertrag Nr #{@credit_agreement2.number} - Jahresabschluss #{@balance2.date.year}")
     expect(text_analysis).to include("Datum")
     expect(text_analysis).to include("Zinstage")
     expect(text_analysis).to include("Zinsberechnung")
@@ -135,7 +135,7 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("Deutschland")
 
     #main part
-    expect(text_analysis).to include("Kreditvertrag Nr #{@credit_agreement3.id} - Jahresabschluss #{@balance3.date.year}")
+    expect(text_analysis).to include("Kreditvertrag Nr #{@credit_agreement3.number} - Jahresabschluss #{@balance3.date.year}")
     expect(text_analysis).to include("Datum")
     expect(text_analysis).to include("Zinstage")
     expect(text_analysis).to include("Zinsberechnung")
@@ -178,8 +178,8 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("Kreditvertrag-Nr")
     expect(text_analysis).to include("Zinssatz")
     expect(text_analysis).to include("Jahreszinsbetrag #{@balance1.date.year}")
-    expect(text_analysis).not_to include(@credit_agreement1.id.to_s)
-    expect(text_analysis).to include(@credit_agreement2.id.to_s)
+    expect(text_analysis).not_to include(@credit_agreement1.number)
+    expect(text_analysis).to include(@credit_agreement2.number)
     expect(text_analysis).not_to include("0,00% p.a.")
     expect(text_analysis).to include("1,00% p.a.")
     expect(text_analysis).not_to include("0,00 €")
@@ -215,7 +215,7 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("Kreditvertrag-Nr")
     expect(text_analysis).to include("Zinssatz")
     expect(text_analysis).to include("Jahreszinsbetrag #{@balance3.date.year}")
-    expect(text_analysis).to include(@credit_agreement3.id.to_s)
+    expect(text_analysis).to include(@credit_agreement3.number)
     expect(text_analysis).to include("2,00% p.a.")
     expect(text_analysis).to include("60,00 €")
     expect(text_analysis).to include("Wir bedanken uns für die Unterstützung.")

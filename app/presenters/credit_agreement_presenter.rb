@@ -34,4 +34,8 @@ class CreditAgreementPresenter < BasePresenter
     h.number_to_currency(@model.todays_total)
   end
 
+  def number
+    @model.number || @model.id
+  end
+
 end

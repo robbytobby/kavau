@@ -10,8 +10,11 @@
         .input-group-addon %
     = f.input :cancellation_period do
       .input-group.col-sm-3
-        = f.number_field :cancellation_period, class: 'numeric decimal required form-control'
+        = f.number_field :cancellation_period, class: 'numeric integer required form-control'
         .input-group-addon Monate
+    = f.input :number do
+      .input-group.col-sm-3
+        = f.text_field :number, class: 'form-control'
     = f.association :account, collection: Account.project_accounts
 
   .form-actions.col-sm-12

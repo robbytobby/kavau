@@ -42,7 +42,7 @@ class PdfBalance
     [
       CreditAgreement.model_name.human, 
       CreditAgreement.human_attribute_name(:id), 
-      @balance.credit_agreement.id
+      CreditAgreementPresenter.new(@balance.credit_agreement, self).number
     ].join(' ')
   end
 

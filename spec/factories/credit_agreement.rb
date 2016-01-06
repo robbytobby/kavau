@@ -5,6 +5,7 @@ FactoryGirl.define do
     cancellation_period 3
     association :creditor, factory: :person
     association :account, factory: :project_account
+    sequence(:number){|n| n.to_s}
   end
 
   trait :with_payment do

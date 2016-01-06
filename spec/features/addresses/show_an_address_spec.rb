@@ -31,7 +31,7 @@ RSpec.describe "Address view"  do
         credit_agreement = create(:credit_agreement, creditor: @address) 
         visit send("#{type}_path", @address)
         within 'div.credit_agreements' do
-          expect(page).to have_content(credit_agreement.id)
+          expect(page).to have_content(credit_agreement.number)
           expect(page).to have_content(credit_agreement.account.name)
           expect(page).to have_content(number_to_currency(credit_agreement.amount))
           expect(page).to have_content(number_to_percentage(credit_agreement.interest_rate))
