@@ -7,9 +7,9 @@
   %thead
     %tr
       %th= ProjectAddress.human_attribute_name :full_name
-      %th= ProjectAddress.human_attribute_name :address
-      %th= ProjectAddress.human_attribute_name :email
-      %th= ProjectAddress.human_attribute_name :phone
+      %th= ProjectAddress.human_attribute_name :street_number
+      %th= ProjectAddress.human_attribute_name :city
+      %th= ProjectAddress.human_attribute_name :country_code
       %th
   %tbody
     = render @addresses
