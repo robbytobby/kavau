@@ -2,7 +2,7 @@ class CreditAgreementsController < ApplicationController
   include TypedAssociated
   include LoadAuthorized
   include Searchable
-  default_sort 'id asc'
+  default_sort 'number asc'
   @typed_associated_name = '@creditor'
 
   skip_before_action :set_type, only: [:index, :show]
