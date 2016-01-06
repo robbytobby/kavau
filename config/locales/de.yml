@@ -32,6 +32,9 @@ de:
     new_pdf: 'neuer Brief aus Vorlage'
     prev: 'voherige Seite'
     next: 'nächste Seite'
+  help:
+    credit_agreements:
+      number: 'Wenn das Feld frei gelassen wird, wird die Nummer automatisch vergeben. Dabei wird die nächste freie Nummer für das entsprechende Konto eingesetzt'
   roles:
     user: 'User'
     accountant: 'Buchhalter_in'

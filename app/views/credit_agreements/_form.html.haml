@@ -15,6 +15,8 @@
     = f.input :number do
       .input-group.col-sm-3
         = f.text_field :number, class: 'form-control'
+        .input-group-addon.text-info.with_help{data: {toggle: 'popover', content: t('help.credit_agreements.number'), placement: 'right', container: 'body'}}
+          ?
     = f.association :account, collection: Account.project_accounts
 
   .form-actions.col-sm-12
