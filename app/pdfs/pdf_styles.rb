@@ -43,10 +43,6 @@ class PdfStyles
     8
   end
 
-  def contact_information_font_size
-    10
-  end
-
   def logo
     { position: :right, fit: [@logo_size, @logo_size] }
   end

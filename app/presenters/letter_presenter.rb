@@ -7,10 +7,6 @@ class LetterPresenter < BasePresenter
     I18n.l @model.created_at.to_date
   end
 
-  def type
-    [@model.model_name.human, year].join(' ')
-  end
-
   def subject
     return '---' if @model.subject.blank?
     @model.subject

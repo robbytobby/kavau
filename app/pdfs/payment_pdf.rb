@@ -1,5 +1,6 @@
 class PaymentPdf < ApplicationPdf
   include BuildingBlock
+  #TODO spec
 
   def initialize(payment)
     @payment = payment

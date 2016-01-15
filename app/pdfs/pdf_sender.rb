@@ -7,12 +7,10 @@ class PdfSender
     :default_account, :street_number, :city_line, :registration_number, to: :presented
 
   def initialize(project_address, doc)
-    raise MissingRegisteredSocietyError.new if project_address.blank?
-    raise MissingInformationError.new(@model) if legal_information_missing?
-    raise MissingInformationError.new(@model) if contacts.none?
     @document = doc
     @model = project_address
     @presented = ProjectAddressPresenter.new(@model, self)
+    check_for_missing_informations
   end
 
   def document
@@ -41,6 +39,11 @@ class PdfSender
   end
 
   private
+  
+  def check_for_missing_informations
+    raise MissingRegisteredSocietyError.new if @model.blank?
+    raise MissingInformationError.new(@model) if legal_information_missing? || contacts.none? || default_account.blank?
+  end
 
   def footer_line(number, text)
     text_box text, style.footer_line(number).merge(inline_format: true)
@@ -60,16 +63,30 @@ class PdfSender
 
   def footer_line_2
     [ 
-      blue_text(default_account.bank), 
-      [explanation(:bic), default_account.bic].join(' '), 
-      [explanation(:iban), IBANTools::IBAN.new(default_account.iban).prettify].join(' '),
+      banking_information,
       registration_information,  
-      "#{blue_text(management_label)} #{manager_names}"
-    ].join(' | ')
+      management_information
+    ].flatten.join(' | ')
+  end
+
+  def banking_information
+    [ blue_text(default_account.bank), bic_with_explanation, iban_with_explanation ]
+  end
+
+  def bic_with_explanation
+    [explanation(:bic), default_account.bic].join(' ') 
+  end
+
+  def iban_with_explanation
+    [explanation(:iban), IBANTools::IBAN.new(default_account.iban).prettify].join(' ')
   end
 
   def registration_information
     [blue_text(register_court), registration_number,].join(' ')
+  end
+
+  def management_information
+    "#{blue_text(management_label)} #{manager_names}"
   end
 
   def management_label
@@ -112,10 +129,5 @@ class PdfSender
 
   def nbsp
     Prawn::Text::NBSP
-  end
-
-  def contact_line(string)
-    return if string.blank?
-    text string, align: :right
   end
 end
