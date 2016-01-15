@@ -59,8 +59,6 @@ class PdfSender
   end
 
   def footer_line_2
-    raise MissingInformationError.new(@model) unless default_account
-    raise MissingInformationError.new(@model) if contacts.none?
     [ 
       blue_text(default_account.bank), 
       [explanation(:bic), default_account.bic].join(' '), 
