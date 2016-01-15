@@ -8,6 +8,8 @@ class PdfSender
 
   def initialize(project_address, doc)
     raise MissingRegisteredSocietyError.new if project_address.blank?
+    raise MissingInformationError.new(@model) if legal_information_missing?
+    raise MissingInformationError.new(@model) if contacts.none?
     @document = doc
     @model = project_address
     @presented = ProjectAddressPresenter.new(@model, self)
@@ -45,8 +47,6 @@ class PdfSender
   end
 
   def footer_line_1 
-    raise MissingInformationError.new(@model) if legal_information_missing?
-    raise MissingInformationError.new(@model) if contacts.none?
     [
       blue_text(full_name), 
       street_number, 
