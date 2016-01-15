@@ -48,7 +48,7 @@ RSpec.describe LettersController, type: :routing do
   end
 
   describe "STI routing" do
-    [:standard_letters, :balance_letters, :termination_letters].each do |resource|
+    [:standard_letters, :balance_letters, :termination_letters, :payment_letters].each do |resource|
       context "#{resource}" do
         let(:parent){ resource.to_s.singularize }
         let(:type){ { type: parent.camelize } }

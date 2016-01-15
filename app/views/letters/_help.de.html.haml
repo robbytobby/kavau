@@ -10,3 +10,13 @@
     weitere (warhscheinlich nicht benötigte) Formatierungs-Möglichkeiten können im 
     = link_to 'Prawn-Manual', 'http://prawnpdf.org/manual.pdf'
     = 'unter Inline-Formatting nachgelesen werden.'
+  -if @letter.is_a?(PaymentLetter)
+    %p
+      Folgende Platzhalter können verwendet werden:
+      %ul
+        %li #BETRAG wird ersetzt durch den Betrag der Zahlung, formatiert und mit €-Zeichen
+        %li #DATUM wird ersetzt durch das Datum des Zahlungseinganges
+        %li #PROJEKT_N wird ersetzt durch den Namen der GmbH / des Vereins inklusive Artikel im Nominativ
+        %li #PROJEKT_G wird ersetzt durch den Namen der GmbH / des Vereins inklusive Artikel im Genitiv
+        %li #PROJEKT_D wird ersetzt durch den Namen der GmbH / des Vereins inklusive Artikel im Dativ
+        %li #PROJEKT_A wird ersetzt durch den Namen der GmbH / des Vereins inklusive Artikel im Akkusativ 

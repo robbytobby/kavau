@@ -14,6 +14,10 @@ RSpec.describe PaymentsController, type: :routing do
       expect(get: "/payments/1").not_to be_routable
     end
 
+    it "routes to #show with format pdf" do
+      expect(get: "payments/1.pdf").to route_to('payments#show', "id" => "1", "format" => "pdf")
+    end
+
     it "does not route to #edit" do
       expect(get: "/payments/1/edit").not_to be_routable
     end

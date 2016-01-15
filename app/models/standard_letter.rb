@@ -1,4 +1,6 @@
 class StandardLetter < Letter
+  validates :subject, presence: true
+
   def to_pdf(creditor)
     LetterPdf.new(creditor, self).render
   end

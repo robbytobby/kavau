@@ -9,6 +9,6 @@
     %td.money= b.end_amount
     %td.actions
       -if balance.persisted?
-        = authorized_icon_link :show, balance, path: balance_path(balance, format: :pdf), icon: :print
+        = authorized_icon_link :show, balance, path: balance_path(balance, format: :pdf), icon: :print, title: t('links.print', name: t('pdf.title.balance_letter', text: ''))
       = authorized_icon_link :edit, balance, nested_in: :credit_agreement
       = authorized_icon_link :delete, balance, nested_in: :credit_agreement

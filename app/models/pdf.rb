@@ -2,6 +2,7 @@ class Pdf < ActiveRecord::Base
   belongs_to :letter
   belongs_to :creditor
   belongs_to :credit_agreement
+  belongs_to :payment
 
   before_validation :set_creditor_id
   before_save :set_path, :create_file
@@ -27,6 +28,8 @@ class Pdf < ActiveRecord::Base
   def file_content
     if letter.is_a?(TerminationLetter)
       letter.to_pdf(credit_agreement)
+    elsif letter.is_a?(PaymentLetter)
+      letter.to_pdf(payment)
     else
       letter.to_pdf(creditor)
     end

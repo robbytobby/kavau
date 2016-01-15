@@ -1,5 +1,24 @@
 de:
   pdf:
+    project_name_with_article:
+      limited: 
+        nominativ: 'die %{name}'
+        genitiv: 'der %{name}'
+        dativ: 'der %{name}'
+        accusativ: 'die %{name}'
+      registered_society:
+        nominativ: 'der %{name}'
+        genitiv: 'des %{name}'
+        dativ: 'dem %{name}'
+        accusativ: 'den %{name}'
+    footer:
+      phone: 'fon'
+      email: 'mail'
+      website: 'www'
+      tax_number: 'Steuernummer'
+      ust_id: 'UstID'
+      bic: 'BIC'
+      iban: 'IBAN'
     salutation:
       male: 'Lieber %{name}'
       female: 'Liebe %{name}'

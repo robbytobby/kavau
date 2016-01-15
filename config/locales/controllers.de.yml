@@ -89,16 +89,19 @@ de:
       new_standard_letter: 'neue Briefvorlage'
       new_balance_letter: 'neues Anschreiben für Jahresabschluss'
       new_termination_letter: 'neues Anschreiben für Kredit-Kündigungen'
+      new_payment_letter: 'neue Vorlage für Zahlungseingang'
     new:
       title:
         standard_letter: 'neue Briefvorlage'
         balance_letter: 'neues Anschreiben für Jahresabschluss'
         termination_letter: 'neues Anschreiben für Kredit-Kündigungen'
+        payment_letter: 'neue Vorlage für Zahlungseingänge'
     edit:
       title:
         standard_letter: 'Briefvorlage "%{text}" bearbeiten'
         balance_letter: 'Anschreiben für %{text} bearbeiten'
         termination_letter: 'Anschreiben für %{text} bearbeiten'
+        payment_letter: 'Vorlage für Zahlungseingänge bearbeiten'
     flash:
       pdfs_created: 'Die PDFs wurden erstellt.'
       pdfs_deleted: 'Die PDFs wurden gelöscht.'

@@ -32,6 +32,7 @@ de:
       letter: 'Briefvorlage'
       standard_letter: 'Briefvorlage'
       termination_letter: 'Anschreiben für Kreditkündigungen'
+      payment_letter: 'Vorlage für Zahlungseingang'
       balance_letter: 'Anschreiben für Jahresbilanzen'
       organization: 'Organisation'
       payment: 'Zahlung'

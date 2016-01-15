@@ -24,7 +24,8 @@ RSpec.describe BalancePdf do
     ### FIRST PAGE: covering letter
     text_analysis = page_analysis.pages[0][:strings]
     #address_field
-    expect(text_analysis).to include("Das Projekt GmbH, Weg 1, 7800 Städtl")
+    expect(text_analysis).to include("Das Projekt GmbH")
+    expect(text_analysis).to include(" | Weg 1 | 7800 Städtl")
     expect(text_analysis).to include("Dr. Albert Meier")
     expect(text_analysis).to include("Strasse 1")
     expect(text_analysis).to include("79100 Freiburg")
@@ -38,16 +39,22 @@ RSpec.describe BalancePdf do
 
     #footer
     expect(text_analysis).to include("Das Projekt GmbH")
-    expect(text_analysis).to include(" Sitz: City | Court RegistragionNumber | Steuernummer: TaxNumber")
-    expect(text_analysis).to include("Geschäftsführung:")
+    expect(text_analysis).to include("Court")
+    expect(text_analysis).to include(" RegistragionNumber | ")
+    expect(text_analysis).to include("Geschäftsführung")
     expect(text_analysis).to include(" Vorname Test Name")
-    expect(text_analysis).to include("Bankverbindung:")
-    expect(text_analysis).to include(" DiBaDu | BIC: GENODEF1S02 | IBAN: RO49 AAAA 1B31 0075 9384 0000")
+    expect(text_analysis).to include(" Vorname Test Name")
+    expect(text_analysis).to include("DiBaDu")
+    expect(text_analysis).to include("BIC")
+    expect(text_analysis).to include(" GENODEF1S02 | ")
+    expect(text_analysis).to include("IBAN")
+    expect(text_analysis).to include(" RO49 AAAA 1B31 0075 9384 0000 | ")
 
     ### SECOND PAGE: balance
     text_analysis = page_analysis.pages[1][:strings]
     #address_field
-    expect(text_analysis).to include("Das Projekt GmbH, Weg 1, 7800 Städtl")
+    expect(text_analysis).to include("Das Projekt GmbH")
+    expect(text_analysis).to include(" | Weg 1 | 7800 Städtl")
     expect(text_analysis).to include("Dr. Albert Meier")
     expect(text_analysis).to include("Strasse 1")
     expect(text_analysis).to include("79100 Freiburg")
@@ -69,16 +76,22 @@ RSpec.describe BalancePdf do
 
     #footer
     expect(text_analysis).to include("Das Projekt GmbH")
-    expect(text_analysis).to include(" Sitz: City | Court RegistragionNumber | Steuernummer: TaxNumber")
-    expect(text_analysis).to include("Geschäftsführung:")
+    expect(text_analysis).to include("Court")
+    expect(text_analysis).to include(" RegistragionNumber | ")
+    expect(text_analysis).to include("Geschäftsführung")
     expect(text_analysis).to include(" Vorname Test Name")
-    expect(text_analysis).to include("Bankverbindung:")
-    expect(text_analysis).to include(" DiBaDu | BIC: GENODEF1S02 | IBAN: RO49 AAAA 1B31 0075 9384 0000")
+    expect(text_analysis).to include(" Vorname Test Name")
+    expect(text_analysis).to include("DiBaDu")
+    expect(text_analysis).to include("BIC")
+    expect(text_analysis).to include(" GENODEF1S02 | ")
+    expect(text_analysis).to include("IBAN")
+    expect(text_analysis).to include(" RO49 AAAA 1B31 0075 9384 0000 | ")
 
     ### THIRD PAGE: interest certificate
     text_analysis = page_analysis.pages[2][:strings]
     #address_field
-    expect(text_analysis).to include("Das Projekt GmbH, Weg 1, 7800 Städtl")
+    expect(text_analysis).to include("Das Projekt GmbH")
+    expect(text_analysis).to include(" | Weg 1 | 7800 Städtl")
     expect(text_analysis).to include("Dr. Albert Meier")
     expect(text_analysis).to include("Strasse 1")
     expect(text_analysis).to include("79100 Freiburg")
@@ -101,10 +114,15 @@ RSpec.describe BalancePdf do
 
     #footer
     expect(text_analysis).to include("Das Projekt GmbH")
-    expect(text_analysis).to include(" Sitz: City | Court RegistragionNumber | Steuernummer: TaxNumber")
-    expect(text_analysis).to include("Geschäftsführung:")
+    expect(text_analysis).to include("Court")
+    expect(text_analysis).to include(" RegistragionNumber | ")
+    expect(text_analysis).to include("Geschäftsführung")
     expect(text_analysis).to include(" Vorname Test Name")
-    expect(text_analysis).to include("Bankverbindung:")
-    expect(text_analysis).to include(" DiBaDu | BIC: GENODEF1S02 | IBAN: RO49 AAAA 1B31 0075 9384 0000")
+    expect(text_analysis).to include(" Vorname Test Name")
+    expect(text_analysis).to include("DiBaDu")
+    expect(text_analysis).to include("BIC")
+    expect(text_analysis).to include(" GENODEF1S02 | ")
+    expect(text_analysis).to include("IBAN")
+    expect(text_analysis).to include(" RO49 AAAA 1B31 0075 9384 0000 | ")
   end
 end

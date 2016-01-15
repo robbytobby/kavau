@@ -1,10 +1,15 @@
 class PaymentsController < ApplicationController
   include LoadAuthorized
   include Searchable
+  before_action :find_or_create_pdf, only: :show
   default_sort 'date desc'
 
   def index
     respond_with @payments
+  end
+
+  def show
+    send_file @payment.pdf.path, type: 'application/pdf', disposition: :inline
   end
 
   def edit
@@ -31,6 +36,10 @@ class PaymentsController < ApplicationController
   end
 
   private
+    def find_or_create_pdf
+      Pdf.create_with(creditor: @payment.credit_agreement.creditor, letter: PaymentLetter.first).find_or_create_by(payment: @payment)
+    end
+
     def create_params
       permitted_params.merge(credit_agreement_id: params[:credit_agreement_id])
     end

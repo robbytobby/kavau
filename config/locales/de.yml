@@ -20,6 +20,7 @@ de:
     show: 'anzeigen'
     delete: 'löschen'
     update: 'aktualisieren'
+    print: '%{name} drucken'
     new_contact: 
       for_organization: 
         registered_society: 'neue Ansprechpartner_in'
@@ -62,11 +63,13 @@ de:
     standard_letters: 'rundbriefe'
     termination_letters: 'kuendigungsbriefe'
     balance_letters: 'jahresabschluss_briefe'
+    payment_letters: 'einzahlungsbestaetigungen'
   pdf:
     title:
       standard_letter: '%{text}'
       balance_letter: 'Jahresbilanz %{text}'
       termination_letter: 'Kündigungs-Schreiben'
+      payment_letter: 'Zahlungseingangs-Schreiben'
   exceptions:
     missing_template_error:
       balance_letter: 'Es muß erst eine Vorlage für den Jahresabschluss %{year} angelegt werden.'

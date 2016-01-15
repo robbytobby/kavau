@@ -16,5 +16,6 @@
       %td.money= p.amount
       %td
     %td.actions
+      = authorized_icon_link :show, payment, path: payment_path(payment, format: :pdf), icon: :print, title: t('links.print', name: t('pdf.title.payment_letter'))
       = authorized_icon_link :edit, payment, nested_in: :credit_agreement
       = authorized_icon_link :delete, payment, nested_in: :credit_agreement

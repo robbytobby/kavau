@@ -1,5 +1,6 @@
 class Payment < ActiveRecord::Base
   belongs_to :credit_agreement, touch: true
+  has_one :pdf
   delegate :balances, :last_terminated_year, to: :credit_agreement
   
   validates_presence_of :amount, :type, :date, :credit_agreement_id

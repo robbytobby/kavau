@@ -25,6 +25,26 @@ RSpec.describe PaymentsController, type: :controller do
         expect(response).to render_template(:index)
       end
     end
+
+    describe "GET #show format: pdf" do
+      before :each do
+        project = create :complete_project_address 
+        create :payment_letter
+        @credit_agreement = create :credit_agreement, account: project.accounts.first
+        @payment = create :deposit, credit_agreement: @credit_agreement
+      end
+
+      it "assigns the requested payment as @payment" do
+        get :show, id: @payment.id, format: 'pdf'
+        expect(assigns(:payment)).to eq(@payment)
+      end
+
+      it "saves the pdf" do
+        get :show, id: @payment.id, format: 'pdf'
+        expect(@payment.reload.pdf).to be_persisted
+      end
+    end
+
     describe "POST #create" do
       let(:valid_params){ { payment: attributes_for(payment_type) } }
 

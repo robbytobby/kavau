@@ -25,11 +25,13 @@ Rails.application.routes.draw do
   end
   resources :balance_letters, controller: :letters, except: :index, type: 'BalanceLetter'
   resources :termination_letters, controller: :letters, except: :index, type: 'TerminationLetter'
+  resources :payment_letters, controller: :letters, except: :index, type: 'PaymentLetter'
   resources :standard_letters, controller: :letters, except: :index, type: 'StandardLetter'
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
     concerns :has_contacts, :has_accounts, :has_credit_agreements, :has_pdfs
   end
   resources :payments, only: :index
+  resources :payments, only: :show, format: true, constraints: {format: :pdf}
   resources :pdfs, only: :show, format: true, constraints: {format: :pdf}
   resources :pdfs, only: [:destroy, :update]
   resources :people, controller: :addresses, type: 'Person', except: :index do

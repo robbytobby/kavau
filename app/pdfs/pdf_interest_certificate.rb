@@ -13,7 +13,7 @@ class PdfInterestCertificate
     @sender.over_address_line
     recipient.address
     date_box
-    move_cursor_to 17.cm
+    move_cursor_to 15.cm
     interest_certificate_heading
     move_down 10
     preamble

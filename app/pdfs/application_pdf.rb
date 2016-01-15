@@ -13,12 +13,13 @@ class ApplicationPdf < Prawn::Document
     @recipient = PdfRecipient.new(recipient, self)
     @style = PdfStyles.new(self)
     @logo = PdfLogo.new(self)
+    set_custom_font
     make
   end
 
   def make
     repeat(:all){ @logo.draw }
-    repeat(:all){ @sender.contact_information }
+    #repeat(:all){ @sender.contact_information }
     content
   end
 
@@ -36,5 +37,15 @@ class ApplicationPdf < Prawn::Document
       right_margin: 2.cm 
     }
   end 
+
+  def set_custom_font
+    font_families.update(
+      "InfoText" => {
+        normal: "public/fonts/infotext_normal.ttf",
+        italic: "public/fonts/infotext_italic.ttf",
+        bold: "public/fonts/infotext_bold.ttf",
+        bold_italic: "public/fonts/infotext_bold_italic.ttf"
+      })
+  end
 end
 

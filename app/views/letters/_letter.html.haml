@@ -2,7 +2,7 @@
   %tr[letter]
     %td= l.created_at
     %td= l.subject
-    %td= l.type
+    %td= l.title
     %td.actions
       = authorized_icon_link :show, letter, icon: 'eye-open', path: [letter, format: :pdf]
       = authorized_icon_link :get_pdfs, letter, icon: 'download', path: get_pdfs_for_letter_path(letter)

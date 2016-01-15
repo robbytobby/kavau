@@ -19,53 +19,59 @@ class PdfSender
 
   def over_address_line
     bounding_box(*style.over_address_line){
-      font_size(style.sender_font_size){
-        text sender_line
-        stroke_horizontal_rule
+      font("InfoText"){
+        font_size(style.sender_font_size){
+          text sender_line, inline_format: true, single_line: true, overflow: :shrink_to_fit
+        }
       }
     }
   end
 
-  def contact_information
-    move_down 20
-    font_size(style.contact_information_font_size) {
-      contact_data.map{ |string|  contact_line(string) } 
-    }
-  end
-
   def footer
-    font_size(style.footer_font_size){
-      footer_line(1, legal_information_line)
-      footer_line(2, management_line)
-      footer_line(3, bank_details_line)
+    fill_color grey
+    font("InfoText"){
+      font_size(style.footer_font_size){
+        footer_line(1, footer_line_1)
+        footer_line(2, footer_line_2)
+      }
     }
+    fill_color '000000'
   end
 
   private
-  def contact_data
-    [Settings.website_url, sender.email, sender.phone]
-  end
 
   def footer_line(number, text)
-    text_box text, style.footer_line(number)
+    text_box text, style.footer_line(number).merge(inline_format: true)
   end
 
-  def bank_details_line
-    "<b>#{I18n.t('helpers.bank_details')}:</b> #{bank_details.join(' | ')}"
-  end
-
-  def bank_details
-    raise MissingInformationError.new(model) unless default_account
-    [ 
-      default_account.bank, 
-      ['BIC:', default_account.bic].join(' '), 
-      ['IBAN:', IBANTools::IBAN.new(default_account.iban).prettify].join(' ')
-    ]
-  end
-
-  def management_line
+  def footer_line_1 
+    raise MissingInformationError.new(@model) if legal_information_missing?
     raise MissingInformationError.new(@model) if contacts.none?
-    "<b>#{management_label}:</b> #{manager_names}"
+    [
+      blue_text(full_name), 
+      street_number, 
+      city_line, 
+      with_explanation(:phone),
+      with_explanation(:email),
+      with_explanation(:website, ''),
+      with_explanation(tax_information)
+    ].compact.join(' | ')
+  end
+
+  def footer_line_2
+    raise MissingInformationError.new(@model) unless default_account
+    raise MissingInformationError.new(@model) if contacts.none?
+    [ 
+      blue_text(default_account.bank), 
+      [explanation(:bic), default_account.bic].join(' '), 
+      [explanation(:iban), IBANTools::IBAN.new(default_account.iban).prettify].join(' '),
+      registration_information,  
+      "#{blue_text(management_label)} #{manager_names}"
+    ].join(' | ')
+  end
+
+  def registration_information
+    [blue_text(register_court), registration_number,].join(' ')
   end
 
   def management_label
@@ -77,25 +83,20 @@ class PdfSender
   end
 
   def manager_names
-    managers.map{ |manager| manager.full_name(:pdf) }.join(' | ')
+    managers.map{ |manager| manager.full_name(:pdf) }.join(', ')
   end
 
-  def legal_information_line
-    raise MissingInformationError.new(@model) if legal_information_missing?
-    "<b>#{full_name}</b> #{legal_information.compact.join(' | ')}"
-  end
-
-  def legal_information
-    [
-      with_explanation('based_in'), 
-      [register_court, registration_number,].join(' '), 
-      with_explanation(tax_information) 
-    ]
-  end
-
-  def with_explanation(key)
+  def with_explanation(key, seperator=' ')
     return if send(key).blank?
-    "#{ProjectAddress.human_attribute_name(key)}: #{send(key)}"
+    [explanation(key), send(key)].join(seperator)
+  end
+
+  def explanation(key)
+    blue_text(I18n.t("pdf.footer.#{key}"))
+  end
+
+  def website
+    Settings.website_url.gsub(/^www/,'')
   end
 
   def tax_information
@@ -104,7 +105,7 @@ class PdfSender
   end
   
   def sender_line
-    [full_name, street_number, city_line].map{|string| nowrap(string)}.join(', ')
+    ["<color rgb='#{blue}'>#{full_name}</color>", street_number, city_line].map{|string| nowrap(string)}.join(' | ')
   end
 
   def nowrap(string)

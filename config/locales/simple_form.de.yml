@@ -40,5 +40,10 @@ de:
         subject: 'kann frei bleiben, dann wird keine Betreffzeile erzeugt'
         content: 'keine Anrede eingeben, die kommt automatisch dazu'
         year: ''
+      payment_letter:
+        subject: 'kann frei bleiben, dann wird keine Betreffzeile erzeugt'
+        content: 'keine Anrede eingeben, die kommt automatisch dazu'
+        year: ''
+
 
 
