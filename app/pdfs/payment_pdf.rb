@@ -23,7 +23,8 @@ class PaymentPdf < ApplicationPdf
   end
 
   def subject
-    text "<b> Betreff: Zahlungseingang</b>", inline_format: true
+    return if @letter.subject.blank?
+    text "<b>Betreff:</b> #{@letter.subject}", inline_format: true
   end
 
   def salutation
@@ -36,11 +37,6 @@ class PaymentPdf < ApplicationPdf
 
   def main_content
     text processed_text
-    #text "herzlichen Dank für ihren/deinen Direktkredit an die #{@sender.full_name}. Das Darlehen in Höhe von #{number_to_currency(@payment.amount.to_f) } ist am #{I18n.l(@payment.date)} auf unserem Konto eingegangen."
-    #text "Damit unterstützt du die Schaffung von bezahlbarem, unverkäuflichem Mietwohnraum. Mehr Informationen zu unserem Hausprojekt findest du unter http://3haeuserprojekt.org/wer-wer-sind/. Auf der Website gibt es auch die Möglichkeit unseren Newsletter zu abbonieren, um regelmäßig auf dem laufenden gehalten zu werden."
-    #text "Für Rückfragen stehen wir natürlich gerne zur Verfügung."
-    #move_down 30
-    #text "Mit freundlichen Grüßen"
   end
 
   def processed_text

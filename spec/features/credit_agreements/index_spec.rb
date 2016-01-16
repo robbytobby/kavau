@@ -157,7 +157,7 @@ RSpec.describe "credit agreements index" do
     create_list :credit_agreement, 19, amount: 2222
     create_list :credit_agreement, 5, amount: 3333
 
-    visit '/credit_agreements'
+    visit '/credit_agreements?q[s]=amount+asc'
     expect(page).to have_content(number_to_currency(1111), count: 15 )
     expect(page).to_not have_content(number_to_currency(2222))
     expect(page).to_not have_content(number_to_currency(3333))
