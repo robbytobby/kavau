@@ -3,7 +3,7 @@ class LettersController < ApplicationController
   include LoadAuthorized
 
   def index
-    @letters = @letters.includes(:pdfs)
+    @letters = @letters.order(type: :asc, created_at: :desc).includes(:pdfs)
     respond_with @letters
   end
 
