@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe PaymentLetterPolicy do
-  subject { PaymentLetterPolicy.new(user, letter) }
-  let(:letter) { FactoryGirl.build(:payment_letter) }
+RSpec.describe DisburseLetterPolicy do
+  subject { DisburseLetterPolicy.new(user, letter) }
+  let(:letter) { FactoryGirl.build(:disburse_letter) }
 
   context "for an admin" do
     let(:user){ create :admin }
@@ -19,8 +19,8 @@ RSpec.describe PaymentLetterPolicy do
     permits :none
   end
 
-  context "a termination letter exists" do
-    before(:each){ FactoryGirl.create(:payment_letter) }
+  context "a disburse letter exists" do
+    before(:each){ FactoryGirl.create(:disburse_letter) }
 
     context "for an admin" do
       let(:user){ create :admin }

@@ -1,0 +1,2 @@
+class DepositLetterPresenter < PaymentLetterPresenter
+end

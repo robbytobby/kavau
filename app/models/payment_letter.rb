@@ -4,7 +4,7 @@ class PaymentLetter < Letter
   end
 
   def title
-    subject || PaymentLetter.model_name.human
+    subject || self.class.model_name.human
   end
 end
 

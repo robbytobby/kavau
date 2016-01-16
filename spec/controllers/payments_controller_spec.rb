@@ -29,19 +29,33 @@ RSpec.describe PaymentsController, type: :controller do
     describe "GET #show format: pdf" do
       before :each do
         project = create :complete_project_address 
-        create :payment_letter
         @credit_agreement = create :credit_agreement, account: project.accounts.first
-        @payment = create :deposit, credit_agreement: @credit_agreement
+        @payment = create payment_type, credit_agreement: @credit_agreement
       end
 
-      it "assigns the requested payment as @payment" do
-        get :show, id: @payment.id, format: 'pdf'
-        expect(assigns(:payment)).to eq(@payment)
+      context "without the corresponing template" do
+        it "redirects to the letters" do
+          get :show, id: @payment.id, format: 'pdf'
+          expect(response).to redirect_to(letters_path)
+        end
       end
 
-      it "saves the pdf" do
-        get :show, id: @payment.id, format: 'pdf'
-        expect(@payment.reload.pdf).to be_persisted
+      context "with an exisiting template" do
+        before(:each){ create "#{@payment.class.name.underscore}_letter" }
+        it "assigns the requested payment as @payment" do
+          get :show, id: @payment.id, format: 'pdf'
+          expect(assigns(:payment)).to eq(@payment)
+        end
+
+        it "assigns the right template" do
+          get :show, id: @payment.id, format: 'pdf'
+          expect(assigns(:template)).to be_a("#{@payment.class}Letter".constantize)
+        end
+
+        it "saves the pdf" do
+          get :show, id: @payment.id, format: 'pdf'
+          expect(@payment.reload.pdf).to be_persisted
+        end
       end
     end
 

@@ -10,9 +10,14 @@ FactoryGirl.define do
     content 'Termination content'
   end
 
-  factory :payment_letter, class: PaymentLetter do
-    type 'PaymentLetter'
-    content 'payment content'
+  factory :deposit_letter, class: DepositLetter do
+    type 'DepositLetter'
+    content 'deposit content'
+  end
+
+  factory :disburse_letter, class: DisburseLetter do
+    type 'DisburseLetter'
+    content 'disburse content'
   end
 
   factory :balance_letter, class: BalanceLetter do

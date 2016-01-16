@@ -25,7 +25,8 @@ Rails.application.routes.draw do
   end
   resources :balance_letters, controller: :letters, except: :index, type: 'BalanceLetter'
   resources :termination_letters, controller: :letters, except: :index, type: 'TerminationLetter'
-  resources :payment_letters, controller: :letters, except: :index, type: 'PaymentLetter'
+  resources :deposit_letters, controller: :letters, except: :index, type: 'DepositLetter'
+  resources :disburse_letters, controller: :letters, except: :index, type: 'DisburseLetter'
   resources :standard_letters, controller: :letters, except: :index, type: 'StandardLetter'
   resources :organizations, controller: :addresses, type: 'Organization', except: :index do
     concerns :has_contacts, :has_accounts, :has_credit_agreements, :has_pdfs

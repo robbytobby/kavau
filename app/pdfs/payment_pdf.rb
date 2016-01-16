@@ -4,7 +4,7 @@ class PaymentPdf < ApplicationPdf
 
   def initialize(payment)
     @payment = payment
-    @letter = PaymentLetter.first
+    @letter = @payment.is_a?(Deposit) ? DepositLetter.first : DisburseLetter.first
     super @payment.credit_agreement.account.address, @payment.credit_agreement.creditor
   end
 

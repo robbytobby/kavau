@@ -63,7 +63,8 @@ de:
     standard_letters: 'rundbriefe'
     termination_letters: 'kuendigungsbriefe'
     balance_letters: 'jahresabschluss_briefe'
-    payment_letters: 'einzahlungsbestaetigungen'
+    deposit_letters: 'einzahlungs_briefe'
+    disburse_letters: 'auszahlungs_briefe'
   pdf:
     title:
       standard_letter: '%{text}'

@@ -1,0 +1,3 @@
+class DisburseLetter < PaymentLetter
+end
+

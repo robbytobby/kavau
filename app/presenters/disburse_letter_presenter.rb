@@ -1,0 +1,2 @@
+class DisburseLetterPresenter < PaymentLetterPresenter
+end

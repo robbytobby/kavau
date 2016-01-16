@@ -1,7 +1,7 @@
 class PaymentsController < ApplicationController
   include LoadAuthorized
   include Searchable
-  before_action :find_or_create_pdf, only: :show
+  before_action :check_template, :find_or_create_pdf, only: :show
   default_sort 'date desc'
 
   def index
@@ -37,7 +37,21 @@ class PaymentsController < ApplicationController
 
   private
     def find_or_create_pdf
-      Pdf.create_with(creditor: @payment.credit_agreement.creditor, letter: PaymentLetter.first).find_or_create_by(payment: @payment)
+      Pdf.create_with(creditor: @payment.credit_agreement.creditor, letter: @template).find_or_create_by(payment: @payment)
+    end
+
+    def check_template
+      return if template
+      flash[:alert] = I18n.t('payments.flash.no_template', name: letter_class.model_name.human)
+      redirect_to letters_path 
+    end
+    
+    def template
+      @template = letter_class.first
+    end
+
+    def letter_class
+      "#{@payment.class}Letter".constantize
     end
 
     def create_params

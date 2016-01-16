@@ -89,19 +89,22 @@ de:
       new_standard_letter: 'neue Briefvorlage'
       new_balance_letter: 'neues Anschreiben für Jahresabschluss'
       new_termination_letter: 'neues Anschreiben für Kredit-Kündigungen'
-      new_payment_letter: 'neue Vorlage für Zahlungseingang'
+      new_deposit_letter: 'neues Anschreiben für Zahlungseingang'
+      new_disburse_letter: 'neues Anschreiben für Rückzahlung'
     new:
       title:
         standard_letter: 'neue Briefvorlage'
         balance_letter: 'neues Anschreiben für Jahresabschluss'
         termination_letter: 'neues Anschreiben für Kredit-Kündigungen'
-        payment_letter: 'neue Vorlage für Zahlungseingänge'
+        deposit_letter: 'neues Anschreiben für Zahlungseingänge'
+        disburse_letter: 'neues Anschreiben für Rückzahlungen'
     edit:
       title:
         standard_letter: 'Briefvorlage "%{text}" bearbeiten'
         balance_letter: 'Anschreiben für %{text} bearbeiten'
         termination_letter: 'Anschreiben für %{text} bearbeiten'
-        payment_letter: 'Vorlage für Zahlungseingänge bearbeiten'
+        deposit_letter: 'Anschreiben für Zahlungseingänge bearbeiten'
+        disburse_letter: 'Anschreiben für Rückzahlungen bearbeiten'
     flash:
       pdfs_created: 'Die PDFs wurden erstellt.'
       pdfs_deleted: 'Die PDFs wurden gelöscht.'
@@ -110,6 +113,8 @@ de:
       title: 'Ein- und Auszahlungen'
     edit:
       title: 'Zahlung bearbeiten'
+    flash:
+      no_template: 'Die Vorlage für %{name} muß erst noch angelegt werden'
   pdfs:
     new:
       title: 'Brief erstellen für %{name}'

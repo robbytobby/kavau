@@ -1,0 +1,3 @@
+class DepositLetter < PaymentLetter
+end
+

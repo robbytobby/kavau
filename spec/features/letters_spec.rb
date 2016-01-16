@@ -11,7 +11,7 @@ RSpec.describe "Letters" do
         expect(current_path).to eq(letters_path)
       end
 
-      [:standard_letters, :balance_letters, :termination_letters].each do |letter_type|
+      [:standard_letters, :balance_letters, :termination_letters, :deposit_letters, :disburse_letters].each do |letter_type|
         context "#{letter_type}" do
           let(:singular){ letter_type.to_s.singularize }
 
