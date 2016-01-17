@@ -22,7 +22,7 @@ set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 5
 
 namespace :deploy do
-  after :deploy, :restart
+  after :deploy, :restart, :remove_tmp
   before :restart, :setup_pdf_dirs
 
   desc 'Restart application'
@@ -30,6 +30,13 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       execute :touch, release_path.join('tmp/restart.txt')
       #invoke 'delayed_job:restart'
+    end
+  end
+
+  desc "Remove tmp-dir"
+  task :remove_tmp do
+    on roles(:app) do
+      execute 'rm -r /tmp/kavau'
     end
   end
 
