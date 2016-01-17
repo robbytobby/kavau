@@ -10,9 +10,9 @@
       %tr
         -if policy(CreditAgreement).edit?
           %th= sort_link(@q, :number)
-        %th= CreditAgreement.human_attribute_name :account
+        %th= sort_link(@q, :account_id)
         -if policy(:creditor).show?
-          %th= CreditAgreement.human_attribute_name :creditor
+          %th= sort_link(@q, :creditor_name, CreditAgreement.human_attribute_name(:creditor))
         %th= sort_link(@q, :cancellation_period)
         %th.money= sort_link(@q, :amount)
         %th.money= sort_link(@q, :interest_rate)

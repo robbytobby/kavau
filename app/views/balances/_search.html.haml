@@ -1,5 +1,6 @@
 %tr.search
-  %td
+  %td.col-sm-1-5
+    = f.search_field :credit_agreement_number_eq, class: 'form-control', placeholder: t('simple_form.placeholders.number_eq')
   %td.col-sm-2
     = f.search_field :year_eq, class: 'form-control', placeholder: t('simple_form.placeholders.year_eq')
   %td

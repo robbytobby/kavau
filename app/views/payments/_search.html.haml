@@ -17,6 +17,8 @@
     = f.select :credit_agreement_account_id_eq, Account.project_accounts.map{|i| [i.name, i.id]}, 
       {include_blank: t('simple_form.placeholders.account_id_eq')}, 
       {class: 'form-control'}
+  %td.col-sm-1-5
+    = f.search_field :amount_eq, class: 'form-control', placeholder: t('simple_form.placeholders.amount_eq')
   %td
   %td.actions
     %button.btn.btn-default.btn-primary{type: :submit, title: t('simple_form.labels.defaults.search')}

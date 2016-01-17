@@ -22,7 +22,7 @@ module Searchable
     def set_collection
       instance_variable_set(
         instance_variable_name(plural: true),
-        @q.result(distinct: true).page(params[:page])
+        @q.result.page(params[:page])
       )
     end
 

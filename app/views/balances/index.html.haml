@@ -8,10 +8,10 @@
   %table.table.table-striped
     %thead
       %tr
-        %th= sort_link(@q, :credit_agreement_id, [:credit_agreement_id, 'date desc'], id: :sort_by_credit_agreement_id)
+        %th= sort_link(@q, :credit_agreement_number, id: :sort_by_credit_agreement_id)
         %th= sort_link(@q, :date, [:date, 'credit_agreement_id asc'], id: :sort_by_date)
         -if policy(Creditor).show?
-          %th= Creditor.model_name.human
+          %th= sort_link(@q, :credit_agreement_creditor_name, CreditAgreement.human_attribute_name(:creditor))
         %th.money= Balance.human_attribute_name(:start_amount)
         %th.money= Balance.human_attribute_name(:deposits)
         %th.money= Balance.human_attribute_name(:disburses)

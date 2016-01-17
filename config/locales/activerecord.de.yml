@@ -76,6 +76,7 @@ de:
         zip: 'PLZ'
       balance:
         credit_agreement_id: 'Kredit Nr.'
+        creditor_name: 'KreditgeberIn'
         date: 'Datum'
         deposits: 'eingezahlt'
         disburses: 'ausgezahlt'
@@ -113,6 +114,7 @@ de:
         type: 'Art'
         account: 'Konto'
         credit_agreement_id: 'Kreditvertrag'
+        credit_agreement_creditor_name: 'KreditgeberIn'
       pdf:
         created_at: 'angelegt am'
         title: 'Titel'
