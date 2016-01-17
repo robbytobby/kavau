@@ -30,6 +30,25 @@ def permits(permited_actions, options = {})
   end
 end
 
+def forbids(forbidden_actions, options = {})
+  options.default={}
+  
+  forbidden_actions = all_actions - options[:except] if forbidden_actions == :all
+  forbidden_actions = [] if forbidden_actions == :none
+
+  forbidden_actions.each do |action|
+    it "does not permit :#{action}" do
+      should_not permit(action)
+    end
+  end
+  
+  (all_actions - forbidden_actions). each do |action|
+    it "permits #{action}" do
+      should permit(action)
+    end
+  end
+end
+
 def all_actions
   action_methods.map{|m| m.to_s.gsub(/\?/,'').to_sym}
 end
