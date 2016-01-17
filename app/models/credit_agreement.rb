@@ -25,6 +25,10 @@ class CreditAgreement < ActiveRecord::Base
   before_save :make_termination_balance
   before_validation :set_number
 
+  #def interest_rate_for(date)
+  #  version.yt_or_eq(date).order(date: :desc).first.interest_rate
+  #end
+
   def self.funded_credits_sum
     sum(:amount)
   end

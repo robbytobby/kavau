@@ -49,6 +49,7 @@ gem 'prawn-table'
 gem 'combine_pdf'
 gem 'config'
 gem 'exception_notification'
+gem 'paper_trail', '~> 4.0.0'
 
 group :development, :test do
   gem 'byebug', '~> 6.0'

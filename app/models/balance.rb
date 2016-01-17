@@ -9,6 +9,7 @@ class Balance < ActiveRecord::Base
   after_destroy :touch_credit_agreement
 
   delegate :interest_rate, :creditor, :balances, to: :credit_agreement
+  #delegate :interest_rate_for, to: :credit_agreement
 
   scope :older_than,   ->(from_date){ where(['date > ?', from_date]) }
   scope :younger_than, ->(from_date){ where(['date < ?', from_date]) }

@@ -11,6 +11,7 @@ class AutoBalance < Balance
     end
 
     def breakpoints
+      #[start, payments.pluck(:date), versions.interest_rate_changed.pluck(:valid_from), date].compact.flatten
       [start, payments.pluck(:date), date].compact.flatten
     end
 
