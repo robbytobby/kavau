@@ -12,11 +12,9 @@ RSpec::Matchers.define :permit do |action|
   end
 end
 
-def permits(permited_actions)
-  
-  all_actions = [:index, :show, :new, :create, :edit, :update, :destroy]
-  
-  permited_actions = all_actions if permited_actions == :all
+def permits(permited_actions, options = {})
+  options.default=[]
+  permited_actions = all_actions - options[:except]  if permited_actions == :all
   permited_actions = [] if permited_actions == :none
 
   permited_actions.each do |action|
@@ -31,3 +29,22 @@ def permits(permited_actions)
     end
   end
 end
+
+def all_actions
+  action_methods.map{|m| m.to_s.gsub(/\?/,'').to_sym}
+end
+
+def action_methods
+  public_policy_methods.
+    select{|m| m if m.to_s.match(/\?$/)}.
+    select{|m| m if !m.to_s.match(/^permitted/)}
+end
+
+def public_policy_methods
+  anchestors.map{|a| a.public_instance_methods(false)}.flatten.uniq
+end
+
+def anchestors
+  self.described_class.ancestors.select{|i| ApplicationPolicy.descendants.include?(i)} + [ApplicationPolicy]
+end
+

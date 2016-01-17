@@ -25,6 +25,14 @@ class PaymentPolicy < ApplicationPolicy
     [:amount, :type, :date]
   end
 
+  def download?
+    user.admin? || user.accountant?
+  end
+
+  def download_csv?
+    download?
+  end
+
   class Scope < Scope
     def resolve
       scope.all

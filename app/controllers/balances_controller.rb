@@ -3,7 +3,7 @@ class BalancesController < ApplicationController
   include LoadAuthorized
   include Searchable
   default_sort ['date desc', 'credit_agreement_id asc']
-  before_action :set_credit_agreement, except: [:index, :show]
+  before_action :set_credit_agreement, except: [:index, :show, :download_csv]
 
   def index
     respond_with @balances

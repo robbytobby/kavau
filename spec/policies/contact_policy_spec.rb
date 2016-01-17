@@ -6,12 +6,12 @@ RSpec.describe ContactPolicy do
 
   context "for an admin" do
     let(:user){ create :admin }
-    permits [:new, :create, :edit, :update, :destroy]
+    permits [:new, :create, :edit, :update, :destroy, :delete]
   end
 
   context "for an accountant" do
     let(:user){ create :accountant }
-    permits [:new, :create, :edit, :update, :destroy]
+    permits [:new, :create, :edit, :update, :destroy, :delete]
   end
 
   context "for a non privileged user" do

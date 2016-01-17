@@ -48,4 +48,10 @@ class AddressPresenter < BasePresenter
   def confirmation_label
     full_name(:informal)
   end
+
+  def human_salutation
+    return unless @model.is_a?(Person)
+    I18n.t(salutation, scope: 'helpers.salutation') 
+  end
+
 end

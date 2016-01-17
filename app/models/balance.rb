@@ -1,5 +1,6 @@
 class Balance < ActiveRecord::Base
   include ActiveModel::Dirty
+  include AsCsv
 
   belongs_to :credit_agreement
 
@@ -69,6 +70,10 @@ class Balance < ActiveRecord::Base
 
   def pdf
     BalancePdf.new(self, pages: :balance_only).render
+  end
+
+  def self.csv_columns
+    [:id, :credit_agreement_id, :credit_agreement_number, :date, :creditor_name, :start_amount, :deposits, :disburses, :interests, :end_amount]
   end
 
   private

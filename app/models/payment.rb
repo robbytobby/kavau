@@ -1,4 +1,5 @@
 class Payment < ActiveRecord::Base
+  include AsCsv
   belongs_to :credit_agreement, touch: true
   has_one :pdf
   delegate :balances, :last_terminated_year, to: :credit_agreement
@@ -27,6 +28,10 @@ class Payment < ActiveRecord::Base
   def year_terminated?
     return false unless date
     credit_agreement.year_terminated?(date.year)
+  end
+
+  def self.csv_columns
+    [:id, :date, :type, :creditor_name, :credit_agreement_number, :account_name, :amount]
   end
 
   private

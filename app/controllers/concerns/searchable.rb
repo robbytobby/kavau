@@ -2,9 +2,16 @@ require 'active_support/concern'
 
 module Searchable
   extend ActiveSupport::Concern
+  require 'csv'
+
   included do
-    before_action :set_up_search, only: :index
-    before_action :set_collection, only: :index
+    respond_to :html, :json, :js, :csv
+    before_action :set_up_search, only: [:index, :download_csv]
+    before_action :set_collection, only: [:index, :download_csv]
+  end
+
+  def download_csv
+    respond_with @q.result, filename: I18n.t(controller_name, scope: :controller_names), header: klass.csv_header
   end
 
   private

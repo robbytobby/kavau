@@ -14,6 +14,16 @@ require 'rails_helper'
       end
     end
 
+    context "csv download" do
+      let(:array){ [@credit_agreement] }
+      before :each do
+        @credit_agreement = create :credit_agreement
+        get :download_csv, format: :csv
+      end
+
+      it_behaves_like "pdf_downloadable"
+    end
+
     describe "GET #show" do
       it "assigns the requested credit_agreement as @credit_agreement" do
         credit_agreement = create :credit_agreement

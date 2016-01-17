@@ -17,4 +17,13 @@ class CreditAgreementPolicy < ApplicationPolicy
   def permitted_params
     [:amount, :interest_rate, :cancellation_period, :account_id, :terminated_at, :number]
   end
+
+  def download?
+    return false unless user.admin? || user.accountant?
+    true
+  end
+
+  def download_csv?
+    download?
+  end
 end

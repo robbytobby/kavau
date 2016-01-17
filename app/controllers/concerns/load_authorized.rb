@@ -3,13 +3,13 @@ require 'active_support/concern'
 module LoadAuthorized
   extend ActiveSupport::Concern
   included do
-    before_action :find_collection, only: :index
-    before_action :scope_collection, only: :index
-    before_action :find_record, except: [:index, :new, :create]
+    before_action :find_collection, only: [:index, :download_csv]
+    before_action :scope_collection, only: [:index, :download_csv]
+    before_action :find_record, except: [:index, :new, :create, :download_csv]
     before_action :build_record, only: :new
     before_action :create_record, only: :create
-    before_action :authorize_collection, only: :index
-    before_action :authorize_record, except: :index
+    before_action :authorize_collection, only: [:index, :download_csv]
+    before_action :authorize_record, except: [:index, :download_csv]
   end
 
   private

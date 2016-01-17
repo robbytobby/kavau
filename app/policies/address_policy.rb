@@ -10,4 +10,13 @@ class AddressPolicy < ApplicationPolicy
      :street_number, :city, :country_code, :zip,
      :salutation, :title, :email, :phone, :notes]
   end
+
+  def download?
+    return false unless user.admin? || user.accountant?
+    true
+  end
+
+  def download_csv?
+    download?
+  end
 end

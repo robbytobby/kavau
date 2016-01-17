@@ -13,6 +13,11 @@ RSpec.describe "creditors index" do
   context "as an accountant" do
     before(:each){ login_as create(:accountant) }
 
+    it "has a download link" do
+      visit '/creditors'
+      expect(page).to have_selector('a[href="/creditors/download_csv.csv"]')
+    end
+
     ['person', 'organization'].each do |type|
       it "shows all #{type.pluralize}" do
         @address = create type.to_sym

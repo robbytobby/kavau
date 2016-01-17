@@ -12,7 +12,7 @@ require 'rails_helper'
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits :all 
+      permits :all
     end
 
     context "for a non privileged user" do
@@ -25,12 +25,12 @@ require 'rails_helper'
 
       context "for an admin" do
         let(:user){ create :admin }
-        permits [:index, :show]
+        permits [:index, :show, :download, :download_csv]
       end
 
       context "for an accountant" do
         let(:user){ create :accountant }
-        permits [:index, :show]
+        permits [:index, :show, :download, :download_csv]
       end
 
       context "for a non privileged user" do

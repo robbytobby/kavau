@@ -1,6 +1,8 @@
 %h1
   = t '.title'
   %small.entries-info= page_entries_info @credit_agreements
+  .pull-right
+    %small= authorized_icon_link :download_csv, :credit_agreement, id: 'download_csv', path: download_csv_credit_agreements_path(format: :csv, q: params[:q]), icon: 'download'
 
 = search_form_for @q, class: 'form-vertical' do |f|
   %table.table.table-striped

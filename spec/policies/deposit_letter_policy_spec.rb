@@ -6,12 +6,12 @@ RSpec.describe DepositLetterPolicy do
 
   context "for an admin" do
     let(:user){ create :admin }
-    permits :all
+    permits :all, except: [:get_pdfs, :create_pdfs, :delete_pdfs]
   end
 
   context "for an accountant" do
     let(:user){ create :accountant }
-    permits :all 
+    permits :all, except: [:get_pdfs, :create_pdfs, :delete_pdfs]
   end
 
   context "for a non privileged user" do
@@ -24,13 +24,12 @@ RSpec.describe DepositLetterPolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:index, :show, :update, :edit, :destroy]
+      permits :all, except: [:new, :create, :get_pdfs, :create_pdfs, :delete_pdfs]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:index, :show, :update, :edit, :destroy]
+      permits :all, except: [:new, :create, :get_pdfs, :create_pdfs, :delete_pdfs]
     end
-
   end
 end

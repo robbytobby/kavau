@@ -23,6 +23,15 @@ class BalancePolicy < ApplicationPolicy
     false
   end
 
+  def download?
+    return false unless user.admin? || user.accountant?
+    true
+  end
+
+  def download_csv?
+    download?
+  end
+
   def permitted_params
     [:end_amount]
   end

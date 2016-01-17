@@ -17,4 +17,21 @@ class PaymentPresenter < BasePresenter
       number_to_currency(@model.amount),
     ].join(' ')
   end
+
+  def credit_agreement_number
+    credit_agreement.number
+  end
+
+  def creditor_name
+    CreditorPresenter.new(credit_agreement.creditor, @view).full_name
+  end
+
+  def account_name
+    credit_agreement.account.name
+  end
+
+  def type
+    @model.type.constantize.model_name.human
+  end
+
 end

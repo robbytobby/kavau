@@ -20,6 +20,11 @@ RSpec.describe Address do
       address = create type
       expect(address).to be_creditor
     end
+
+    context "as csv" do
+      let(:object){ create type }
+      it_behaves_like "csv_convertable"
+    end
   end
 
   [:contact, :project_address].each do |type|

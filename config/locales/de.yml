@@ -21,6 +21,7 @@ de:
     delete: 'löschen'
     update: 'aktualisieren'
     print: '%{name} drucken'
+    download_csv: 'Ergebnisse als CSV runterladen'
     new_contact: 
       for_organization: 
         registered_society: 'neue Ansprechpartner_in'

@@ -15,6 +15,7 @@ RSpec.describe "Payments" do
         visit '/'
         click_on :payments_index
         expect(current_path).to eq(payments_path)
+        expect(page).to have_selector('a[href="/payments/download_csv.csv"]')
         [disburse, deposit].each do |payment|
           model = payment.model_name.name.underscore
           within "tr##{model}_#{payment.id}" do
@@ -40,6 +41,7 @@ RSpec.describe "Payments" do
       visit '/'
       click_on :payments_index
       expect(current_path).to eq(payments_path)
+      expect(page).not_to have_selector('a[href="/payments/download_csv.csv"]')
       [disburse, deposit].each do |payment|
         model = payment.model_name.name.underscore
         within "tr##{model}_#{payment.id}" do

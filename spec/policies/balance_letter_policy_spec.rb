@@ -9,12 +9,12 @@ RSpec.describe BalanceLetterPolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:create_pdfs, :index, :show, :new, :create, :edit, :update, :destroy]
+      permits :all, except: [:delete_pdfs, :get_pdfs]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:create_pdfs, :index, :show, :new, :create, :edit, :update, :destroy]
+      permits :all, except: [:delete_pdfs, :get_pdfs]
     end
   end
 
@@ -23,12 +23,12 @@ RSpec.describe BalanceLetterPolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:get_pdfs, :index, :show, :new, :create, :edit, :update]
+      permits :all, except: [:create_pdfs, :destroy, :delete]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:get_pdfs, :index, :show, :new, :create, :edit, :update]
+      permits :all, except: [:create_pdfs, :destroy, :delete]
     end
   end
 
@@ -39,12 +39,12 @@ RSpec.describe BalanceLetterPolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:create_pdfs, :index, :show, :new, :create, :edit, :update]
+      permits :all, except: [:get_pdfs, :delete_pdfs, :destroy, :delete]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:create_pdfs, :index, :show, :new, :create, :edit, :update]
+      permits :all, except: [:get_pdfs, :delete_pdfs, :destroy, :delete]
     end
   end
 
@@ -59,12 +59,12 @@ RSpec.describe BalanceLetterPolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [ :index, :show, :new, :create, :edit, :update, :destroy]
+      permits :all, except: [:get_pdfs, :delete_pdfs]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [ :index, :show, :new, :create, :edit, :update, :destroy]
+      permits :all, except: [:get_pdfs, :delete_pdfs]
     end
   end
 end

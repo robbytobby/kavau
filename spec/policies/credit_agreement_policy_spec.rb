@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CreditAgreementPolicy do
   context "new credit agreement" do
+    let(:klass){ CreditAgreementPolicy}
     subject { CreditAgreementPolicy.new(user, credit_agreement) }
     let(:credit_agreement) { FactoryGirl.create(:credit_agreement) }
 
@@ -12,7 +13,7 @@ RSpec.describe CreditAgreementPolicy do
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits :all 
+      permits :all
     end
 
     context "for a non privileged user" do
@@ -27,12 +28,12 @@ RSpec.describe CreditAgreementPolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:index, :show, :new, :create, :edit, :update]
+      permits :all, except: [:delete, :destroy]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:index, :show, :new, :create, :edit, :update]
+      permits :all, except: [:delete, :destroy]
     end
 
     context "for a non privileged user" do

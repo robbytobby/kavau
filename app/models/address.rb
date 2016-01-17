@@ -1,4 +1,5 @@
 class Address < ActiveRecord::Base
+  include AsCsv
   strip_attributes
 
   scope :creditors, -> { where(type: ['Person', 'Organization']) }
@@ -33,5 +34,9 @@ class Address < ActiveRecord::Base
 
   def creditor?
     organization? || person?
+  end
+
+  def self.csv_columns
+    [:id, :human_salutation, :title, :name, :first_name, :street_number, :zip, :city, :country_name, :legal_form]
   end
 end

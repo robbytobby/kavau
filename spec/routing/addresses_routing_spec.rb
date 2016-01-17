@@ -40,6 +40,10 @@ RSpec.describe AddressesController, type: :routing do
       expect(get: "/creditors").to route_to("addresses#index", type: 'Creditor')
     end
 
+    it "creditors routes to #index with formt csv" do
+      expect(get: "/creditors?format=csv").to route_to("addresses#index", type: 'Creditor', format: 'csv')
+    end
+
     [:organizations, :people, :project_addresses].each do |resource|
       it "#{resource} does not route to #index" do
         expect(get: "/#{resource}").not_to be_routable

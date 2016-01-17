@@ -6,4 +6,12 @@ class ContactPolicy < AddressPolicy
   def index?
     false
   end
+
+  def download?
+    false
+  end
+
+  def download_csv?
+    false
+  end
 end

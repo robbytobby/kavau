@@ -25,6 +25,17 @@ RSpec.describe AddressesController, type: :controller do
     end
   end
 
+  context "csv download" do
+    before :each do
+      @person = create :person 
+      get :download_csv, format: :csv, type: 'Creditor'
+    end
+
+    let(:array){ [@person] }
+    it_behaves_like "pdf_downloadable"
+  end
+
+
   describe "flash on project_address show" do
     it "sets flash warning for contacts" do
       @address = create :project_address

@@ -1,4 +1,10 @@
 de:
+  controller_names:
+    payments: 'zahlungen'
+    creditors: 'kreditgeber_innen'
+    addresses: 'kreditgeber_innen'
+    balances: 'salden'
+    credit_agreements: 'kreditvertraege'
   accounts:
     new:
       title: 'Neue Bankverbindung'

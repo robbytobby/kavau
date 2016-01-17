@@ -5,7 +5,7 @@ module TypedAssociated
   include Typed
 
   included do
-    before_action :set_associated, except: :index
+    before_action :set_associated, except: [:index, :download_csv]
   end
 
   private

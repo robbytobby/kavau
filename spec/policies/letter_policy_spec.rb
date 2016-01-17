@@ -9,12 +9,12 @@ RSpec.describe LetterPolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:create_pdfs, :index, :show, :new, :create, :edit, :update, :destroy]
+      permits :all, except: [:get_pdfs, :delete_pdfs]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:create_pdfs, :index, :show, :new, :create, :edit, :update, :destroy]
+      permits :all, except: [:get_pdfs, :delete_pdfs]
     end
   end
 

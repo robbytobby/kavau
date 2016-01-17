@@ -1,14 +1,15 @@
 class CreditAgreementPresenter < BasePresenter
+  include ActionView::Helpers::NumberHelper
   def amount
-    h.number_to_currency(@model.amount)
+    number_to_currency(@model.amount)
   end
 
   def interest_rate
-    h.number_to_percentage(@model.interest_rate)
+    number_to_percentage(@model.interest_rate)
   end
 
   def cancellation_period
-    h.t('months', count: @model.cancellation_period)
+    I18n.t('months', count: @model.cancellation_period)
   end
 
   def confirmation_label
@@ -31,11 +32,18 @@ class CreditAgreementPresenter < BasePresenter
   end
 
   def todays_total
-    h.number_to_currency(@model.todays_total)
+    number_to_currency(@model.todays_total)
   end
 
   def number
     @model.number || @model.id
   end
 
+  def creditor_name
+    CreditorPresenter.new(creditor, @view).full_name 
+  end
+
+  def account_name
+    account.name
+  end
 end

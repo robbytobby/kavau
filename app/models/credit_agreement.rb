@@ -1,4 +1,5 @@
 class CreditAgreement < ActiveRecord::Base
+  include AsCsv
   strip_attributes
 
   # TODO: Add notes
@@ -57,6 +58,10 @@ class CreditAgreement < ActiveRecord::Base
   def reopen!
     unset_terminated_at
     save
+  end
+
+  def self.csv_columns
+    [:id, :number, :amount, :interest_rate, :cancellation_period, :creditor_name, :creditor_id, :account_name, :account_id, :terminated_at]
   end
 
   private

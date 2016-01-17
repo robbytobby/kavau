@@ -5,3 +5,5 @@
     %ul.dropdown-menu
       = authorized_link :new, :person, t('.new_person'), id: 'add_person', wrap: :li
       = authorized_link :new, :organization, t('.new_organization'), id: 'add_organization', wrap: :li
+.pull-right
+  %small= authorized_icon_link :download_csv, :creditor, id: 'download_csv', path: download_csv_creditors_path(format: :csv, q: params[:q]), icon: 'download'

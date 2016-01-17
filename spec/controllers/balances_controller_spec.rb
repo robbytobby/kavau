@@ -17,6 +17,13 @@ RSpec.describe BalancesController, type: :controller do
         end
       end
 
+      context "csv download" do
+        let(:array){ [@balance] }
+        before(:each){ get :download_csv, format: :csv}
+
+        it_behaves_like "pdf_downloadable"
+      end
+
       describe "GET #show format: pdf" do
         before(:each){ allow_any_instance_of(Balance).to receive(:pdf).and_return(true) }
 
