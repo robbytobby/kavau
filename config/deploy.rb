@@ -22,8 +22,14 @@ set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 5
 
 namespace :deploy do
-  after :deploy, :restart, :remove_tmp
+  after :deploy, :restart
   before :restart, :setup_pdf_dirs
+
+  after :restart, :remove_tmp do
+    on roles(:app) do
+      execute 'rm -r /tmp/kavau'
+    end
+  end
 
   desc 'Restart application'
   task :restart do
@@ -33,12 +39,6 @@ namespace :deploy do
     end
   end
 
-  desc "Remove tmp-dir"
-  task :remove_tmp do
-    on roles(:app) do
-      execute 'rm -r /tmp/kavau'
-    end
-  end
 
   desc 'Setup required directories for pdfs'
   task :setup_pdf_dirs do
