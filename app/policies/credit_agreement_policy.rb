@@ -15,7 +15,7 @@ class CreditAgreementPolicy < ApplicationPolicy
   end
 
   def permitted_params
-    [:amount, :interest_rate, :cancellation_period, :account_id, :terminated_at, :number]
+    [:amount, :interest_rate, :cancellation_period, :account_id, :terminated_at, :number, :valid_from]
   end
 
   def download?

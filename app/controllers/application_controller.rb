@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   before_action :set_back_url, only: [:index, :show]
+  before_action :set_paper_trail_whodunnit
   after_action :verify_authorized, except: :index, unless: :devise_controller?
   after_action :verify_policy_scoped, only: :index
 

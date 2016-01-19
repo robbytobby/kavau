@@ -1,5 +1,15 @@
+- if @credit_agreement.persisted?
+  .col-sm-3
+  .col-sm-6.well
+    %p
+      Dieses Datum bestimmt ab wann die aktualisierte Version des Vertrages in Kraft tritt. Richtig wichtig ist das bei Änderungen des Zinssatzes.
+    %p
+      Die momentante Version des Kreditvertrages ist gültig ab dem
+      %strong= I18n.l(@credit_agreement.valid_from_was)
+.clearfix
 = simple_form_for [@creditor, @credit_agreement] do |f|
   .form-inputs
+    = f.input :valid_from, wrapper: :horizontal_multi_select, include_blank: true, selected: Date.today.year 
     = f.input :amount do
       .input-group.col-sm-3
         = f.number_field :amount, class: 'numeric decimal required form-control'

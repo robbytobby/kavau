@@ -1,6 +1,8 @@
 class CreditAgreement < ActiveRecord::Base
+  include ActiveModel::Dirty
   include AsCsv
   strip_attributes
+  has_paper_trail class_name: 'CreditAgreementVersion', meta: { valid_from: :valid_from, interest_rate_changed: :interest_rate_changed? }, on: [:update, :destroy] 
 
   # TODO: Add notes
   belongs_to :creditor, class_name: 'Address'
@@ -13,7 +15,7 @@ class CreditAgreement < ActiveRecord::Base
   delegate :belongs_to_project?, to: :account, prefix: true
   delegate :last_terminated_year, :year_terminated?, to: :creditor
 
-  validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id
+  validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id, :valid_from
   validates_numericality_of :amount, greater_than_or_equal_to: 500
   validates_numericality_of :interest_rate, greater_than_or_equal_to: 0, less_than: 100
   validates_numericality_of :cancellation_period, greater_than_or_equal_to: 3
@@ -24,10 +26,7 @@ class CreditAgreement < ActiveRecord::Base
   after_touch :create_missing_balances, :delete_unnecessary_balances, :update_balances
   before_save :make_termination_balance
   before_validation :set_number
-
-  #def interest_rate_for(date)
-  #  version.yt_or_eq(date).order(date: :desc).first.interest_rate
-  #end
+  validates_date :valid_from, on: :update
 
   def self.funded_credits_sum
     sum(:amount)

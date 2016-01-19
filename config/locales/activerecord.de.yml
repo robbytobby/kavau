@@ -102,6 +102,7 @@ de:
         old_balance: 'Kontostand alt'
         payment_amount: 'Betrag'
         payment_type: 'Art'
+        valid_from: 'Gültig ab'
       letter:
         content: 'Text'
         created_at: 'angelegt am'
