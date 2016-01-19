@@ -33,6 +33,7 @@ class PdfSender
       font_size(style.footer_font_size){
         footer_line(1, footer_line_1)
         footer_line(2, footer_line_2)
+        footer_line(3, footer_line_3)
       }
     }
     fill_color '000000'
@@ -67,6 +68,10 @@ class PdfSender
       registration_information,  
       management_information
     ].flatten.join(' | ')
+  end
+  
+  def footer_line_3
+    yellow_text("Ein Projekt im Mietshäuser Syndikat")
   end
 
   def banking_information

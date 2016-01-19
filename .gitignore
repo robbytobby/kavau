@@ -8,6 +8,7 @@
 /spec/tmp
 **.orig
 rerun.txt
+/app/assets/images/*
 pickle-email-*.html
 logo.png
 *.ttf

@@ -18,8 +18,12 @@ class ApplicationPdf < Prawn::Document
   end
 
   def make
-    repeat(:all){ @logo.draw }
-    #repeat(:all){ @sender.contact_information }
+    stroke_color "7c7b7f"
+    repeat :all do
+      stroke{ horizontal_line -2.cm, -1.4.cm, at: 6.2.cm }
+      stroke{ horizontal_line -2.cm, -1.4.cm, at: 16.4.cm }
+      @logo.draw
+    end
     content
   end
 
@@ -34,7 +38,8 @@ class ApplicationPdf < Prawn::Document
       top_margin: 6.cm,
       bottom_margin: 3.5.cm,
       left_margin: 2.cm,
-      right_margin: 2.cm 
+      right_margin: 2.cm, 
+      background: "#{Rails.root}/app/assets/images/stempel.png"
     }
   end 
 
