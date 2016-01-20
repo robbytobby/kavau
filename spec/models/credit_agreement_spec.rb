@@ -186,5 +186,31 @@ RSpec.describe CreditAgreement, type: :model do
     expect(@credit_agreement.termination_balance.date).to eq(Date.today)
     expect(@credit_agreement.termination_balance.end_amount).to eq(0)
   end
+
+  it "does not create a second termination balance on being saved" do
+    @project_address = create :complete_project_address, legal_form: 'registered_society'
+    create :termination_letter
+    @credit_agreement = create :credit_agreement, account: @project_address.default_account
+    create :deposit, credit_agreement: @credit_agreement
+    @credit_agreement.terminated_at = Date.today
+    @credit_agreement.save
+    expect(@credit_agreement.termination_balance).to be_a(TerminationBalance)
+    @credit_agreement.number = '1111'
+    expect{ @credit_agreement.save }.not_to change(@credit_agreement.balances, :count)
+  end
+
+  it "does not have a balance after termination date" do
+    @project_address = create :complete_project_address, legal_form: 'registered_society'
+    create :termination_letter
+    @credit_agreement = create :credit_agreement, account: @project_address.default_account
+    create :deposit, credit_agreement: @credit_agreement, date: Date.new(2014,8,12)
+    expect(@credit_agreement.auto_balances.count).to be >= 2
+    @credit_agreement.terminated_at = Date.new(2015,12,20)
+    @credit_agreement.save
+    @credit_agreement.reload
+    expect(@credit_agreement).to be_terminated
+    expect(@credit_agreement.termination_balance).to be_persisted
+    expect(@credit_agreement.balances.where(type: 'AutoBalance').count).to eq(1)
+  end
 end
   
