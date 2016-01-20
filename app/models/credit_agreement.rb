@@ -58,6 +58,7 @@ class CreditAgreement < ActiveRecord::Base
   def reopen!
     unset_terminated_at
     save
+    touch
   end
 
   def self.csv_columns
