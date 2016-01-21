@@ -25,7 +25,7 @@ class BalanceUpdater
     end
 
     def obligatory_balances_dates
-      (date_of_first_payment.year...(@credit_agreement.terminated_at.try(:year) || this_year)).map{ |y| Date.new(y, 12, 31) }
+      (date_of_first_payment.year...last_obligatory_year).map{ |y| Date.new(y, 12, 31) }
     end
 
     def last_obligatory_year
