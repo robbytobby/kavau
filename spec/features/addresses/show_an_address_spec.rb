@@ -57,7 +57,10 @@ RSpec.describe "Address view"  do
       end
 
       it "shows termination_letter pdfs" do
-        @balance = create :termination_balance, credit_agreement: @credit_agreement, creditor: @address
+        allow_any_instance_of(Pdf).to receive(:create_file).and_return(true)
+        create :termination_letter
+        @credit_agreement = create :credit_agreement, creditor: @address
+        Pdf.create(letter: TerminationLetter.first, creditor: @address, credit_agreement: @credit_agreement)
         visit send("#{type}_path", @address)
         within 'div.pdfs' do
           expect(page).to have_content(I18n.l(Date.today))

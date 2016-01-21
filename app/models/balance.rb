@@ -6,7 +6,7 @@ class Balance < ActiveRecord::Base
 
   after_initialize :set_date
   after_save :update_following
-  after_destroy :touch_credit_agreement
+  after_destroy ->{ BalanceUpdater.new(credit_agreement).run }
 
   delegate :interest_rate, :creditor, :balances, to: :credit_agreement
 
@@ -108,9 +108,5 @@ class Balance < ActiveRecord::Base
 
     def end_of_last_year
       date.prev_year.end_of_year
-    end
-
-    def touch_credit_agreement
-      credit_agreement.touch
     end
 end
