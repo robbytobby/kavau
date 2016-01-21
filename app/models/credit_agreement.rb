@@ -24,7 +24,7 @@ class CreditAgreement < ActiveRecord::Base
   validate :termination_date_after_payments
 
   after_touch :create_missing_balances, :delete_unnecessary_balances, :update_balances
-  before_save :make_termination_balance
+  after_save :make_termination_balance
   before_validation :set_number
   validates_date :valid_from, on: :update
 
@@ -61,6 +61,7 @@ class CreditAgreement < ActiveRecord::Base
   def reopen!
     unset_terminated_at
     save
+    touch
   end
 
   def self.csv_columns
@@ -96,6 +97,7 @@ class CreditAgreement < ActiveRecord::Base
 
     def make_termination_balance
       return unless terminated_at
+      return if termination_balance
       create_termination_balance(date: terminated_at)
     end
 
@@ -114,7 +116,7 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def obligatory_balances_dates
-      (date_of_first_payment.year...this_year).map{ |y| Date.new(y, 12, 31) }
+      (date_of_first_payment.year...(terminated_at.try(:year) || this_year)).map{ |y| Date.new(y, 12, 31) }
     end
 
     def date_of_first_payment

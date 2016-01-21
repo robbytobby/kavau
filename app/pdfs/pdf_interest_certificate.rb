@@ -64,7 +64,6 @@ class PdfInterestCertificate
   def table_header
     [ [
       [CreditAgreement.model_name.human, CreditAgreement.human_attribute_name(:id)].join('-'),
-      CreditAgreement.human_attribute_name(:interest_rate),
       I18n.t('pdf.interest_certificate.interests_year_amount', year: @year)
     ] ]
   end
@@ -73,7 +72,6 @@ class PdfInterestCertificate
     @balances.sort_by{|b| b.credit_agreement.id}.reject{|b| b.credit_agreement.interest_rate == 0 }.map{ |balance|
       [
         CreditAgreementPresenter.new(balance.credit_agreement, self).number,
-        I18n.t('pdf.interest_certificate.interest_rate', rate: number_to_percentage(balance.interest_rate)),
         number_to_currency(balance.interests_sum)
       ]
     }
@@ -81,6 +79,6 @@ class PdfInterestCertificate
 
   def table_sum
     return [] if @balances.one?
-    [ [ '', '', I18n.t('pdf.interest_certificate.sum', amount: number_to_currency(@balances.sum(&:interests_sum))) ]]
+    [ [ '', I18n.t('pdf.interest_certificate.sum', amount: number_to_currency(@balances.sum(&:interests_sum))) ]]
   end
 end
