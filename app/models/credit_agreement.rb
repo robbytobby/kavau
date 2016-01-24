@@ -16,10 +16,7 @@ class CreditAgreement < ActiveRecord::Base
   delegate :last_terminated_year, :year_terminated?, to: :creditor
 
   validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id, :valid_from
-  #validates_numericality_of :amount, greater_than_or_equal_to: 500
-  #validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id
   validates_numericality_of :amount, :cancellation_period, greater_than: 0
-  #validates_numericality_of :interest_rate, greater_than_or_equal_to: 0, less_than: 100
   validates_uniqueness_of :number, allow_blank: true
   validate :account_valid_for_credit_agreement?, :termination_date_after_payments
 

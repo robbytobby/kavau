@@ -18,6 +18,51 @@ RSpec.describe CreditAgreement, type: :model do
       expect(CreditAgreement.funded_credits_sum).to eq(7000)
     end
   end
+
+  describe "versioning" do
+    before(:each){ @credit = create :credit_agreement, interest_rate: 1, valid_from: Date.new(2016,1,1) }
+
+    it "is vesioned" do
+      expect(@credit).to be_versioned 
+    end
+
+    with_versioning do
+      it "no version for create" do
+        expect(@credit.versions.count).to eq(0)
+      end
+
+      it "is versioned on update" do
+        expect{
+          @credit.update_attributes!(amount: 1999)
+        }.to change(@credit.versions, :count).by(1)
+      end
+
+      it "is versioned on destroy" do
+        expect{
+          @credit.destroy!
+        }.to change(@credit.versions, :count).by(1)
+      end
+
+      describe "change of valid_from" do
+        it "is saved in the versions metadata" do
+          @credit.update_attributes!(valid_from: Date.today)
+          expect(@credit.versions.last.valid_from).to eq(Date.new(2016,1,1))
+        end
+      end
+
+      describe "change of interest_rate" do
+        it "knows that interest rate has not changed" do
+          @credit.update_attributes!(valid_from: Date.today)
+          expect(@credit.versions.last.interest_rate_changed).to be_falsy
+        end
+
+        it "marks the interest_rate change in the version" do
+          @credit.update_attributes!(interest_rate: 2)
+          expect(@credit.versions.last.interest_rate_changed).to be_truthy
+        end
+      end
+    end
+  end
   
   it "is only valid for project_accounts" do
     @account = create :person_account
