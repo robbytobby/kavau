@@ -33,7 +33,7 @@ RSpec.describe "managing credit aggreements" do
         end
 
         describe "existing credit_agreements" do
-          before(:each){ @credit_agreement = create(:credit_agreement, account: @account, creditor: @creditor) }
+          before(:each){ @credit_agreement = create(:credit_agreement, account: @account, creditor: @creditor, valid_from: Date.new(2014,1,1)) }
 
           it "of a #{type.underscore} are editable" do
             visit model_path(@creditor)

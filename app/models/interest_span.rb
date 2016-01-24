@@ -5,8 +5,7 @@ class InterestSpan
     @start_date = span.first
     @end_date = span.last
     @base_amount = balance.sum_upto(@start_date)
-    @interest_rate = balance.interest_rate
-    #@interest_rate = balance.interest_rate_for(@start_date)
+    @interest_rate = balance.interest_rate_at(@start_date)
   end
 
   def date

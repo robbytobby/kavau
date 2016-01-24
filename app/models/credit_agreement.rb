@@ -2,7 +2,7 @@ class CreditAgreement < ActiveRecord::Base
   include ActiveModel::Dirty
   include AsCsv
   strip_attributes
-  has_paper_trail class_name: 'CreditAgreementVersion', meta: { valid_from: :valid_from, interest_rate_changed: :interest_rate_changed? }, on: [:update, :destroy] 
+  has_paper_trail class_name: 'CreditAgreementVersion', meta: { valid_from: :valid_from, valid_until: :version_valid_until, interest_rate_changed: :interest_rate_changed? }, on: [:update, :destroy] 
 
   # TODO: Add notes
   belongs_to :creditor, class_name: 'Address'
@@ -19,8 +19,9 @@ class CreditAgreement < ActiveRecord::Base
   validates_numericality_of :amount, :cancellation_period, greater_than: 0
   validates_uniqueness_of :number, allow_blank: true
   validate :account_valid_for_credit_agreement?, :termination_date_after_payments
+  validate :new_valid_from_later_than_old_one, :year_of_valid_from_not_terminated, on: :update
 
-  after_save :terminate
+  after_save :terminate, :update_balances
   before_validation :set_number
   validates_date :valid_from, on: :update
 
@@ -45,6 +46,16 @@ class CreditAgreement < ActiveRecord::Base
     auto_balances.build
   end
 
+  def interest_rate_at(date)
+    #TODO spec
+    at(date).interest_rate
+  end
+
+  def interest_rate_change_dates_between(start_date, end_date)
+    #TODO spec
+    versions.with_interest_rate_change_between(start_date, end_date).pluck(:valid_until)
+  end
+
   def active?
     !terminated? && payments.any?
   end
@@ -56,6 +67,10 @@ class CreditAgreement < ActiveRecord::Base
 
   def self.csv_columns
     [:id, :number, :amount, :interest_rate, :cancellation_period, :creditor_name, :creditor_id, :account_name, :account_id, :terminated_at]
+  end
+
+  def version_valid_until
+    valid_from
   end
 
   private
@@ -71,10 +86,25 @@ class CreditAgreement < ActiveRecord::Base
       errors.add(:terminated_at, :before_last_payment)
     end
 
+    def new_valid_from_later_than_old_one
+      return if valid_from >= valid_from_was
+      errors.add(:valid_from, :before_last_value, last: I18n.l(valid_from_was))
+    end
+
+    def year_of_valid_from_not_terminated
+      return unless year_terminated?(valid_from.year)
+      errors.add(:valid_from, :year_terminated, year: valid_from.year)
+    end
+
     def terminate
       return unless terminated_at_changed?
       return if terminated_at_changed?(to: nil)
       CreditAgreementTerminator.new(self).terminate
+    end
+
+    def update_balances
+      return unless interest_rate_changed?
+      BalanceUpdater.new(self).run
     end
 
     def set_number
@@ -85,5 +115,9 @@ class CreditAgreement < ActiveRecord::Base
 
     def last_used_number
       CreditAgreement.where(account_id: account_id).where.not(number: nil).order(number: :desc).first.try(:number)
+    end
+
+    def at(date)
+      versions.at(date).try(:reify) || self
     end
 end

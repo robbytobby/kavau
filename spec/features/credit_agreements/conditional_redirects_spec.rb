@@ -4,7 +4,7 @@ RSpec.describe "creditors index view" do
   before :each do 
     login_as create(:accountant) 
     @creditor = create :person
-    @credit_agreement = create(:credit_agreement, creditor: @creditor)
+    @credit_agreement = create :credit_agreement, creditor: @creditor , valid_from: Date.new(2014, 1, 1)
   end
 
   context "coming from the creditors page" do
