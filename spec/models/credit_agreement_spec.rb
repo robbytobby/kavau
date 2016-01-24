@@ -168,49 +168,20 @@ RSpec.describe CreditAgreement, type: :model do
     expect(@credit_agreement).to be_terminated
   end
 
-  it "can be reopened" do
-    @credit_agreement = build :credit_agreement, terminated_at: Date.today
-    @credit_agreement.reopen!
-    expect(@credit_agreement).not_to be_terminated
+  it "on being terminated, it calls the Terminator" do
+    @credit_agreement = create :credit_agreement
+    allow_any_instance_of(CreditAgreementTerminator).to receive(:terminate).and_return(true)
+    expect(CreditAgreementTerminator).to receive(:new).with(@credit_agreement).and_call_original
+    expect_any_instance_of(CreditAgreementTerminator).to receive(:terminate).with(no_args)
+    @credit_agreement.update(terminated_at: Date.today)
   end
 
-  it "creates a termination balance if terminated at is set" do
-    @project_address = create :complete_project_address, legal_form: 'registered_society'
-    create :termination_letter
-    @credit_agreement = create :credit_agreement, account: @project_address.default_account
+  it "does not call the terminator, if it is allready terminated" do
+    @credit_agreement = create :credit_agreement
     create :deposit, credit_agreement: @credit_agreement
-    expect(@credit_agreement.termination_balance).to be_nil
-    @credit_agreement.terminated_at = Date.today
-    @credit_agreement.save
-    expect(@credit_agreement.termination_balance).to be_a(TerminationBalance)
-    expect(@credit_agreement.termination_balance.date).to eq(Date.today)
-    expect(@credit_agreement.termination_balance.end_amount).to eq(0)
-  end
-
-  it "does not create a second termination balance on being saved" do
-    @project_address = create :complete_project_address, legal_form: 'registered_society'
-    create :termination_letter
-    @credit_agreement = create :credit_agreement, account: @project_address.default_account
-    create :deposit, credit_agreement: @credit_agreement
-    @credit_agreement.terminated_at = Date.today
-    @credit_agreement.save
-    expect(@credit_agreement.termination_balance).to be_a(TerminationBalance)
-    @credit_agreement.number = '1111'
-    expect{ @credit_agreement.save }.not_to change(@credit_agreement.balances, :count)
-  end
-
-  it "does not have a balance after termination date" do
-    @project_address = create :complete_project_address, legal_form: 'registered_society'
-    create :termination_letter
-    @credit_agreement = create :credit_agreement, account: @project_address.default_account
-    create :deposit, credit_agreement: @credit_agreement, date: Date.new(2014,8,12)
-    expect(@credit_agreement.auto_balances.count).to be >= 2
-    @credit_agreement.terminated_at = Date.new(2015,12,20)
-    @credit_agreement.save
-    @credit_agreement.reload
-    expect(@credit_agreement).to be_terminated
-    expect(@credit_agreement.termination_balance).to be_persisted
-    expect(@credit_agreement.balances.where(type: 'AutoBalance').count).to eq(1)
+    @credit_agreement.update_column(:terminated_at, Date.today)
+    expect(CreditAgreementTerminator).not_to receive(:new)
+    @credit_agreement.reload.save
   end
 end
   

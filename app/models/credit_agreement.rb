@@ -16,15 +16,14 @@ class CreditAgreement < ActiveRecord::Base
   delegate :last_terminated_year, :year_terminated?, to: :creditor
 
   validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id, :valid_from
-  validates_numericality_of :amount, greater_than_or_equal_to: 500
-  validates_numericality_of :interest_rate, greater_than_or_equal_to: 0, less_than: 100
-  validates_numericality_of :cancellation_period, greater_than_or_equal_to: 3
+  #validates_numericality_of :amount, greater_than_or_equal_to: 500
+  #validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id
+  validates_numericality_of :amount, :cancellation_period, greater_than: 0
+  #validates_numericality_of :interest_rate, greater_than_or_equal_to: 0, less_than: 100
   validates_uniqueness_of :number, allow_blank: true
-  validate :account_valid_for_credit_agreement?
-  validate :termination_date_after_payments
+  validate :account_valid_for_credit_agreement?, :termination_date_after_payments
 
-  after_touch :create_missing_balances, :delete_unnecessary_balances, :update_balances
-  after_save :make_termination_balance
+  after_save :terminate
   before_validation :set_number
   validates_date :valid_from, on: :update
 
@@ -58,12 +57,6 @@ class CreditAgreement < ActiveRecord::Base
     !terminated_at.blank?
   end
 
-  def reopen!
-    unset_terminated_at
-    save
-    touch
-  end
-
   def self.csv_columns
     [:id, :number, :amount, :interest_rate, :cancellation_period, :creditor_name, :creditor_id, :account_name, :account_id, :terminated_at]
   end
@@ -81,24 +74,10 @@ class CreditAgreement < ActiveRecord::Base
       errors.add(:terminated_at, :before_last_payment)
     end
 
-    def update_balances
-      auto_balances.each(&:update_end_amount!)
-    end
-
-    def delete_unnecessary_balances
-      balances.younger_than(date_of_first_payment).destroy_all
-    end
-
-    def create_missing_balances
-      (obligatory_balances_dates - existing_balances_dates).each do |balance_date|
-        auto_balances.create(date: balance_date)
-      end
-    end
-
-    def make_termination_balance
-      return unless terminated_at
-      return if termination_balance
-      create_termination_balance(date: terminated_at)
+    def terminate
+      return unless terminated_at_changed?
+      return if terminated_at_changed?(to: nil)
+      CreditAgreementTerminator.new(self).terminate
     end
 
     def set_number
@@ -110,30 +89,4 @@ class CreditAgreement < ActiveRecord::Base
     def last_used_number
       CreditAgreement.where(account_id: account_id).where.not(number: nil).order(number: :desc).first.try(:number)
     end
-
-    def existing_balances_dates
-      balances.pluck(:date)
-    end
-
-    def obligatory_balances_dates
-      (date_of_first_payment.year...(terminated_at.try(:year) || this_year)).map{ |y| Date.new(y, 12, 31) }
-    end
-
-    def date_of_first_payment
-      (payments.first || NullPayment.new).date
-    end
-
-    def unset_terminated_at
-      self.terminated_at = nil
-    end
-
-    def this_year
-      Date.today.year
-    end
-
-  class NullPayment
-    def date
-      Date.today
-    end
-  end
 end
