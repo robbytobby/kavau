@@ -12,6 +12,9 @@ RSpec.describe "creditors index view" do
       visit person_path(@creditor)
       click_on "edit_credit_agreement_#{@credit_agreement.id}"
       expect(current_path).to eq(edit_person_credit_agreement_path(@creditor, @credit_agreement))
+      select '1', from: :credit_agreement_valid_from_3i
+      select 'Januar', from: :credit_agreement_valid_from_2i
+      select '2016', from: :credit_agreement_valid_from_1i
       click_on :submit
       expect(current_path).to eq(person_path(@creditor))
     end
@@ -28,6 +31,9 @@ RSpec.describe "creditors index view" do
       visit credit_agreements_path
       click_on "edit_credit_agreement_#{@credit_agreement.id}"
       expect(current_path).to eq(edit_person_credit_agreement_path(@creditor, @credit_agreement))
+      select '1', from: :credit_agreement_valid_from_3i
+      select 'Januar', from: :credit_agreement_valid_from_2i
+      select '2016', from: :credit_agreement_valid_from_1i
       click_on :submit
       expect(current_path).to eq(credit_agreements_path)
     end

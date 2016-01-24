@@ -16,6 +16,9 @@ RSpec.describe "managing credit aggreements" do
           fill_in :credit_agreement_interest_rate, with: '1'
           fill_in :credit_agreement_cancellation_period, with:'3'
           fill_in :credit_agreement_number, with: ''
+          select '1', from: :credit_agreement_valid_from_3i
+          select 'Januar', from: :credit_agreement_valid_from_2i
+          select '2016', from: :credit_agreement_valid_from_1i
           select 'Account', from: 'credit_agreement_account_id'
           click_on :submit
           expect(current_path).to eq(model_path(@creditor))
@@ -36,6 +39,9 @@ RSpec.describe "managing credit aggreements" do
             visit model_path(@creditor)
             click_on "edit_credit_agreement_#{@credit_agreement.id}"
             fill_in :credit_agreement_amount, with: '20000'
+            select '1', from: :credit_agreement_valid_from_3i
+            select 'Januar', from: :credit_agreement_valid_from_2i
+            select '2016', from: :credit_agreement_valid_from_1i
             click_on :submit
             expect(current_path).to eq(model_path(@creditor))
             expect(page).to have_selector('div.alert-notice')

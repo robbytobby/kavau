@@ -6,6 +6,7 @@ FactoryGirl.define do
     association :creditor, factory: :person
     association :account, factory: :project_account
     sequence(:number){|n| n.to_s}
+    valid_from Date.today
   end
 
   trait :with_payment do
