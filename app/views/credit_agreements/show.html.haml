@@ -2,6 +2,10 @@
   %h1
     = t '.title', number: credit_agreement.number
     %small= "- #{@credit_agreement.account.name}"
+    .pull-right
+      %small
+        = authorized_icon_link :edit, credit_agreement, nested_in: credit_agreement.creditor
+  = render partial: 'history', locals: { credit_agreement: credit_agreement } if credit_agreement.versions.any?
   = render partial: 'details', locals: { credit_agreement: credit_agreement }
 
   -if @credit_agreement.active?

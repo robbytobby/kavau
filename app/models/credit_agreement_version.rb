@@ -13,6 +13,14 @@ class CreditAgreementVersion < PaperTrail::Version
   end
 
   def self.with_interest_rate_change_between(start_date, end_date)
-    with_interest_rate_change.valid_until_after(start_date).valid_until_before_or_equal(end_date)
+    where(event: 'update').with_interest_rate_change.valid_until_after(start_date).valid_until_before_or_equal(end_date)
+  end
+
+  def to_partial_path
+    'versions/version'
+  end
+
+  def user
+    User.find(whodunnit)
   end
 end

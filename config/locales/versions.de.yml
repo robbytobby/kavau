@@ -1,0 +1,4 @@
+de:
+  versions:
+    update: 'geändert von %{by}'
+    create: 'angelegt von %{by}'

@@ -1,0 +1,2 @@
+class ValidFromFormatter < DateFormatter
+end

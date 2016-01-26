@@ -1,0 +1,2 @@
+class InterestRateFormatter < PercentFormatter
+end

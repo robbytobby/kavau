@@ -2,7 +2,7 @@ class CreditAgreement < ActiveRecord::Base
   include ActiveModel::Dirty
   include AsCsv
   strip_attributes
-  has_paper_trail class_name: 'CreditAgreementVersion', meta: { valid_from: :valid_from, valid_until: :version_valid_until, interest_rate_changed: :interest_rate_changed? }, on: [:update, :destroy] 
+  has_paper_trail class_name: 'CreditAgreementVersion', meta: { valid_from: :valid_from, valid_until: :version_valid_until, interest_rate_changed: :interest_rate_changed? }, ignore: [:created_at, :updated_at, :id, :creditor_id]
 
   # TODO: Add notes
   belongs_to :creditor, class_name: 'Address'
@@ -87,11 +87,13 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def new_valid_from_later_than_old_one
+      return unless valid_from #TODO spec
       return if valid_from >= valid_from_was
       errors.add(:valid_from, :before_last_value, last: I18n.l(valid_from_was))
     end
 
     def year_of_valid_from_not_terminated
+      return unless valid_from #TODO spec
       return unless year_terminated?(valid_from.year)
       errors.add(:valid_from, :year_terminated, year: valid_from.year)
     end
@@ -114,7 +116,7 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def last_used_number
-      CreditAgreement.where(account_id: account_id).where.not(number: nil).order(number: :desc).first.try(:number)
+      CreditAgreement.where(account_id: account_id).where.not(number: nil).where.not(id: id).order(number: :desc).first.try(:number)
     end
 
     def at(date)

@@ -1,0 +1,2 @@
+class CancellationPeriodFormatter < MonthFormatter
+end

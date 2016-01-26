@@ -1,0 +1,3 @@
+class AmountFormatter < MoneyFormatter
+end
+

@@ -32,6 +32,16 @@ RSpec.describe "managing credit agreements" do
         expect(page).to have_content(@credit.cancellation_period)
       end
 
+      it "has a history" do
+        @credit_agreement = create :credit_agreement, valid_from: Date.new(2015, 2, 1), amount: 1000, interest_rate: 0
+        @credit_agreement.update_attributes!(amount: 2000, valid_from: Date.new(2015, 3, 2))
+        @credit_agreement.update_attributes!(interest_rate: 1, valid_from: Date.new(2015, 3, 2))
+        @credit_agreement.update_attributes!(interest_rate: 2, valid_from: Date.new(2015, 12, 2))
+        visit credit_agreement_path(@credit_agreement)
+        expect(page).to have_conten('Historie')
+
+      end
+
       it "has everything in the right order" do
         @deposit_3_1 = create :deposit, credit_agreement: @credit, date: Date.today.prev_year(3).end_of_year.beginning_of_month
         @deposit_1_1 = create :deposit, credit_agreement: @credit, date: Date.today.prev_year(1).beginning_of_year.next_month(3)

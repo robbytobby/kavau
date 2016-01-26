@@ -17,6 +17,7 @@ de:
     delete_pdfs: 'PDFs löschen'
     edit: 'bearbeiten'
     get_pdfs: 'PDFs runter laden'
+    history: 'Historie'
     show: 'anzeigen'
     delete: 'löschen'
     update: 'aktualisieren'

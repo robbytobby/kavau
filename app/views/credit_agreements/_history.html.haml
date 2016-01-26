@@ -1,0 +1,6 @@
+.pull-right
+  %button.btn.btn-primary{type: :button, data: {toggle: :collapse, target: '#history'}, aria: {expanded: false, controls: :history}}= I18n.t('links.history')
+#history.collapse
+  .well
+    = render credit_agreement.versions
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160124121150) do
+ActiveRecord::Schema.define(version: 20160126153706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 20160124121150) do
     t.date     "valid_from",                            null: false
     t.boolean  "interest_rate_changed", default: false, null: false
     t.date     "valid_until"
+    t.text     "object_changes"
   end
 
   add_index "credit_agreement_versions", ["item_type", "item_id"], name: "index_credit_agreement_versions_on_item_type_and_item_id", using: :btree
