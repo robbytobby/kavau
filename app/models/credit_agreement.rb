@@ -47,12 +47,10 @@ class CreditAgreement < ActiveRecord::Base
   end
 
   def interest_rate_at(date)
-    #TODO spec
     at(date).interest_rate
   end
 
   def interest_rate_change_dates_between(start_date, end_date)
-    #TODO spec
     versions.with_interest_rate_change_between(start_date, end_date).pluck(:valid_until)
   end
 
@@ -87,13 +85,13 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def new_valid_from_later_than_old_one
-      return unless valid_from #TODO spec
+      return unless valid_from
       return if valid_from >= valid_from_was
       errors.add(:valid_from, :before_last_value, last: I18n.l(valid_from_was))
     end
 
     def year_of_valid_from_not_terminated
-      return unless valid_from #TODO spec
+      return unless valid_from 
       return unless year_terminated?(valid_from.year)
       errors.add(:valid_from, :year_terminated, year: valid_from.year)
     end

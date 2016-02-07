@@ -10,4 +10,22 @@ class VersionPresenter < BasePresenter
   def whodunnit
     [user.first_name, user.name].join(' ')
   end
+
+  def changes
+    changeset.map{ |entry| ChangePresenter.new(item_type, *entry) }
+  end
+
+  def user
+    User.find_by(id: @model.whodunnit) || NullUser.new
+  end
+
+  class NullUser
+    def first_name
+      I18n.t('activerecord.attributes.null_user.first_name')
+    end
+
+    def name
+      I18n.t('activerecord.attributes.null_user.name')
+    end
+  end
 end

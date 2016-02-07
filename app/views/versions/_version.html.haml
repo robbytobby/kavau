@@ -1,5 +1,8 @@
-- present(version) do |v|
-  %h3
-    = v.changed_at
-    %small= v.action_by
-  = v.changes
+%div[version]
+  - present(version) do |ver|
+    %h3
+      = ver.changed_at
+      %small= ver.action_by
+    %ul
+      - ver.changes.each do |change|
+        = change.html

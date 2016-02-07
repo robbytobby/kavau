@@ -1,4 +1,3 @@
-#TODO spec
 class CreditAgreementVersion < PaperTrail::Version
   self.table_name = :credit_agreement_versions
   self.sequence_name = :credit_agreement_versions_id_seq
@@ -18,9 +17,5 @@ class CreditAgreementVersion < PaperTrail::Version
 
   def to_partial_path
     'versions/version'
-  end
-
-  def user
-    User.find(whodunnit)
   end
 end

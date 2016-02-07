@@ -1,0 +1,2 @@
+class TerminatedAtFormatter < DateFormatter
+end

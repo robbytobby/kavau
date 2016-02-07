@@ -6,7 +6,8 @@ RSpec.describe "managing credit agreements" do
   [:accountant, :admin].each do |type|
     context "as #{type}" do
       before :each do
-        login_as create(type)
+        @current_user = create type
+        login_as @current_user
         @credit = create :credit_agreement
       end
 
@@ -33,13 +34,42 @@ RSpec.describe "managing credit agreements" do
       end
 
       it "has a history" do
-        @credit_agreement = create :credit_agreement, valid_from: Date.new(2015, 2, 1), amount: 1000, interest_rate: 0
-        @credit_agreement.update_attributes!(amount: 2000, valid_from: Date.new(2015, 3, 2))
-        @credit_agreement.update_attributes!(interest_rate: 1, valid_from: Date.new(2015, 3, 2))
-        @credit_agreement.update_attributes!(interest_rate: 2, valid_from: Date.new(2015, 12, 2))
+        with_versioning do
+          @credit_agreement = create :credit_agreement, valid_from: Date.new(2015, 2, 1), amount: 1000, interest_rate: 0
+          @credit_agreement.update_attributes!(amount: 2000, valid_from: Date.new(2015, 3, 2))
+          @credit_agreement.update_attributes!(interest_rate: 1, valid_from: Date.new(2015, 3, 2))
+          @credit_agreement.update_attributes!(interest_rate: 2, valid_from: Date.new(2015, 12, 2))
+        end
         visit credit_agreement_path(@credit_agreement)
-        expect(page).to have_conten('Historie')
-
+        expect(page).to have_selector('div#history.collapse')
+        within '#history' do
+          within "div#credit_agreement_version_#{@credit_agreement.versions[0].id}" do
+            expect(page).to have_content(I18n.l(Date.today))
+            expect(page).to have_content("angelegt von Unbekannter User")
+            expect(page).to have_content('Betrag: 1.000,00 €')
+            expect(page).to have_content('Kündigungsfrist: 3 Monate')
+            expect(page).to have_content("Konto: #{@credit_agreement.account.name}")
+            expect(page).to have_content("Nr: #{@credit_agreement.number}")
+            expect(page).to have_content("Gültig ab: 01.02.2015")
+          end
+          within "div#credit_agreement_version_#{@credit_agreement.versions[1].id}" do
+            expect(page).to have_content(I18n.l(Date.today))
+            expect(page).to have_content("geändert von Unbekannter User")
+            expect(page).to have_content("Betrag: 1.000,00 € → 2.000,00 €")
+            expect(page).to have_content("Gültig ab: 01.02.2015 → 02.03.2015")
+          end
+          within "div#credit_agreement_version_#{@credit_agreement.versions[2].id}" do
+            expect(page).to have_content(I18n.l(Date.today))
+            expect(page).to have_content("geändert von Unbekannter User")
+            expect(page).to have_content("Zinssatz: 0,00% → 1,00%")
+          end
+          within "div#credit_agreement_version_#{@credit_agreement.versions[3].id}" do
+            expect(page).to have_content(I18n.l(Date.today))
+            expect(page).to have_content("geändert von Unbekannter User")
+            expect(page).to have_content("Zinssatz: 1,00% → 2,00%")
+            expect(page).to have_content("Gültig ab: 02.03.2015 → 02.12.2015")
+          end
+        end
       end
 
       it "has everything in the right order" do

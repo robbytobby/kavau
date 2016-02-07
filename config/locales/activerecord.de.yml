@@ -112,6 +112,9 @@ de:
         subject: 'Betreff'
         type: ''
         year: 'Jahr'
+      null_user:
+        first_name: 'Unbekannter'
+        name: 'User'
       payment:
         amount: 'Betrag'
         date: 'Datum'

@@ -27,8 +27,8 @@ RSpec.describe CreditAgreement, type: :model do
     end
 
     with_versioning do
-      it "no version for create" do
-        expect(@credit.versions.count).to eq(0)
+      it "has a version for create" do
+        expect(@credit.versions.count).to eq(1)
       end
 
       it "is versioned on update" do
@@ -60,7 +60,7 @@ RSpec.describe CreditAgreement, type: :model do
           expect(@credit_agreement.errors[:valid_from]).not_to be_empty
         end
 
-        it "valid_from may not be changed set to a year, which is allready terminated" do
+        it "valid_from may not be changed to a year, which is allready terminated" do
           @credit_agreement = create :credit_agreement, valid_from: Date.today
           allow_any_instance_of(Creditor).to receive(:year_terminated?).and_return(true)
           expect(@credit_agreement.update_attributes(valid_from: Date.yesterday)).to be_falsy
