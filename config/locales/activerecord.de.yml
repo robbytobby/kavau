@@ -25,7 +25,7 @@ de:
               name_inclusion: 'Das Passwort darf weder Login, noch Vor- oder Nachamen beinhalten'
     models:
       account: 'Bankverbindung'
-      address: 'Addresse'
+      address: 'Adresse'
       balance: 'Saldo'
       contact: 'Ansprechpartner_in'
       creditor: 'Kreditgeber_in'
@@ -41,7 +41,7 @@ de:
       organization: 'Organisation'
       payment: 'Zahlung'
       pdf: 'Brief'
-      project_address: 'Projekt Addresse'
+      project_address: 'Projekt Adresse'
       user: 'User'
     attributes:
       account:

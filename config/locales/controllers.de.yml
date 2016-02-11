@@ -13,7 +13,7 @@ de:
   addresses:
     new:
       title:
-        project_address: 'Neue Addresse des Projekts'
+        project_address: 'Neue Adresse des Projekts'
         creditor: 'Neue_r Kreditgeber_in'
     edit: 
       title: "%{model} bearbeiten"
@@ -126,7 +126,7 @@ de:
       title: 'Brief erstellen für %{name}'
   project:
     show:
-      addresses: 'Addressen'
+      addresses: 'Addresse'
       accounts: 'Konten'
   users:
     index:
