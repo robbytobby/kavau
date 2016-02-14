@@ -126,7 +126,7 @@ de:
       title: 'Brief erstellen für %{name}'
   project:
     show:
-      addresses: 'Addresse'
+      addresses: 'Adressen'
       accounts: 'Konten'
   users:
     index:

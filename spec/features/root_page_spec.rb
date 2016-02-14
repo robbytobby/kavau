@@ -8,7 +8,7 @@ RSpec.describe "On the home page" do
 
     it "displays the Project addresses" do
       visit "/"
-      expect(page).to have_selector('h1', text: 'Addressen')
+      expect(page).to have_selector('h1', text: 'Adressen')
     end
 
     it "is not possible to add a new project address" do
@@ -139,7 +139,7 @@ RSpec.describe "On the home page" do
     context "# Project Addresses #" do
       it "displays the Project addresses" do
         visit "/"
-        expect(page).to have_selector('h1', text: 'Addressen')
+        expect(page).to have_selector('h1', text: 'Adressen')
       end
 
       it "I can create a new project address" do
@@ -182,7 +182,7 @@ RSpec.describe "On the home page" do
         find_link('bearbeiten', href: edit_project_address_path(@address)).click
         expect(current_path).to eq(edit_project_address_path(@address))
         fill_in('project_address_name', with: 'New Name')
-        click_on 'Addresse aktualisieren'
+        click_on 'Adresse aktualisieren'
         # redirects back to project#index if thats where you came from
         expect(current_path).to eq(project_path)
         expect(page).to have_selector('td', text: 'New Name')
@@ -190,7 +190,7 @@ RSpec.describe "On the home page" do
         # redirects back to the Address if thats where you came from
         find_link('anzeigen', href: project_address_path(@address)).click
         click_on 'bearbeiten'
-        click_on 'Addresse aktualisieren'
+        click_on 'Adresse aktualisieren'
         expect(current_path).to eq(project_address_path(@address))
       end
 
