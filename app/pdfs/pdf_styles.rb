@@ -28,7 +28,7 @@ class PdfStyles
 
   def date
     { 
-      at: [bounds.width - date_box_width, 15.cm], 
+      at: [bounds.width - date_box_width, 16.5.cm], 
       width: date_box_width,
       align: :right,
       inline_format: true

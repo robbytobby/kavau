@@ -1,12 +1,13 @@
-class PdfInterestCertificate
+class InterestCertificatePdf < ApplicationPdf
   include BuildingBlock
   include I18nKeyHelper
 
-  def initialize(project_address, balances, doc)
+  def initialize(balances)
     @balances = balances
-    @document = doc
-    @sender = PdfSender.new(project_address, doc)
+    @project_address = balances.first.project_address
+    @creditor = balances.first.creditor
     @year = balances.first.date.year
+    super @project_address, @creditor
   end
 
   def content
@@ -21,7 +22,6 @@ class PdfInterestCertificate
     interests_table
     move_down 20
     thanks
-    @sender.footer
   end
 
   private
@@ -50,7 +50,7 @@ class PdfInterestCertificate
   end
 
   def interests_table
-    PdfTable.new(@document, table_data, table_options).draw
+    PdfTable.new(self, table_data, table_options).draw
   end
 
   def table_data

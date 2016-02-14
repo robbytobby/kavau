@@ -4,21 +4,6 @@ RSpec.describe "balances pdfs for project address with missing information" do
     login_as create :accountant
   end
 
-  context "template for covering letter is missing" do
-    it "redirects to the letters index" do
-      @project_address = create :project_address, :with_legals, :with_default_account
-      account = create :account, address: @project_address
-      credit_agreement = create :credit_agreement, account: account
-      create :deposit, credit_agreement: credit_agreement, date: Date.new(2014, 3, 27)
-      @balance = credit_agreement.balances.last
-      visit "/balances/#{@balance.id}.pdf"
-      expect(current_path).to eq(letters_path)
-      within '#flash_warning' do
-        expect(page).to have_content("Es muß erst eine Vorlage für den Jahresabschluss #{Date.today.prev_year.year} angelegt werden.")
-      end
-    end
-  end
-
   context "template for covering letter exists" do
     before :each do
       create :balance_letter, year: Date.today.prev_year.year

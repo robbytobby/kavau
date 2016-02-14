@@ -20,9 +20,10 @@ class ApplicationPdf < Prawn::Document
   def make
     stroke_color "7c7b7f"
     repeat :all do
-      stroke{ horizontal_line -2.cm, -1.4.cm, at: 6.2.cm }
-      stroke{ horizontal_line -2.cm, -1.4.cm, at: 16.4.cm }
+      stroke{ horizontal_line(-2.cm, -1.4.cm, at: 6.2.cm) }
+      stroke{ horizontal_line(-2.cm, -1.4.cm, at: 16.4.cm) }
       @logo.draw
+      @sender.footer
     end
     content
   end
@@ -38,10 +39,18 @@ class ApplicationPdf < Prawn::Document
       top_margin: 6.cm,
       bottom_margin: 3.5.cm,
       left_margin: 2.cm,
-      right_margin: 2.cm, 
-      background: "#{Rails.root}/app/assets/images/stempel.png"
-    }
+      right_margin: 2.cm 
+    }.merge(background_definition)
   end 
+
+  def background_definition
+    return {} unless FileTest.exists?(background_path)
+    {background: "#{Rails.root}/app/assets/images/stempel.png"}
+  end
+
+  def background_path
+    "#{Rails.root}/app/assets/images/stempel.png"
+  end
 
   def set_custom_font
     font_families.update(
