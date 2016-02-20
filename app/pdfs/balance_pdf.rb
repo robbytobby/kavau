@@ -11,10 +11,6 @@ class BalancePdf < ApplicationPdf
 
   private
   def content
-    @sender.over_address_line
-    recipient.address
-    date_box
-    move_cursor_to 15.cm
     balance_heading
     move_down 20
     balance_table

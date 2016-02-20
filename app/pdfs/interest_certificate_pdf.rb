@@ -11,10 +11,6 @@ class InterestCertificatePdf < ApplicationPdf
   end
 
   def content
-    @sender.over_address_line
-    recipient.address
-    date_box
-    move_cursor_to 15.cm
     interest_certificate_heading
     move_down 10
     preamble

@@ -2,7 +2,7 @@ class BalanceLetter < Letter
   validates :year, presence: true
 
   def to_pdf(creditor)
-    YearlyBalancePdf.new(creditor, self).render
+    YearlyBalancePdf.new(creditor, self).rendered
   end
 
   def create_pdfs

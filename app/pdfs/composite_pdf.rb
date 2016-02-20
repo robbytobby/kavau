@@ -4,7 +4,7 @@ class CompositePdf
     build_parts
   end
 
-  def render
+  def rendered
     @combined.to_pdf
   end
 
@@ -23,6 +23,6 @@ class CompositePdf
   end
 
   def parse(page)
-    CombinePDF.parse page.render
+    CombinePDF.parse page.rendered
   end
 end

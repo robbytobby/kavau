@@ -9,15 +9,10 @@ class LetterPdf < ApplicationPdf
 
   private
   def content
-    sender.over_address_line
-    recipient.address
-    date_box
-    move_cursor_to 15.cm
     subject
     salutation
     move_down 10
     main_content
-    sender.footer
   end
 
   def salutation

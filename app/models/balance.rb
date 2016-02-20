@@ -70,7 +70,7 @@ class Balance < ActiveRecord::Base
   end
 
   def pdf
-    BalancePdf.new(self).render
+    BalancePdf.new(self).rendered
   end
 
   def self.csv_columns
