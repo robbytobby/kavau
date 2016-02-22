@@ -1,0 +1,7 @@
+-unless group.blank?
+  %h3= t group, scope: 'settings.categories.groups' 
+-unless help.blank?
+  .well
+    %ul
+      -[help].flatten.each do |member|
+        %li= member

@@ -1,0 +1,4 @@
+%label
+  -if setting.obligatory
+    %abbr{title: t('simple_form.required.text')}= t 'simple_form.required.mark'
+  = t(setting.name, scope: [:settings, :names, setting.category, setting.group, setting.sub_group].compact)

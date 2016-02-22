@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Category:
+  = @setting.category
+%p
+  %b Group:
+  = @setting.group
+%p
+  %b Sub group:
+  = @setting.sub_group
+%p
+  %b Name:
+  = @setting.name
+%p
+  %b Value:
+  = @setting.value
+%p
+  %b Obligatory:
+  = @setting.obligatory
+%p
+  %b Type:
+  = @setting.type
+%p
+  %b Unit:
+  = @setting.unit
+
+= link_to 'Edit', edit_setting_path(@setting)
+\|
+= link_to 'Back', settings_path

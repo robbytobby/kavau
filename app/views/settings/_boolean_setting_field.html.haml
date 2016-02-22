@@ -1,0 +1,8 @@
+-%w( true false ).each do |value|
+  %label.radio-inline
+    %input{type: :radio, 
+      id: "#{f.object.model_name.name.underscore}_value_#{value}",
+      name: "#{f.object.model_name.name.underscore}[value]",
+      value: value,
+      checked: f.object.value.to_s ==  value }
+      = t value, scope: :simple_form

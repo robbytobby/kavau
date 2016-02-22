@@ -1,0 +1,117 @@
+de:
+  settings:
+    categories:
+      general: 'Allgemein'
+      mailer: 'Email-Versand'
+      letter: 'Briefe'
+      groups:
+        smtp_settings: 'SMTP-Server'
+        exception_mailer: 'Versand von Error Mails'
+        layout: 'Seitenränder'
+        custom_font: 'eigener Font'
+        content: 'Inhalt'
+        colors: 'Farben'
+        templates: 'Vorlagen'
+    help:
+      letter:
+        custom_font: 
+          - "Dieser Font wird nur für die Absender-Zeile oberhalb der Adresse und den Footer verwendet."
+          - "Der Font wird erst aktiviert, wenn sowhol ein name vergeben ist, alsauch alle Schriftschnitte hochgeladen sind."
+          - "Akeptiert werden nur TrueTypeFonts mit der Endung .ttf"
+        templates:
+          - "Das Logo muß als .png oder .jpg hochgeladen werden und wird nur verwendet, wenn keine Seitenvorlage hinterlegt ist"
+          - "Das Wasserzeichen muß als .png oder .jpg im A4-Format hochgeladen werden. Es wird bei allen Seiten in den Hintergrund gelegt. Wenn gleichzeitig eine Seitenvorlage verwendet wird, muß der Hintergrund des Wasserzeichens transparent sein (das geht nicht mit jpg)."
+          - "ist nur eine Vorlage für die erste Seite hinterlegt (und keine für Folgeseiten), wird diese für alle Seiten verwendet"
+          - "ist eine Seitenvorlage hinterlegt, muß diese auch die Absender-Zeile oberhalb der Adresse und den Footer enthalten"
+        colors:
+          - "Die hier definierten Farben werden im Footer und in der Absender-Zeile oberhalb der Adresse verwendet"
+        layout: ''
+        content: ''
+      general: ''
+      mailer: 
+        smtp_settings: ''
+        exception_mailer:
+          - "Sollten Server Errors auftreten, wird eine automatische Mail mit der Backtrace des Fehlers verschickt"
+          - "Dafür sollten hier Absender und Empfänger definiert werden"
+    hints:
+      general:
+        project_name: ''
+        website_url: 'Webseite des Projekts z.B. www.lamakat.de '
+      mailer:
+        smtp_settings:
+          address: ''
+          port: ''
+          authentication: 'plain / login / cram_md5'
+          user_name: ''
+          password: ''
+        exception_mailer:
+          email:
+            email_prefix: 'sowas wie [KaVau]'
+            sender_address: ''
+            exception_recipients: 'komma-seapierte Liste von Empfängern'
+      letter:
+        layout:
+          top_margin: ''
+          bottom_margin: ''
+          left_margin: ''
+          right_margin: ''
+        colors:
+          color1: 'RGB hexadezimal, default: 009dc3 (blau)'
+          color2: 'RGB hexadezimal, default: f9b625 (gelb)'
+          color3: 'RGB hexadezimal, default: 7c7b7f (grau)'
+        templates:
+          logo: ''
+          watermark: ''
+          first_page_template: ''
+          following_page_template: ''
+        custom_font:
+          font_name: ''
+          normal: ''
+          bold: ''
+          italic: ''
+          bold_italic: ''
+        content:
+          saldo_information: 'Information die auf pdfs unterhalb eines Saldos eingefügt werden soll. Z.B. eine Erklärung zur Zins-Berechnung'
+    names:
+      general:
+        project_name: 'Projekt Name'
+        website_url: 'Web-Adresse'
+      mailer:
+        smtp_settings:
+          address: 'Server Adresse'
+          port: 'Port'
+          authentication: 'Authentifizierung'
+          enable_starttls_auto: 'TLS automatisch starten'
+          user_name: 'User'
+          password: 'Password'
+        exception_mailer:
+          email:
+            sender_address: 'Absender'
+            exception_recipients: 'Empfänger'
+            email_prefix: 'Präfix für Betreff'
+      letter:
+        layout:
+          top_margin: 'oberer Seitenrand'
+          bottom_margin: 'unterer Seitenrand'
+          left_margin: 'linker Seitenrand'
+          right_margin: 'rechter Seitenrand'
+        colors:
+          color1: 'Schmuckfarbe dunkel'
+          color2: 'Schmuckfarbe hell'
+          color3: 'gedeckte Farbe'
+        templates:
+          logo: 'Logo'
+          watermark: 'Wasserzeichen'
+          first_page_template: 'Vorlage für die erste Seite'
+          following_page_template: 'Vorlage für Folgeseiten'
+        custom_font:
+          font_name: 'Font-Name'
+          normal: 'normal'
+          bold: 'fett'
+          italic: 'kursiv'
+          bold_italic: 'fett kursiv'
+        content:
+          saldo_information: 'Zusatzinfo unter Salden'
+
+
+

@@ -1,0 +1,15 @@
+= simple_form_for(@setting) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :category
+    = f.input :group
+    = f.input :sub_group
+    = f.input :name
+    = f.input :value
+    = f.input :obligatory
+    = f.input :type
+    = f.input :unit
+
+  .form-actions
+    = f.button :submit

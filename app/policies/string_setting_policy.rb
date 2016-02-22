@@ -1,0 +1,3 @@
+class StringSettingPolicy < SettingPolicy
+end
+
