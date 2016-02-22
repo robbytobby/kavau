@@ -138,6 +138,9 @@ de:
       title: 'Neuer User'
     search:
       name_cont: 'Name enthält'
+  settings:
+    index:
+      title: 'Konfiguration'
   layouts:
     navigation:
       balances: 'Salden'

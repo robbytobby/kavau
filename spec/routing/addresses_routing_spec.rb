@@ -64,23 +64,23 @@ RSpec.describe AddressesController, type: :routing do
           expect(get: "/#{resource}/1").to route_to("addresses#show", typed_params)
         end
 
-        it "does not route to #edit" do
+        it "routes to #edit" do
           expect(get: "/#{resource}/1/edit").to route_to("addresses#edit", typed_params)
         end
 
-        it "does not route to #create" do
+        it "routes to #create" do
           expect(post: "/#{resource}").to route_to("addresses#create", type)
         end
 
-        it "does not route to #update via PUT" do
+        it "routes to #update via PUT" do
           expect(put: "/#{resource}/1").to route_to("addresses#update", typed_params)
         end
 
-        it "does not route to #update via PATCH" do
+        it "routes to #update via PATCH" do
           expect(patch: "/#{resource}/1").to route_to("addresses#update", typed_params)
         end
 
-        it "does not route to #destroy" do
+        it "routes to #destroy" do
           expect(delete: "/#{resource}/1").to route_to("addresses#destroy", typed_params)
         end
       end

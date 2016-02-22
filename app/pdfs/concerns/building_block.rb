@@ -28,15 +28,15 @@ module BuildingBlock
   end
 
   def blue
-    "009dc3"
+    Letter.config[:colors][:color1]
   end
 
   def grey
-    "7c7b7f"
+    Letter.config[:colors][:color3]
   end
 
   def yellow
-    "f9b625"
+    Letter.config[:colors][:color2]
   end
 end
 

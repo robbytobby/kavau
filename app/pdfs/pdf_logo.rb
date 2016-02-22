@@ -10,7 +10,7 @@ class PdfLogo
   end
 
   def draw
-    return unless FileTest.exists?(logo_path)
+    return unless logo_path
     bounding_box(*style.logo_box) do
       image logo_path, style.logo
     end
@@ -18,7 +18,7 @@ class PdfLogo
 
   private
   def logo_path
-    "#{Rails.root}/app/assets/images/logo.png"
+    Letter.config[:templates][:logo]
   end
 end
 

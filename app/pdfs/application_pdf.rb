@@ -12,7 +12,6 @@ class ApplicationPdf < Prawn::Document
     @sender = PdfSender.new(sender, self)
     @recipient = PdfRecipient.new(recipient, self)
     @style = PdfStyles.new(self)
-    #TODO set and upload
     @logo = PdfLogo.new(self)
     @first_page_template = get_first_page_template
     @following_page_template = get_following_page_template 
@@ -28,19 +27,19 @@ class ApplicationPdf < Prawn::Document
   def make
     recipient.address
     date_box
+    layout unless @first_page_template
     move_cursor_to 15.cm
     stroke_color "7c7b7f"
-    layout unless @first_page_template
     content
   end
 
   private
   def layout
-    recipient.address
+    @sender.over_address_line
+    @logo.draw
     repeat :all do
       stroke{ horizontal_line(-2.cm, -1.4.cm, at: 6.2.cm) }
       stroke{ horizontal_line(-2.cm, -1.4.cm, at: 16.4.cm) }
-      @logo.draw
       @sender.footer
     end
   end
@@ -54,23 +53,21 @@ class ApplicationPdf < Prawn::Document
   end
 
   def get_following_page_template
-    return @first_page_template unless FileTest.exists?(following_page_template_path)
+    return @first_page_template unless following_page_template_path
     CombinePDF.load(following_page_template_path).pages[0]
   end
 
   def following_page_template_path
-    #TODO set and upload
-    "#{Rails.root}/app/assets/images/briefpapier_gmbh_ff.pdf"
+    Letter.config[:templates][:following_page_template]
   end
 
   def get_first_page_template
-    return nil unless FileTest.exists?(first_page_template_path)
+    return nil unless first_page_template_path
     CombinePDF.load(first_page_template_path).pages[0]
   end
 
   def first_page_template_path
-    #TODO set and upload
-    "#{Rails.root}/app/assets/images/briefpapier_gmbh.pdf"
+    Letter.config[:templates][:first_page_template]
   end
 
   def content
@@ -80,32 +77,25 @@ class ApplicationPdf < Prawn::Document
     { 
       page_size: 'A4', 
       page_layout: :portrait,
-    #TODO set
-      top_margin: 6.cm,
-      bottom_margin: 3.5.cm,
-      left_margin: 2.cm,
-      right_margin: 2.cm 
+      top_margin: Letter.config[:layout][:top_margin].cm,
+      bottom_margin: Letter.config[:layout][:bottom_margin].cm,
+      left_margin: Letter.config[:layout][:left_margin].cm,
+      right_margin: Letter.config[:layout][:right_margin].cm
     }.merge(background_definition)
   end 
 
   def background_definition
-    return {} unless FileTest.exists?(background_path)
-    {background: "#{Rails.root}/app/assets/images/stempel.png"}
-  end
-
-  def background_path
-    #TODO set and upload
-    "#{Rails.root}/app/assets/images/stempel.png"
+    {background: Letter.config[:templates][:watermark]}
   end
 
   def set_custom_font
     font_families.update(
-      "InfoText" => {
+      Letter.config[:custom_font][:font_name] => {
         #TODO set and upload
-        normal: "public/fonts/infotext_normal.ttf",
-        italic: "public/fonts/infotext_italic.ttf",
-        bold: "public/fonts/infotext_bold.ttf",
-        bold_italic: "public/fonts/infotext_bold_italic.ttf"
+        normal: Letter.config[:custom_font][:normal],
+        italic: Letter.config[:custom_font][:italic],
+        bold: Letter.config[:custom_font][:bold],
+        bold_italic: Letter.config[:custom_font][:bold_italic]
       })
   end
 end

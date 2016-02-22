@@ -14,6 +14,8 @@ module LoadAuthorized
 
   private
     def find_collection
+      puts '############'
+      puts klass.inspect
       instance_variable_set(
         instance_variable_name(plural: true),
         policy_scope(klass)

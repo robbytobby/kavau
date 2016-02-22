@@ -20,15 +20,8 @@ class BalancePdf < ApplicationPdf
   def annotations
     move_down(30)
     font_size(10) do
-      text I18n.t('pdf.balance.interest_method', url: Settings.interest_method_url)
-      payment_annotations
+      text Letter.config[:content][:saldo_information]
     end
-  end
-
-  def payment_annotations
-    return unless @balance.payments.any?
-    move_down(10)
-    text I18n.t('pdf.balance.interest_presentation')
   end
 
   def balance_heading

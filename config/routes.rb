@@ -49,6 +49,14 @@ Rails.application.routes.draw do
   resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
     concerns :has_contacts, :has_accounts
   end
+  resources :string_settings, controller: :settings, type: 'StringSetting', except: [:show, :new, :edit, :create]
+  resources :integer_settings, controller: :settings, type: 'IntegerSetting', except: [:show, :new, :edit, :create]
+  resources :float_settings, controller: :settings, type: 'FloatSetting', except: [:show, :new, :edit, :create]
+  resources :boolean_settings, controller: :settings, type: 'BooleanSetting', except: [:show, :new, :edit, :create]
+  resources :text_settings, controller: :settings, type: 'TextSetting', except: [:show, :new, :edit, :create]
+  resources :array_settings, controller: :settings, type: 'ArraySetting', except: [:show, :new, :edit, :create]
+  resources :file_settings, controller: :settings, type: 'FileSetting', except: [:show, :new, :edit, :create]
+  resources :settings, except: [:show, :new, :edit, :create]
   resources :users
   get 'project' => 'project#show'
 

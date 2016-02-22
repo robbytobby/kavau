@@ -10,7 +10,7 @@ class LettersController < ApplicationController
   def show
     respond_with @letter do |format|
       format.html
-      format.pdf { send_data LetterPdf.new(Address.creditors.first, @letter).render, type: 'application/pdf', disposition: :inline  }
+      format.pdf { send_data LetterPdf.new(Address.creditors.first, @letter).rendered, type: 'application/pdf', disposition: :inline  }
     end
   end
 

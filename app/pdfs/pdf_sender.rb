@@ -19,7 +19,7 @@ class PdfSender
 
   def over_address_line
     bounding_box(*style.over_address_line){
-      font("InfoText"){
+      with_custom_font{
         font_size(style.sender_font_size){
           text sender_line, inline_format: true, single_line: true, overflow: :shrink_to_fit
         }
@@ -27,9 +27,26 @@ class PdfSender
     }
   end
 
+  def with_custom_font
+    return yield unless use_custom_font?
+    font(custom_font_name){ yield }
+  end
+
+  def custom_font_name
+    Letter.config[:custom_font][:font_name]
+  end
+
+  def use_custom_font?
+    Letter.config[:custom_font][:font_name] &&
+      Letter.config[:custom_font][:normal] &&
+      Letter.config[:custom_font][:bold] &&
+      Letter.config[:custom_font][:italic] &&
+      Letter.config[:custom_font][:bold_italic] 
+  end
+
   def footer
     fill_color grey
-    font("InfoText"){
+    with_custom_font{
       font_size(style.footer_font_size){
         footer_line(1, footer_line_1)
         footer_line(2, footer_line_2)
@@ -116,7 +133,7 @@ class PdfSender
   end
 
   def website
-    Settings.website_url.gsub(/^www/,'')
+    Setting.general[:website_url].try(:gsub, /^www/,'' )
   end
 
   def tax_information

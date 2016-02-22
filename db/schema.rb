@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126153706) do
+ActiveRecord::Schema.define(version: 20160222094913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,26 @@ ActiveRecord::Schema.define(version: 20160126153706) do
     t.datetime "updated_at",          null: false
     t.integer  "credit_agreement_id"
     t.integer  "payment_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string   "category",                                null: false
+    t.string   "group"
+    t.string   "sub_group"
+    t.string   "name",                                    null: false
+    t.text     "value"
+    t.boolean  "obligatory",              default: false
+    t.string   "type"
+    t.string   "unit"
+    t.string   "default"
+    t.float    "number"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
+    t.string   "accepted_types"
   end
 
   create_table "users", force: :cascade do |t|

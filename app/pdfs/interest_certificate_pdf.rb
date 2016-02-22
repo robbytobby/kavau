@@ -36,7 +36,7 @@ class InterestCertificatePdf < ApplicationPdf
              name: recipient.full_name(:pdf)),
       I18n.t(@sender.legal_form, scope: 'pdf.interest_certificate.text2', name: @sender.full_name),
       I18n.t('pdf.interest_certificate.text3', count: @balances.count),
-      I18n.t('pdf.interest_certificate.text4', name: Settings.project_name)
+      I18n.t('pdf.interest_certificate.text4', name: Setting.general[:project_name])
     ]
   end
 

@@ -2,6 +2,8 @@ de:
   simple_form:
     "yes": 'Ja'
     "no": 'Nein'
+    "true": 'Ja'
+    "false": 'Nein'
     required:
       text: 'benötigt'
       mark: '*'
