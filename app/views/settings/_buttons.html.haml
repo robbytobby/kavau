@@ -1,5 +1,5 @@
-.col-sm-2
-  %button{type: 'submit', class: "btn btn-primary"}
+.col-sm-2.buttons
+  %button{type: 'submit', class: "btn btn-primary", title: t('.save')}
     %i.glyphicon.glyphicon-save
-  = link_to setting_path(setting), method: :delete, class: 'btn btn-danger' do
-    %i.glyphicon.glyphicon-trash
+  = link_to setting_path(setting), method: :delete, class: 'btn btn-primary', remote: true, title: t('.reset') do
+    %i.glyphicon.glyphicon-refresh

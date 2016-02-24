@@ -1,7 +1,2 @@
-.row
-  = simple_form_for setting do |f|
-    .col-sm-3.col-sm-offset-1
-      = render "label", setting: setting
-    .col-sm-6
-      = render setting.form_field_partial, f: f
-    = render "buttons", setting: setting
+.row[setting]
+  = render "form", setting: setting

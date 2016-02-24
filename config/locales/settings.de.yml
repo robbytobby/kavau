@@ -4,19 +4,19 @@ de:
       general: 'Allgemein'
       mailer: 'Email-Versand'
       letter: 'Briefe'
+      exception_notification: 'Versand von Error Mails'
       groups:
         smtp_settings: 'SMTP-Server'
-        exception_mailer: 'Versand von Error Mails'
-        layout: 'Seitenränder'
+        margins: 'Ränder'
         custom_font: 'eigener Font'
         content: 'Inhalt'
         colors: 'Farben'
         templates: 'Vorlagen'
     help:
-      letter:
+      pdf:
         custom_font: 
           - "Dieser Font wird nur für die Absender-Zeile oberhalb der Adresse und den Footer verwendet."
-          - "Der Font wird erst aktiviert, wenn sowhol ein name vergeben ist, alsauch alle Schriftschnitte hochgeladen sind."
+          - "Der Font wird erst aktiviert, wenn alle Schriftschnitte hochgeladen sind."
           - "Akeptiert werden nur TrueTypeFonts mit der Endung .ttf"
         templates:
           - "Das Logo muß als .png oder .jpg hochgeladen werden und wird nur verwendet, wenn keine Seitenvorlage hinterlegt ist"
@@ -25,17 +25,18 @@ de:
           - "ist eine Seitenvorlage hinterlegt, muß diese auch die Absender-Zeile oberhalb der Adresse und den Footer enthalten"
         colors:
           - "Die hier definierten Farben werden im Footer und in der Absender-Zeile oberhalb der Adresse verwendet"
-        layout: ''
+        margins: ''
         content: ''
       general: ''
       mailer: 
         smtp_settings: ''
-        exception_mailer:
+      exception_notification:
+        email:
           - "Sollten Server Errors auftreten, wird eine automatische Mail mit der Backtrace des Fehlers verschickt"
           - "Dafür sollten hier Absender und Empfänger definiert werden"
     hints:
       general:
-        project_name: ''
+        project_name: 'z.B. LaMa / Luftschloss / schwerelos'
         website_url: 'Webseite des Projekts z.B. www.lamakat.de '
       mailer:
         smtp_settings:
@@ -44,13 +45,13 @@ de:
           authentication: 'plain / login / cram_md5'
           user_name: ''
           password: ''
-        exception_mailer:
-          email:
-            email_prefix: 'sowas wie [KaVau]'
-            sender_address: ''
-            exception_recipients: 'komma-seapierte Liste von Empfängern'
-      letter:
-        layout:
+      exception_notification:
+        email:
+          email_prefix: 'sowas wie [KaVau]'
+          sender_address: ''
+          exception_recipients: 'komma-seapierte Liste von Empfängern'
+      pdf:
+        margins:
           top_margin: ''
           bottom_margin: ''
           left_margin: ''
@@ -65,7 +66,6 @@ de:
           first_page_template: ''
           following_page_template: ''
         custom_font:
-          font_name: ''
           normal: ''
           bold: ''
           italic: ''
@@ -84,13 +84,13 @@ de:
           enable_starttls_auto: 'TLS automatisch starten'
           user_name: 'User'
           password: 'Password'
-        exception_mailer:
-          email:
-            sender_address: 'Absender'
-            exception_recipients: 'Empfänger'
-            email_prefix: 'Präfix für Betreff'
-      letter:
-        layout:
+      exception_notification:
+        email:
+          sender_address: 'Absender'
+          exception_recipients: 'Empfänger'
+          email_prefix: 'Präfix für Betreff'
+      pdf:
+        margins:
           top_margin: 'oberer Seitenrand'
           bottom_margin: 'unterer Seitenrand'
           left_margin: 'linker Seitenrand'
@@ -105,7 +105,6 @@ de:
           first_page_template: 'Vorlage für die erste Seite'
           following_page_template: 'Vorlage für Folgeseiten'
         custom_font:
-          font_name: 'Font-Name'
           normal: 'normal'
           bold: 'fett'
           italic: 'kursiv'

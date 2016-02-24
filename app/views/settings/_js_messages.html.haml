@@ -1,0 +1,7 @@
+-# Rails flash messages styled for Bootstrap 3.0
+- flash.each do |key, value|
+  %div{class: "#{flash_class(key)} col-sm-offset-1 js-message" }
+    %button{close_button_attributes} &times;
+    %div.message{id: "flash_#{key}"}
+      = value
+      = setting.errors.full_messages.to_sentence

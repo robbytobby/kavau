@@ -362,6 +362,7 @@ GEM
       rainbow (>= 1.99, < 3.0)
       unparser (~> 0.2.2)
     ref (2.0.0)
+    remotipart (1.2.1)
     request_store (1.3.0)
     require_all (1.3.3)
     responders (2.1.0)
@@ -549,6 +550,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails_best_practices
   ransack
+  remotipart (~> 1.2)
   responders
   rspec-rails
   rubocop

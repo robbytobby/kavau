@@ -1,0 +1,3 @@
+class ArraySettingPolicy < SettingPolicy
+end
+

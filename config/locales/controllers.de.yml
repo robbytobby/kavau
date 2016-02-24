@@ -141,6 +141,11 @@ de:
   settings:
     index:
       title: 'Konfiguration'
+    flash:
+      default_set: 'Der Wert wurde auf den Standard zurückgesetzt'
+    buttons:
+      save: 'Einstellung speichern'
+      reset: 'Einstellunt auf default zurücksetzen'
   layouts:
     navigation:
       balances: 'Salden'
@@ -151,3 +156,4 @@ de:
       letters: 'Briefvorlagen'
       payments: 'Zahlungen'
       users: 'User'
+      settings: 'Konfiguration'

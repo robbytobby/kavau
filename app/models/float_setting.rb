@@ -4,6 +4,11 @@ class FloatSetting < Setting
   def value
     self[:value].to_f
   end
+
+  def form_field_partial
+    return super if unit.blank?
+    'settings/string_with_unit_field'
+  end
 end
 
 

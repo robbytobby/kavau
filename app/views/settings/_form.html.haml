@@ -1,15 +1,7 @@
-= simple_form_for(@setting) do |f|
-  = f.error_notification
-
-  .form-inputs
-    = f.input :category
-    = f.input :group
-    = f.input :sub_group
-    = f.input :name
-    = f.input :value
-    = f.input :obligatory
-    = f.input :type
-    = f.input :unit
-
-  .form-actions
-    = f.button :submit
+= simple_form_for setting, remote: true, authenticity_token: true do |f|
+  .col-sm-3.col-sm-offset-1
+    = render "label", setting: setting
+  .col-sm-6.inputs
+    = render setting.form_field_partial, f: f
+  = render "buttons", setting: setting
+  = render 'js_messages', setting: setting if request.xhr?

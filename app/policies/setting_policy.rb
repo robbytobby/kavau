@@ -10,7 +10,7 @@ class SettingPolicy < ApplicationPolicy
   end
 
   def show?
-    false
+    user.admin?
   end
 
   def new?
@@ -22,7 +22,7 @@ class SettingPolicy < ApplicationPolicy
   end
 
   def edit?
-    false
+    user.admin?
   end
 
   def update?
@@ -35,23 +35,5 @@ class SettingPolicy < ApplicationPolicy
 
   def permitted_params
     [:value]
-  end
-end
-
-class StringSettingPolicy < SettingPolicy
-end
-class TextSettingPolicy < SettingPolicy
-end
-class IntegerSettingPolicy < SettingPolicy
-end
-class FloatSettingPolicy < SettingPolicy
-end
-class BooleanSettingPolicy < SettingPolicy
-end
-class ArraySettingPolicy < SettingPolicy
-end
-class FileSettingPolicy < SettingPolicy
-  def permitted_params
-    [:attachment]
   end
 end

@@ -29,19 +29,14 @@ class PdfSender
 
   def with_custom_font
     return yield unless use_custom_font?
-    font(custom_font_name){ yield }
-  end
-
-  def custom_font_name
-    Letter.config[:custom_font][:font_name]
+    font('CustomFont'){ yield }
   end
 
   def use_custom_font?
-    Letter.config[:custom_font][:font_name] &&
-      Letter.config[:custom_font][:normal] &&
-      Letter.config[:custom_font][:bold] &&
-      Letter.config[:custom_font][:italic] &&
-      Letter.config[:custom_font][:bold_italic] 
+    config[:custom_font][:normal] &&
+    config[:custom_font][:bold] &&
+    config[:custom_font][:italic] &&
+    config[:custom_font][:bold_italic] 
   end
 
   def footer
@@ -133,7 +128,11 @@ class PdfSender
   end
 
   def website
-    Setting.general[:website_url].try(:gsub, /^www/,'' )
+    website_url.try(:gsub, /^www/,'' )
+  end
+  
+  def website_url
+    Rails.application.config.kavau.general[:website_url]
   end
 
   def tax_information
@@ -151,5 +150,9 @@ class PdfSender
 
   def nbsp
     Prawn::Text::NBSP
+  end
+
+  def config
+    @document.config
   end
 end

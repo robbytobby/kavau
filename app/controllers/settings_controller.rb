@@ -1,8 +1,7 @@
 class SettingsController < ApplicationController
   include Typed
   include LoadAuthorized
-  responders :collection
-  respond_to :html
+  respond_to :html, :js
 
   def index
     @settings = @settings.order(:number)
@@ -16,7 +15,8 @@ class SettingsController < ApplicationController
 
   def destroy
     @setting.destroy
-    respond_with @setting
+    flash.now[:notice]= I18n.t('settings.flash.default_set')
+    render :update
   end
 
   private

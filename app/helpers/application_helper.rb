@@ -25,4 +25,8 @@ module ApplicationHelper
   def close_button_attributes
     { class: "close", aria: {hidden: "true"}, data: {dismiss: "alert"}, type: "button" }
   end
+
+  def config
+    Rails.application.config.kavau
+  end
 end

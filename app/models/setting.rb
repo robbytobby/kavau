@@ -1,16 +1,8 @@
 class Setting < ActiveRecord::Base
-  after_save :set_letter_config
+  after_save :update_config
 
-  def self.general
-    where(category: 'general').to_hash[:general]
-  end
-
-  def self.mailer
-    where(category: 'mailer').to_hash[:mailer]
-  end
-
-  def self.letter
-    where(category: 'letter').to_hash[:letter]
+  def self.update_config
+    Setting.all.pluck(:category).each{ |category| update_category(category) }
   end
 
   def form_field
@@ -31,8 +23,7 @@ class Setting < ActiveRecord::Base
   end
 
   def form_field_partial
-    return 'settings/string_setting_field' if unit.blank?
-    'settings/string_with_unit_field'
+    'settings/string_setting_field'
   end
 
   def to_partial_path
@@ -40,7 +31,7 @@ class Setting < ActiveRecord::Base
   end
   
   def help
-    I18n.t [:settings, :help, category, group].compact.join('.')
+    I18n.t ['settings', 'help', category, group].compact.map(&:downcase).join('.')
   end
 
   private
@@ -62,9 +53,11 @@ class Setting < ActiveRecord::Base
     {group.to_sym => sub_group_hash}
   end
 
-  def set_letter_config
-    return unless category == 'letter'
-    Rails.application.config.letter = Setting.letter
+  def update_config
+    Setting.update_category(category)
   end
 
+  def self.update_category(category)
+    Rails.application.config.kavau.send("#{category}=", Setting.where(category: category).to_hash[category.to_sym])
+  end
 end

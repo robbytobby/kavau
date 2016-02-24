@@ -1,0 +1,3 @@
+class IntegerSettingPolicy < SettingPolicy
+end
+

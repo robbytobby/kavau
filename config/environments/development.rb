@@ -36,6 +36,7 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
+  #Rails.application.config.middleware.use ExceptionNotification::Rack, {}
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
@@ -43,5 +44,8 @@ Rails.application.configure do
     Bullet.enable = true
     Bullet.alert = true
     Bullet.add_footer = true
+
+    Rails.application.config.kavau = Rails::Application::Configuration::Custom.new
+    Setting.update_config
   end
 end

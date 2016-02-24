@@ -14,8 +14,6 @@ module LoadAuthorized
 
   private
     def find_collection
-      puts '############'
-      puts klass.inspect
       instance_variable_set(
         instance_variable_name(plural: true),
         policy_scope(klass)
@@ -76,7 +74,7 @@ module LoadAuthorized
     end
 
     def permitted_params
-      params[required_params_key].permit(instance_policy.permitted_params)
+      params[required_params_key].try(:permit, instance_policy.permitted_params)
     end
 
     def required_params_key

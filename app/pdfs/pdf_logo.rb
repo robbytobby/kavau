@@ -18,7 +18,7 @@ class PdfLogo
 
   private
   def logo_path
-    Letter.config[:templates][:logo]
+    config[:templates][:logo]
   end
 end
 

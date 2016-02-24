@@ -33,6 +33,10 @@ class ApplicationPdf < Prawn::Document
     content
   end
 
+  def config
+    Rails.application.config.kavau.pdf
+  end
+
   private
   def layout
     @sender.over_address_line
@@ -58,7 +62,7 @@ class ApplicationPdf < Prawn::Document
   end
 
   def following_page_template_path
-    Letter.config[:templates][:following_page_template]
+    config[:templates][:following_page_template]
   end
 
   def get_first_page_template
@@ -67,7 +71,7 @@ class ApplicationPdf < Prawn::Document
   end
 
   def first_page_template_path
-    Letter.config[:templates][:first_page_template]
+    config[:templates][:first_page_template]
   end
 
   def content
@@ -77,26 +81,27 @@ class ApplicationPdf < Prawn::Document
     { 
       page_size: 'A4', 
       page_layout: :portrait,
-      top_margin: Letter.config[:layout][:top_margin].cm,
-      bottom_margin: Letter.config[:layout][:bottom_margin].cm,
-      left_margin: Letter.config[:layout][:left_margin].cm,
-      right_margin: Letter.config[:layout][:right_margin].cm
+      top_margin: config[:margins][:top_margin].cm,
+      bottom_margin: config[:margins][:bottom_margin].cm,
+      left_margin: config[:margins][:left_margin].cm,
+      right_margin: config[:margins][:right_margin].cm
     }.merge(background_definition)
   end 
 
   def background_definition
-    {background: Letter.config[:templates][:watermark]}
+    {background: config[:templates][:watermark]}
   end
 
   def set_custom_font
     font_families.update(
-      Letter.config[:custom_font][:font_name] => {
+      'CustomFont' => {
         #TODO set and upload
-        normal: Letter.config[:custom_font][:normal],
-        italic: Letter.config[:custom_font][:italic],
-        bold: Letter.config[:custom_font][:bold],
-        bold_italic: Letter.config[:custom_font][:bold_italic]
+        normal: config[:custom_font][:normal],
+        italic: config[:custom_font][:italic],
+        bold: config[:custom_font][:bold],
+        bold_italic: config[:custom_font][:bold_italic]
       })
   end
+
 end
 

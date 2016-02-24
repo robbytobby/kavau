@@ -1,12 +1,12 @@
 %nav.navbar.navbar-default
   .container-fluid
     .navbar-header
-      %button{type: "button", class:"navbar-toggle collapsed", data: {toggle: "collapse", target: "#bs-example-navbar-collapse-1", "aria-expanded" => "false"}}
+      %button{type: "button", class:"navbar-toggle collapsed", data: {toggle: "collapse", target: "#main-navigation", "aria-expanded" => "false"}}
         %span.sr-only Toggle navigation
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to "KV #{Setting.general[:project_name]}", project_path, class: 'navbar-brand active'
+      = link_to "KV #{config.general[:project_name]}", project_path, class: 'navbar-brand active'
     -if user_signed_in?
       .collapse.navbar-collapse{id: "main-navigation"}
         %ul.nav.navbar-nav
@@ -22,9 +22,11 @@
             id: 'payments_index', wrapper_class: nav_class('payments')
           = authorized_link :index, :letter, t('.letters'), wrap: :li,
             id: 'letters_index', wrapper_class: nav_class('letters')
+          = authorized_link :index, :setting, t('.settings'), wrap: :li,
+            id: 'settings_index', wrapper_class: nav_class('settings')
           = authorized_link :index, :user, t('.users'), wrap: :li,
             id: 'users_index', wrapper_class: nav_class('users')
-        %ul.nav.navbar-nav.pull-right
+        %ul.nav.navbar-nav.navbar-right
           = authorized_icon_link :edit, current_user, 
             icon: 'cog', wrap: :li, id: 'edit_profile', title: t('.edit_profile')
           = icon_link destroy_user_session_path, method: :delete, 

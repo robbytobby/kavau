@@ -6,14 +6,6 @@ class Letter < ActiveRecord::Base
   validates :content, presence: true
   validates_numericality_of :year, only_integer: true, allow_blank: true
 
-  def self.config
-    begin
-      Rails.application.config.letter
-    rescue
-      Rails.application.config.letter = Setting.letter
-    end
-  end
-
   def combined_pdf
     combined = CombinePDF.new
     pdfs.each do |pdf|

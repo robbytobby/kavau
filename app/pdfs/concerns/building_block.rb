@@ -28,15 +28,19 @@ module BuildingBlock
   end
 
   def blue
-    Letter.config[:colors][:color1]
+    config[:colors][:color1]
   end
 
   def grey
-    Letter.config[:colors][:color3]
+    config[:colors][:color3]
   end
 
   def yellow
-    Letter.config[:colors][:color2]
+    config[:colors][:color2]
+  end
+
+  def config
+    Rails.application.config.kavau.pdf
   end
 end
 

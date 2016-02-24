@@ -1,0 +1,3 @@
+class BooleanSettingPolicy < SettingPolicy
+end
+

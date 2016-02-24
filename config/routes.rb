@@ -1,4 +1,9 @@
+
 Rails.application.routes.draw do
+  def class_name(controller_name)
+    controller_name.to_s.singularize.camelize
+  end
+
   concern(:has_contacts){ resources :contacts, except: [:index, :show] }
   concern(:has_accounts){ resources :accounts, except: [:index, :show] }
   concern(:has_credit_agreements){ resources :credit_agreements, except: [:index, :show] }
@@ -7,13 +12,10 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: [:registrations, :confirmations]
 
-  resources :balances, only: :index do 
-    concerns :csv_downolad
-  end
+  resources(:balances, only: :index){ concerns :csv_downolad }
   resources :balances, only: :show, format: true, constraints: {format: :pdf}
-  resources :creditors, controller: :addresses, type: 'Creditor' do 
-    concerns :csv_downolad
-  end
+
+
   resources :credit_agreements, only: :index
   resources :credit_agreements, only: :show, constraints: {id: /\d+/} do
     concerns :csv_downolad
@@ -24,39 +26,41 @@ Rails.application.routes.draw do
     resources :deposits, except: [:index, :show, :new], controller: :payments, type: 'Deposit'
     resources :disburses, except: [:index, :show, :new], controller: :payments, type: 'Disburse'
   end
+
   resources :letters, only: :index, type: 'Letter' do
-    member{ post 'create_pdfs', as: 'create_pdfs_for' }
-    member{ delete 'delete_pdfs', as: 'delete_pdfs_for' }
-    member{ get 'get_pdfs', as: 'get_pdfs_for' }
+    member do
+      post 'create_pdfs', as: 'create_pdfs_for' 
+      delete 'delete_pdfs', as: 'delete_pdfs_for' 
+      get 'get_pdfs', as: 'get_pdfs_for' 
+    end
   end
-  resources :balance_letters, controller: :letters, except: :index, type: 'BalanceLetter'
-  resources :termination_letters, controller: :letters, except: :index, type: 'TerminationLetter'
-  resources :deposit_letters, controller: :letters, except: :index, type: 'DepositLetter'
-  resources :disburse_letters, controller: :letters, except: :index, type: 'DisburseLetter'
-  resources :standard_letters, controller: :letters, except: :index, type: 'StandardLetter'
-  resources :organizations, controller: :addresses, type: 'Organization', except: :index do
-    concerns :has_contacts, :has_accounts, :has_credit_agreements, :has_pdfs
+  #Letters STI routing
+  [:balance_letters, :termination_letters, :deposit_letters, :disburse_letters, :standard_letters].each do |controller|
+    resources controller, controller: :letters, except: :index, type: class_name(controller)
   end
-  resources :payments, only: :index do
-    concerns :csv_downolad
+
+  #Addresses STI routing
+  resources(:creditors, controller: :addresses, type: 'Creditor'){ concerns :csv_downolad }
+  [:organizations, :people, :project_addresses].each do |controller|
+    resources controller, controller: :addresses, type: class_name(controller), except: :index do
+      concerns :has_contacts unless controller == :people
+      concerns :has_accounts
+      concerns :has_credit_agreements, :has_pdfs unless controller == :project_addresses
+    end
   end
+
+  resources(:payments, only: :index){ concerns :csv_downolad }
   resources :payments, only: :show, format: true, constraints: {format: :pdf}
-  resources :pdfs, only: :show, format: true, constraints: {format: :pdf}
+
   resources :pdfs, only: [:destroy, :update]
-  resources :people, controller: :addresses, type: 'Person', except: :index do
-    concerns :has_accounts, :has_credit_agreements, :has_pdfs
-  end
-  resources :project_addresses, controller: :addresses, type: 'ProjectAddress', except: :index do
-    concerns :has_contacts, :has_accounts
-  end
-  resources :string_settings, controller: :settings, type: 'StringSetting', except: [:show, :new, :edit, :create]
-  resources :integer_settings, controller: :settings, type: 'IntegerSetting', except: [:show, :new, :edit, :create]
-  resources :float_settings, controller: :settings, type: 'FloatSetting', except: [:show, :new, :edit, :create]
-  resources :boolean_settings, controller: :settings, type: 'BooleanSetting', except: [:show, :new, :edit, :create]
-  resources :text_settings, controller: :settings, type: 'TextSetting', except: [:show, :new, :edit, :create]
-  resources :array_settings, controller: :settings, type: 'ArraySetting', except: [:show, :new, :edit, :create]
-  resources :file_settings, controller: :settings, type: 'FileSetting', except: [:show, :new, :edit, :create]
+  resources :pdfs, only: :show, format: true, constraints: {format: :pdf}
+
   resources :settings, except: [:show, :new, :edit, :create]
+  #Settings STI Routing
+  [:string_settings, :integer_settings, :float_settings, :boolean_settings, :text_settings, :array_settings, :file_settings].each do |controller|
+    resources controller, controller: :settings, type: class_name(controller), except: [:show, :new, :edit, :create]
+  end
+
   resources :users
   get 'project' => 'project#show'
 

@@ -82,5 +82,15 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   
   # Send exceptions via email
-  config.middleware.use ExceptionNotification::Rack, Settings.exception_mailer.to_hash
+  Rails.application.config.middleware.use ExceptionNotification::Rack, {}
+
+  config.after_initialize do
+    Rails.application.config.kavau = Rails::Application::Configuration::Custom.new
+    Setting.update_config
+
+    Rails.application.config.action_mailer.smtp_settings = Rails.application.config.kavau.mailer[:smtp_settings]
+    ExceptionNotification.configure{ |config| 
+      config.add_notifier :email, Rails.application.config.kavau.exception_notification[:email]
+    }
+  end
 end

@@ -1,0 +1,3 @@
+class FloatSettingPolicy < SettingPolicy
+end
+

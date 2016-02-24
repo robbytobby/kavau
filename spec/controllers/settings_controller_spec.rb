@@ -1,127 +1,67 @@
 require 'rails_helper'
 
 RSpec.describe SettingsController, type: :controller do
-
+  before(:each){
+    @setting = create :string_setting
+    @user = create :admin
+    sign_in @user
+  }
   let(:valid_attributes) { attributes_for(:setting) }
 
-  describe "GET #index", focus: true do
+  describe "GET #index" do
     it "assigns all settings as @settings" do
-      setting = create :setting, type: 'StringSetting'
+      integer = create :integer_setting
       get :index
-      expect(assigns(:settings)).to eq([setting])
+      expect(assigns(:settings)).to eq([@setting, integer])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested setting as @setting" do
-      setting = Setting.create! valid_attributes
-      get :show, {:id => setting.to_param}, valid_session
-      expect(assigns(:setting)).to eq(setting)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new setting as @setting" do
-      get :new, {}, valid_session
-      expect(assigns(:setting)).to be_a_new(Setting)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested setting as @setting" do
-      setting = Setting.create! valid_attributes
-      get :edit, {:id => setting.to_param}, valid_session
-      expect(assigns(:setting)).to eq(setting)
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Setting" do
-        expect {
-          post :create, {:setting => valid_attributes}, valid_session
-        }.to change(Setting, :count).by(1)
-      end
-
-      it "assigns a newly created setting as @setting" do
-        post :create, {:setting => valid_attributes}, valid_session
-        expect(assigns(:setting)).to be_a(Setting)
-        expect(assigns(:setting)).to be_persisted
-      end
-
-      it "redirects to the created setting" do
-        post :create, {:setting => valid_attributes}, valid_session
-        expect(response).to redirect_to(Setting.last)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns a newly created but unsaved setting as @setting" do
-        post :create, {:setting => invalid_attributes}, valid_session
-        expect(assigns(:setting)).to be_a_new(Setting)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, {:setting => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
-      end
-    end
-  end
 
   describe "PUT #update" do
     context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+      let(:valid_params) { {id: @setting.id, type: 'StringSetting', string_setting: {value: 'NewValue'}} }
 
       it "updates the requested setting" do
-        setting = Setting.create! valid_attributes
-        put :update, {:id => setting.to_param, :setting => new_attributes}, valid_session
-        setting.reload
-        skip("Add assertions for updated state")
+        xhr :put, :update, valid_params
+        expect(@setting.reload.value).to eq('NewValue')
       end
 
       it "assigns the requested setting as @setting" do
-        setting = Setting.create! valid_attributes
-        put :update, {:id => setting.to_param, :setting => valid_attributes}, valid_session
-        expect(assigns(:setting)).to eq(setting)
+        xhr :put, :update, valid_params
+        expect(assigns(:setting)).to eq(@setting)
       end
 
-      it "redirects to the setting" do
-        setting = Setting.create! valid_attributes
-        put :update, {:id => setting.to_param, :setting => valid_attributes}, valid_session
-        expect(response).to redirect_to(setting)
+      it "renders the update template" do
+        xhr :put, :update, valid_params
+        expect(response).to render_template(:update)
       end
     end
 
     context "with invalid params" do
+      before(:each){ @setting = create :integer_setting }
+      let(:invalid_params) { {id: @setting.id, type: 'IntegerSetting', integer_setting: {value: 'abc'}} }
+
       it "assigns the setting as @setting" do
-        setting = Setting.create! valid_attributes
-        put :update, {:id => setting.to_param, :setting => invalid_attributes}, valid_session
-        expect(assigns(:setting)).to eq(setting)
+        xhr :put, :update, invalid_params
+        expect(assigns(:setting)).to eq(@setting)
       end
 
-      it "re-renders the 'edit' template" do
-        setting = Setting.create! valid_attributes
-        put :update, {:id => setting.to_param, :setting => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+      it "renders the 'update' template" do
+        xhr :put, :update, invalid_params
+        expect(response).to render_template(:update)
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested setting" do
-      setting = Setting.create! valid_attributes
-      expect {
-        delete :destroy, {:id => setting.to_param}, valid_session
-      }.to change(Setting, :count).by(-1)
+    it "does calls destroy on the requested setting" do
+      expect_any_instance_of(Setting).to receive(:destroy)
+      xhr :delete, :destroy, {:id => @setting.to_param}
     end
 
-    it "redirects to the settings list" do
-      setting = Setting.create! valid_attributes
-      delete :destroy, {:id => setting.to_param}, valid_session
-      expect(response).to redirect_to(settings_url)
+    it "renders the update template" do
+      xhr :delete, :destroy, {:id => @setting.to_param}
+      expect(response).to render_template(:update)
     end
   end
-
 end

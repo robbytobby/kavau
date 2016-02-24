@@ -1,5 +1,5 @@
 -%w( true false ).each do |value|
-  %label.radio-inline
+  %label.radio-inline#boolean_setting
     %input{type: :radio, 
       id: "#{f.object.model_name.name.underscore}_value_#{value}",
       name: "#{f.object.model_name.name.underscore}[value]",

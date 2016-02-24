@@ -1,0 +1,3 @@
+class TextSettingPolicy < SettingPolicy
+end
+

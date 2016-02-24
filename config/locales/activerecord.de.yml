@@ -43,6 +43,7 @@ de:
       pdf: 'Brief'
       project_address: 'Projekt Adresse'
       user: 'User'
+      setting: 'Einstellung'
     attributes:
       account:
         average_rate_of_interest: 'ø-Zinssatz'
@@ -142,6 +143,8 @@ de:
           contacts: 'Ansprechpartner_innen'
         registered_society:
           contacts: 'Ansprechpartner_innen'
+      setting:
+        value: "Der Wert"
       user:
         email: 'Email'
         first_name: 'Vorname'
