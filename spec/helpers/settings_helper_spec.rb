@@ -1,15 +1,10 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the SettingsHelper. For example:
-#
-# describe SettingsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe SettingsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "group_information" do
+    expect(I18n).to receive(:t).with('settings.help.category.group').and_return('Help')
+    expect(helper.group_information('Category', 'Group')).to eq(
+      {category: 'Category', group: 'Group', help: 'Help'}
+    )
+  end
 end

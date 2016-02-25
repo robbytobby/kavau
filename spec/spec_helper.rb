@@ -1,9 +1,10 @@
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start do
-  add_filter 'concerns/encryption'
-end
+#require "codeclimate-test-reporter"
+#CodeClimate::TestReporter.start do
+#  add_filter 'concerns/encryption'
+#end
 
 #require 'simplecov'
+#SimpleCov.start 'rails'
 #SimpleCov.start 'rails' do
 #  add_filter 'concerns/encryption'
 #  add_filter 'application_policy'

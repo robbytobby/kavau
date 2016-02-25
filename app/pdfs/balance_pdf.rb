@@ -20,7 +20,7 @@ class BalancePdf < ApplicationPdf
   def annotations
     move_down(30)
     font_size(10) do
-      text Letter.config[:content][:saldo_information]
+      text config[:content][:saldo_information]
     end
   end
 

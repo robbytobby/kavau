@@ -61,7 +61,7 @@ Rails.application.configure do
       :bold_italic=>"#{Rails.root}/public/fonts/infotext_bold_italic.ttf",
     }, 
     :content=>{
-      :saldo_information=>"addigional information"
+      :saldo_information=>"additional information"
     }
   }
 

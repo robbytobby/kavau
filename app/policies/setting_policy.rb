@@ -10,7 +10,7 @@ class SettingPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin?
+    false
   end
 
   def new?
@@ -22,7 +22,7 @@ class SettingPolicy < ApplicationPolicy
   end
 
   def edit?
-    user.admin?
+    false
   end
 
   def update?

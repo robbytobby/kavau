@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe SettingPolicy do
-  subject { SettingPolicy.new(user, setting) }
-  let(:setting) { FactoryGirl.create(:setting) }
+RSpec.describe FloatSettingPolicy do
+  subject { FloatSettingPolicy.new(user, setting) }
+  let(:setting) { create(:float_setting) }
 
   context "for an Admin" do
     let(:user){ create :admin }
     permits :all, except: [:show, :new, :edit, :create]
   end
-  
+
   [:accountant, :user].each do |role|
     context "for a #{role}" do
       let(:user){ create role }
@@ -24,4 +24,6 @@ RSpec.describe SettingPolicy do
     end
   end
 end
+
+
 

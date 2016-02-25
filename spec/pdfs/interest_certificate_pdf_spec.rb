@@ -20,7 +20,7 @@ RSpec.describe BalanceLetterPdf do
   end
 
   it "has the right content" do
-    page_analysis = PDF::Inspector::Page.analyze(@pdf.render)
+    page_analysis = PDF::Inspector::Page.analyze(@pdf.rendered)
 
     text_analysis = page_analysis.pages[0][:strings]
     #address_field
@@ -34,9 +34,9 @@ RSpec.describe BalanceLetterPdf do
     #main part
     expect(text_analysis).to include(I18n.l(Date.today))
     expect(text_analysis).to include("Zinsbescheinigung für das Jahr #{Date.today.year}")
-    expect(text_analysis).to include("Dr. Albert Meier hat der Das Projekt GmbH einen zinsgünstigen Direktkredit zur Verfügung")
-    expect(text_analysis).to include("gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten")
-    expect(text_analysis).to include("Mietshausprojektes LAMA")
+    expect(text_analysis).to include("Dr. Albert Meier hat der Das Projekt GmbH einen zinsgünstigen Direktkredit zur")
+    expect(text_analysis).to include("Verfügung gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten")
+    expect(text_analysis).to include("Mietshausprojektes LaMa")
     expect(text_analysis).to include("Kreditvertrag-Nr")
     expect(text_analysis).to include("Jahreszinsbetrag #{@balance.date.year}")
     expect(text_analysis).to include(@credit_agreement.number)

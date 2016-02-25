@@ -14,11 +14,12 @@ class BalanceLetterPdf < CompositePdf
   end
 
   def template
-    raise MissingTemplateError.new(BalanceLetter, @balance.date.year) unless @template
     @template
   end
 
   def get_template
-    @template = BalanceLetter.find_by(year: @balance.date.year) || BalanceLetter.find_by(year: nil)
+    @template = BalanceLetter.find_by(year: @balance.date.year)
+    raise MissingTemplateError.new(BalanceLetter, @balance.date.year) unless @template
+    @template
   end
 end

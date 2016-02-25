@@ -26,7 +26,7 @@ RSpec.describe YearlyBalancePdf do
     @balance2 = create :balance, credit_agreement: @credit_agreement2, date: Date.today.end_of_year
     @balance3 = create :balance, credit_agreement: @credit_agreement3, date: Date.today.end_of_year
     @letter = create :balance_letter, year: Date.today.year, content: 'Covering Letter', subject: 'TheSubject'
-    @pdf = YearlyBalancePdf.new(@creditor, @letter).render
+    @pdf = YearlyBalancePdf.new(@creditor, @letter).rendered
   end
 
   it "has the right content" do
@@ -87,8 +87,7 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("#{year_days} / #{year_days} x 0,00% x 1.000,00 €")
     expect(text_analysis).to include("0,00 €")
     expect(text_analysis).to include(I18n.l(Date.today.end_of_year))
-    expect(text_analysis).to include("Die Berechnung der Zinstage erfolgt nach der Effektivzinsmethode. Informationen zur Zinsmethode befinden")
-    expect(text_analysis).to include("sich auf unserer Website unter lamakat.de/direktkredite/article/zinsmethode.")
+    expect(text_analysis).to include("additional information")
 
     #footer
     #expect(text_analysis).to include("Der Verein e.V.")
@@ -127,8 +126,7 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("#{year_days} / #{year_days} x 1,00% x 2.000,00 €")
     expect(text_analysis).to include("20,00 €")
     expect(text_analysis).to include(I18n.l(Date.today.end_of_year))
-    expect(text_analysis).to include("Die Berechnung der Zinstage erfolgt nach der Effektivzinsmethode. Informationen zur Zinsmethode befinden")
-    expect(text_analysis).to include("sich auf unserer Website unter lamakat.de/direktkredite/article/zinsmethode.")
+    expect(text_analysis).to include("additional information")
 
     #footer
     #expect(text_analysis).to include("Der Verein e.V.")
@@ -167,8 +165,7 @@ RSpec.describe YearlyBalancePdf do
     expect(text_analysis).to include("#{year_days} / #{year_days} x 2,00% x 3.000,00 €")
     expect(text_analysis).to include("60,00 €")
     expect(text_analysis).to include(I18n.l(Date.today.end_of_year))
-    expect(text_analysis).to include("Die Berechnung der Zinstage erfolgt nach der Effektivzinsmethode. Informationen zur Zinsmethode befinden")
-    expect(text_analysis).to include("sich auf unserer Website unter lamakat.de/direktkredite/article/zinsmethode.")
+    expect(text_analysis).to include("additional information")
 
     #footer
     #expect(text_analysis).to include("Die Gmbh GmbH")
@@ -197,9 +194,9 @@ RSpec.describe YearlyBalancePdf do
     #main part
     expect(text_analysis).to include(I18n.l(Date.today))
     expect(text_analysis).to include("Zinsbescheinigung für das Jahr #{Date.today.year}")
-    expect(text_analysis).to include("Dr. Albert Meier hat dem Der Verein e.V. zinsgünstige Direktkredite zur Verfügung gestellt,")
-    expect(text_analysis).to include("zur Unterstützung der sozialen Zwecke des selbstorganisiserten Mietshausprojektes")
-    expect(text_analysis).to include("LAMA")
+    expect(text_analysis).to include("Dr. Albert Meier hat dem Der Verein e.V. zinsgünstige Direktkredite zur Verfügung")
+    expect(text_analysis).to include("gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten")
+    expect(text_analysis).to include("Mietshausprojektes LaMa")
     expect(text_analysis).to include("Kreditvertrag-Nr")
     expect(text_analysis).to include("Jahreszinsbetrag #{@balance1.date.year}")
     expect(text_analysis).not_to include(@credit_agreement1.number)
@@ -237,9 +234,9 @@ RSpec.describe YearlyBalancePdf do
     #main part
     expect(text_analysis).to include(I18n.l(Date.today))
     expect(text_analysis).to include("Zinsbescheinigung für das Jahr #{Date.today.year}")
-    expect(text_analysis).to include("Dr. Albert Meier hat der Die Gmbh GmbH einen zinsgünstigen Direktkredit zur Verfügung")
-    expect(text_analysis).to include("gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten")
-    expect(text_analysis).to include("Mietshausprojektes LAMA")
+    expect(text_analysis).to include("Dr. Albert Meier hat der Die Gmbh GmbH einen zinsgünstigen Direktkredit zur")
+    expect(text_analysis).to include("Verfügung gestellt, zur Unterstützung der sozialen Zwecke des selbstorganisiserten")
+    expect(text_analysis).to include("Mietshausprojektes LaMa")
     expect(text_analysis).to include("Kreditvertrag-Nr")
     expect(text_analysis).to include("Jahreszinsbetrag #{@balance3.date.year}")
     expect(text_analysis).to include(@credit_agreement3.number)

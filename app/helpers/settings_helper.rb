@@ -3,7 +3,7 @@ module SettingsHelper
     {
       category: category,
       group: group,
-      help: I18n.t([:settings, :help, category, group].compact.join('.'))
+      help: I18n.t([:settings, :help, category.downcase, group.downcase].compact.join('.'))
     }
   end
 end

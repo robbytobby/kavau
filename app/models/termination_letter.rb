@@ -4,6 +4,6 @@ class TerminationLetter < Letter
   end
 
   def to_pdf(credit_agreement)
-    TerminationPdf.new(credit_agreement, self).render
+    TerminationPdf.new(credit_agreement, self).rendered
   end
 end
