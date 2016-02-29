@@ -86,13 +86,6 @@ Rails.application.configure do
 
   config.after_initialize do
     Rails.application.config.kavau = Rails::Application::Configuration::Custom.new
-    if ActiveRecord::Base.connection.table_exists? 'settings'
-      Setting.update_config
-
-      Rails.application.config.action_mailer.smtp_settings = Rails.application.config.kavau.mailer[:smtp_settings]
-      ExceptionNotification.configure{ |config| 
-        config.add_notifier :email, Rails.application.config.kavau.exception_notification[:email]
-      } unless Rails.application.config.kavau.exception_notification[:email].blank?
-    end
+    Setting.update_config if ActiveRecord::Base.connection.table_exists? 'settings'
   end
 end

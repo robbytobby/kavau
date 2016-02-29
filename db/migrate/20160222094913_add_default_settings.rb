@@ -3,7 +3,7 @@ class AddDefaultSettings < ActiveRecord::Migration
     defaults.each do |hash|
       hash.each do |category, settings|
         settings.each do |setting|
-          Setting.new(setting.merge(category: category, value: setting[:defualt])).save(validate: false)
+          Setting.new(setting.merge(category: category, value: setting[:default])).save(validate: false)
         end
       end
     end
