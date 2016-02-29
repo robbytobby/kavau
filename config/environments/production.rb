@@ -92,7 +92,7 @@ Rails.application.configure do
       Rails.application.config.action_mailer.smtp_settings = Rails.application.config.kavau.mailer[:smtp_settings]
       ExceptionNotification.configure{ |config| 
         config.add_notifier :email, Rails.application.config.kavau.exception_notification[:email]
-      }
+      } unless Rails.application.config.kavau.exception_notification[:email].blank?
     end
   end
 end
