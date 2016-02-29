@@ -86,7 +86,7 @@ Rails.application.configure do
 
   config.after_initialize do
     Rails.application.config.kavau = Rails::Application::Configuration::Custom.new
-    if Object.const_defined? 'Setting'
+    if ActiveRecord::Base.connection.table_exists? 'settings'
       Setting.update_config
 
       Rails.application.config.action_mailer.smtp_settings = Rails.application.config.kavau.mailer[:smtp_settings]
