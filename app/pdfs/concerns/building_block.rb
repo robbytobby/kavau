@@ -15,6 +15,13 @@ module BuildingBlock
     text_box "#{I18n.l(date)}", style.date
   end
 
+  def use_custom_font?
+    config[:custom_font][:normal] &&
+    config[:custom_font][:bold] &&
+    config[:custom_font][:italic] &&
+    config[:custom_font][:bold_italic] 
+  end
+
   def blue_text(string)
     color_text(string, blue)
   end

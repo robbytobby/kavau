@@ -6,7 +6,7 @@
       %h2.panel-title= t category, scope: 'settings.categories'
     .panel-body
       - settings.group_by(&:group).each do |group, settings|
-        = render "group_information", group_information(category, group)
+        = render "group_information", group: group, help: settings.first.help
         -settings.group_by(&:sub_group).each do |sub_group, settings|
           -unless sub_group.blank?
             %h4= t sub_group, scope: 'settings.categories.groups.sub_groups'

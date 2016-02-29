@@ -58,7 +58,7 @@ de:
     with_amount: 'in Höhe von'
     with_iban: 'mit der IBAN'
     credit_agreement: 'den Kreditvertrag'
-    of:
+    of::
       organization: 'der/des'
       person: 'von'
   directories:
@@ -78,6 +78,18 @@ de:
       balance_letter: 'Es muß erst eine Vorlage für den Jahresabschluss %{year} angelegt werden.'
       termination_letter: 'Es muß erst eine Vorlage für das Kündigungs-Schreiben angelegt werden.'
     registered_society_missing: 'Der Absender für jeden Brief ist der Hausverein. Es ist aber noch kein Hausverein angelegt, das mußt du erst noch tun, bevor du Briefe erstellen kannst.'
-    
+    layout_error: 'Das PDF paßt nicht auf ein A4 Format. Überprüfe die Einstellungen für die Seitenränder.'
+    file_not_found:
+      templates: 
+        logo: 'Die Datei für das Logo konnte nicht gefunden werden. Bitte das Logo neu hochladen.'
+        watermark: 'Die Datei für das Wasserzeichen konnte nicht gefunden werden. Bitte neu hochladen.'
+        first_page_template: 'Die Datei für die "Vorlage für die erste Seite" konnte nicht gefunden werden. Bitte neu hochladen-'
+        following_page_template: 'Die Datei für die "Vorlage für Folgeseiten" konnte nicht gefunden werden. Bitte neu hochladen.'
+      custom_font:
+        normal: "Die Datei für den eigenen Font im Schriftschnitt 'normal' konnte nicht gefunden werden. Bitte neu hochladen."
+        italic: "Die Datei für den eigenen Font im Schriftschnitt 'kursiv' konnte nicht gefunden werden. Bitte neu hochladen."
+        bold: "Die Datei für den eigenen Font im Schriftschnitt 'fett' konnte nicht gefunden werden. Bitte neu hochladen."
+        bold_italic:  "Die Datei für den eigenen Font im Schriftschnitt 'fett kursiv' konnte nicht gefunden werden. Bitte neu hochladen."
+
     
 

@@ -22,7 +22,7 @@ class CreditAgreementTerminator
 
   private
   def create_pdf
-    raise MissingTemplateError.new(TerminationLetter) unless TerminationLetter.exists?
+    raise MissingLetterTemplateError.new(TerminationLetter) unless TerminationLetter.exists?
     Pdf.create!(letter: TerminationLetter.first, creditor: @creditor, credit_agreement: @credit_agreement)
   end
 

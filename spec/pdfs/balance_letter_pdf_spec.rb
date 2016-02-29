@@ -17,7 +17,7 @@ RSpec.describe BalanceLetterPdf do
     it "raises en error if the template ist missing" do 
       expect{
         @pdf = BalanceLetterPdf.new(@balance)
-      }.to raise_error(MissingTemplateError)
+      }.to raise_error(MissingLetterTemplateError)
     end
   end
 

@@ -8,7 +8,7 @@ class MissingInformationError < StandardError
   end
 end
 
-class MissingTemplateError < StandardError
+class MissingLetterTemplateError < StandardError
   attr_reader :klass, :year
   def initialize(klass, year = nil)
     @klass = klass
@@ -16,6 +16,16 @@ class MissingTemplateError < StandardError
   end
 end
 
+
 class MissingRegisteredSocietyError < StandardError
 
+end
+
+class MissingTemplateError < StandardError
+  attr_reader :group, :key
+  def initialize(options)
+    super
+    @group = options[:group]
+    @key = options[:key]
+  end
 end

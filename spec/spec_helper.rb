@@ -3,8 +3,8 @@
 #  add_filter 'concerns/encryption'
 #end
 
-#require 'simplecov'
-#SimpleCov.start 'rails'
+require 'simplecov'
+SimpleCov.start 'rails'
 #SimpleCov.start 'rails' do
 #  add_filter 'concerns/encryption'
 #  add_filter 'application_policy'

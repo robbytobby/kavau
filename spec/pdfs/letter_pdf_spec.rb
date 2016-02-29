@@ -21,7 +21,6 @@ RSpec.describe LetterPdf do
         @pdf = LetterPdf.new(@creditor, @letter)
       }.to raise_error(MissingRegisteredSocietyError)
     end
-
   end
 
   context "with project_address is registered_society" do

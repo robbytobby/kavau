@@ -1,12 +1,16 @@
 require "prawn/measurement_extensions"
+require "concerns/building_block"
 Prawn::Font::AFM.hide_m17n_warning = true
 
 class ApplicationPdf < Prawn::Document
+  include BuildingBlock
   include ActionView::Helpers::NumberHelper
   include I18nKeyHelper
   attr_reader :style, :recipient, :sender, :date
 
   def initialize(sender, recipient)
+    check_templates
+    check_custom_fonts
     super page_definition
     @date = Date.today
     @sender = PdfSender.new(sender, self)
@@ -15,7 +19,7 @@ class ApplicationPdf < Prawn::Document
     @logo = PdfLogo.new(self)
     @first_page_template = get_first_page_template
     @following_page_template = get_following_page_template 
-    set_custom_font
+    set_custom_font if use_custom_font?
     make
   end
 
@@ -33,14 +37,10 @@ class ApplicationPdf < Prawn::Document
     content
   end
 
-  def config
-    Rails.application.config.kavau.pdf
-  end
-
   private
   def layout
     @sender.over_address_line
-    @logo.draw
+    @logo.draw 
     repeat :all do
       stroke{ horizontal_line(-2.cm, -1.4.cm, at: 6.2.cm) }
       stroke{ horizontal_line(-2.cm, -1.4.cm, at: 16.4.cm) }
@@ -103,5 +103,22 @@ class ApplicationPdf < Prawn::Document
       })
   end
 
+  def check_templates
+    [:logo, :watermark, :first_page_template, :following_page_template].each do |config_key|
+      file_check(:templates, config_key)
+    end
+  end
+
+  def check_custom_fonts
+    [:normal, :italic, :bold, :bold_italic].each do |config_key|
+      file_check(:custom_font, config_key)
+    end
+  end
+
+  def file_check(group, key)
+    return true if config[group][key].nil?
+    return true if FileTest.exists?(config[group][key])
+    raise MissingTemplateError.new(group: group, key: key)
+  end
 end
 

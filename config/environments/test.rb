@@ -49,8 +49,8 @@ Rails.application.configure do
     :colors=>{:color3=>"7c7b7f", :color1=>"009dc3", :color2=>"f9b625"}, 
     :margins=>{:bottom_margin=>3.5, :top_margin=>3.5, :right_margin=>2.0, :left_margin=>2.5}, 
     :templates=>{
-      :logo=>"#{Rails.root}/app/assets/images/logo.png", 
-      :watermark=>"#{Rails.root}/app/assets/images/stempel_2.png", 
+      :logo=>"#{Rails.root}/spec/support/templates/logo.png", 
+      :watermark=>"#{Rails.root}/spec/support/templates/stempel.png", 
       :first_page_template=>nil, 
       :following_page_template=>nil
     }, 

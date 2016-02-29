@@ -32,13 +32,6 @@ class PdfSender
     font('CustomFont'){ yield }
   end
 
-  def use_custom_font?
-    config[:custom_font][:normal] &&
-    config[:custom_font][:bold] &&
-    config[:custom_font][:italic] &&
-    config[:custom_font][:bold_italic] 
-  end
-
   def footer
     fill_color grey
     with_custom_font{
