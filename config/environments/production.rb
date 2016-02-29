@@ -86,11 +86,13 @@ Rails.application.configure do
 
   config.after_initialize do
     Rails.application.config.kavau = Rails::Application::Configuration::Custom.new
-    Setting.update_config
+    if Object.const_defined? 'Setting'
+      Setting.update_config
 
-    Rails.application.config.action_mailer.smtp_settings = Rails.application.config.kavau.mailer[:smtp_settings]
-    ExceptionNotification.configure{ |config| 
-      config.add_notifier :email, Rails.application.config.kavau.exception_notification[:email]
-    }
+      Rails.application.config.action_mailer.smtp_settings = Rails.application.config.kavau.mailer[:smtp_settings]
+      ExceptionNotification.configure{ |config| 
+        config.add_notifier :email, Rails.application.config.kavau.exception_notification[:email]
+      }
+    end
   end
 end
