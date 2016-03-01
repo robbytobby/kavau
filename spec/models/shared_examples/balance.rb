@@ -7,6 +7,13 @@ RSpec.shared_examples "balance" do
     expect(balance('2013-12-02').date).to eq(Date.new(2013, 12, 02))
   end
 
+  it "is searchable by year" do
+    b1 = balance('2013-12-31')
+    b2 = balance('2014-12-31')
+    b3 = balance('2015-12-31')
+    expect(Balance.ransack(year_eq: '2014').result).to eq([b2])
+  end
+
   describe "start_amount" do
     it "is 0 if no payments from previous years exist" do
       create_deposit Date.today, 5000

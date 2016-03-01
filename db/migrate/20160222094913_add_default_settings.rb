@@ -41,7 +41,7 @@ class AddDefaultSettings < ActiveRecord::Migration
         {number:  5.6,  group: 'colors',          name: 'color2',                  type: 'StringSetting', default: 'f9b625'},
         {number:  5.65, group: 'colors',          name: 'color3',                  type: 'StringSetting', default: '7c7b7f'},
         {number:  5.7,  group: 'templates',       name: 'logo',                    type: 'FileSetting', accepted_types: 'image/png, image/jpeg' },
-        {number:  5.8,  group: 'templates',       name: 'watermark',               type: 'FileSetting', accepted_types: 'image/png, image/jepg'},
+        {number:  5.8,  group: 'templates',       name: 'watermark',               type: 'FileSetting', accepted_types: 'image/png, image/jpeg'},
         {number:  5.9,  group: 'templates',       name: 'first_page_template',     type: 'FileSetting', accepted_types: 'application/pdf'},
         {number:  6.0,  group: 'templates',       name: 'following_page_template', type: 'FileSetting', accepted_types: 'application/pdf'},
         {number:  8.2,  group: 'custom_font',     name: 'normal',                  type: 'FileSetting', accepted_types: "application/x-font-ttf"},

@@ -5,6 +5,7 @@ class FileSetting < Setting
 
   def accepted_content_type
     return if attachment_file_name == nil
+    #FIXME: Message!!!
     errors.add(:attachment, 'Buh') unless accepted_types.include?(attachment_content_type)
   end
 

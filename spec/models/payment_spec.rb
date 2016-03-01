@@ -53,4 +53,11 @@ RSpec.describe Payment, type: :model do
     end
   end
 
+  it "is searchable by year" do
+    deposit_1 = create :deposit, date: Date.new(2013, 12, 31)
+    deposit_2 = create :deposit, date: Date.new(2014, 12, 31)
+    deposit_3 = create :deposit, date: Date.new(2015, 12, 31)
+    expect(Payment.ransack(year_eq: '2014').result).to eq([deposit_2])
+  end
+
 end
