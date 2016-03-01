@@ -47,7 +47,7 @@ module BuildingBlock
   end
 
   def config
-    Rails.application.config.kavau.pdf
+    Setting.kavau.pdf
   end
 end
 

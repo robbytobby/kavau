@@ -11,10 +11,6 @@ class MissingInformationError < CustomError
     @address = object 
   end
 
-  def address
-    @address
-  end
-
   def message
     nil
   end

@@ -27,6 +27,6 @@ module ApplicationHelper
   end
 
   def config
-    Rails.application.config.kavau
+    Setting.kavau
   end
 end

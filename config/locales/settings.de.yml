@@ -12,6 +12,7 @@ de:
         content: 'Inhalt'
         colors: 'Farben'
         templates: 'Vorlagen'
+        devise: 'Login-System'
     help:
       pdf:
         custom_font: 
@@ -30,6 +31,7 @@ de:
       general: ''
       mailer: 
         smtp_settings: ''
+        devise: 'Hier muß die Absende-Adresses für alle Mails des Login-Systems (Passwort vergessen etc.) gesetzt werden'
       exception_notification:
         email:
           - "Sollten Server Errors auftreten, wird eine automatische Mail mit der Backtrace des Fehlers verschickt"
@@ -45,6 +47,8 @@ de:
           authentication: 'plain / login / cram_md5'
           user_name: ''
           password: ''
+        devise:
+          mailer_sender: 'absender@test.org'
       exception_notification:
         email:
           email_prefix: 'sowas wie [KaVau]'
@@ -84,6 +88,8 @@ de:
           enable_starttls_auto: 'TLS automatisch starten'
           user_name: 'User'
           password: 'Password'
+        devise:
+          mailer_sender: 'Absender'
       exception_notification:
         email:
           sender_address: 'Absender'

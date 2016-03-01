@@ -67,6 +67,7 @@ class Setting < ActiveRecord::Base
 
   def self.update_smtp_config
     #FIXME: How to spec this?
+    return if kavau.mailer[:smtp_settings].nil?
     Rails.application.config.action_mailer.smtp_settings = kavau.mailer[:smtp_settings].dup
   end
 

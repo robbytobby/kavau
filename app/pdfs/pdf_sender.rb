@@ -125,7 +125,7 @@ class PdfSender
   end
   
   def website_url
-    Rails.application.config.kavau.general[:website_url]
+    Setting.kavau.general[:website_url]
   end
 
   def tax_information

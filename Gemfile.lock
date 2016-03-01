@@ -133,9 +133,6 @@ GEM
     concord (0.1.5)
       adamantium (~> 0.2.0)
       equalizer (~> 0.0.9)
-    config (1.0.0)
-      activesupport (>= 3.0)
-      deep_merge (~> 1.0.0)
     countries (1.1.0)
       currencies (~> 0.4.2)
       i18n_data (~> 0.7.0)
@@ -145,7 +142,6 @@ GEM
     currencies (0.4.2)
     database_cleaner (1.5.0)
     debug_inspector (0.0.2)
-    deep_merge (1.0.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (3.5.2)
@@ -519,7 +515,6 @@ DEPENDENCIES
   codeclimate-test-reporter
   coffee-rails (~> 4.1.0)
   combine_pdf
-  config
   country_select
   database_cleaner
   devise

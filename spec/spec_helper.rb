@@ -4,11 +4,11 @@
 #end
 
 require 'simplecov'
-SimpleCov.start 'rails'
-#SimpleCov.start 'rails' do
-#  add_filter 'concerns/encryption'
-#  add_filter 'application_policy'
-#end
+#SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter 'concerns/encryption'
+  add_filter 'mailers/previews/'
+end
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
