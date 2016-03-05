@@ -78,18 +78,18 @@ class ApplicationPdf < Prawn::Document
   end
 
   def page_definition
-    { 
-      page_size: 'A4', 
-      page_layout: :portrait,
-      top_margin: config[:margins][:top_margin].cm,
-      bottom_margin: config[:margins][:bottom_margin].cm,
-      left_margin: config[:margins][:left_margin].cm,
-      right_margin: config[:margins][:right_margin].cm
-    }.merge(background_definition)
+    {page_size: 'A4', page_layout: :portrait}.merge(margins).merge(background_definition)
   end 
 
   def background_definition
     {background: config[:templates][:watermark]}
+  end
+
+  def margins
+    config[:margins].inject({}){ |hash, values|
+      hash[values.first] = values.last.cm
+      hash
+    }
   end
 
   def set_custom_font
