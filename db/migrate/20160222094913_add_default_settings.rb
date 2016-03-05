@@ -20,12 +20,12 @@ class AddDefaultSettings < ActiveRecord::Migration
         {number:  0.2,                            name: 'website_url',             type: 'StringSetting'}
       ],
       mailer: [
-        {number:  1.1,  group: 'smtp_settings',   name: 'address',                 type: 'StringSetting',  default: 'localhost'},
-        {number:  1.2,  group: 'smtp_settings',   name: 'port',                    type: 'IntegerSetting', default: '25'},
-        {number:  1.3,  group: 'smtp_settings',   name: 'authentication',          type: 'StringSetting'},
-        {number:  1.4,  group: 'smtp_settings',   name: 'enable_starttls_auto',    type: 'BooleanSetting', default: true},
-        {number:  1.5,  group: 'smtp_settings',   name: 'user_name',               type: 'StringSetting'},
-        {number:  1.6,  group: 'smtp_settings',   name: 'password',                type: 'StringSetting'}
+        {number:  1.1,  group: 'smtp_settings',   name: 'address',                 type: 'StringSetting',  default: 'localhost', obligatory: true},
+        {number:  1.2,  group: 'smtp_settings',   name: 'port',                    type: 'IntegerSetting', default: '25', obligatory: true},
+        {number:  1.3,  group: 'smtp_settings',   name: 'authentication',          type: 'StringSetting', obligatory: true},
+        {number:  1.4,  group: 'smtp_settings',   name: 'enable_starttls_auto',    type: 'BooleanSetting', default: true, obligatory: true},
+        {number:  1.5,  group: 'smtp_settings',   name: 'user_name',               type: 'StringSetting', obligatory: true},
+        {number:  1.6,  group: 'smtp_settings',   name: 'password',                type: 'StringSetting', obligatory: true}
       ],
       exception_notification: [
         {number:  3.1,  group: 'email',           name: 'email_prefix',            type: 'StringSetting'},

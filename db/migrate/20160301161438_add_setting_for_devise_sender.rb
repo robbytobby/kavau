@@ -10,6 +10,6 @@ class AddSettingForDeviseSender < ActiveRecord::Migration
   end
 
   def down
-    Setting.find_by(group: 'devise').delete_all
+    Setting.find_by(group: 'devise').try(:delete)
   end
 end
