@@ -25,6 +25,18 @@ namespace :deploy do
   after :deploy, :restart
   before :restart, :setup_pdf_dirs
 
+  namespace :check do
+    before :linked_files, :setup_db_config
+
+    task :setup_db_config do
+      on roles(:all) do
+        unless test("[ -f  #{shared_path}/config/database.yml ]")
+          upload! StringIO.new(File.read("config/database.yml.example")), "#{shared_path}/config/database.yml"
+        end
+      end
+    end
+  end
+
   after :restart, :remove_tmp do
     on roles(:app) do
       execute 'rm -r /tmp/kavau'
