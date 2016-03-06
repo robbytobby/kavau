@@ -16,6 +16,7 @@ logo.png
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo
 config/secrets.yml
 config/settings.yml
+config/database.yml
 
 ## Environment normalisation:
 /.bundle

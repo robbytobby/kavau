@@ -1,5 +1,4 @@
 require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
 
 require 'simplecov'
 #SimpleCov.start 'rails'
@@ -7,6 +6,8 @@ SimpleCov.start 'rails' do
   add_filter 'concerns/encryption'
   add_filter 'mailers/previews/'
 end
+
+CodeClimate::TestReporter.start
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
