@@ -5,6 +5,7 @@ class SettingsController < ApplicationController
 
   def index
     @settings = @settings.order(:number)
+    @settings.each(&:valid?)
     respond_with @settings
   end
 

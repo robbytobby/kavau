@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe BalancePdf do
   include ActionView::Helpers::NumberHelper
 
+  before(:all){ reset_config }
+
   before :each do
     @letter = create :termination_letter, subject: 'TheSubject', content: 'Covering Letter'
     @creditor = create :person, name: 'Meier', first_name: 'Albert', title: 'Dr.',

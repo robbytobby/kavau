@@ -17,6 +17,7 @@ class CreditAgreementsController < ApplicationController
   end
 
   def new
+    raise NoAccountError if Account.where(address_type: 'ProjectAddress').none?
     respond_with @credit_agreement
   end
 

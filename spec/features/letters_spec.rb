@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.describe "Letters" do
   [:admin, :accountant].each do |type|
     context "as #{type}" do
-      before(:each){ login_as create(type) }
+      before(:each){ 
+        allow_any_instance_of(LettersController).to receive(:check_for_creditors).and_return(:true)
+        login_as create(type) 
+      }
 
       it "has a index page" do
         visit '/'

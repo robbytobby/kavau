@@ -3,6 +3,14 @@ RSpec.shared_examples "setting" do
     expect(@setting.form_field).to eq(form_field)
   end
 
+  it "is not valid without a value if it is obligatory" do
+    unless @setting.is_a?(FileSetting)
+      @setting.obligatory = true
+      @setting.value = nil
+      expect(@setting).not_to be_valid
+    end
+  end
+
   describe "setting the value" do
     it "sets the value if given" do
       @setting.value = value

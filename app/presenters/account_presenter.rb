@@ -18,7 +18,6 @@ class AccountPresenter < BasePresenter
   def confirmation_label
     [
       I18n.t('confirmation_label.account'),
-      I18n.t("confirmation_label.of.#{@model.address.type.underscore}"),
       owner,
       I18n.t('confirmation_label.with_iban'),
       iban

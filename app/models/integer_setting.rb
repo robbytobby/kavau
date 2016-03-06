@@ -1,8 +1,8 @@
 class IntegerSetting < Setting
-  validates_numericality_of :value, only_integer: true, greater_than_or_equal_to: 0
+  validates_numericality_of :value, only_integer: true, greater_than_or_equal_to: 0, allow_nil: true
 
   def value
-    self[:value].to_i
+    self[:value].blank? ? self[:value] : self[:value].to_i
   end
 
   def form_field_partial

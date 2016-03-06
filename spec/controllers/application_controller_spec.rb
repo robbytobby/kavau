@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationController, type: :controller do
-  before(:each){ sign_in create(:accountant) }
-  
+
+  before(:each){ 
+    sign_in create(:user) 
+    request.env["HTTP_REFERER"] = '/back'
+  }
 
   describe "Pundit::NotAuthorizedError" do
     controller do
@@ -14,8 +17,22 @@ RSpec.describe ApplicationController, type: :controller do
     it "is rescued" do
       routes.draw { get "test" => "anonymous#test" }
       get :test
-      expect(response).to redirect_to('/')
+      expect(response).to redirect_to('/back')
       expect(flash[:alert]).to eq 'Diese Aktion ist dir nicht gestattet'
+    end
+  end
+
+  describe "NoAccountError" do
+    controller do
+      def test
+        raise NoAccountError
+      end
+    end
+
+    it "is rescued" do
+      routes.draw { get "test" => "anonymous#test" }
+      get :test
+      expect(response).to redirect_to '/back'
     end
   end
   
@@ -58,10 +75,9 @@ RSpec.describe ApplicationController, type: :controller do
 
     it "is rescued" do
       routes.draw { get "test" => "anonymous#test" }
-      request.env["HTTP_REFERER"] = '/back'
       get :test
-      expect(response).to redirect_to '/back'
-      expect(flash[:alert]).to eq 'Der Absender für jeden Brief ist der Hausverein. Es ist aber noch kein Hausverein angelegt, das mußt du erst noch tun, bevor du Briefe erstellen kannst.'
+      expect(response).to redirect_to new_project_address_path
+      expect(flash[:warning]).to eq 'Der Absender für jeden Brief ist der Hausverein. Es ist aber noch kein Hausverein angelegt, das mußt du erst noch tun, bevor du Briefe erstellen kannst.'
     end
   end
 
@@ -74,7 +90,6 @@ RSpec.describe ApplicationController, type: :controller do
 
     it "is rescued" do
       routes.draw { get "test" => "anonymous#test" }
-      request.env["HTTP_REFERER"] = '/back'
       get :test
       expect(response).to redirect_to '/back'
       expect(flash[:alert]).to eq 'Das PDF paßt nicht auf ein A4 Format. Überprüfe die Einstellungen für die Seitenränder.'
@@ -90,10 +105,24 @@ RSpec.describe ApplicationController, type: :controller do
 
     it "is rescued" do
       routes.draw { get "test" => "anonymous#test" }
-      request.env["HTTP_REFERER"] = '/back'
       get :test
       expect(response).to redirect_to '/back'
       expect(flash[:alert]).to eq 'Die Datei für das Logo konnte nicht gefunden werden. Bitte das Logo neu hochladen.'
+    end
+  end
+
+  describe "NoCreditorError" do
+    controller do
+      def test
+        raise NoCreditorError
+      end
+    end
+
+    it "is rescued" do
+      routes.draw { get "test" => "anonymous#test" }
+      get :test
+      expect(response).to redirect_to '/back'
+      expect(flash[:warning]).to include 'noch kein_e Kreditgeber_in'
     end
   end
 end

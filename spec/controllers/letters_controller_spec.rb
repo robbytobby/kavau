@@ -21,21 +21,34 @@ RSpec.describe LettersController, type: :controller do
       describe "get show" do
         before(:each){ @letter = create letter_type.underscore }
 
-        it "assigns the requested letter" do
-          get :show, type: letter_type, id: @letter
-          expect(assigns(:letter)).to eq(@letter)
+        context "without a creditor" do
+          it "raises a NoCreditorError" do
+            request.env["HTTP_REFERER"] = '/letters'
+            get :show, type: letter_type, id: @letter
+            expect(response).to redirect_to '/letters'
+            expect(flash[:warning]).not_to be_empty
+          end
         end
 
-        it "renders show" do
-          get :show, type: letter_type, id: @letter
-          expect(response).to render_template(:show)
-        end
+        context "a creditor exists" do
+          before(:each){ create :person }
 
-        it "sends a pdf if requested" do
-          pending 'get this test working - complains about missing template'
-          get :show, type: letter_type, id: @letter, format: :pdf
-          rendered_pdf = BalancePdf.new(@balance).render
-          expect(response.body).to eq(rendered_pdf)
+          it "assigns the requested letter" do
+            get :show, type: letter_type, id: @letter
+            expect(assigns(:letter)).to eq(@letter)
+          end
+
+          it "renders show" do
+            get :show, type: letter_type, id: @letter
+            expect(response).to render_template(:show)
+          end
+
+          it "sends a pdf if requested" do
+            pending 'get this test working - complains about missing template'
+            get :show, type: letter_type, id: @letter, format: :pdf
+            rendered_pdf = BalancePdf.new(@balance).render
+            expect(response.body).to eq(rendered_pdf)
+          end
         end
       end
 
@@ -137,32 +150,48 @@ RSpec.describe LettersController, type: :controller do
   ['StandardLetter', 'BalanceLetter'].each do |letter_type|
     context "#{letter_type}" do
       describe "get create_pdfs" do
-        before(:each){ @letter = create letter_type.underscore, year: 2014 }
+        before(:each){ 
+          @letter = create letter_type.underscore, year: 2014 
+          create :complete_project_address, legal_form: 'registered_society'
+        }
 
-        it "assigns the requested letter" do
-          post :create_pdfs, type: 'Letter', id: @letter.id
-          expect(assigns(:letter)).to eq(@letter)
+        context "without a creditor" do
+          it "raises a NoCreditorError" do
+            request.env["HTTP_REFERER"] = '/letters'
+            post :create_pdfs, type: 'Letter', id: @letter.id
+            expect(response).to redirect_to '/letters'
+            expect(flash[:warning]).not_to be_empty
+          end
         end
 
-        it "is successfull" do
-          post :create_pdfs, type: 'Letter', id: @letter.id
-          expect(response.status).to eq 302
-        end
+        context "a creditor exists" do
+          before(:each){ create :person}
 
-        it "creates pds for the letter" do
-          allow_any_instance_of(letter_type.constantize).to receive(:create_pdfs).and_return(true)
-          post :create_pdfs, type: 'Letter', id: @letter.id
-          expect(assigns(:letter)).to have_received(:create_pdfs)
-        end
+          it "assigns the requested letter" do
+            post :create_pdfs, type: 'Letter', id: @letter.id
+            expect(assigns(:letter)).to eq(@letter)
+          end
 
-        it "set the pdfs_created marker" do
-          post :create_pdfs, type: 'Letter', id: @letter.id
-          expect(assigns(:letter).pdfs_created?).to be_truthy
-        end
+          it "is successfull" do
+            post :create_pdfs, type: 'Letter', id: @letter.id
+            expect(response.status).to eq 302
+          end
 
-        it "redirects to the letters index" do
-          post :create_pdfs, type: 'Letter', id: @letter.id
-          expect(response).to redirect_to('/letters')
+          it "creates pds for the letter" do
+            allow_any_instance_of(letter_type.constantize).to receive(:create_pdfs).and_return(true)
+            post :create_pdfs, type: 'Letter', id: @letter.id
+            expect(assigns(:letter)).to have_received(:create_pdfs)
+          end
+
+          it "set the pdfs_created marker" do
+            post :create_pdfs, type: 'Letter', id: @letter.id
+            expect(assigns(:letter).pdfs_created?).to be_truthy
+          end
+
+          it "redirects to the letters index" do
+            post :create_pdfs, type: 'Letter', id: @letter.id
+            expect(response).to redirect_to('/letters')
+          end
         end
       end
 

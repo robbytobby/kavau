@@ -1,12 +1,12 @@
 class FileSetting < Setting
   has_attached_file :attachment
-  validates_attachment_content_type :attachment, content_type: ["image/jpeg", "image/png", "application/pdf", "application/x-font-ttf"]
+  do_not_validate_attachment_file_type :attachment
   validate :accepted_content_type
 
   def accepted_content_type
     return if attachment_file_name == nil
-    #FIXME: Message!!!
-    errors.add(:attachment, 'Buh') unless accepted_types.include?(attachment_content_type)
+    return if accepted_types.include?(attachment_content_type)
+    errors.add(:attachment_content_type, :invalid, accepted_types: accepted_types.to_sentence)
   end
 
   def accepted_types

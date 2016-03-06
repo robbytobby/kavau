@@ -5,9 +5,7 @@ class ApplicationController < ActionController::Base
   include I18nKeyHelper
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Prawn::Errors::CannotFit, with: :layout_error
-  rescue_from MissingInformationError, MissingLetterTemplateError, 
-    MissingRegisteredSocietyError, MissingTemplateError, 
-    with: :rescue_custom_exception
+  rescue_from CustomError, with: :rescue_custom_exception
 
   self.responder = ApplicationResponder
   respond_to :html
@@ -28,7 +26,7 @@ class ApplicationController < ActionController::Base
     end
 
     def rescue_custom_exception(exception)
-      flash[:alert] = exception.message unless exception.message.blank?
+      flash[exception.flash_type] = exception.message unless exception.message.blank?
       redirect_to exception.redirection
     end
 

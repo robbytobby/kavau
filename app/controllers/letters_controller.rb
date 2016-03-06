@@ -1,6 +1,7 @@
 class LettersController < ApplicationController
   include Typed
   include LoadAuthorized
+  before_action :check_for_creditors, only: [:show, :create_pdfs]
 
   def index
     @letters = @letters.order(type: :asc, created_at: :desc).includes(:pdfs)
@@ -57,6 +58,10 @@ class LettersController < ApplicationController
   private
     def klass
       @type.constantize
+    end
+
+    def check_for_creditors
+      raise NoCreditorError if Address.creditors.none?
     end
 
     def required_params_key # overwrite LoadAuthorized#required_params_key

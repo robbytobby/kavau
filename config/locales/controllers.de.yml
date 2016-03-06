@@ -18,6 +18,14 @@ de:
     edit: 
       title: "%{model} bearbeiten"
     flash:
+      admin: 
+        settings_invalid: 'Die Konfiguration ist nicht vollständig bzw. ungütlig. Bearbeite (zumindest) die markierten Felder.'
+      accountant: 
+        settings_invalid: 'Die Konfiguration ist nicht vollständig bzw. ungütlig. So wird KaVau nicht komplett funktionieren. Richten kann das nur jemand mit Admin-Rechten.'
+      user: 
+        settings_invalid: 'Die Konfiguration ist nicht vollständig bzw. ungütlig. So wird KaVau nicht komplett funktionieren. Richten kann das nur jemand mit Admin-Rechten.'
+      no_limited: 'Eine Adresse für die Hausbesitz-Gmbh muß angelegt werden'
+      no_society: 'Eine Adresse für den Hausverein muß angelegt werden'
       no_contacts_for:
         project_address:
           limited: 'Wichtig: Für die %{name} GmbH müssen noch Geschäftsführer_innen angelegt werden.'

@@ -33,7 +33,15 @@ require 'rails_helper'
     end
 
     describe "GET #new for #{type}" do
+      it "does not work if there are no accounts for the project" do
+        Account.delete_all
+        request.env["HTTP_REFERER"] = '/back'
+        get :new, creditor_params
+        expect(response).to redirect_to '/back'
+      end
+
       it "assigns a new credit_agreement as @credit_agreement" do
+        create :project_account
         get :new, creditor_params
         expect(assigns(:credit_agreement)).to be_a_new(CreditAgreement)
         expect(assigns(:creditor)).to eq(@creditor)

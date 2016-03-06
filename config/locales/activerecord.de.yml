@@ -23,6 +23,10 @@ de:
             password:
               to_week: 'Passwort ist zu schwach: muß mindestens 1 Großbuchstaben, 1 Kleinbuchstaben und 1 Sonderzeichen oder Zahl enthalten und mindestens 8 Zeichen lang sein.'
               name_inclusion: 'Das Passwort darf weder Login, noch Vor- oder Nachamen beinhalten'
+        setting:
+          attributes:
+            attachment_content_type:
+              invalid: 'ist nicht zugelassen, gültige Typen sind %{accepted_types}'
     models:
       account: 'Bankverbindung'
       address: 'Adresse'
@@ -145,6 +149,8 @@ de:
           contacts: 'Ansprechpartner_innen'
       setting:
         value: "Der Wert"
+        attachment: 'Die Datei'
+        attachment_content_type: 'Dateityp'
       user:
         email: 'Email'
         first_name: 'Vorname'

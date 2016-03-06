@@ -9,6 +9,11 @@ module CheckProjectAddress
   end
 
   private
+  def check_presence_of_addresses
+    flash[:warning] << I18n.t(:no_limited, scope: [:addresses, :flash]) if ProjectAddress.where(legal_form: 'limited').none?
+    flash[:warning] << I18n.t(:no_society, scope: [:addresses, :flash]) if ProjectAddress.where.not(legal_form: 'limited').none?
+  end
+
   def check_for_contacs(address)
     flash[:warning] << warning(address, :no_contacts_for) if address.contacts.none?
   end

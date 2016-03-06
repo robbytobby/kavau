@@ -4,6 +4,40 @@ class CustomError < StandardError
   def redirection
     :back
   end
+
+  def flash_type
+    :alert
+  end
+end
+
+class NoAccountError < CustomError
+  def message
+    I18n.t :no_accounts, scope: :exceptions
+  end
+end
+
+class NoCreditorError < CustomError
+  def message
+    I18n.t :no_creditor, scope: :exceptions
+  end
+
+  def flash_type
+    :warning
+  end
+end
+
+class ConfigurationError < CustomError
+  def message
+    I18n.t :settings_invalid, scope: :exceptions
+  end
+
+  def flash_type
+    :warning
+  end
+
+  def redirection
+    settings_path
+  end
 end
 
 class MissingInformationError < CustomError
@@ -39,6 +73,14 @@ end
 class MissingRegisteredSocietyError < CustomError
   def message
     I18n.t('exceptions.registered_society_missing')
+  end
+
+  def flash_type
+    :warning
+  end
+
+  def redirection
+    new_project_address_path
   end
 end
 

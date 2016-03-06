@@ -1,5 +1,6 @@
 class Setting < ActiveRecord::Base
   after_save :update_config
+  validates :value, presence: { if: lambda{|s| s.obligatory && s.type != 'FileSetting' } }
 
   def self.update_config
     Setting.all.pluck(:category).each{ |category| update_category(category) }

@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe YearlyBalancePdf do
   include ActionView::Helpers::NumberHelper
 
+  before(:all){ reset_config }
+
   before :each do
     @creditor = create :person, name: 'Meier', first_name: 'Albert', title: 'Dr.',
       street_number: 'Strasse 1', zip: '79100', city: 'Freiburg'

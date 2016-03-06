@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Generating PDFs for letters" do
-  before(:each){ login_as create(:accountant) } 
+  before(:each){ 
+    login_as create(:accountant) 
+    create :person
+    create :complete_project_address, legal_form: 'registered_society'
+  } 
 
   it "I can create pdfs for standard letters for all creditors" do
     letter = create :standard_letter
