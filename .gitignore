@@ -27,6 +27,7 @@ config/deploy/lama_production.rb
 config/deploy/luftschloss_production.rb
 config/deploy/schwerelos_production.rb
 config/deploy/staging.rb
+config/deploy/test_server.rb
 
 # these should all be checked in to normalise the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
