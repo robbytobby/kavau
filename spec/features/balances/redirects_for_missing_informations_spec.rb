@@ -31,7 +31,7 @@ RSpec.describe "balances pdfs for project address with missing information" do
       visit "/balances/#{@balance.id}.pdf"
       expect(current_path).to eq(project_address_path(@project_address))
       within '#flash_warning' do
-        expect(page).to have_content('Sitz, Registergericht, Register-Nr und UST-Id-Nr oder Steuernummer')
+        expect(page).to have_content('Sitz, Registergericht und Register-Nr')
       end
     end
 

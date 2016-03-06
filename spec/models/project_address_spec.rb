@@ -25,7 +25,7 @@ RSpec.describe ProjectAddress do
         expect(@project_address.legal_information_missing?).to be_truthy
       end
 
-      ["based_in", "register_court", "registration_number", [:ust_id, :tax_number]].each do |key|
+      ["based_in", "register_court", "registration_number"].each do |key|
         it "#{key} is missing" do
           expect(@project_address.missing_legals).to include(key)
         end

@@ -14,7 +14,7 @@ class ProjectAddress < Address
   end
 
   def missing_legals
-    (missing_legal_information_keys << missing_tax_number_keys).compact
+    (missing_legal_information_keys).compact
   end
 
   private
@@ -25,11 +25,5 @@ class ProjectAddress < Address
 
     def required_legal_information_keys
       ['based_in', 'register_court', 'registration_number']
-    end
-
-    def missing_tax_number_keys
-      return if legal_form == 'registered_society'
-      return unless [ust_id, tax_number].all?(&:blank?)
-      [:ust_id, :tax_number]
     end
 end

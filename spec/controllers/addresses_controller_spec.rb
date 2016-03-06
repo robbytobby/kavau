@@ -18,8 +18,8 @@ RSpec.describe AddressesController, type: :controller do
     end
 
     it "renders index" do
-      person = create :person
-      organization = create :organization
+      create :person
+      create :organization
       get :index, type: 'Creditor'
       expect(response).to render_template(:index)
     end
@@ -46,7 +46,7 @@ RSpec.describe AddressesController, type: :controller do
     it "sets flash warning for legal informations" do
       @address = create :project_address, :with_contacts
       get :show, type: 'ProjectAddress', id: @address
-      ['Sitz', 'Registergericht', 'Register-Nr', 'UST-Id-Nr', 'Steuernummer'].each do |missing|
+      ['Sitz', 'Registergericht', 'Register-Nr'].each do |missing|
         expect(flash[:warning].first).to include(missing)
       end
     end
