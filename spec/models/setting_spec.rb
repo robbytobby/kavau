@@ -55,7 +55,7 @@ RSpec.describe Setting, type: :model do
   end
 
   describe "it updates the smpt_settings" do
-    let(:mailer_config){ ->{Rails.application.config.action_mailer.smtp_settings} }
+    let(:mailer_config){ ->{ActionMailer::Base.smtp_settings} }
     let(:mailer_setting){ ->(key){ mailer_config.call[key] } }
 
     it "updates the server address" do

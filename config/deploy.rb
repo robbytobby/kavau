@@ -39,7 +39,9 @@ namespace :deploy do
 
   after :restart, :remove_tmp do
     on roles(:app) do
-      execute 'rm -r /tmp/kavau'
+      if test("[ -d /tmp/kavau }")
+        execute 'rm -r /tmp/kavau'
+      end
     end
   end
 

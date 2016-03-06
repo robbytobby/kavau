@@ -60,16 +60,14 @@ class Setting < ActiveRecord::Base
 
   def self.update_exception_mailer_config
     return if kavau.exception_notification[:email].blank?
-    #FIXME: How to spec this?
     ExceptionNotification.configure{ |config|
       config.add_notifier :email, kavau.exception_notification[:email].dup
     }
   end
 
   def self.update_smtp_config
-    #FIXME: How to spec this?
     return if kavau.mailer[:smtp_settings].nil?
-    Rails.application.config.action_mailer.smtp_settings = kavau.mailer[:smtp_settings].dup
+    ActionMailer::Base.smtp_settings = kavau.mailer[:smtp_settings].dup
   end
 
   def self.update_category(category)
