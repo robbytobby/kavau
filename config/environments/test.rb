@@ -42,28 +42,27 @@ Rails.application.configure do
   config.after_initialize do
     Bullet.enable = true
     Bullet.bullet_logger = true
-  end
 
-  Rails.application.config.kavau = Rails::Application::Configuration::Custom.new
-  Rails.application.config.kavau.pdf = {
-    :colors=>{:color3=>"7c7b7f", :color1=>"009dc3", :color2=>"f9b625"}, 
-    :margins=>{:bottom_margin=>3.5, :top_margin=>3.5, :right_margin=>2.0, :left_margin=>2.5}, 
-    :templates=>{
-      :logo=>"#{Rails.root}/spec/support/templates/logo.png", 
-      :watermark=>"#{Rails.root}/spec/support/templates/stempel.png", 
-      :first_page_template=>nil, 
-      :following_page_template=>nil
-    }, 
-    :custom_font=>{
-      :normal=>"#{Rails.root}/public/fonts/infotext_normal.ttf", 
-      :italic=>"#{Rails.root}/public/fonts/infotext_italic.ttf", 
-      :bold=>"#{Rails.root}/public/fonts/infotext_bold.ttf", 
-      :bold_italic=>"#{Rails.root}/public/fonts/infotext_bold_italic.ttf",
-    }, 
-    :content=>{
-      :saldo_information=>"additional information"
+    Rails.application.config.kavau.pdf = {
+      :colors=>{:color3=>"7c7b7f", :color1=>"009dc3", :color2=>"f9b625"}, 
+      :margins=>{:bottom_margin=>3.5, :top_margin=>3.5, :right_margin=>2.0, :left_margin=>2.5}, 
+      :templates=>{
+        :logo=>"#{Rails.root}/spec/support/templates/logo.png", 
+        :watermark=>"#{Rails.root}/spec/support/templates/stempel.png", 
+        :first_page_template=>nil, 
+        :following_page_template=>nil
+      }, 
+      :custom_font=>{
+        :normal=>"#{Rails.root}/public/fonts/infotext_normal.ttf", 
+        :italic=>"#{Rails.root}/public/fonts/infotext_italic.ttf", 
+        :bold=>"#{Rails.root}/public/fonts/infotext_bold.ttf", 
+        :bold_italic=>"#{Rails.root}/public/fonts/infotext_bold_italic.ttf",
+      }, 
+      :content=>{
+        :saldo_information=>"additional information"
+      }
     }
-  }
 
-  Rails.application.config.kavau.general = {:project_name=>"LaMa", :website_url=>"www.lamakat.de"}
+    Rails.application.config.kavau.general = {:project_name=>"LaMa", :website_url=>"www.lamakat.de"}
+  end
 end

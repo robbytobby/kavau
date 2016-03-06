@@ -7,7 +7,7 @@ SimpleCov.start 'rails' do
   add_filter 'mailers/previews/'
 end
 
-CodeClimate::TestReporter.start
+#CodeClimate::TestReporter.start
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

@@ -46,7 +46,6 @@ Rails.application.configure do
     Bullet.alert = true
     Bullet.add_footer = true
 
-    Rails.application.config.kavau = Rails::Application::Configuration::Custom.new
     Setting.update_config if ActiveRecord::Base.connection.table_exists? 'settings'
   end
 end

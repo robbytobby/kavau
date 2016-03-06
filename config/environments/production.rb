@@ -84,7 +84,6 @@ Rails.application.configure do
   Rails.application.config.middleware.use ExceptionNotification::Rack, {}
 
   config.after_initialize do
-    Rails.application.config.kavau = Rails::Application::Configuration::Custom.new
     Setting.update_config if ActiveRecord::Base.connection.table_exists? 'settings'
   end
 end
