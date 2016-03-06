@@ -14,12 +14,25 @@ RSpec.describe BooleanSetting do
   describe "its value" do
     it "is true" do
       @setting.value = 'true'
-      expect(@setting.value).to be_truthy
+      @setting.save
+      expect(@setting.reload.value).to eq true
     end
 
     it "is false" do
+      @setting.value = 'true'
+      @setting.save
       @setting.value = 'false'
-      expect(@setting.value).to be_falsy
+      @setting.save
+      expect(@setting.reload.value).to eq false
+      @setting.value = false
+      @setting.save
+      expect(@setting.reload.value).to eq false
+    end
+
+    it "is false by default" do
+      @setting.value = nil 
+      @setting.save
+      expect(@setting.reload.value).to eq false
     end
   end
 end

@@ -4,7 +4,7 @@ RSpec.shared_examples "setting" do
   end
 
   it "is not valid without a value if it is obligatory" do
-    unless @setting.is_a?(FileSetting)
+    unless @setting.is_a?(FileSetting) || @setting.is_a?(BooleanSetting)
       @setting.obligatory = true
       @setting.value = nil
       expect(@setting).not_to be_valid
