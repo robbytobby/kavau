@@ -13,4 +13,8 @@ class ErrorsController < ApplicationController
   def internal_server_error
     render status: 500
   end
+
+  def raise_exception
+    raise 'This is test action for raising exceptions'
+  end
 end

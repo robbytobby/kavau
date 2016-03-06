@@ -13,5 +13,9 @@ RSpec.describe ErrorsController, type: :routing do
     expect(get: '/500').to route_to('errors#internal_server_error')
   end
 
+  it "routes to raise_exception" do
+    expect(get: '/raise_exception').to route_to('errors#raise_exception')
+  end
+
 end
 

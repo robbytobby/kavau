@@ -36,4 +36,13 @@ RSpec.describe ErrorsController, type: :controller do
       expect(response).to render_template(:internal_server_error)
     end
   end
+
+  describe "GET #raise_exception" do
+    it "raises an exception" do
+      expect{
+        get :raise_exception
+      }.to raise_error 'This is test action for raising exceptions'
+    end
+  end
 end
+

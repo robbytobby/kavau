@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   get "/404", to: "errors#not_found"
   get "/422", to: "errors#change_rejected"
   get "/500", to: "errors#internal_server_error"
+  get "/raise_exception", to: "errors#raise_exception"
 
   root to: redirect('/users/sign_in')
   # The priority is based upon order of creation: first created -> highest priority.
