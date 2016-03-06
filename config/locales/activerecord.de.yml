@@ -135,6 +135,8 @@ de:
       project_address:
         name: 'Name'
         legal_form: 'Rechtsform'
+        society:
+          contacts: 'Vorstand'
         registered_society:
           contacts: 'Vorstand'
         limited:
@@ -143,6 +145,8 @@ de:
         name: 'Name'
         contacts: 'Ansprechpartner_innen'
         legal_form: 'Rechtsform'
+        society:
+          contacts: 'Ansprechpartner_innen'
         limited:
           contacts: 'Ansprechpartner_innen'
         registered_society:

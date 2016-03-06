@@ -31,6 +31,7 @@ module BuildingBlock
   end
 
   def color_text(string, color)
+    return if string.blank?
     "<color rgb='#{color}'>#{string}</color>"
   end
 

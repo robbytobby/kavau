@@ -72,7 +72,7 @@ class PdfSender
       banking_information,
       registration_information,  
       management_information
-    ].flatten.join(' | ')
+    ].flatten.select{|i| !i.blank?}.join(' | ')
   end
   
   def footer_line_3
@@ -92,7 +92,7 @@ class PdfSender
   end
 
   def registration_information
-    [blue_text(register_court), registration_number,].join(' ')
+    [blue_text(register_court), registration_number].compact.join(' ')
   end
 
   def management_information

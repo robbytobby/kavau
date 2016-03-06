@@ -17,8 +17,13 @@ class ProjectAddress < Address
     (missing_legal_information_keys).compact
   end
 
+  def self.default
+    where(legal_form: ['registered_society', 'society']).order(:legal_form).first
+  end
+
   private
     def missing_legal_information_keys
+      return [] if legal_form == 'society'
       return required_legal_information_keys unless legal_information
       required_legal_information_keys.select{ |key| key if legal_information[key].blank? }
     end

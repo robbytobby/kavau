@@ -4,7 +4,7 @@ class LetterPdf < ApplicationPdf
   def initialize(creditor, letter)
     @letter = letter
     @document = self
-    super ProjectAddress.where(legal_form: 'registered_society').first, creditor
+    super ProjectAddress.default, creditor
   end
 
   private

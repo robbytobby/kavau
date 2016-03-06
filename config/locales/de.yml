@@ -45,6 +45,7 @@ de:
   legal_forms:
     limited: 'GmbH'
     registered_society: 'e.V.'
+    society: 'Verein'
   months:
     one: '1 Monat'
     other: '%{count} Monate'

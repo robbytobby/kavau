@@ -1,5 +1,6 @@
 class ProjectAddressPresenter < AddressPresenter
   def full_name(syntactic_sugar = nil)
+    return name if @model.legal_form == 'society'
     [name, legal_form].join(' ')
   end
 
