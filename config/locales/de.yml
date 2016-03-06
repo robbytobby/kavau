@@ -25,9 +25,11 @@ de:
     download_csv: 'Ergebnisse als CSV runterladen'
     new_contact: 
       for_organization: 
+        society: 'neue Ansprechpartner_in'
         registered_society: 'neue Ansprechpartner_in'
         limited: 'neue Ansprechpartner_in'
       for_project_address:
+        society: 'neue_r Vorstand / Vorständin'
         registered_society: 'neue_r Vorstand / Vorständin'
         limited: 'neue_r Geschäftsführer_in'
     new_account: 'neue Bankverbindung'

@@ -11,6 +11,11 @@ de:
         genitiv: 'des %{name}'
         dativ: 'dem %{name}'
         accusativ: 'den %{name}'
+      society:
+        nominativ: 'der Verein %{name}'
+        genitiv: 'des Vereins %{name}'
+        dativ: 'dem Verein %{name}'
+        accusativ: 'den Verein %{name}'
     footer:
       phone: 'fon'
       email: 'mail'
@@ -24,6 +29,7 @@ de:
       female: 'Liebe %{name}'
       limited: 'Liebe %{name}'
       registered_society: 'Lieber %{name}'
+      society: 'Lieber %{name}'
     balance:
       auto_balance: 'Jahresabschluss %{year}'
       manual_balance: 'Jahresabschluss %{year}'
@@ -41,14 +47,17 @@ de:
       name_with_article:
         limited: 'der %{name} GmbH'
         registered_society: 'dem %{name} e.V.'
+        society: 'dem Verein %{name}'
       text1:
         person: '%{name}'
         organization:
           limited: 'Die %{name}'
           registered_society: 'Der %{name}'
+          society: 'Der %{name}'
       text2:
         limited: 'hat der %{name}'
         registered_society: 'hat dem %{name}'
+        society: 'hat dem Verein %{name}'
       text3:
         one: 'einen zinsgünstigen Direktkredit zur Verfügung gestellt,'
         other: 'zinsgünstige Direktkredite zur Verfügung gestellt,' 
