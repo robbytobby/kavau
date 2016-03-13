@@ -6,6 +6,14 @@ GIT
       byebug (~> 6.0)
       pry (~> 0.10)
 
+GIT
+  remote: https://github.com/robbytobby/spreadsheet_architect.git
+  revision: 776a4cbc30bcf03789b9398b1e61ccdd4afc41ff
+  specs:
+    spreadsheet_architect (1.2.1)
+      axlsx (>= 2.0)
+      rodf (>= 0.3.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -445,9 +453,6 @@ GEM
     slop (3.6.0)
     sort_alphabetical (1.0.2)
       unicode_utils (>= 1.2.2)
-    spreadsheet_architect (1.2.0)
-      axlsx (>= 2.0)
-      rodf (>= 0.3.6)
     spring (1.4.0)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
@@ -567,7 +572,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   selenium-webdriver
   simple_form
-  spreadsheet_architect (~> 1.2)
+  spreadsheet_architect!
   spring
   spring-commands-rspec
   strip_attributes

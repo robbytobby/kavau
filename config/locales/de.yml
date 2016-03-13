@@ -78,6 +78,7 @@ de:
       termination_letter: 'Kündigungs-Schreiben'
       payment_letter: 'Zahlungseingangs-Schreiben'
   exceptions:
+    no_data_error: 'Es gab keine Datensätze zu exportieren, daher kann hier auch nichts runtergeladen werden.'
     no_creditor: 'Solange noch kein_e Kreditgeber_in angelegt ist, kannst du diese Funktion nicht nutzen.'
     no_accounts: 'Bevor du Kreditverträge anlgen kannst, müssen erst die Konten für die GmbH bzw den Hausverein angelegt sein.'
     missing_template_error:
