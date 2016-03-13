@@ -26,20 +26,6 @@ class NoCreditorError < CustomError
   end
 end
 
-class ConfigurationError < CustomError
-  def message
-    I18n.t :settings_invalid, scope: :exceptions
-  end
-
-  def flash_type
-    :warning
-  end
-
-  def redirection
-    settings_path
-  end
-end
-
 class MissingInformationError < CustomError
   def initialize(object)
     @address = object 
