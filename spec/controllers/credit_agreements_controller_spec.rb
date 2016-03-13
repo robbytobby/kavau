@@ -14,14 +14,15 @@ require 'rails_helper'
       end
     end
 
-    context "csv download" do
-      let(:array){ [@credit_agreement] }
+    context "xlsx download" do
       before :each do
-        @credit_agreement = create :credit_agreement
-        get :download_csv, format: :csv
+        @credit_agreement = create :credit_agreement 
+        get :index, format: :xlsx
       end
 
-      it_behaves_like "pdf_downloadable"
+      let(:array){ [@credit_agreement] }
+      let(:collection_name){ :credit_agreements }
+      it_behaves_like "xlsx_downloadable"
     end
 
     describe "GET #show" do

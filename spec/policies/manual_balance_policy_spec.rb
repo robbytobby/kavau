@@ -21,12 +21,12 @@ RSpec.describe ManualBalancePolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:show, :download, :download_csv]
+      permits [:show, :download]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:show, :download, :download_csv]
+      permits [:show, :download]
     end
   end
 
@@ -35,12 +35,12 @@ RSpec.describe ManualBalancePolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:show, :download, :download_csv]
+      permits [:show, :download]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:show, :download, :download_csv]
+      permits [:show, :download]
     end
   end
 end

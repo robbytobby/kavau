@@ -22,8 +22,4 @@ class CreditAgreementPolicy < ApplicationPolicy
     return false unless user.admin? || user.accountant?
     true
   end
-
-  def download_csv?
-    download?
-  end
 end

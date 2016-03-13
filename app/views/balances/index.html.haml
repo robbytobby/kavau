@@ -2,7 +2,7 @@
   = t '.title'
   %small.entries-info= page_entries_info @balances
   .pull-right
-    %small= authorized_icon_link :download_csv, :balance, id: 'download_csv', path: download_csv_balances_path(format: :csv, q: params[:q]), icon: 'download'
+    %small= authorized_icon_link :download, :balance, id: 'download_xlsx', path: balances_path(format: :xlsx, q: params[:q]), icon: 'download'
 
 = search_form_for @q, url: balances_path, class: 'form-vertical' do |f|
   %table.table.table-striped

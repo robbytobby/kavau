@@ -29,10 +29,6 @@ class PaymentPolicy < ApplicationPolicy
     user.admin? || user.accountant?
   end
 
-  def download_csv?
-    download?
-  end
-
   class Scope < Scope
     def resolve
       scope.all

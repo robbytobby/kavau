@@ -53,6 +53,8 @@ gem 'paper_trail', '~> 4.0.0'
 gem 'validates_timeliness', '~> 4.0'
 gem 'paperclip', '~> 4.3'
 gem 'remotipart', '~> 1.2'
+gem 'axlsx'
+gem 'spreadsheet_architect', '~> 1.2'
 
 group :development, :test do
   gem 'byebug', '~> 6.0'

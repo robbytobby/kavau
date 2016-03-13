@@ -1,6 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe CreditAgreement, type: :model do
+  context "as spreadsheet" do
+    it "is convertable to spreadsheet" do
+      credit_agreement = create :credit_agreement
+      expect(credit_agreement.send(:spreadsheet_columns)).to eq(
+        [ 
+          ["ID", :id],
+          ["Nummer", :number],
+          ["Betrag [€]", :amount],
+          ["Zinssatz p.a. [%]", :interest_rate],
+          ["Kündigungsfrist [Monate]", :cancellation_period],
+          ["Kreditgeber_in", :presented_creditor_name],
+          ["Kreiditgeber_in ID", :creditor_id],
+          ["Konto", :presented_account_name],
+          ["Konto ID", :account_id],
+          ["getilgt am", :presented_terminated_at]
+        ]
+      )
+    end
+
+    let(:object){ create :credit_agreement }
+    it_behaves_like "spreadsheet"
+  end
+
   describe "Calculations" do
     before :each do
       @account_1 = create :project_account

@@ -17,11 +17,13 @@ RSpec.describe BalancesController, type: :controller do
         end
       end
 
-      context "csv download" do
+      context "xlsx download" do
         let(:array){ [@balance] }
-        before(:each){ get :download_csv, format: :csv}
+        before(:each){ get :index, format: :xlsx}
 
-        it_behaves_like "pdf_downloadable"
+        let(:array){ [@balance] }
+        let(:collection_name){:balances}
+        it_behaves_like "xlsx_downloadable"
       end
 
       describe "GET #show format: pdf" do

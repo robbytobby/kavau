@@ -103,7 +103,7 @@ de:
         cancellation_period: 'Kündigungsfrist'
         creditor: 'Kreditgeber_in'
         creditor_id: 'Kreditgeber_in'
-        id: 'Nr'
+        id: 'ID'
         interest: 'Zinsen'
         interest_rate: 'Zinssatz'
         number: 'Nr'
@@ -121,6 +121,7 @@ de:
         first_name: 'Unbekannter'
         name: 'User'
       payment:
+        id: 'ID'
         amount: 'Betrag'
         date: 'Datum'
         type: 'Art'
@@ -134,7 +135,7 @@ de:
         letter_id: 'Vorlage'
       project_address:
         name: 'Name'
-        legal_form: 'Rechtsform'
+        legal_form: 'Gesellschaftsform'
         society:
           contacts: 'Vorstand'
         registered_society:
@@ -144,7 +145,7 @@ de:
       organization:
         name: 'Name'
         contacts: 'Ansprechpartner_innen'
-        legal_form: 'Rechtsform'
+        legal_form: 'Gesellschaftsform'
         society:
           contacts: 'Ansprechpartner_innen'
         limited:

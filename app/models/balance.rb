@@ -1,6 +1,6 @@
 class Balance < ActiveRecord::Base
   include ActiveModel::Dirty
-  include AsCsv
+  include AsSpreadsheet
 
   belongs_to :credit_agreement
 
@@ -8,6 +8,7 @@ class Balance < ActiveRecord::Base
   after_save :update_following
   after_destroy ->{ BalanceUpdater.new(credit_agreement).run }
 
+  delegate :credit_agreement_number, :creditor_name, :date, to: :presented, prefix: true
   delegate :interest_rate, :interest_rate_at, :creditor, :balances, to: :credit_agreement
   #delegate :interest_rate_for, to: :credit_agreement
 
@@ -73,11 +74,19 @@ class Balance < ActiveRecord::Base
     BalancePdf.new(self).rendered
   end
 
-  def self.csv_columns
-    [:id, :credit_agreement_id, :credit_agreement_number, :date, :creditor_name, :start_amount, :deposits, :disburses, :interests, :end_amount]
+  def deposits
+    payments.where(sign: 1).sum(:amount)
+  end
+
+  def disburses
+    payments.where(sign: -1).sum(:amount)
   end
 
   private
+    def spreadsheet_values
+      [:id, :credit_agreement_id, :presented_credit_agreement_number, :presented_date, :presented_creditor_name, :start_amount, :deposits, :disburses, :interests_sum, :end_amount]
+    end
+
     def interest_span(date_pair)
       return if date_pair.uniq.one?
       interest_span_class.new(self, date_pair)

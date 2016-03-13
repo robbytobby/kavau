@@ -15,7 +15,7 @@ RSpec.describe "creditors index" do
 
     it "has a download link" do
       visit '/creditors'
-      expect(page).to have_selector('a[href="/creditors/download_csv.csv"]')
+      expect(page).to have_selector('a#download_xlsx')
     end
 
     ['person', 'organization'].each do |type|

@@ -25,12 +25,12 @@ require 'rails_helper'
 
       context "for an admin" do
         let(:user){ create :admin }
-        permits [:index, :show, :download, :download_csv]
+        permits [:index, :show, :download]
       end
 
       context "for an accountant" do
         let(:user){ create :accountant }
-        permits [:index, :show, :download, :download_csv]
+        permits [:index, :show, :download]
       end
 
       context "for a non privileged user" do

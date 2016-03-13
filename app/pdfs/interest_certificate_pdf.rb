@@ -59,7 +59,7 @@ class InterestCertificatePdf < ApplicationPdf
 
   def table_header
     [ [
-      [CreditAgreement.model_name.human, CreditAgreement.human_attribute_name(:id)].join('-'),
+      [CreditAgreement.model_name.human, CreditAgreement.human_attribute_name(:number)].join('-'),
       I18n.t('pdf.interest_certificate.interests_year_amount', year: @year)
     ] ]
   end

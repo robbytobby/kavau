@@ -1,4 +1,3 @@
-
 Rails.application.routes.draw do
   def class_name(controller_name)
     controller_name.to_s.singularize.camelize
@@ -8,17 +7,15 @@ Rails.application.routes.draw do
   concern(:has_accounts){ resources :accounts, except: [:index, :show] }
   concern(:has_credit_agreements){ resources :credit_agreements, except: [:index, :show] }
   concern(:has_pdfs){ resources :pdfs, only: [:new, :create] }
-  concern(:csv_downolad){ collection{ get 'download_csv', format: true, constraints: {format: :csv} } }
 
   devise_for :users, skip: [:registrations, :confirmations]
 
-  resources(:balances, only: :index){ concerns :csv_downolad }
+  resources :balances, only: :index
   resources :balances, only: :show, format: true, constraints: {format: :pdf}
 
 
   resources :credit_agreements, only: :index
   resources :credit_agreements, only: :show, constraints: {id: /\d+/} do
-    concerns :csv_downolad
     resources :manual_balances, controller: :balances, type: 'ManualBalance', only: [:edit, :update, :destroy]
     resources :auto_balances, controller: :balances, type: 'AutoBalance', only: [:edit, :update]
     resources :termination_balances, controller: :balances, type: 'TerminationBalance', only: :destroy
@@ -40,7 +37,7 @@ Rails.application.routes.draw do
   end
 
   #Addresses STI routing
-  resources(:creditors, controller: :addresses, type: 'Creditor'){ concerns :csv_downolad }
+  resources(:creditors, controller: :addresses, type: 'Creditor')
   [:organizations, :people, :project_addresses].each do |controller|
     resources controller, controller: :addresses, type: class_name(controller), except: :index do
       concerns :has_contacts unless controller == :people
@@ -49,7 +46,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources(:payments, only: :index){ concerns :csv_downolad }
+  resources :payments, only: :index 
   resources :payments, only: :show, format: true, constraints: {format: :pdf}
 
   resources :pdfs, only: [:destroy, :update]

@@ -1,8 +1,9 @@
 class Payment < ActiveRecord::Base
-  include AsCsv
+  include AsSpreadsheet
   belongs_to :credit_agreement
   has_one :pdf
   delegate :balances, :last_terminated_year, to: :credit_agreement
+  delegate :creditor_name, :credit_agreement_number, :account_name, :date, :type, to: :presented, prefix: true
   
   validates_presence_of :amount, :type, :date, :credit_agreement_id
   validates_numericality_of :amount, greater_than: 0
@@ -32,11 +33,11 @@ class Payment < ActiveRecord::Base
     credit_agreement.year_terminated?(date.year)
   end
 
-  def self.csv_columns
-    [:id, :date, :type, :creditor_name, :credit_agreement_number, :account_name, :amount]
+  private
+  def spreadsheet_values
+    [:id, :presented_date, :presented_type, :presented_creditor_name, :presented_credit_agreement_number, :presented_account_name, :amount]
   end
 
-  private
   def update_balances
     BalanceUpdater.new(credit_agreement).run
   end

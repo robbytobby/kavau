@@ -28,10 +28,6 @@ class BalancePolicy < ApplicationPolicy
     true
   end
 
-  def download_csv?
-    download?
-  end
-
   def permitted_params
     [:end_amount]
   end

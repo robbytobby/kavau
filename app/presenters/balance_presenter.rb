@@ -29,11 +29,11 @@ class BalancePresenter < PaymentPresenter
   alias_method :amount, :end_amount
 
   def deposits
-    number_to_currency @model.payments.where(sign: 1).sum(:amount)
+    number_to_currency @model.deposits
   end
 
   def disburses
-    number_to_currency @model.payments.where(sign: -1).sum(:amount)
+    number_to_currency @model.disburses
   end
 
   def interests

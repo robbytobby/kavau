@@ -2,31 +2,35 @@ require 'active_support/concern'
 
 module Searchable
   extend ActiveSupport::Concern
-  require 'csv'
 
   included do
-    respond_to :html, :json, :js, :csv
-    before_action :set_up_search, only: [:index, :download_csv]
-    before_action :set_collection, only: [:index, :download_csv]
-  end
-
-  def download_csv
-    respond_with @q.result, filename: I18n.t(controller_name, scope: :controller_names), header: klass.csv_header
+    respond_to :html, :json, :js, :xlsx
+    before_action :setup_search, only: [:index, :download_csv]
+    before_action :setup_collection, :paginate, only: [:index, :download_csv]
   end
 
   private
-    def set_up_search
-      @q = original.ransack(search_params)
+    def setup_search
+      @q = get_collection.ransack(search_params)
     end
 
-    def set_collection
+    def setup_collection
+      set_collection(@q.result)
+    end
+
+    def set_collection(object)
       instance_variable_set(
         instance_variable_name(plural: true),
-        @q.result.page(params[:page])
+        object
       )
     end
 
-    def original
+    def paginate
+      return unless request.format.html?
+      set_collection( get_collection.page(params[:page]) )
+    end
+
+    def get_collection
       instance_variable_get(instance_variable_name(plural: true))
     end
 

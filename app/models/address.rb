@@ -1,6 +1,7 @@
 class Address < ActiveRecord::Base
-  include AsCsv
+  include AsSpreadsheet
   strip_attributes
+  delegate :human_salutation, :country_name, :legal_form,  to: :presented, prefix: true
 
   scope :creditors, -> { where(type: ['Person', 'Organization']) }
   scope :project_addresses, -> { where(type: 'ProjectAddress') }
@@ -36,7 +37,8 @@ class Address < ActiveRecord::Base
     organization? || person?
   end
 
-  def self.csv_columns
-    [:id, :human_salutation, :title, :name, :first_name, :street_number, :zip, :city, :country_name, :legal_form]
+  private
+  def spreadsheet_values
+    [:id, :presented_human_salutation, :title, :name, :first_name, :presented_legal_form, :street_number, :zip, :city, :presented_country_name, :email, :phone, :notes]
   end
 end

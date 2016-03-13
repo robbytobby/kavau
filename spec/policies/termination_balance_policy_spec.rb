@@ -8,12 +8,12 @@ RSpec.describe TerminationBalancePolicy do
 
   context "for an admin" do
     let(:user){ create :admin }
-    permits [:show, :destroy, :delete, :download, :download_csv]
+    permits [:show, :destroy, :delete, :download]
   end
 
   context "for an accountant" do
     let(:user){ create :accountant }
-    permits [:show, :destroy, :delete, :download, :download_csv]
+    permits [:show, :destroy, :delete, :download]
   end
 end
 

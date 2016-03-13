@@ -8,17 +8,6 @@ RSpec.describe PaymentsController, type: :controller do
 
   let(:credit_agreement_params){ { credit_agreement_id: @credit_agreement.id } }
 
-  context "csv download" do
-    let(:array){ [@payment] }
-    before :each do
-      @payment = create :deposit
-      get :download_csv, format: :csv
-    end
-
-    it_behaves_like "pdf_downloadable"
-  end
-
-
   [:deposit, :disburse].each do |payment_type|
     describe "GET #index" do
       before :each do
@@ -37,14 +26,15 @@ RSpec.describe PaymentsController, type: :controller do
       end
     end
 
-    context "csv download" do
-      let(:array){ [@payment] }
+    context "xlsx download" do
       before :each do
         @payment = create :deposit
-        get :download_csv, format: :csv
+        get :index, format: :xlsx
       end
 
-      it_behaves_like "pdf_downloadable"
+      let(:array){ [@payment] }
+      let(:collection_name){ :payments }
+      it_behaves_like "xlsx_downloadable"
     end
 
     describe "GET #show format: pdf" do

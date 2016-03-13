@@ -75,7 +75,7 @@ RSpec.describe "balances" do
 
         it "all balances are shown" do
           visit balances_path
-          expect(page).to have_selector('a[href="/balances/download_csv.csv"]')
+          expect(page).to have_selector('a#download_xlsx')
           @balances.each do |bal|
             expect(page).to have_css("tr#auto_balance_#{bal.id}")
             within "tr#auto_balance_#{bal.id}" do

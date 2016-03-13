@@ -31,7 +31,7 @@ class BalancePdf < ApplicationPdf
   def credit_agreement_number
     [
       CreditAgreement.model_name.human, 
-      CreditAgreement.human_attribute_name(:id), 
+      CreditAgreement.human_attribute_name(:number), 
       CreditAgreementPresenter.new(@balance.credit_agreement, self).number
     ].join(' ')
   end

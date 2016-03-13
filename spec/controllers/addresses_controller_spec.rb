@@ -25,14 +25,15 @@ RSpec.describe AddressesController, type: :controller do
     end
   end
 
-  context "csv download" do
+  context "xlsx download" do
     before :each do
       @person = create :person 
-      get :download_csv, format: :csv, type: 'Creditor'
+      get :index, format: :xlsx, type: 'Creditor'
     end
 
     let(:array){ [@person] }
-    it_behaves_like "pdf_downloadable"
+    let(:collection_name){ :addresses }
+    it_behaves_like "xlsx_downloadable"
   end
 
 

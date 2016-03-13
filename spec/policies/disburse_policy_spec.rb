@@ -24,12 +24,12 @@ RSpec.describe DisbursePolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:index, :show, :download, :download_csv]
+      permits [:index, :show, :download]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:index, :show, :download, :download_csv]
+      permits [:index, :show, :download]
     end
 
     context "for a non privileged user" do
@@ -43,12 +43,12 @@ RSpec.describe DisbursePolicy do
 
     context "for an admin" do
       let(:user){ create :admin }
-      permits [:index, :new, :create, :show, :download, :download_csv]
+      permits [:index, :new, :create, :show, :download]
     end
 
     context "for an accountant" do
       let(:user){ create :accountant }
-      permits [:index, :new, :create, :show, :download, :download_csv]
+      permits [:index, :new, :create, :show, :download]
     end
 
     context "for a non privileged user" do
