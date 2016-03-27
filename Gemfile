@@ -55,6 +55,8 @@ gem 'paperclip', '~> 4.3'
 gem 'remotipart', '~> 1.2'
 gem 'axlsx'
 gem 'spreadsheet_architect', git: 'https://github.com/robbytobby/spreadsheet_architect.git'
+#gem 'spreadsheet_architect', '~>1.2.3'
+#gem 'spreadsheet_architect', git: 'https://github.com/westonganger/spreadsheet_architect.git', branch: :master
 
 group :development, :test do
   gem 'byebug', '~> 6.0'
