@@ -1,27 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Address do
-  it "is convertable to spreadsheet" do
-    address = create :person
-    expect(address.send(:spreadsheet_columns)).to eq(
-      [ 
-        ["Id", :id],
-        ["Anrede", :presented_human_salutation],
-        ["Titel", :title],
-        ["Nachname", :name],
-        ["Vorname", :first_name],
-        ["Gesellschaftsform", :presented_legal_form],
-        ["Straße & Nr", :street_number],
-        ["PLZ", :zip],
-        ["Stadt", :city],
-        ["Land", :presented_country_name],
-        ["Email", :email],
-        ["Telefon", :phone],
-        ["Notizen", :notes]
-      ]
-    )
-  end
-
   [:contact, :organization, :person, :project_address].each do |type|
 
     it "knows, if it is a #{type}" do
@@ -41,11 +20,6 @@ RSpec.describe Address do
     it "knows, if it is a creditor" do
       address = create type
       expect(address).to be_creditor
-    end
-
-    context "as spreadsheet" do
-      let(:object){ create type }
-      it_behaves_like "spreadsheet"
     end
   end
 

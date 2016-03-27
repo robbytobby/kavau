@@ -3,10 +3,11 @@ class BalancesController < ApplicationController
   include LoadAuthorized
   include Searchable
   default_sort ['date desc', 'credit_agreement_id asc']
+  respond_to :xlsx
   before_action :set_credit_agreement, except: [:index, :show, :download_csv]
 
   def index
-    respond_with @balances
+    respond_with @balances, filename: Balance.model_name.human.pluralize(I18n.locale)
   end
 
   def show

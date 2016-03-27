@@ -1,0 +1,12 @@
+present(payment) do |presented|
+  sheet.add_row [
+    payment.id,
+    payment.date,
+    presented.type,
+    presented.creditor_name,
+    presented.credit_agreement_number,
+    presented.account_name,
+    payment.amount * payment.sign
+  ]
+end
+

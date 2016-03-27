@@ -4,12 +4,13 @@ class AddressesController < ApplicationController
   include Searchable
   include CheckProjectAddress
   default_sort ['name asc', 'first_name asc']
+  respond_to :xlsx
 
   before_action :check_contacts, :legal_information_given?, :default_account_set, only: :show
 
   def index
     @addresses = @addresses.includes(:credit_agreements)
-    respond_with @addresses
+    respond_with @addresses, filename: Creditor.model_name.human.pluralize(I18n.locale)
   end
 
   def show

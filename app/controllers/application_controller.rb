@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Prawn::Errors::CannotFit, with: :layout_error
   rescue_from CustomError, with: :rescue_custom_exception
-  rescue_from SpreadsheetArchitect::NoDataError, with: :no_data_error
 
   self.responder = ApplicationResponder
   respond_to :html
@@ -34,11 +33,6 @@ class ApplicationController < ActionController::Base
     def user_not_authorized
       flash[:alert] = I18n.t('helpers.not_auhtorized')
       redirect_to(request.referrer || root_path)
-    end
-
-    def no_data_error
-      flash[:warning] = I18n.t('exceptions.no_data_error')
-      redirect_to :back
     end
 
     def layout_error(exception)

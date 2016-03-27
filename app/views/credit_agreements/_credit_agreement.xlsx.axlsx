@@ -1,0 +1,14 @@
+present(credit_agreement) do |presented|
+  sheet.add_row [
+    credit_agreement.id,
+    credit_agreement.number,
+    credit_agreement.amount,
+    credit_agreement.interest_rate / 100,
+    credit_agreement.cancellation_period,
+    presented.creditor_name,
+    credit_agreement.creditor_id,
+    presented.account_name,
+    credit_agreement.account_id,
+    credit_agreement.terminated_at
+  ]
+end

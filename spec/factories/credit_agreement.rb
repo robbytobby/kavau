@@ -12,5 +12,4 @@ FactoryGirl.define do
   trait :with_payment do
     after(:create) { |object| create :deposit, credit_agreement: object }
   end
-
 end

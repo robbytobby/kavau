@@ -33,6 +33,7 @@ RSpec.describe AddressesController, type: :controller do
 
     let(:array){ [@person] }
     let(:collection_name){ :addresses }
+    let(:filename){ 'Kreditgeber_innen' }
     it_behaves_like "xlsx_downloadable"
   end
 

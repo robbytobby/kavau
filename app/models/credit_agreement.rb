@@ -1,8 +1,6 @@
 class CreditAgreement < ActiveRecord::Base
   include ActiveModel::Dirty
-  include AsSpreadsheet
 
-  delegate :creditor_name, :account_name, :terminated_at, to: :presented, prefix: true
   strip_attributes
   has_paper_trail class_name: 'CreditAgreementVersion', meta: { valid_from: :valid_from, valid_until: :version_valid_until, interest_rate_changed: :interest_rate_changed? }, ignore: [:created_at, :updated_at, :id, :creditor_id]
 
@@ -118,10 +116,4 @@ class CreditAgreement < ActiveRecord::Base
     def at(date)
       versions.at(date).try(:reify) || self
     end
-
-  
-    def spreadsheet_values
-      [:id, :number, :amount, :interest_rate, :cancellation_period, :presented_creditor_name, :creditor_id, :presented_account_name, :account_id, :presented_terminated_at]
-    end
-
 end

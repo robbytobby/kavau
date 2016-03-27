@@ -11,7 +11,7 @@ RSpec.shared_examples "xlsx_downloadable" do
 
   it "delivers the right file-headers" do
     expect(response.header["Content-Type"]).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    expect(response.header["Content-Disposition"]).to eq("attachment; filename=\"#{collection_name.to_s.camelize}.xlsx\"")
+    expect(response.header["Content-Disposition"]).to eq("attachment; filename=\"#{filename}.xlsx\"")
   end
 end
 

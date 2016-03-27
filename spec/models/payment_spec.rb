@@ -1,26 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Payment, type: :model do
-  context "as spreadsheet" do
-    let(:object){ create :deposit }
-    it_behaves_like "spreadsheet"
-  end
-
-  it "is convertable to spreadsheet" do
-    payment = create :deposit
-    expect(payment.send(:spreadsheet_columns)).to eq(
-      [ 
-        ["ID", :id],
-        ["Datum", :presented_date],
-        ["Art", :presented_type],
-        ["Kreditgeber_in", :presented_creditor_name],
-        ["Kreditvertrag Nr", :presented_credit_agreement_number],
-        ["Konto", :presented_account_name],
-        ["Betrag [€]", :amount]
-      ]
-    )
-  end
-
   it "valid types are disburse and deposit" do
     expect(Payment.valid_types.sort).to eq(["Deposit", "Disburse"])
   end

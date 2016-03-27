@@ -1,11 +1,12 @@
 class PaymentsController < ApplicationController
   include LoadAuthorized
   include Searchable
+  respond_to :xlsx
   before_action :check_template, :find_or_create_pdf, only: :show
   default_sort 'date desc'
 
   def index
-    respond_with @payments
+    respond_with @payments, filename: Payment.model_name.human.pluralize(I18n.locale)
   end
 
   def show

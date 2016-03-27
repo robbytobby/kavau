@@ -1,0 +1,12 @@
+wb = xlsx_package.workbook
+headers = [:id, :number, :amount, :interest_rate, :cancellation_period, :creditor_name, :creditor_id, :account_name, :account_id, :terminated_at]
+
+wb.styles do |style|
+  wb.add_worksheet(name: CreditAgreement.model_name.human.pluralize) do |sheet|
+    render 'header', sheet: sheet, model: 'credit_agreement', attributes: headers
+    render @credit_agreements, sheet: sheet
+
+    style_xlsx(sheet, style, money: 2, percent: 3)
+  end
+end
+

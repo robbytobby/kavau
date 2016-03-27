@@ -4,12 +4,13 @@ class CreditAgreementsController < ApplicationController
   include Searchable
   default_sort 'number asc'
   @typed_associated_name = '@creditor'
+  respond_to :xlsx
 
   skip_before_action :set_type, only: [:index, :show]
   skip_before_action :set_associated, only: [:index, :show]
 
   def index
-    respond_with @credit_agreements
+    respond_with @credit_agreements, filename: CreditAgreement.model_name.human.pluralize(I18n.locale)
   end
 
   def show
@@ -18,8 +19,7 @@ class CreditAgreementsController < ApplicationController
 
   def new
     raise NoAccountError if Account.where(address_type: 'ProjectAddress').none?
-    respond_with @credit_agreement
-  end
+    respond_with @credit_agreement  end
 
   def edit
     respond_with @credit_agreement

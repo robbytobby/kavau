@@ -6,14 +6,6 @@ GIT
       byebug (~> 6.0)
       pry (~> 0.10)
 
-GIT
-  remote: https://github.com/robbytobby/spreadsheet_architect.git
-  revision: 776a4cbc30bcf03789b9398b1e61ccdd4afc41ff
-  specs:
-    spreadsheet_architect (1.2.1)
-      axlsx (>= 2.0)
-      rodf (>= 0.3.6)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -76,6 +68,9 @@ GEM
       htmlentities (~> 4.3.1)
       nokogiri (>= 1.4.1)
       rubyzip (~> 1.1.7)
+    axlsx_rails (0.4.0)
+      axlsx (>= 2.0.1)
+      rails (>= 3.1)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -376,10 +371,9 @@ GEM
     require_all (1.3.3)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rodf (0.3.6)
-      activesupport (>= 3.0, < 5.0)
-      builder (~> 3.0)
-      rubyzip (~> 1.0)
+    roo (2.3.2)
+      nokogiri (~> 1)
+      rubyzip (~> 1.1, < 2.0.0)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -520,7 +514,8 @@ PLATFORMS
 
 DEPENDENCIES
   attr_encrypted
-  axlsx
+  axlsx (~> 2.1.0.pre)
+  axlsx_rails
   bootstrap-sass
   brakeman
   bullet
@@ -565,6 +560,7 @@ DEPENDENCIES
   ransack
   remotipart (~> 1.2)
   responders
+  roo
   rspec-rails
   rubocop
   rubycritic
@@ -572,7 +568,6 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   selenium-webdriver
   simple_form
-  spreadsheet_architect!
   spring
   spring-commands-rspec
   strip_attributes

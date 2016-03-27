@@ -53,10 +53,8 @@ gem 'paper_trail', '~> 4.0.0'
 gem 'validates_timeliness', '~> 4.0'
 gem 'paperclip', '~> 4.3'
 gem 'remotipart', '~> 1.2'
-gem 'axlsx'
-gem 'spreadsheet_architect', git: 'https://github.com/robbytobby/spreadsheet_architect.git'
-#gem 'spreadsheet_architect', '~>1.2.3'
-#gem 'spreadsheet_architect', git: 'https://github.com/westonganger/spreadsheet_architect.git', branch: :master
+gem 'axlsx', '~> 2.1.0.pre'
+gem 'axlsx_rails'
 
 group :development, :test do
   gem 'byebug', '~> 6.0'
@@ -94,6 +92,7 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'roo'
   gem 'selenium-webdriver'
   #gem 'simplecov', :require => false
   gem "codeclimate-test-reporter", require: nil

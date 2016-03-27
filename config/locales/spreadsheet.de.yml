@@ -7,12 +7,12 @@ de:
         amount: 'Betrag [€]'
         interest_rate: 'Zinssatz p.a. [%]'
         creditor_name: 'Kreditgeber_in'
-        creditor_id: 'Kreiditgeber_in ID'
+        creditor_id: 'Kreditgeber_in ID'
         cancellation_period: 'Kündigungsfrist [Monate]'
         account_name: 'Konto'
         account_id: 'Konto ID'
         terminated_at: 'getilgt am'
-      auto_balance:
+      balance:
         id: 'Saldo ID'
         credit_agreement_number: 'Kreditvertrag Nr'
         credit_agreement_id: 'Kreditvertrag ID'
@@ -21,30 +21,7 @@ de:
         disburses: 'ausgezahlt [€]'
         interests_sum: 'Zinsen [€]'
         end_amount: 'Kontostand [€]'
-      manual_balance:
-        id: 'Saldo ID'
-        credit_agreement_number: 'Kreditvertrag Nr'
-        credit_agreement_id: 'Kreditvertrag ID'
-        start_amount: 'Kontostand alt [€]'
-        deposits: 'eingezahlt [€]'
-        disburses: 'ausgezahlt [€]'
-        interests_sum: 'Zinsen [€]'
-        end_amount: 'Kontostand [€]'
-      termination_balance:
-        id: 'Saldo ID'
-        credit_agreement_number: 'Kreditvertrag Nr'
-        credit_agreement_id: 'Kreditvertrag ID'
-        start_amount: 'Kontostand alt [€]'
-        deposits: 'eingezahlt [€]'
-        disburses: 'ausgezahlt [€]'
-        interests_sum: 'Zinsen [€]'
-        end_amount: 'Kontostand [€]'
-      disburse:
-        creditor_name: 'Kreditgeber_in'
-        credit_agreement_number: 'Kreditvertrag Nr'
-        account_name: 'Konto'
-        amount: 'Betrag [€]'
-      deposit:
+      payment:
         creditor_name: 'Kreditgeber_in'
         credit_agreement_number: 'Kreditvertrag Nr'
         account_name: 'Konto'

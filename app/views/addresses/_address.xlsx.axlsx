@@ -1,0 +1,17 @@
+present(address) do |presented|
+  sheet.add_row [
+    address.id,
+    presented.human_salutation,
+    address.title,
+    address.name,
+    address.first_name,
+    presented.legal_form,
+    address.street_number,
+    address.zip,
+    address.city,
+    presented.country_name,
+    address.email,
+    address.phone,
+    address.notes,
+  ]
+end

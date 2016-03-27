@@ -21,10 +21,10 @@ class CreditAgreementPresenter < BasePresenter
     ].join(' ')
   end
 
-  def terminated_at
-    return unless @model.terminated_at
-    I18n.l(@model.terminated_at)
-  end
+  #def terminated_at
+  #  return unless @model.terminated_at
+  #  I18n.l(@model.terminated_at)
+  #end
 
   def balance_items
     (reload.payments + balances_and_interests).sort_by(&:date)

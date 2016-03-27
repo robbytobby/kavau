@@ -34,6 +34,7 @@ RSpec.describe PaymentsController, type: :controller do
 
       let(:array){ [@payment] }
       let(:collection_name){ :payments }
+      let(:filename){ 'Zahlungen' }
       it_behaves_like "xlsx_downloadable"
     end
 

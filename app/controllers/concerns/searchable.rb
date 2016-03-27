@@ -4,7 +4,7 @@ module Searchable
   extend ActiveSupport::Concern
 
   included do
-    respond_to :html, :json, :js, :xlsx, :ods
+    respond_to :html, :json, :js#, :xlsx, :ods
     before_action :setup_search, only: [:index, :download_csv]
     before_action :setup_collection, :paginate, only: [:index, :download_csv]
   end

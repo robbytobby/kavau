@@ -22,6 +22,7 @@ require 'rails_helper'
 
       let(:array){ [@credit_agreement] }
       let(:collection_name){ :credit_agreements }
+      let(:filename){ 'Kreditverträge' }
       it_behaves_like "xlsx_downloadable"
     end
 

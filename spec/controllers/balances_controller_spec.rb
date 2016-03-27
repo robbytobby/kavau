@@ -23,6 +23,7 @@ RSpec.describe BalancesController, type: :controller do
 
         let(:array){ [@balance] }
         let(:collection_name){:balances}
+        let(:filename){ 'Salden' }
         it_behaves_like "xlsx_downloadable"
       end
 

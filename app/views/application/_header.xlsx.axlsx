@@ -1,0 +1,3 @@
+sheet.add_row attributes.map{ |attr|
+  t(attr, scope: [:spreadsheet, :headers, model], default: model.camelize.constantize.human_attribute_name(attr))
+}

@@ -1,0 +1,12 @@
+wb = xlsx_package.workbook
+headers = [:id, :date, :type, :creditor_name, :credit_agreement_number, :account_name, :amount]
+
+wb.styles do |style|
+  wb.add_worksheet(name: Payment.model_name.human.pluralize) do |sheet|
+    render 'header', sheet: sheet, model: 'payment', attributes: headers
+    render @payments, sheet: sheet
+
+    style_xlsx(sheet, style, money: 6)
+  end
+end
+

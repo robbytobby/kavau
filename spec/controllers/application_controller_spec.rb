@@ -22,21 +22,6 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  describe "SpreadsheetArchitect::NoDataError" do
-    controller do
-      def test
-        raise SpreadsheetArchitect::NoDataError
-      end
-    end
-
-    it "is rescued" do
-      routes.draw { get "test" => "anonymous#test" }
-      get :test
-      expect(response).to redirect_to('/back')
-      expect(flash[:warning]).to match 'keine Datensätze'
-    end
-  end
-
   describe "NoAccountError" do
     controller do
       def test
