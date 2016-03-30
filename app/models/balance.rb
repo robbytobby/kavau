@@ -1,5 +1,6 @@
 class Balance < ActiveRecord::Base
   include ActiveModel::Dirty
+  include BelongsToFundViaCreditAgreement
 
   belongs_to :credit_agreement
 
@@ -41,7 +42,7 @@ class Balance < ActiveRecord::Base
   end
 
   def sum_upto(to_date)
-    start_amount + payments.younger_than_inc(to_date).sum('amount * sign')
+    start_amount + payments.before_inc(to_date).sum('amount * sign')
   end
 
   def payments

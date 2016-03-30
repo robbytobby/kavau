@@ -28,3 +28,17 @@
   %tbody
     = render partial: 'account', collection: @accounts
     = render :partial => 'sums'
+
+%h1
+  = t '.funds'
+  .pull-right
+    = authorized_icon_link :new, :fund, wrap: :small, id: 'new_fund'
+%table.table.table-striped.funds
+  %thead
+    %tr
+      %th= Fund.human_attribute_name :interest_rate
+      %th= Fund.human_attribute_name :limit
+      %th= Fund.human_attribute_name :issued_at
+      %th
+  %tbody
+    = render @funds

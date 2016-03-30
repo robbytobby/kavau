@@ -185,9 +185,6 @@ GEM
     formatador (0.2.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    goldiloader (0.0.9)
-      activerecord (>= 3.2, < 4.3)
-      activesupport (>= 3.2, < 4.3)
     guard (2.13.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, <= 4.0)
@@ -374,6 +371,7 @@ GEM
     roo (2.3.2)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
+    rounding (1.0.1)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -535,7 +533,6 @@ DEPENDENCIES
   exception_notification
   factory_girl
   factory_girl_rails
-  goldiloader
   guard-bundler
   guard-rspec
   guard-spring
@@ -561,6 +558,7 @@ DEPENDENCIES
   remotipart (~> 1.2)
   responders
   roo
+  rounding
   rspec-rails
   rubocop
   rubycritic

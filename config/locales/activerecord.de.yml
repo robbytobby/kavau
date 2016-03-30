@@ -36,6 +36,7 @@ de:
       credit_agreement: 'Kreditvertrag'
       deposit: 'Einzahlung'
       disburse: 'Auszahlung'
+      fund: 'Anlage'
       letter: 'Briefvorlage'
       standard_letter: 'Briefvorlage'
       termination_letter: 'Anschreiben für Kreditkündigungen'
@@ -111,6 +112,10 @@ de:
         payment_amount: 'Betrag'
         payment_type: 'Art'
         valid_from: 'Gültig ab'
+      fund:
+        interest_rate: 'Zinssatz'
+        limit: 'Bagatell-Grenze'
+        issued_at: 'herausgegeben am'
       letter:
         content: 'Text'
         created_at: 'angelegt am'

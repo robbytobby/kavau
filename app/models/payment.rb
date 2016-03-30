@@ -1,4 +1,6 @@
 class Payment < ActiveRecord::Base
+  include BelongsToFundViaCreditAgreement
+
   belongs_to :credit_agreement
   has_one :pdf
   delegate :balances, :last_terminated_year, to: :credit_agreement
@@ -7,9 +9,9 @@ class Payment < ActiveRecord::Base
   validates_numericality_of :amount, greater_than: 0
   validate :not_in_the_future, :year_not_terminated
 
-  scope :younger_than_inc, ->(to_date){ where(['date <= ?', to_date]) }
-  scope :older_than, ->(from_date){ where(['date > ?', from_date]) }
-  scope :this_year_upto, ->(to_date){ younger_than_inc(to_date).older_than(to_date.beginning_of_year.prev_day) }
+  scope :before_inc, ->(to_date){ where(['date <= ?', to_date]) }
+  scope :after, ->(from_date){ where(['date > ?', from_date]) }
+  scope :this_year_upto, ->(to_date){ before_inc(to_date).after(to_date.beginning_of_year.prev_day) }
 
   after_save :update_balances
   after_destroy :update_balances

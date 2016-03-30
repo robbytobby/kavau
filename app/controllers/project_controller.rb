@@ -8,6 +8,7 @@ class ProjectController < ApplicationController
   def show
     @type = 'ProjectAddress'
     @accounts = policy_scope(Account).project_accounts
+    @funds = policy_scope(Fund)
   end
 
   private

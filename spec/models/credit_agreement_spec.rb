@@ -114,6 +114,36 @@ RSpec.describe CreditAgreement, type: :model do
       end
     end
   end
+
+  describe "issued_at" do
+    it "is the date of the first payment" do
+      credit_agreement = create :credit_agreement, valid_from: Date.today.prev_year.beginning_of_year
+      create :deposit, credit_agreement: credit_agreement, date: Date.today
+      create :deposit, credit_agreement: credit_agreement, date: Date.yesterday
+      expect(credit_agreement.issued_at).to eq Date.yesterday
+    end
+
+    it "is the valid_from date if ther is no payment yet" do
+      credit_agreement = create :credit_agreement, valid_from: Date.today.beginning_of_year
+      expect(credit_agreement.issued_at).to eq Date.today.beginning_of_year
+    end
+  end
+
+  describe "checkbalance" do
+    it "sets up a checkbalance for the credit" do
+      credit_agreement = create :credit_agreement
+      expect(CheckBalance).to receive(:new).with(credit_agreement: credit_agreement, date: Date.today.end_of_year)
+      credit_agreement.check_balance
+    end
+
+    it "with a given date" do
+      credit_agreement = create :credit_agreement
+      date = Date.today
+      expect(CheckBalance).to receive(:new).with(credit_agreement: credit_agreement, date: date)
+      credit_agreement.check_balance(date)
+
+    end
+  end
   
   it "is only valid for project_accounts" do
     @account = create :person_account

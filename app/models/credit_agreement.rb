@@ -42,6 +42,10 @@ class CreditAgreement < ActiveRecord::Base
     balances.interest_sum + todays_balance.interests_sum
   end
 
+  def check_balance(date = Date.today.end_of_year)
+    CheckBalance.new(credit_agreement: self, date: date)
+  end
+
   def todays_balance
     auto_balances.build
   end
@@ -65,6 +69,11 @@ class CreditAgreement < ActiveRecord::Base
 
   def version_valid_until
     valid_from
+  end
+
+  def issued_at
+    return valid_from if payments.none?
+    payments.first.date
   end
 
   private

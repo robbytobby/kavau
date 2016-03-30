@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   resources :balances, only: :index
   resources :balances, only: :show, format: true, constraints: {format: :pdf}
-
+  resources :funds, except: [:index, :show]
 
   resources :credit_agreements, only: :index
   resources :credit_agreements, only: :show, constraints: {id: /\d+/} do
