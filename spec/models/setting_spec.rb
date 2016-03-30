@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Setting, type: :model do
-  after :each do
-    reset_config 
-  end
+  before(:each){ reset_config }
+  after(:all){ reset_config }
 
   it "the class updates the config" do
     create :string_setting, category: 'pdf', group: 'content', name: 'saldo_information', value: 'FooBar'

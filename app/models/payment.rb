@@ -1,5 +1,6 @@
 class Payment < ActiveRecord::Base
   include BelongsToFundViaCreditAgreement
+  include DateScopes
 
   belongs_to :credit_agreement
   has_one :pdf
@@ -8,10 +9,6 @@ class Payment < ActiveRecord::Base
   validates_presence_of :amount, :type, :date, :credit_agreement_id
   validates_numericality_of :amount, greater_than: 0
   validate :not_in_the_future, :year_not_terminated
-
-  scope :before_inc, ->(to_date){ where(['date <= ?', to_date]) }
-  scope :after, ->(from_date){ where(['date > ?', from_date]) }
-  scope :this_year_upto, ->(to_date){ before_inc(to_date).after(to_date.beginning_of_year.prev_day) }
 
   after_save :update_balances
   after_destroy :update_balances

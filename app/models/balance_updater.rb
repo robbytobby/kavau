@@ -17,7 +17,7 @@ class BalanceUpdater
     end
 
     def delete_unnecessary_balances
-      @credit_agreement.balances.younger_than(date_of_first_payment).destroy_all
+      @credit_agreement.balances.before(date_of_first_payment).destroy_all
     end
 
     def update_balances

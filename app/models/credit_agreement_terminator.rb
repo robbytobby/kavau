@@ -27,7 +27,7 @@ class CreditAgreementTerminator
   end
 
   def delete_stale_balances
-    @credit_agreement.balances.older_than(@termination_date).destroy_all
+    @credit_agreement.balances.after(@termination_date).destroy_all
   end
 
   def create_disburse
