@@ -36,6 +36,7 @@
 %table.table.table-striped.funds
   %thead
     %tr
+      %th= Fund.human_attribute_name :project_address
       %th= Fund.human_attribute_name :interest_rate
       %th= Fund.human_attribute_name :limit
       %th= Fund.human_attribute_name :issued_at

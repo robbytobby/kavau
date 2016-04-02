@@ -9,6 +9,10 @@ de:
             valid_from:
               before_last_value: 'muß nach dem letzten Gültigkeitsdatum %{last} liegen'
               year_terminated: 'das Konto ist für %{year} schon geschlossen'
+        fund:
+          attributes:
+            interest_rate:
+              taken: 'ist für diesen Emittenten schon vergeben'
         payment:
           attributes:
             date:
@@ -116,6 +120,7 @@ de:
         interest_rate: 'Zinssatz'
         limit: 'Bagatell-Grenze'
         issued_at: 'herausgegeben am'
+        project_address: 'Emittent'
       letter:
         content: 'Text'
         created_at: 'angelegt am'

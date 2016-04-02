@@ -4,6 +4,6 @@ module BelongsToFundViaCreditAgreement
   extend ActiveSupport::Concern
 
   included do
-    scope :for_fund, ->(fund){ joins(:credit_agreement).where(credit_agreements: {interest_rate: fund.interest_rate}) }
+    scope :for_fund, ->(fund){ where(credit_agreement_id: fund.credit_agreements.pluck(:id)) }
   end
 end

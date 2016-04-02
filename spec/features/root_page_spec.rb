@@ -72,6 +72,7 @@ RSpec.describe "On the home page" do
         expect(page).to have_content(number_to_percentage(@fund.interest_rate))
         expect(page).to have_content(I18n.t(@fund.limit, scope: :fund_limits))
         expect(page).to have_content(I18n.l(@fund.issued_at))
+        expect(page).to have_content(@fund.project_address.name)
       end
 
       context "I can see credit_agreements summary" do
@@ -249,6 +250,7 @@ RSpec.describe "On the home page" do
 
     context "managing funds" do
       before(:each){ 
+        @project_address = create :project_address, name: 'Project', legal_form: 'limited'
         @fund = create :fund 
         visit "/"
       }
@@ -261,6 +263,7 @@ RSpec.describe "On the home page" do
         select 1, from: :fund_issued_at_3i
         select 'Januar', from: :fund_issued_at_2i
         select '2016', from: :fund_issued_at_1i
+        select 'Project GmbH', from: 'fund_project_address_id'
         click_on :submit
         expect(current_path).to eq project_path
       end

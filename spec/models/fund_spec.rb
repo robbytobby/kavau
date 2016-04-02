@@ -27,10 +27,29 @@ RSpec.describe Fund, type: :model do
       expect(fund).not_to be_valid
     end
 
-    it "the interest rate has to be uniq" do
-      create :fund, interest_rate: 1
-      fund = build :fund, interest_rate: 1
+    it "is not valid without an associated project address" do
+      fund = build :fund, project_address: nil
       expect(fund).not_to be_valid
+    end
+
+    describe "the interest_rate has to be uniq for one project address" do
+      it "- two fund with the same rat for the same project are invalid" do
+        fund = create :fund, interest_rate: 1
+        other_fund = build :fund, interest_rate: 1, project_address: fund.project_address
+        expect(other_fund).not_to be_valid
+      end
+
+      it "- two fund with the same rate for different project addresses are valid" do
+        fund = create :fund, interest_rate: 1
+        other_fund = build :fund, interest_rate: 1
+        expect(other_fund).to be_valid
+      end
+
+      it "- thow funds with different rates for the same project address are valid" do
+        fund = create :fund, interest_rate: 1
+        other_fund = build :fund, interest_rate: 2, project_address: fund.project_address
+        expect(other_fund).to be_valid
+      end
     end
 
     Fund.valid_limits.each do |limit|
@@ -72,6 +91,38 @@ RSpec.describe Fund, type: :model do
     end
   end
 
+  describe "credit_agreements" do
+    before(:each){ 
+      @project_address = create :project_address, :with_default_account
+      @account = @project_address.accounts.first
+      @fund = create :fund, interest_rate: 2, project_address: @project_address 
+    }
+
+    it "a credit_agreement with the same interest rate for the same project_address_id counts" do
+      credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, account: @account
+      expect(@fund.credit_agreements).to eq([credit_agreement])
+    end
+
+    it "a credit_agreement with the same interest rate for the same project_address counts, even on a different account" do
+      credit_agreement_1 = create :credit_agreement, interest_rate: @fund.interest_rate, account: @account
+      account_2 = create :account, address: @project_address
+      credit_agreement_2 = create :credit_agreement, interest_rate: @fund.interest_rate, account: account_2
+      expect(@fund.credit_agreements).to eq([credit_agreement_1, credit_agreement_2])
+    end
+
+    it "a credit_agreement with the same interest_rate an other project_address does not count" do
+      credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, account: @account
+      create :credit_agreement, interest_rate: @fund.interest_rate
+      expect(@fund.credit_agreements).to eq([credit_agreement])
+    end
+
+    it "a credit_agreement with a different interest_rate and thje same project_address does not count" do
+      credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, account: @account
+      create :credit_agreement, interest_rate: 3.33, account: @account 
+      expect(@fund.credit_agreements).to eq([credit_agreement])
+    end
+  end
+
   describe "still avalailable" do
     context "fund limited by number_of_shares" do
       before(:each){ @fund = create(:fund, limit: :number_of_shares) }
@@ -81,121 +132,158 @@ RSpec.describe Fund, type: :model do
       end
 
       [1, 3, 4].each do |number|
-        it "is 19 shares if there allready is one" do
-          create_list :credit_agreement, number, interest_rate: @fund.interest_rate
+        it "is #{20-number} shares if there allready is #{number}" do
+          account = @fund.project_address.accounts.first
+          create_list :credit_agreement, number, interest_rate: @fund.interest_rate, account: account
           expect(@fund.still_available).to eq 20 - number
         end
       end
 
-      it "old credit agreemtents do not count to the limit" do
-        #TODO: Altfallregelung
-        @fund = create :fund, interest_rate: 2, issued_at: Date.today.beginning_of_year
-        create :credit_agreement, interest_rate: @fund.interest_rate, valid_from: Date.today.prev_year
+      it "is 20 shares if there is a credit_agreement with the same interest_amount, but for a different emittent" do
+        create :credit_agreement, interest_rate: @fund.interest_rate
         expect(@fund.still_available).to eq 20
       end
+
+     # it "old credit agreemtents do not count to the limit" do
+     #   #TODO: Altfallregelung
+     #   @fund = create :fund, interest_rate: 2, issued_at: Date.today.beginning_of_year
+     #   create :credit_agreement, interest_rate: @fund.interest_rate, valid_from: Date.today.prev_year
+     #   expect(@fund.still_available).to eq 20
+     # end
     end
 
     context "fund limited by one_year_amount" do
-      before(:each){ @fund = create(:fund, limit: 'one_year_amount', interest_rate: 1.3) }
+      before(:each){ 
+        @fund = create(:fund, limit: 'one_year_amount', interest_rate: 1.3) 
+        @account = @fund.project_address.accounts.first
+        @same_project_account = create :account, address: @fund.project_address
+      }
       
       it "is 100.000 - interest that a credit would yield if there is no credit at all for this fund" do
-        max = (100000 / (1 + (0.013 * (Date.today.end_of_year - Date.today) / Date.today.end_of_year.yday) )).to_d.floor_to(0.01)
+        max = without_coming_interests(100000, interest_rate: @fund.interest_rate, date: Date.today)
         expect(@fund.still_available).to eq max
       end
 
       it "takes allready received payments into account" do
+        credit_agreement = credit_for_fund(@fund, 10000)
+        deposit = deposit_for_credit(credit_agreement)
+        max = 100000 - deposit.amount - credit_agreement.check_balance.interests_sum
+        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.today)
+        expect(@fund.still_available).to eq max
+      end
+
+      it "takes allready received payments into account, even on a different account of the same project address" do
+        credit_agreement = credit_for_fund(@fund, 10000, account: @same_project_account)
+        deposit = deposit_for_credit(credit_agreement)
+        max = 100000 - deposit.amount - credit_agreement.check_balance.interests_sum
+        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.today)
+        expect(@fund.still_available).to eq max
+      end
+
+      it "dos not take payments for an other project address into account" do
         credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000
-        deposit = create :deposit, credit_agreement: credit_agreement, amount: 10000, date: Date.today
-        max = (100000 - deposit.amount * (1 + (0.013 * (Date.today.end_of_year - Date.today) / Date.today.end_of_year.yday) )).round(2)
-        max = (max / (1 + (0.013 * (Date.today.end_of_year - Date.today) / Date.today.end_of_year.yday) )).to_d.floor_to(0.01)
+        deposit = deposit_for_credit(credit_agreement)
+        max = without_coming_interests(100000, interest_rate: @fund.interest_rate, date: Date.today)
         expect(@fund.still_available).to eq max
       end
 
       it "takes an allready received payment and its interest of into account" do
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000
-        deposit = create :deposit, credit_agreement: credit_agreement, amount: 10000, date: Date.today.prev_year.next_day
+        credit_agreement = credit_for_fund(@fund, 10000)
+        deposit = deposit_for_credit(credit_agreement, date: Date.tomorrow.prev_year)
         interest = credit_agreement.auto_balances.last.interests_sum
         max = 100000 - deposit.amount - interest
         expect(@fund.still_available).to eq max
       end
 
       it "takes future payments into account" do
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000
-        deposit = create :deposit, credit_agreement: credit_agreement, amount: 10000, date: Date.today
-        interest = CheckBalance.new(credit_agreement: credit_agreement, date: Date.today.end_of_year).interests_sum
+        credit_agreement = credit_for_fund(@fund, 10000)
+        deposit = deposit_for_credit(credit_agreement)
+        interest = credit_agreement.check_balance.interests_sum
         max = 100000 - deposit.amount - interest
-        max = (max / (1 + (0.013 * (Date.today.end_of_year - Date.today.prev_day) / Date.today.end_of_year.yday) )).to_d.floor_to(0.01)
+        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.yesterday)
         expect(@fund.still_available(Date.today.prev_day)).to eq max
       end
 
       it "takes many allready received payments and their interest into account" do
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000
-        deposit = create :deposit, credit_agreement: credit_agreement, amount: 10000, date: Date.today.prev_year.next_day
-        credit_agreement2 = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 20000
-        deposit2 = create :deposit, credit_agreement: credit_agreement2, amount: 20000, date: Date.today.prev_day(230)
+        credit_agreement = credit_for_fund(@fund, 10000)
+        deposit = deposit_for_credit(credit_agreement, date: Date.tomorrow.prev_year)
+        credit_agreement2 = credit_for_fund(@fund, 20000)
+        deposit2 = deposit_for_credit(credit_agreement2, date: Date.today.prev_day(230))
         interest = credit_agreement.auto_balances.last.interests_sum
-        interest2 = CheckBalance.new(credit_agreement: credit_agreement2, date: Date.today.prev_year.end_of_year).interests_sum
+        interest2 = credit_agreement2.check_balance(Date.today.prev_year.end_of_year).interests_sum
         max = 100000 - deposit.amount - interest - deposit2.amount - interest2
         expect(@fund.still_available).to eq max
       end
 
       it "takes interests from old credit_agreements into account" do
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000
-        deposit = create :deposit, credit_agreement: credit_agreement, amount: 1, date: Date.today.prev_year.end_of_year
-        interest = (1 * 0.013).round(2)
-        max = ((100000 - interest) / (1 + (0.013 * (Date.today.end_of_year - Date.today) / Date.today.end_of_year.yday) )).to_d.floor_to(0.01)
+        credit_agreement = credit_for_fund(@fund, 10000)
+        deposit = deposit_for_credit(credit_agreement, amount: 1, date: Date.today.prev_year.end_of_year)
+        max = 100000 - credit_agreement.check_balance.interests_sum
+        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.today)
         expect(@fund.still_available).to eq max
       end
 
       it "takes new credit_agreements without payments into account" do
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000, valid_from: Date.yesterday
-        interest = (10000 * (1 + (0.013 * (Date.today.end_of_year - Date.yesterday) / Date.today.end_of_year.yday) )).to_d.round(2)
-        max = ((100000 - interest) / (1 + (0.013 * (Date.today.end_of_year - Date.today) / Date.today.end_of_year.yday) )).to_d.floor_to(0.01)
+        credit_agreement = credit_for_fund(@fund, 10000, valid_from: Date.yesterday)
+        max = 100000 - credit_agreement.check_balance.end_amount
+        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.today)
         expect(@fund.still_available).to eq max
       end
 
       it "takes old credit_agreements without payments into account" do
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000, valid_from: Date.yesterday.prev_year(2)
-        interest = (10000 * (1 + (0.013 * (Date.today.end_of_year.yday - 1)/Date.today.end_of_year.yday ))).to_d.round(2)
-        max = ((100000 - interest) / (1 + (0.013 * (Date.today.end_of_year - Date.today) / Date.today.end_of_year.yday) )).to_d.floor_to(0.01)
+        credit_agreement = credit_for_fund(@fund, 10000, valid_from: Date.yesterday.prev_year(2))
+        max = 100000 - credit_agreement.check_balance.end_amount
+        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.today)
         expect(@fund.still_available).to eq max
       end
 
       it "combines the different calculations 1" do
-        credit_agreement1 = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000, valid_from: Date.yesterday.prev_year(2)
-        credit_agreement2 = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000, valid_from: Date.yesterday
-        interest1 = (10000 * (1 + (0.013 * (Date.today.end_of_year - Date.yesterday) / Date.today.end_of_year.yday) )).to_d.round(2)
-        interest2 = (10000 * (1 + (0.013 * (Date.today.end_of_year.yday - 1)/Date.today.end_of_year.yday ))).to_d.round(2)
-        max = ((100000 - interest1 - interest2) / (1 + (0.013 * (Date.today.end_of_year - Date.today) / Date.today.end_of_year.yday) )).to_d.floor_to(0.01)
+        credit_agreement1 = credit_for_fund(@fund, 10000, valid_from: Date.yesterday.prev_year(2))
+        credit_agreement2 = credit_for_fund(@fund, 10000, valid_from: Date.yesterday)
+        max = 100000 - credit_agreement1.check_balance.end_amount - credit_agreement2.check_balance.end_amount
+        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.today)
         expect(@fund.still_available).to eq max
       end
 
       it "combines the different calculations 2" do
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000
-        deposit = create :deposit, credit_agreement: credit_agreement, amount: 10000, date: Date.today.prev_year
+        credit_agreement = credit_for_fund(@fund, 10000)
+        deposit = deposit_for_credit(credit_agreement, date: Date.today.prev_year)
         interest = credit_agreement.auto_balances.last.interests_sum
         max = 100000 - deposit.amount - interest
 
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 1000
-        deposit = create :deposit, credit_agreement: credit_agreement, amount: 1000, date: Date.today
+        credit_agreement = credit_for_fund(@fund, 1000)
+        deposit = deposit_for_credit(credit_agreement)
         
         expect(@fund.still_available(Date.yesterday)).to eq max
       end
 
       it "combines the different calculations 3" do
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 1000
-        deposit = create :deposit, credit_agreement: credit_agreement, amount: 1000, date: Date.today.prev_year
+        credit_agreement = credit_for_fund(@fund, 1000)
+        deposit = deposit_for_credit(credit_agreement, date: Date.today.prev_year)
         interest1 = credit_agreement.check_balance.interests_sum
 
-        credit_agreement = create :credit_agreement, interest_rate: @fund.interest_rate, amount: 10000
-        deposit = create :deposit, credit_agreement: credit_agreement, amount: 1000, date: Date.today
+        credit_agreement = credit_for_fund(@fund, 10000)
+        deposit = deposit_for_credit(credit_agreement)
+        interest2 = credit_agreement.check_balance.interests_sum
 
-        interest2 = CheckBalance.new(credit_agreement: credit_agreement, date: Date.today.end_of_year).interests_sum
         max = 100000 - deposit.amount - interest1 - interest2
-        max = (max / (1 + (0.013 * (Date.today.end_of_year - Date.today.prev_day) / Date.today.end_of_year.yday) )).to_d.floor_to(0.01)
-        
+        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.yesterday)
         expect(@fund.still_available(Date.yesterday)).to eq max
       end
     end
+  end
+
+  def without_coming_interests(amount, interest_rate:, date:)
+    (amount / (1 + (interest_rate / 100 * (Date.today.end_of_year - date) / Date.today.end_of_year.yday) )).to_d.floor_to(0.01)
+  end
+
+  def credit_for_fund(fund, amount, account: nil, valid_from: nil)
+    account ||= fund.project_address.accounts.first
+    valid_from ||= Date.today
+    create :credit_agreement, interest_rate: fund.interest_rate, amount: amount, account: account, valid_from: valid_from
+  end
+
+  def deposit_for_credit(credit_agreement, amount: credit_agreement.amount, date: Date.today)
+    create :deposit, credit_agreement: credit_agreement, amount: amount, date: date 
   end
 end

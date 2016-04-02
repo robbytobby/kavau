@@ -16,4 +16,9 @@ class FundPresenter < BasePresenter
   def confirmation_label
     I18n.t("confirmation_label.#{@model.model_name.name.underscore}", rate: interest_rate)
   end
+
+  def project_address
+    return unless @model.project_address
+    ProjectAddressPresenter.new(@model.project_address, @view).full_name
+  end
 end

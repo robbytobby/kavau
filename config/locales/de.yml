@@ -50,7 +50,7 @@ de:
     society: 'Verein'
   fund_limits:
     number_of_shares: 'maximal 20 Anteile'
-    12_month_amount: 'maximal 100.000 € in 12 Monaten'
+    one_year_amount: 'maximal 100.000 € in 12 Monaten'
     none: 'keine Bagatellgrenze -> VIB !!!'
   months:
     one: '1 Monat'

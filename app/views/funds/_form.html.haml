@@ -1,5 +1,6 @@
 = simple_form_for @fund do |f|
   .form-inputs
+    = f.association :project_address, collection: project_address_options
     = f.input :interest_rate
     = f.input :limit, as: :select, collection: limit_options
     = f.input :issued_at, wrapper: :horizontal_multi_select

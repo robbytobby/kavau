@@ -17,6 +17,6 @@ class FundPolicy < ApplicationPolicy
   end
 
   def permitted_params
-    [:limit, :interest_rate, :issued_at] 
+    [:limit, :interest_rate, :issued_at, :project_address_id] 
   end
 end

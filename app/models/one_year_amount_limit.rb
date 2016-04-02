@@ -4,11 +4,6 @@ class OneYearAmountLimit < FundLimit
   end
 
   private
-  def credit_agreements
-    #FIXME Gilt hier nicht die gleiche Regel wie für die 20-Tranchen? Altfallregelung!
-    same_interst_rate_credit_agreements
-  end
-
   def dates_to_check
     [@date, @date.end_of_year] + deposits_after(@date).pluck(:date)
   end

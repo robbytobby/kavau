@@ -3,14 +3,17 @@ require 'rails_helper'
 RSpec.describe FundsController, type: :controller do
 
   let(:valid_attributes) {
-    attributes_for :fund
+    (attributes_for :fund, project_address: @project_address).merge(project_address_id: @project_address.id)
   }
 
   let(:invalid_attributes) {
     attributes_for :fund, interest_rate: nil
   }
 
-  before(:each){ sign_in create(:accountant) }
+  before(:each){ 
+    @project_address = create :project_address
+    sign_in create(:accountant) 
+  }
 
   describe "GET #new" do
     it "assigns a new fund as @fund" do
