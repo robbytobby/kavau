@@ -16,6 +16,15 @@ class FundPolicy < ApplicationPolicy
     false
   end
 
+  def update?
+    return false if @record.credit_agreements.any?
+    super
+  end
+
+  def destroy?
+    update?
+  end
+
   def permitted_params
     [:limit, :interest_rate, :issued_at, :project_address_id] 
   end

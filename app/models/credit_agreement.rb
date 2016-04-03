@@ -18,7 +18,7 @@ class CreditAgreement < ActiveRecord::Base
   validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id, :valid_from
   validates_numericality_of :amount, :cancellation_period, greater_than: 0
   validates_uniqueness_of :number, allow_blank: true
-  validate :account_valid_for_credit_agreement?, :termination_date_after_payments
+  validate :account_valid_for_credit_agreement?, :termination_date_after_payments, :fund_exists?, :after_fund_issuing, :fund_limit_fits?
   validate :new_valid_from_later_than_old_one, :year_of_valid_from_not_terminated, on: :update
 
   after_save :terminate, :update_balances
@@ -76,6 +76,11 @@ class CreditAgreement < ActiveRecord::Base
     payments.first.date
   end
 
+  def fund
+    return unless interest_rate && account
+    Fund.find_by(interest_rate: interest_rate, project_address: account.address)
+  end
+
   private
     def account_valid_for_credit_agreement?
       return unless account
@@ -99,6 +104,26 @@ class CreditAgreement < ActiveRecord::Base
       return unless valid_from 
       return unless year_terminated?(valid_from.year)
       errors.add(:valid_from, :year_terminated, year: valid_from.year)
+    end
+
+    def fund_exists?
+      return unless is_regulated?
+      errors.add(:interest_rate, :no_fund) unless fund
+    end
+
+    def after_fund_issuing
+      return unless is_regulated? && fund
+      errors.add(:valid_from, :before_fund_isssued, date: fund.issued_at) if valid_from < fund.issued_at
+    end
+
+    def fund_limit_fits?
+      return unless is_regulated? && fund && amount
+      errors.add(*fund.error_message_for_credit_agreement(self.valid_from)) unless fund.fits_credit_agreement(self)
+    end
+
+    def is_regulated?
+      return false if valid_from.blank?
+      valid_from >= Fund.regulated_from
     end
 
     def terminate

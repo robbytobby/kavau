@@ -52,19 +52,65 @@ RSpec.describe Fund, type: :model do
       end
     end
 
-    Fund.valid_limits.each do |limit|
-      it "is valid with a limit of '#{limit}'" do
-        fund = build :fund, limit: limit
-        expect(fund).to be_valid
+    describe "limits" do
+      context "bagatelle_limits are not enforced" do
+        before(:each){
+          create :boolean_setting, category: 'legal_regulation', name: 'enforce_bagatelle_limits', value: false
+          Setting.update_config
+        }
+
+        Fund.valid_limits.each do |limit|
+          it "is valid with a limit of '#{limit}'" do
+            fund = build :fund, limit: limit
+            expect(fund).to be_valid
+          end
+        end
+        
+        [nil, '', 1, 'nope'].each do |limit|
+          it "is not valid with a limit of '#{limit}'" do
+            fund = build :fund, limit: limit
+            expect(fund).not_to be_valid
+          end
+        end
+      end
+
+      context "bagatelle_limits are enforced" do
+        before(:each){
+          create :boolean_setting, category: 'legal_regulation', name: 'enforce_bagatelle_limits', value: true
+          Setting.update_config
+        }
+
+        (Fund.valid_limits - [:none]).each do |limit|
+          it "is valid with a limit of '#{limit}'" do
+            fund = build :fund, limit: limit
+            expect(fund).to be_valid
+          end
+        end
+        
+        [nil, '', 1, 'nope', 'none'].each do |limit|
+          it "is not valid with a limit of '#{limit}'" do
+            fund = build :fund, limit: limit
+            expect(fund).not_to be_valid
+          end
+        end
       end
     end
-    
-    [nil, '', 1, 'nope'].each do |limit|
-      it "is not valid with a limit of '#{limit}'" do
-        fund = build :fund, limit: limit
-        expect(fund).not_to be_valid
-      end
+  end
+  
+  describe "regulated_from" do
+    it "is 2015-07-10 without transitional regulation" do
+      create :boolean_setting, category: 'legal_regulation', name: 'utilize_transitional_regulation', value: false
+      Setting.update_config
+
+      expect(Fund.regulated_from).to eq Date.new(2015, 7, 10)
     end
+
+    it "is 2016-01-01 with transitional regulation" do
+      create :boolean_setting, category: 'legal_regulation', name: 'utilize_transitional_regulation', value: true 
+      Setting.update_config
+      expect(Fund.regulated_from).to eq Date.new(2016, 1, 1)
+    end
+
   end
 
   describe "limited_by_number_of_shares?" do
@@ -157,6 +203,7 @@ RSpec.describe Fund, type: :model do
         @fund = create(:fund, limit: 'one_year_amount', interest_rate: 1.3) 
         @account = @fund.project_address.accounts.first
         @same_project_account = create :account, address: @fund.project_address
+        dont_validate_fund_for CreditAgreement
       }
       
       it "is 100.000 - interest that a credit would yield if there is no credit at all for this fund" do

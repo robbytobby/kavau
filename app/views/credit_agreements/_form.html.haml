@@ -9,7 +9,7 @@
 .clearfix
 = simple_form_for [@creditor, @credit_agreement] do |f|
   .form-inputs
-    = f.input :valid_from, wrapper: :horizontal_multi_select, include_blank: true, selected: Date.today.year 
+    = f.input :valid_from, wrapper: :horizontal_multi_select, include_blank: true, selected: @credit_agreement.valid_from || Date.today.year
     = f.input :amount do
       .input-group.col-sm-3
         = f.number_field :amount, class: 'numeric decimal required form-control'

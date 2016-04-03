@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProjectController, type: :controller do
+  before(:all){ Fund.delete_all }
   before(:each){ sign_in create(:user) }
 
   describe "GET show" do

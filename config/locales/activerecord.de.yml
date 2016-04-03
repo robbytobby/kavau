@@ -4,6 +4,10 @@ de:
       models:
         credit_agreement:
           attributes:
+            amount:
+              to_much: 'zu hoch - max %{max} möglich'
+            interest_rate:
+              no_fund: 'für diesen Zinssatz ist kein Kreditangebot angelegt'
             terminated_at:
               before_last_payment: 'muß nach der letzten Kontobewegung liegen'
             valid_from:
@@ -121,6 +125,7 @@ de:
         limit: 'Bagatell-Grenze'
         issued_at: 'herausgegeben am'
         project_address: 'Emittent'
+        still_available: 'verfügbar'
       letter:
         content: 'Text'
         created_at: 'angelegt am'

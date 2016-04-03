@@ -66,13 +66,23 @@ RSpec.describe "On the home page" do
 
       it "shows the existing funds" do
         @fund = create :fund
+        @fund2 = create :fund, limit: 'one_year_amount'
         visit "/"
         expect(page).to have_selector('h1', text: 'Angebotene Anlagen')
-        expect(page).to have_selector("tr#fund_#{@fund.id}")
-        expect(page).to have_content(number_to_percentage(@fund.interest_rate))
-        expect(page).to have_content(I18n.t(@fund.limit, scope: :fund_limits))
-        expect(page).to have_content(I18n.l(@fund.issued_at))
-        expect(page).to have_content(@fund.project_address.name)
+        within "tr#fund_#{@fund.id}" do
+          expect(page).to have_content(number_to_percentage(@fund.interest_rate))
+          expect(page).to have_content(I18n.t(@fund.limit, scope: :fund_limits))
+          expect(page).to have_content(I18n.l(@fund.issued_at))
+          expect(page).to have_content('20 Anteile')
+          expect(page).to have_content(@fund.project_address.name)
+        end
+        within "tr#fund_#{@fund2.id}" do
+          expect(page).to have_content(number_to_percentage(@fund2.interest_rate))
+          expect(page).to have_content(I18n.t(@fund2.limit, scope: :fund_limits))
+          expect(page).to have_content(I18n.l(@fund2.issued_at))
+          expect(page).to have_content(number_to_currency(@fund2.still_available))
+          expect(page).to have_content(@fund2.project_address.name)
+        end
       end
 
       context "I can see credit_agreements summary" do

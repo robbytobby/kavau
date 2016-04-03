@@ -64,5 +64,7 @@ Rails.application.configure do
     }
 
     Rails.application.config.kavau.general = {:project_name=>"LaMa", :website_url=>"www.lamakat.de"}
+
+    Rails.application.config.kavau.legal_regulation = {enforce_bagatelle_limits: true, utilize_transitional_regulation: true}
   end
 end

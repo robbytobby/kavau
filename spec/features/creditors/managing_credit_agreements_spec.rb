@@ -4,9 +4,12 @@ RSpec.describe "managing credit aggreements" do
   [:admin, :accountant].each do |role|
     ['Organization', 'Person'].each do |type|
       context "as #{role}" do
-        before(:each){ @account = create :project_account, name: 'Account' }
-        before(:each){ @creditor = create type.underscore.to_sym }
-        before(:each){ login_as create(role) }
+        before(:each){ 
+          @account = create :project_account, name: 'Account' 
+          @creditor = create type.underscore.to_sym 
+          login_as create(role) 
+          dont_validate_fund_for CreditAgreement
+        }
 
         it "I can add a credit agreement to a #{type}" do
           visit model_path(@creditor)

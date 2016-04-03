@@ -5,6 +5,7 @@ de:
       mailer: 'Email-Versand'
       letter: 'Briefe'
       exception_notification: 'Versand von Error Mails'
+      legal_regulation: 'Kleinanlegerschutzgesetz'
       groups:
         smtp_settings: 'SMTP-Server'
         margins: 'Ränder'
@@ -36,6 +37,10 @@ de:
         email:
           - "Sollten Server Errors auftreten, wird eine automatische Mail mit der Backtrace des Fehlers verschickt"
           - "Dafür sollten hier Absender und Empfänger definiert werden"
+      legal_regulation:
+        - "Das Kleinanlegerschutzgesetz gilt seit dem 10. Juli 2015"
+        - "wurde schon vor diesem Datum für Kredite geworben, kann die Übergangsregelung in Anspruch genommen werden, so dass die Regelungen des Gesetzes erst zum 1.1.2016 greifen"
+        - "wenn die Bagatellgrenzen nicht eingehalten werden, hat dies schwerwiegende Auswirkungen, über die mensch sich vorher umfassend informieren solte"
     hints:
       general:
         project_name: 'z.B. LaMa / Luftschloss / schwerelos'
@@ -117,6 +122,9 @@ de:
           bold_italic: 'fett kursiv'
         content:
           saldo_information: 'Zusatzinfo unter Salden'
+      legal_regulation:
+        enforce_bagatelle_limits: 'Bagatellgrenzen müssen eingehalten werden'
+        utilize_transitional_regulation: 'Übergangsregelung wird in Anspruch genommen'
 
 
 

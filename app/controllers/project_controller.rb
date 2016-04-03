@@ -8,7 +8,7 @@ class ProjectController < ApplicationController
   def show
     @type = 'ProjectAddress'
     @accounts = policy_scope(Account).project_accounts
-    @funds = policy_scope(Fund)
+    @funds = policy_scope(Fund).order(:project_address_id, :interest_rate)
   end
 
   private

@@ -1,6 +1,16 @@
 class OneYearAmountLimit < FundLimit
+  include ActionView::Helpers::NumberHelper
+  
   def available
     dates_to_check.map{|check_date| @check_date = check_date; available_one_year_amount}.min
+  end
+
+  def fits(amount)
+    available >= amount
+  end
+
+  def error_message
+    [:amount, :to_much, max: number_to_currency(available)]
   end
 
   private

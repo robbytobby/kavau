@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe AutoBalance, type: :model do
   before :each do
     @credit_agreement = create :credit_agreement, interest_rate: 2, valid_from: Date.new(2013,1,1)
+    dont_validate_fund_for CreditAgreement
   end
 
   it_behaves_like "balance" 

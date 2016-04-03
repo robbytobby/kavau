@@ -20,7 +20,9 @@ RSpec.describe CreditAgreement, type: :model do
   end
 
   describe "versioning" do
-    before(:each){ @credit = create :credit_agreement, interest_rate: 1, valid_from: Date.new(2016,1,1) }
+    before(:each){ 
+      @credit = create :credit_agreement, interest_rate: 1, valid_from: Date.new(2016,1,1)
+    }
 
     it "is vesioned" do
       expect(@credit).to be_versioned 
@@ -69,6 +71,7 @@ RSpec.describe CreditAgreement, type: :model do
       end
 
       describe "change of interest_rate" do
+        before(:each){ dont_validate_fund_for(@credit) }
         it "knows that interest rate has not changed" do
           @credit.update_attributes!(valid_from: Date.today)
           expect(@credit.versions.last.interest_rate_changed).to be_falsy
@@ -82,6 +85,7 @@ RSpec.describe CreditAgreement, type: :model do
 
       it "knows its date, when the interest rate changed" do
         @credit_agreement = create :credit_agreement, valid_from: Date.new(2014, 1, 1), interest_rate: 1
+        dont_validate_fund_for @credit_agreement
         @credit_agreement.update_attributes(interest_rate: 2, valid_from: Date.new(2014, 3, 1))
         @credit_agreement.update_attributes(interest_rate: 1.5, valid_from: Date.new(2015, 2, 1))
         @credit_agreement.update_attributes(interest_rate: 3, valid_from: Date.new(2015, 12, 1))
@@ -99,6 +103,7 @@ RSpec.describe CreditAgreement, type: :model do
 
         it "interest rate changed multiple times" do
           @credit_agreement = create :credit_agreement, valid_from: Date.new(2014, 1, 1), interest_rate: 1
+          dont_validate_fund_for @credit_agreement
           @credit_agreement.update_attributes(interest_rate: 2, valid_from: Date.new(2014, 3, 1))
           @credit_agreement.update_attributes(interest_rate: 1.5, valid_from: Date.new(2015, 2, 1))
           @credit_agreement.update_attributes(interest_rate: 3, valid_from: Date.new(2015, 12, 1))
@@ -147,13 +152,177 @@ RSpec.describe CreditAgreement, type: :model do
   
   it "is only valid for project_accounts" do
     @account = create :person_account
-    @credit_agreement = build :credit_agreement, account: @account
+    @credit_agreement = build :raw_credit_agreement, account: @account
     expect(@credit_agreement).not_to be_valid
   end
 
   it "is not valid without account" do
-    @credit_agreement = build :credit_agreement, account: nil
+    @credit_agreement = build :raw_credit_agreement, account: nil
     expect(@credit_agreement).not_to be_valid
+  end
+
+  describe "checks for existing fund" do
+    context "project does not use the transitional regulation" do
+      before(:each){ 
+        create :boolean_setting, category: 'legal_regulation', name: 'utilize_transitional_regulation', value: false
+      }
+
+      it "a credit agreement without an exisiting fund is valid, if it is valid from a date earlier than the KaSchG comes into effect" do
+        expect(Fund.utilize_transitional_regulation).to be_falsy
+        @credit_agreement = build :raw_credit_agreement, valid_from: Date.new(2015, 7, 9)
+        expect(@credit_agreement).to be_valid
+      end
+
+      it "a credit agreement without an exisiting fund is invalid, if it is valid from a date later than the KaSchG comes into effect" do
+        @credit_agreement = build :raw_credit_agreement, valid_from: Date.new(2015, 7, 10)
+        expect(@credit_agreement).not_to be_valid
+      end
+
+      it "a credit_agreement with existing fund is valid" do
+        project = create :project_address, :with_default_account
+        fund = create :fund, project_address: project, issued_at: Date.new(2015, 7, 10)
+        @credit_agreement = build :raw_credit_agreement, interest_rate: fund.interest_rate, account: project.accounts.first, valid_from: Date.new(2015, 7, 10)
+        expect(@credit_agreement).to be_valid
+      end
+
+      it "a credit_agreement with existing fund is invalid if its valid_from date is before the issuing date of the fund" do
+        project = create :project_address, :with_default_account
+        fund = create :fund, project_address: project, issued_at: Date.new(2015, 7, 11)
+        @credit_agreement = build :raw_credit_agreement, interest_rate: fund.interest_rate, account: project.accounts.first, valid_from: Date.new(2015, 7, 10)
+        expect(@credit_agreement).not_to be_valid
+      end
+    end
+
+    context "project uses the transitional regulation" do
+      before(:each){ 
+        create :boolean_setting, category: 'legal_regulation', name: 'utilize_transitional_regulation', value: true
+      }
+      it "a credit agreement without an exisiting fund is valid, if it is valid from a date earlier than 1.1.2016" do
+        expect(Fund.utilize_transitional_regulation).to be_truthy
+        @credit_agreement = build :raw_credit_agreement, valid_from: Date.new(2015, 12, 31)
+        expect(@credit_agreement).to be_valid
+      end
+
+      it "a credit agreement without an exisiting fund is invalid, if it is valid from a date later than the KaSchG comes into effect" do
+        @credit_agreement = build :raw_credit_agreement, valid_from: Date.new(2016, 1, 1)
+        expect(@credit_agreement).not_to be_valid
+      end
+
+      it "a credit_agreement with existing fund is valid" do
+        project = create :project_address, :with_default_account
+        fund = create :fund, project_address: project, issued_at: Date.new(2016, 1, 1)
+        @credit_agreement = build :raw_credit_agreement, interest_rate: fund.interest_rate, account: project.accounts.first, valid_from: Date.new(2016, 1, 1)
+        expect(@credit_agreement).to be_valid
+      end
+
+      it "a credit_agreement with existing fund is invalid if its valid_from date is before the issuing date of the fund" do
+        project = create :project_address, :with_default_account
+        fund = create :fund, project_address: project, issued_at: Date.new(2016, 1, 2)
+        @credit_agreement = build :raw_credit_agreement, interest_rate: fund.interest_rate, account: project.accounts.first, valid_from: Date.new(2016, 1, 1)
+        expect(@credit_agreement).not_to be_valid
+      end
+    end
+  end
+
+  describe "respects the funds limit" do
+    before(:each){ @project = create :project_address, :with_default_account }
+
+    context "for a one_year_limited fund" do
+      before(:each){ @fund = create :fund, limit: 'one_year_amount', project_address: @project, issued_at: Date.today.beginning_of_year }
+
+      context " - create a credit_agreement" do
+        before(:each){
+          allow_any_instance_of(OneYearAmountLimit).to receive(:available).and_return(20000)
+        }
+
+        it "is valid if its amount is less then or eq to the amount still available for that fund" do
+          expect(credit_agreement(20000)).to be_valid
+        end
+
+        it "is invalid if its amount is bigger than the amount still available for that fund" do
+          expect(credit_agreement(20000.01)).not_to be_valid
+        end
+
+        it "is valid without amount check it is valid_from a date earlier than the one, when the KaSchG takes effect" do
+          expect(credit_agreement(20000.01, date: Date.new(2015, 7, 9))).to be_valid
+        end
+
+      end
+
+      context " - change a credit_agreement" do
+        before(:each){ @fund = create :fund, limit: 'one_year_amount', project_address: @project, issued_at: Date.today.beginning_of_year, interest_rate: 1 }
+
+        it "is valid if i change amount to the max" do
+          credit_agreement(1000, date: Date.today.beginning_of_year).save
+          @credit_agreement = CreditAgreement.last
+          @credit_agreement.amount = 99012
+          expect(@credit_agreement).to be_valid
+        end
+
+        it "is invalid if i change amount to something bigger than max" do
+          credit_agreement(1000, date: Date.today.beginning_of_year).save
+          @credit_agreement = CreditAgreement.last
+          @credit_agreement.amount = 99013
+          expect(@credit_agreement).not_to be_valid
+        end
+
+      end
+
+      it "works even if valid_from is not given" do
+        expect{credit_agreement(1000, date: nil).valid?}.not_to raise_error
+      end
+
+      it "works even if account is not given" do
+        expect{credit_agreement(1000, account: nil).valid?}.not_to raise_error
+      end
+
+      it "works even if interest_rate is not given" do
+        expect{credit_agreement(1000, interest_rate: nil).valid?}.not_to raise_error
+      end
+    end
+
+    context "for a fund limited by number of shares" do
+      before(:each){
+        @fund = create :fund, limit: 'number_of_shares', project_address: @project, issued_at: Date.today.beginning_of_year
+      }
+      context " - create a credit_agreement" do
+        it "is valid if ther are less than 20 credit_agreements for that fund" do
+          allow_any_instance_of(NumberOfSharesLimit).to receive(:available).and_return(1)
+          expect(credit_agreement(20000)).to be_valid
+        end
+
+        it "is invalid if there allready are 20 credit_agreements for that fund" do
+          allow_any_instance_of(NumberOfSharesLimit).to receive(:available).and_return(0)
+          expect(credit_agreement(20000.01)).not_to be_valid
+        end
+
+        it "is valid independetly of the number of shares, if valid_from is earlier than the one, when the KaSchG takes effect" do
+          allow_any_instance_of(NumberOfSharesLimit).to receive(:available).and_return(0)
+          expect(credit_agreement(20000.01, date: Date.new(2015, 7, 9))).to be_valid
+        end
+      end
+
+      context " - change a credit_agreement" do
+        it "is valid if there allready are 19" do
+          19.times{ credit_agreement(1000, date: Date.today.beginning_of_year).save }
+          @credit_agreement = CreditAgreement.last
+          @credit_agreement.amount = 99012
+          expect(@credit_agreement).to be_valid
+        end
+
+        it "is valid even if there allready are 20" do
+          20.times{ credit_agreement(1000, date: Date.today.beginning_of_year).save }
+          @credit_agreement = CreditAgreement.last
+          @credit_agreement.amount = 99013
+          expect(@credit_agreement).to be_valid
+        end
+
+      end
+    end
+
+    def credit_agreement(amount, date: Date.today, interest_rate: @fund.interest_rate, account: @project.accounts.first)
+       build :raw_credit_agreement, interest_rate: interest_rate, account: account, amount: amount, valid_from: date
+    end
   end
 
   describe 'number' do

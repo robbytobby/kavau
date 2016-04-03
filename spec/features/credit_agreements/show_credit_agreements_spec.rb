@@ -36,6 +36,7 @@ RSpec.describe "managing credit agreements" do
       it "has a history" do
         with_versioning do
           @credit_agreement = create :credit_agreement, valid_from: Date.new(2015, 2, 1), amount: 1000, interest_rate: 0
+          dont_validate_fund_for @credit_agreement
           @credit_agreement.update_attributes!(amount: 2000, valid_from: Date.new(2015, 3, 2))
           @credit_agreement.update_attributes!(interest_rate: 1, valid_from: Date.new(2015, 3, 2))
           @credit_agreement.update_attributes!(interest_rate: 2, valid_from: Date.new(2015, 12, 2))
