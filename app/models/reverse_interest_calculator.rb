@@ -1,9 +1,9 @@
 class ReverseInterestCalculator < InterestSpan
-  def initialize(base_amount:, fund:, for_date:)
+  def initialize(base_amount:, fund:, start_date:, end_date:)
     @base_amount = base_amount
     @interest_rate = fund.interest_rate
-    @end_date = Date.today.end_of_year
-    @start_date = for_date
+    @end_date = end_date
+    @start_date = start_date
   end
 
   def maximum_credit

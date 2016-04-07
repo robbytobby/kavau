@@ -5,21 +5,40 @@ class OneYearAmountLimit < FundLimit
     dates_to_check.map{|check_date| @check_date = check_date; available_one_year_amount}.min
   end
 
-  def fits(amount)
-    available >= amount
+  def fits(record)
+    @for = record
+    available >= check_amount
   end
 
-  def error_message
-    [:amount, :to_much, max: number_to_currency(available)]
+  def check_amount
+    set_exclude
+    return @for.amount if @for.new_record? || !@for.amount_changed?
+    @for.amount - @for.amount_was
+  end
+
+  def error_message(record)
+    @for = record
+    set_exclude
+    [:amount, :to_much, max: number_to_currency(maximium)]
   end
 
   private
+  def set_exclude
+    return if @for.new_record? || @for.amount_changed?
+    @exclude = @for
+  end
+
+  def maximium
+    return available + @for.amount_was if @for.persisted? && @for.amount_changed?
+    available
+  end
+
   def dates_to_check
-    [@date, @date.end_of_year] + deposits_after(@date).pluck(:date)
+    ([@date, @date.end_of_year] + deposits_after(@date).pluck(:date)).uniq
   end
 
   def available_one_year_amount
-    return one_year_limit - used_one_year_amount if @check_date < Date.today.end_of_year
+    return one_year_limit - used_one_year_amount if @check_date < @date.end_of_year
     max_anticipating_interests(used_one_year_amount)
   end
 
@@ -27,8 +46,17 @@ class OneYearAmountLimit < FundLimit
     ReverseInterestCalculator.new(
       base_amount: (one_year_limit - allready_used),
       fund: @fund,
-      for_date: @date
+      start_date: start_for_interest_calculation,
+      end_date: end_for_interest_calculation
     ).maximum_credit
+  end
+
+  def start_for_interest_calculation
+    @date == @date.end_of_year ? @date.beginning_of_year : @date
+  end
+
+  def end_for_interest_calculation
+    start_for_interest_calculation.end_of_year
   end
 
   def used_one_year_amount
@@ -36,8 +64,11 @@ class OneYearAmountLimit < FundLimit
   end
 
   def one_years_deposits
-    deposits_after(@check_date.prev_year).before_inc(@check_date).sum(:amount) + 
-      credit_agreements_without_payment.sum(:amount)
+    deposits_after(@check_date.prev_year).before_inc(@check_date).sum(:amount) + planned_deposits
+  end
+
+  def planned_deposits
+    credit_agreements.sum(:amount) - Deposit.where(credit_agreement_id: credit_agreements.pluck(:id)).sum(:amount)
   end
 
   def credit_agreements_without_payment
@@ -45,20 +76,16 @@ class OneYearAmountLimit < FundLimit
   end
 
   def one_years_interests
-    if balance_date.past?
-      Balance.for_fund(@fund).where(date: balance_date).sum(:interests_sum)
-    else
-      credit_agreements.map{ |credit| credit.check_balance(balance_date) }.sum(&:interests_sum)
-    end
+    credit_agreements.map{ |credit| credit.check_balance(balance_date) }.sum(&:interests_sum)
   end
-
+  
   def balance_date
     return @check_date if @check_date == @check_date.end_of_year
     @check_date.prev_year.end_of_year
   end
 
   def deposits
-    Deposit.for_fund(@fund)
+    Deposit.for_fund(@fund).where( Deposit.arel_table[:date].gteq(Fund.regulated_from ))
   end
 
   def deposits_after(date)

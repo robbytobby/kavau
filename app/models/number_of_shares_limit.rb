@@ -3,11 +3,12 @@ class NumberOfSharesLimit < FundLimit
     max_shares - number_of_issued_shares
   end
 
-  def fits(*sugar)
+  def fits(record)
+    return true if record.persisted? && !record.interest_rate_changed?
     available > 0
   end
 
-  def error_message
+  def error_message(record)
     [:interest_rate, :to_many]
   end
 
