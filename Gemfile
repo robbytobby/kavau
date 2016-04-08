@@ -98,5 +98,6 @@ group :test do
   #gem 'simplecov', :require => false
   gem "codeclimate-test-reporter", require: nil
   gem 'pdf-inspector'
+  gem 'timecop'
 end
 

@@ -1,11 +1,9 @@
 class FundLimit
   attr_reader :fund, :date
 
-  def initialize(fund, date, excluded: nil)
+  def initialize(fund, date)
     @fund = fund
     @date = date
-    #@excluded_credit_agreement_id = excluded.id if excluded.is_a?(CreditAgreement)
-    #@excluded_payment_id = excluded_payment_id if excluded.is_a?(Deposit)
   end
 
   def amount

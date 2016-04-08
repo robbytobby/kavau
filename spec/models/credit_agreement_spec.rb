@@ -427,94 +427,105 @@ RSpec.describe CreditAgreement, type: :model do
           @fund = create :fund, limit: 'one_year_amount', project_address: @project, issued_at: Date.today.beginning_of_year 
         }
 
-        context "a new credit agreement" do
-          before(:each){
-            @limit = ReverseInterestCalculator.new(
-              base_amount: 100000, fund: @fund, start_date: Date.today, end_date: Date.today.end_of_year
-            ).maximum_credit
-          }
+        {
+          'at the first day of year' => [2017, 1, 1, 10],
+          'somwhere in the middle of the year' => [2017, 5, 17, 10],
+          'at the last day of year' => [2017, 12, 31, 10]
+        }.each do |on_date, date_today|
+          context "#{on_date}" do
+            before(:all){ Timecop.freeze(Time.local(*date_today)) }
+            after(:all){ Timecop.return }
 
-          it "is valid if its amount is less then or eq to the amount still available for that fund" do
-            expect(credit_agreement(@limit)).to be_valid
-          end
-
-          it "is invalid if its amount is bigger than the amount still available for that fund" do
-            @credit_agreement = credit_agreement(@limit + 0.01)
-            expect(@credit_agreement).not_to be_valid
-            expect(@credit_agreement.errors[:amount]).to include "zu hoch - max #{number_to_currency(@limit)} möglich"
-          end
-        end
-
-        context "when changing" do
-          before(:each){ 
-            @fund = create :fund, limit: 'one_year_amount', project_address: @project, issued_at: Date.today.beginning_of_year, interest_rate: 1 }
-
-          context "the amount" do
-            before(:each){
-              credit_agreement(1000, date: Date.today.beginning_of_year).save
-              @credit_agreement = CreditAgreement.last
-            }
-
-            context "for a credit agreement without payments" do
-              it "the credit agreement is valid if i do not reach the limit" do
-                @credit_agreement.amount = 99012
-                expect(@credit_agreement).to be_valid
-              end
-
-              it "the credit agreement is invalid if i change amount to something bigger than the limit" do
-                @credit_agreement.amount = 99013
-                expect(@credit_agreement).not_to be_valid
-              end
-            end
-
-            context "for a credit agreement with payments" do
-              before(:each){ create(:deposit, credit_agreement: @credit_agreement, amount: 1000, date: Date.today.beginning_of_year) }
-
-              it "is valid" do
-                expect(@credit_agreement).to be_valid
-              end
-
-              it "is valid if the amount change is smaller than the available amount" do
-                limit = @fund.still_available(Date.today.beginning_of_year)
-                @credit_agreement.amount += limit
-                expect(@credit_agreement).to be_valid
-              end
-
-              it "is not valid if the amount change is bigger than the available amount" do
-                limit = @fund.still_available(Date.today.beginning_of_year)
-                @credit_agreement.amount += (limit + 0.01)
-                expect(@credit_agreement).not_to be_valid
-                expect(@credit_agreement.errors[:amount]).to include "zu hoch - max 99.012,58 € möglich"
-              end
-            end
-
-            context "for a old credit agreement (issued before KaSchG) with payments" do
+            context "a new credit agreement" do
               before(:each){
-                @credit_agreement = credit_agreement(1000, date: Date.new(2015,1,1))
-                @credit_agreement.save
-                @credit_agreement.reload
-                create(:deposit, credit_agreement: @credit_agreement, amount: 1000, date: Date.today.beginning_of_year) 
+                end_date = on_date == 'at the last day of year' ? Date.today.next_year : Date.today.end_of_year
+                @limit = ReverseInterestCalculator.new(
+                  base_amount: 100000, fund: @fund, start_date: Date.today, end_date: end_date
+                ).maximum_credit
               }
 
-              it "by 0 is valid" do
-                expect(@credit_agreement).to be_valid
+              it "is valid if its amount is less then or eq to the amount still available for that fund" do
+                expect(credit_agreement(@limit)).to be_valid
               end
 
-              it "is valid if the amount change is smaller than the available amount" do
-                limit = @fund.still_available(Date.today.beginning_of_year)
-                @credit_agreement.amount += limit
-                expect(@credit_agreement).to be_valid
+              it "is invalid if its amount is bigger than the amount still available for that fund" do
+                @credit_agreement = credit_agreement(@limit + 0.01)
+                expect(@credit_agreement).not_to be_valid
+                expect(@credit_agreement.errors[:amount]).to include "zu hoch - max #{number_to_currency(@limit)} möglich"
               end
+            end
 
-              it "is  valid even if the amount change is bigger than the available amount" do
-                limit = @fund.still_available(Date.today.beginning_of_year)
-                @credit_agreement.amount = 2 * limit
-                expect(@credit_agreement).to be_valid
+            context "when changing" do
+              before(:each){ 
+                @fund = create :fund, limit: 'one_year_amount', project_address: @project, issued_at: Date.today.beginning_of_year, interest_rate: 1 }
+
+              context "the amount" do
+                before(:each){
+                  credit_agreement(1000, date: Date.today.beginning_of_year).save
+                  @credit_agreement = CreditAgreement.last
+                }
+
+                context "for a credit agreement without payments" do
+                  it "the credit agreement is valid if i do not reach the limit" do
+                    @credit_agreement.amount = 99012
+                    expect(@credit_agreement).to be_valid
+                  end
+
+                  it "the credit agreement is invalid if i change amount to something bigger than the limit" do
+                    @credit_agreement.amount = 99013
+                    expect(@credit_agreement).not_to be_valid
+                  end
+                end
+
+                context "for a credit agreement with payments" do
+                  before(:each){ create(:deposit, credit_agreement: @credit_agreement, amount: 1000, date: Date.today.beginning_of_year) }
+
+                  it "is valid" do
+                    expect(@credit_agreement).to be_valid
+                  end
+
+                  it "is valid if the amount change is smaller than the available amount" do
+                    limit = @fund.still_available(Date.today.beginning_of_year)
+                    @credit_agreement.amount += limit
+                    expect(@credit_agreement).to be_valid
+                  end
+
+                  it "is not valid if the amount change is bigger than the available amount" do
+                    limit = @fund.still_available(Date.today.beginning_of_year)
+                    @credit_agreement.amount += (limit + 0.01)
+                    expect(@credit_agreement).not_to be_valid
+                    expect(@credit_agreement.errors[:amount]).to include "zu hoch - max 99.012,58 € möglich"
+                  end
+                end
+
+                context "for a old credit agreement (issued before KaSchG) with payments" do
+                  before(:each){
+                    @credit_agreement = credit_agreement(1000, date: Date.new(2015,1,1))
+                    @credit_agreement.save
+                    @credit_agreement.reload
+                    create(:deposit, credit_agreement: @credit_agreement, amount: 1000, date: Date.today.beginning_of_year) 
+                  }
+
+                  it "by 0 is valid" do
+                    expect(@credit_agreement).to be_valid
+                  end
+
+                  it "is valid if the amount change is smaller than the available amount" do
+                    limit = @fund.still_available(Date.today.beginning_of_year)
+                    @credit_agreement.amount += limit
+                    expect(@credit_agreement).to be_valid
+                  end
+
+                  it "is  valid even if the amount change is bigger than the available amount" do
+                    limit = @fund.still_available(Date.today.beginning_of_year)
+                    @credit_agreement.amount = 2 * limit
+                    expect(@credit_agreement).to be_valid
+                  end
+                end
               end
             end
           end
         end
-
       end
 
       context "these validations do not raise an error if" do

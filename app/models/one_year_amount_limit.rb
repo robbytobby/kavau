@@ -34,7 +34,12 @@ class OneYearAmountLimit < FundLimit
   end
 
   def dates_to_check
-    ([@date, @date.end_of_year] + deposits_after(@date).pluck(:date)).uniq
+    ([@date, end_of_year] + deposits_after(@date).pluck(:date)).uniq
+  end
+
+  def end_of_year
+    return @date.next_year if @date == @date.end_of_year
+    @date.end_of_year
   end
 
   def available_one_year_amount
@@ -46,17 +51,9 @@ class OneYearAmountLimit < FundLimit
     ReverseInterestCalculator.new(
       base_amount: (one_year_limit - allready_used),
       fund: @fund,
-      start_date: start_for_interest_calculation,
-      end_date: end_for_interest_calculation
+      start_date: @date,
+      end_date: end_of_year
     ).maximum_credit
-  end
-
-  def start_for_interest_calculation
-    @date == @date.end_of_year ? @date.beginning_of_year : @date
-  end
-
-  def end_for_interest_calculation
-    start_for_interest_calculation.end_of_year
   end
 
   def used_one_year_amount

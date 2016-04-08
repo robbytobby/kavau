@@ -23,20 +23,10 @@ class Fund < ActiveRecord::Base
     limit_calculation(date).available
   end
 
-  def fits_credit_agreement(credit_agreement)
+  def fits(record)
     #Todo Spec
-    fits(credit_agreement, credit_agreement.valid_from, exclude: credit_agreement)
-  end
-
-  def fits_payment(payment)
-    #Todo Spec
-    return true if limited_by_number_of_shares?
-    fits(payment, payment.date, exclude: payment)
-  end
-
-  def fits(record, date, exclude_credit_agreement: nil, exclude: nil )
-    #Todo Spec
-    limit_calculation(date, exclude).fits(record)
+    date = record.is_a?(CreditAgreement) ? record.valid_from : record.date
+    limit_calculation(date).fits(record)
   end
 
   def error_message_for_credit_agreement(record)
@@ -45,8 +35,8 @@ class Fund < ActiveRecord::Base
     limit_calculation(date).error_message(record)
   end
 
-  def limit_calculation(date, excluded =  nil)
-    "#{limit.camelize}Limit".constantize.new(self, date, excluded: excluded)
+  def limit_calculation(date)
+    "#{limit.camelize}Limit".constantize.new(self, date)
   end
 
   def limited_by_number_of_shares?
