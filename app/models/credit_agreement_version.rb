@@ -18,4 +18,8 @@ class CreditAgreementVersion < PaperTrail::Version
   def to_partial_path
     'versions/version'
   end
+
+  def credit_agreement
+    item
+  end
 end

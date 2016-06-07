@@ -52,7 +52,7 @@ class OneYearAmountLimit < FundLimit
       base_amount: (one_year_limit - allready_used),
       fund: @fund,
       start_date: @date,
-      end_date: end_of_year
+      end_date: @check_date > @date ? end_of_year : @date.end_of_year
     ).maximum_credit
   end
 

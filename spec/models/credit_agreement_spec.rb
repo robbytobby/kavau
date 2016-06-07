@@ -252,11 +252,21 @@ RSpec.describe CreditAgreement, type: :model do
         it "knows that interest rate has not changed" do
           @credit.update_attributes!(valid_from: Date.today)
           expect(@credit.versions.last.interest_rate_changed).to be_falsy
+          expect(@credit.versions.last.interest_rate).to eq(1)
         end
 
         it "marks the interest_rate change in the version" do
           @credit.update_attributes!(interest_rate: 2)
           expect(@credit.versions.last.interest_rate_changed).to be_truthy
+        end
+
+        it "saves the interest_rate valid for that version" do
+          @credit.update_attributes!(interest_rate: 2)
+          expect(@credit.versions.last.interest_rate).to eq(1)
+          @credit.update_attributes!(interest_rate: 3)
+          expect(@credit.versions.last.interest_rate).to eq(2)
+          @credit.update_attributes!(interest_rate: 1)
+          expect(@credit.versions.last.interest_rate).to eq(3)
         end
       end
 
