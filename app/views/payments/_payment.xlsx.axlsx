@@ -5,6 +5,7 @@ present(payment) do |presented|
     presented.type,
     presented.creditor_name,
     presented.credit_agreement_number,
+    presented.credit_agreement.interest_rate / 100,
     presented.account_name,
     payment.amount * payment.sign
   ]
