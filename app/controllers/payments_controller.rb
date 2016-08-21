@@ -3,6 +3,7 @@ class PaymentsController < ApplicationController
   include Searchable
   respond_to :xlsx
   before_action :check_template, :find_or_create_pdf, only: :show
+  before_action :set_show_creditor
   default_sort 'date desc'
 
   def index
@@ -21,6 +22,7 @@ class PaymentsController < ApplicationController
     @payment.save
     @credit_agreement = @payment.credit_agreement
     respond_with @payment, location: @payment.credit_agreement do |format|
+      @show_creditor = false
       format.js { render :new }
     end
   end
@@ -61,5 +63,9 @@ class PaymentsController < ApplicationController
 
     def set_type
       @payment = @payment.becomes(permitted_params[:type].constantize)
+    end
+
+    def set_show_creditor
+      @show_creditor = true
     end
 end

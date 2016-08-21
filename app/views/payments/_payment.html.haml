@@ -2,7 +2,7 @@
   %tr[payment]
     %td= p.date
     %td= payment.class.model_name.human
-    -if controller_name == 'payments'
+    -if @show_creditor
       - present p.credit_agreement.creditor do |creditor|
         %td= authorized_link :show, creditor.model, creditor.full_name
       - present p.credit_agreement do |credit_agreement|

@@ -30,8 +30,7 @@ class Fund < ActiveRecord::Base
   end
 
   def error_message_for_credit_agreement(record)
-    #Todo Spec
-    date = record.valid_from if record.is_a?(CreditAgreement)
+    date = record.is_a?(CreditAgreement) ? record.valid_from : record.date
     limit_calculation(date).error_message(record)
   end
 

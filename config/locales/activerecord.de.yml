@@ -13,6 +13,12 @@ de:
             valid_from:
               before_last_value: 'muß nach dem letzten Gültigkeitsdatum %{last} liegen'
               year_terminated: 'das Konto ist für %{year} schon geschlossen'
+        deposit:
+          attributes:
+            amount:
+              to_much: 'zu hoch - max %{max} möglich'
+            date:
+              not_before: 'darf nicht vor dem %{date} liegen'
         fund:
           attributes:
             interest_rate:
