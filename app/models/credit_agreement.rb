@@ -50,14 +50,6 @@ class CreditAgreement < ActiveRecord::Base
     auto_balances.build
   end
 
-  #def interest_rate_at(date)
-  #  at(date).interest_rate
-  #end
-
-  #def interest_rate_change_dates_between(start_date, end_date)
-  #  versions.with_interest_rate_change_between(start_date, end_date).pluck(:valid_until)
-  #end
-
   def active?
     !terminated? && payments.any?
   end
@@ -77,6 +69,11 @@ class CreditAgreement < ActiveRecord::Base
     Fund.find_by(interest_rate: interest_rate, project_address: account.address)
   end
 
+  def is_regulated?
+    return false if valid_from.blank?
+    valid_from >= Fund.regulated_from
+  end
+
   private
     def account_valid_for_credit_agreement?
       return unless account
@@ -89,18 +86,6 @@ class CreditAgreement < ActiveRecord::Base
       return if terminated_at >= payments.last.date
       errors.add(:terminated_at, :before_last_payment)
     end
-
-    #def new_valid_from_later_than_old_one
-    #  return unless valid_from
-    #  return if valid_from >= valid_from_was
-    #  errors.add(:valid_from, :before_last_value, last: I18n.l(valid_from_was))
-    #end
-
-    #def year_of_valid_from_not_terminated
-    #  return unless valid_from 
-    #  return unless year_terminated?(valid_from.year)
-    #  errors.add(:valid_from, :year_terminated, year: valid_from.year)
-    #end
 
     def fund_exists?
       return unless is_regulated?
@@ -115,11 +100,6 @@ class CreditAgreement < ActiveRecord::Base
     def fund_limit_fits?
       return unless is_regulated? && fund && amount
       errors.add(*fund.error_message_for_credit_agreement(self)) unless fund.fits(self)
-    end
-
-    def is_regulated?
-      return false if valid_from.blank?
-      valid_from >= Fund.regulated_from
     end
 
     def terminate
