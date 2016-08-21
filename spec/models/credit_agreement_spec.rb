@@ -223,85 +223,11 @@ RSpec.describe CreditAgreement, type: :model do
       end
 
       describe "change of valid_from" do
-        it "is saved in the versions metadata" do
-          @credit.update_attributes!(valid_from: Date.today)
-          expect(@credit.versions.last.valid_from).to eq(Date.new(2016,1,1))
-        end
-
-        it "saves valid_until in Metadata" do
-          @credit.update_attributes!(valid_from: Date.today)
-          expect(@credit.versions.last.valid_until).to eq(Date.today)
-        end
-
-        it "the new valid_from date is not allowed to be before the old valid_from_date" do
-          @credit_agreement = create :credit_agreement, valid_from: Date.today
-          expect(@credit_agreement.update_attributes(valid_from: Date.yesterday)).to be_falsy
-          expect(@credit_agreement.errors[:valid_from]).not_to be_empty
-        end
-
         it "valid_from may not be changed to a year, which is allready terminated" do
           @credit_agreement = create :credit_agreement, valid_from: Date.today
           allow_any_instance_of(Creditor).to receive(:year_terminated?).and_return(true)
           expect(@credit_agreement.update_attributes(valid_from: Date.yesterday)).to be_falsy
           expect(@credit_agreement.errors[:valid_from]).not_to be_empty
-        end
-      end
-
-      describe "change of interest_rate" do
-        before(:each){ dont_validate_fund_for(@credit) }
-        it "knows that interest rate has not changed" do
-          @credit.update_attributes!(valid_from: Date.today)
-          expect(@credit.versions.last.interest_rate_changed).to be_falsy
-          expect(@credit.versions.last.interest_rate).to eq(1)
-        end
-
-        it "marks the interest_rate change in the version" do
-          @credit.update_attributes!(interest_rate: 2)
-          expect(@credit.versions.last.interest_rate_changed).to be_truthy
-        end
-
-        it "saves the interest_rate valid for that version" do
-          @credit.update_attributes!(interest_rate: 2)
-          expect(@credit.versions.last.interest_rate).to eq(1)
-          @credit.update_attributes!(interest_rate: 3)
-          expect(@credit.versions.last.interest_rate).to eq(2)
-          @credit.update_attributes!(interest_rate: 1)
-          expect(@credit.versions.last.interest_rate).to eq(3)
-        end
-      end
-
-      it "knows its date, when the interest rate changed" do
-        @credit_agreement = create :credit_agreement, valid_from: Date.new(2014, 1, 1), interest_rate: 1
-        dont_validate_fund_for @credit_agreement
-        @credit_agreement.update_attributes(interest_rate: 2, valid_from: Date.new(2014, 3, 1))
-        @credit_agreement.update_attributes(interest_rate: 1.5, valid_from: Date.new(2015, 2, 1))
-        @credit_agreement.update_attributes(interest_rate: 3, valid_from: Date.new(2015, 12, 1))
-        expect(@credit_agreement.interest_rate_change_dates_between(Date.new(2014,1,1), Date.today)).to eq([Date.new(2014, 3, 1), Date.new(2015, 2, 1), Date.new(2015, 12,1)])
-      end
-
-      describe "interest_rate at a given date" do
-        it "interest rate changed once" do
-          @credit_agreement = create :credit_agreement, valid_from: Date.new(2015, 1, 1), interest_rate: 5
-          @credit_agreement.update_attributes(interest_rate: 2, valid_from: Date.new(2015, 7, 1))
-          expect(@credit_agreement.interest_rate).to eq(2)
-          expect(@credit_agreement.interest_rate_at(Date.new(2015,1,1))).to eq(5)
-          expect(@credit_agreement.interest_rate_at(Date.new(2015,12,15))).to eq(2)
-        end
-
-        it "interest rate changed multiple times" do
-          @credit_agreement = create :credit_agreement, valid_from: Date.new(2014, 1, 1), interest_rate: 1
-          dont_validate_fund_for @credit_agreement
-          @credit_agreement.update_attributes(interest_rate: 2, valid_from: Date.new(2014, 3, 1))
-          @credit_agreement.update_attributes(interest_rate: 1.5, valid_from: Date.new(2015, 2, 1))
-          @credit_agreement.update_attributes(interest_rate: 3, valid_from: Date.new(2015, 12, 1))
-          expect(@credit_agreement.interest_rate).to eq(3)
-          expect(@credit_agreement.interest_rate_at(Date.new(2014,1,1))).to eq(1)
-          expect(@credit_agreement.interest_rate_at(Date.new(2014,2,28))).to eq(1)
-          expect(@credit_agreement.interest_rate_at(Date.new(2014,3,1))).to eq(2)
-          expect(@credit_agreement.interest_rate_at(Date.new(2015,1,31))).to eq(2)
-          expect(@credit_agreement.interest_rate_at(Date.new(2015,2,1))).to eq(1.5)
-          expect(@credit_agreement.interest_rate_at(Date.new(2015,11,30))).to eq(1.5)
-          expect(@credit_agreement.interest_rate_at(Date.new(2015,12,30))).to eq(3)
         end
       end
     end

@@ -11,15 +11,21 @@ class CreditAgreementPolicy < ApplicationPolicy
 
   def destroy?
     return false unless user.admin? || user.accountant?
-    @record.payments.none?
+    record.payments.none?
   end
 
   def permitted_params
-    [:amount, :interest_rate, :cancellation_period, :account_id, :terminated_at, :number, :valid_from]
+    [:amount, :cancellation_period, :number, :terminated_at] + payment_dependent_params
   end
 
   def download?
     return false unless user.admin? || user.accountant?
     true
+  end
+
+  private
+  def payment_dependent_params
+    return [:account_id, :interest_rate, :valid_from] if record.payments.none? || user.admin?
+    []
   end
 end

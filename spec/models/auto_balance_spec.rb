@@ -64,36 +64,11 @@ RSpec.describe AutoBalance, type: :model do
           expect(spans.count).to eq(1)
         end
 
-        it "there is one for a change in interest_rate" do
-          create_deposit Date.new(2015, 3, 2), 1000
-          @credit_agreement.update_attributes!(interest_rate: 1, valid_from: Date.new(2015, 7, 1))
-          spans = balance(Date.new(2015,12,31)).interest_spans
-          expect(spans.count).to eq(2)
-        end
-
         it "there is no extra one if interest rate did not change in the correspoinding time span" do
           create_deposit Date.new(2015, 3, 2), 1000
           @credit_agreement.update_attributes!(interest_rate: 1.9, valid_from: Date.new(2014, 7, 1))
           spans = balance(Date.new(2015,12,31)).interest_spans
           expect(spans.count).to eq(1)
-        end
-
-        it "there is an additional one for each chagne in intererst_rate" do
-          create_deposit Date.new(2014,3,1), 1000
-          @credit_agreement.update_attributes!(interest_rate: 1, valid_from: Date.new(2015, 2, 1))
-          create_deposit Date.new(2015,7,1), 1000
-          create_deposit Date.new(2015,7,1), 1000
-          @credit_agreement.update_attributes!(interest_rate: 1.5, valid_from: Date.new(2015, 9, 1))
-          spans = balance(Date.new(2015,12,31)).interest_spans
-          expect(spans.count).to eq(4)
-        end
-
-        it "there is on extra one for a change in interest_rate on the date of a payment" do
-          create_deposit Date.new(2014,3,1), 1000
-          create_deposit Date.new(2015,7,1), 1000
-          @credit_agreement.update_attributes!(interest_rate: 1.5, valid_from: Date.new(2015, 7, 1))
-          spans = balance(Date.new(2015,12,31)).interest_spans
-          expect(spans.count).to eq(2)
         end
       end
     end
@@ -226,51 +201,6 @@ RSpec.describe AutoBalance, type: :model do
               interest(last_years_end_amount + 5000, rate, 10, 365) +
               interest(last_years_end_amount + 5000 - 2000, rate, 11, 365)
             )
-          end
-        end
-
-        context "with changes of credit_agreement interest rate" do
-          with_versioning do
-            it "expample 1" do
-              @credit_agreement.update_attributes!(interest_rate: 1.3, valid_from: Date.new(2015, 9, 11))
-              create_deposit '2015-10-1', 5000
-              expect(balance('2015-10-31').interests_sum).to eq(interest(5000, 1.3, 30, 365))
-            end
-
-            it "expample 2" do
-              create_deposit '2015-10-1', 5000
-              @credit_agreement.update_attributes!(interest_rate: 1.3, valid_from: Date.new(2015, 9, 11))
-              expect(balance('2015-10-31').interests_sum).to eq(interest(5000, 1.3, 30, 365))
-              expect(balance('2015-12-31').interests_sum).to eq(interest(5000, 1.3, 91, 365))
-            end
-
-            it "expamle 3" do
-              create_deposit '2015-10-1', 5000
-              @credit_agreement.update_attributes!(interest_rate: 1.3, valid_from: Date.new(2015, 10, 11))
-              expect(balance('2015-10-31').interests_sum).to eq(interest(5000, rate, 10, 365) + interest(5000, 1.3, 20, 365))
-            end
-
-            it "example 4" do
-              create_deposit '2014-10-1', 5000
-              @credit_agreement.update_attributes!(interest_rate: 1.3, valid_from: Date.new(2015, 10, 11))
-              @credit_agreement.update_attributes!(interest_rate: 1.6, valid_from: Date.new(2015, 10, 21))
-              create_deposit '2015-11-1', 5000
-              @credit_agreement.update_attributes!(interest_rate: 1.9, valid_from: Date.new(2015, 12, 1))
-              int = interest(5000, rate, 91, 365)
-              expect(balance('2014-12-31').interests_sum).to eq(int)
-              start_amount_2015 = 5000 + int
-              int = interest(start_amount_2015, rate, 284, 365)
-              expect(balance('2015-10-11').interests_sum).to eq(int)
-              int += interest(start_amount_2015, 1.3, 10, 365)
-              expect(balance('2015-10-21').interests_sum).to eq(int)
-              int += interest(start_amount_2015, 1.6, 11, 365)
-              expect(balance('2015-11-01').interests_sum).to eq(int)
-              start_amount_2015 += 5000
-              int += interest(start_amount_2015, 1.6, 30, 365)
-              expect(balance('2015-12-01').interests_sum).to eq(int)
-              int += interest(start_amount_2015, 1.9, 30, 365)
-              expect(balance('2015-12-31').interests_sum).to eq(int)
-            end
           end
         end
       end

@@ -9,7 +9,7 @@ class Balance < ActiveRecord::Base
   after_save :update_following
   after_destroy ->{ BalanceUpdater.new(credit_agreement).run }
 
-  delegate :interest_rate, :interest_rate_at, :creditor, :balances, to: :credit_agreement
+  delegate :interest_rate, :creditor, :balances, to: :credit_agreement
 
   alias_method :update_end_amount!, :save
 

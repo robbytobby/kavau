@@ -1,34 +1,25 @@
-- if @credit_agreement.persisted?
-  .col-sm-3
-  .col-sm-6.well
-    %p
-      Dieses Datum bestimmt ab wann die aktualisierte Version des Vertrages in Kraft tritt. Richtig wichtig ist das bei Änderungen des Zinssatzes.
-    %p
-      Die momentante Version des Kreditvertrages ist gültig ab dem
-      %strong= I18n.l(@credit_agreement.valid_from_was)
-.clearfix
+- policy = CreditAgreementPolicy.new(current_user, @credit_agreement)
 = simple_form_for [@creditor, @credit_agreement] do |f|
   .form-inputs
-    = f.input :valid_from, wrapper: :horizontal_multi_select, include_blank: true, selected: @credit_agreement.valid_from || Date.today.year
+    = f.input :valid_from, wrapper: :horizontal_multi_select, include_blank: true, selected: @credit_agreement.valid_from || Date.today.year, disabled: !policy.permitted?(:amount)
     = f.input :amount do
       .input-group.col-sm-3
-        = f.number_field :amount, class: 'numeric decimal required form-control'
+        = f.number_field :amount, class: 'numeric decimal required form-control', disabled: !policy.permitted?(:amount)
         .input-group-addon €
     = f.input :interest_rate do
       .input-group.col-sm-3
-        =f.number_field :interest_rate, class: 'numeric decimal required form-control'
+        =f.number_field :interest_rate, class: 'numeric decimal required form-control', disabled: !policy.permitted?(:interest_rate)
         .input-group-addon %
     = f.input :cancellation_period do
       .input-group.col-sm-3
-        = f.number_field :cancellation_period, class: 'numeric integer required form-control'
+        = f.number_field :cancellation_period, class: 'numeric integer required form-control', disabled: !policy.permitted?(:cancellation_period)
         .input-group-addon Monate
     = f.input :number do
       .input-group.col-sm-3
-        = f.text_field :number, class: 'form-control'
+        = f.text_field :number, class: 'form-control', disabled: !policy.permitted?(:number)
         .input-group-addon.text-info.with_help{data: {toggle: 'popover', content: t('help.credit_agreements.number'), placement: 'right', container: 'body'}}
           ?
-    = f.association :account, collection: Account.project_accounts
-
+    = f.association :account, collection: Account.project_accounts, disabled: !policy.permitted?(:account_id)
   .form-actions.col-sm-12
     = f.button :submit, class: 'btn-primary', id: 'submit'
     = quit_button(:cancel)
