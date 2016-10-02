@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301161438) do
+ActiveRecord::Schema.define(version: 20160821125517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,15 +72,12 @@ ActiveRecord::Schema.define(version: 20160301161438) do
   end
 
   create_table "credit_agreement_versions", force: :cascade do |t|
-    t.string   "item_type",                             null: false
-    t.integer  "item_id",                               null: false
-    t.string   "event",                                 null: false
+    t.string   "item_type",      null: false
+    t.integer  "item_id",        null: false
+    t.string   "event",          null: false
     t.string   "whodunnit"
     t.text     "object"
     t.datetime "created_at"
-    t.date     "valid_from",                            null: false
-    t.boolean  "interest_rate_changed", default: false, null: false
-    t.date     "valid_until"
     t.text     "object_changes"
   end
 
@@ -96,7 +93,16 @@ ActiveRecord::Schema.define(version: 20160301161438) do
     t.datetime "updated_at",                                  null: false
     t.date     "terminated_at"
     t.string   "number"
-    t.date     "valid_from"
+    t.date     "valid_from",                                  null: false
+  end
+
+  create_table "funds", force: :cascade do |t|
+    t.decimal  "interest_rate",      precision: 4, scale: 2, null: false
+    t.string   "limit"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.date     "issued_at",                                  null: false
+    t.integer  "project_address_id",                         null: false
   end
 
   create_table "letters", force: :cascade do |t|

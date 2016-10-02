@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Interest rate:
+  = @fund.interest_rate
+%p
+  %b Limit:
+  = @fund.limit
+
+= link_to 'Edit', edit_fund_path(@fund)
+\|
+= link_to 'Back', funds_path

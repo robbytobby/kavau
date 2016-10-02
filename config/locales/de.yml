@@ -40,6 +40,9 @@ de:
   help:
     credit_agreements:
       number: 'Wenn das Feld frei gelassen wird, wird die Nummer automatisch vergeben. Dabei wird die nächste freie Nummer für das entsprechende Konto eingesetzt'
+  shares:
+    one: '1 Anteil'
+    other: '%{count} Anteile'
   roles:
     user: 'User'
     accountant: 'Buchhalter_in'
@@ -48,6 +51,10 @@ de:
     limited: 'GmbH'
     registered_society: 'e.V.'
     society: 'Verein'
+  fund_limits:
+    number_of_shares: 'maximal 20 Anteile'
+    one_year_amount: 'maximal 100.000 € in 12 Monaten'
+    none: 'keine Bagatellgrenze -> VIB !!!'
   months:
     one: '1 Monat'
     other: '%{count} Monate'
@@ -61,6 +68,7 @@ de:
     with_amount: 'in Höhe von'
     with_iban: 'mit der IBAN'
     credit_agreement: 'den Kreditvertrag'
+    fund: 'die Anlage zu %{rate}'
     of:
       organization: 'der/des'
       person: 'von'

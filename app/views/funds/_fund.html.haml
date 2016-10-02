@@ -1,0 +1,10 @@
+- present(fund) do |presented|
+  %tr[fund]
+    %td= presented.project_address
+    %td= presented.interest_rate
+    %td= presented.limit
+    %td= presented.issued_at
+    %td.money= presented.still_available
+    %td.actions
+      = authorized_icon_link :edit, fund
+      = authorized_icon_link :delete, fund

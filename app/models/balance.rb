@@ -1,5 +1,7 @@
 class Balance < ActiveRecord::Base
   include ActiveModel::Dirty
+  include BelongsToFundViaCreditAgreement
+  include DateScopes
 
   belongs_to :credit_agreement
 
@@ -7,11 +9,7 @@ class Balance < ActiveRecord::Base
   after_save :update_following
   after_destroy ->{ BalanceUpdater.new(credit_agreement).run }
 
-  delegate :interest_rate, :interest_rate_at, :creditor, :balances, to: :credit_agreement
-  #delegate :interest_rate_for, to: :credit_agreement
-
-  scope :older_than,   ->(from_date){ where(['date > ?', from_date]) }
-  scope :younger_than, ->(from_date){ where(['date < ?', from_date]) }
+  delegate :interest_rate, :creditor, :balances, to: :credit_agreement
 
   alias_method :update_end_amount!, :save
 
@@ -41,7 +39,7 @@ class Balance < ActiveRecord::Base
   end
 
   def sum_upto(to_date)
-    start_amount + payments.younger_than_inc(to_date).sum('amount * sign')
+    start_amount + payments.before_inc(to_date).sum('amount * sign')
   end
 
   def payments
@@ -103,7 +101,7 @@ class Balance < ActiveRecord::Base
     end
 
     def following_balance
-      balances.older_than(date).first || NullBalance.new(date)
+      balances.after(date).first || NullBalance.new(date)
     end
 
     def calculated_interests_sum

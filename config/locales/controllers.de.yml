@@ -100,6 +100,11 @@ de:
       title: 'Änderung nicht akzeptiert'
       sub_title: 'Die Änderung, die du machen wolltest, wurde zurückgewiesen.'
       text: 'Solltest du über einen Click innerhalb der App zu dieser Seite gelangt sein, informiere den Admin welche Änderung welches Datensatzes dich hierher gebeamt hat.' 
+  funds:
+    new:
+      title: 'Neue Anlage'
+    edit:
+      title: 'Anlage bearbeiten'
   letters:
     index:
       title: 'Briefvorlagen'
@@ -140,6 +145,7 @@ de:
     show:
       addresses: 'Adressen'
       accounts: 'Konten'
+      funds: 'Angebotene Anlagen'
   users:
     index:
       title: 'User Übersicht'

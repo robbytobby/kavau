@@ -55,6 +55,7 @@ gem 'paperclip', '~> 4.3'
 gem 'remotipart', '~> 1.2'
 gem 'axlsx', '~> 2.1.0.pre'
 gem 'axlsx_rails'
+gem 'rounding'
 
 group :development, :test do
   gem 'byebug', '~> 6.0'
@@ -97,5 +98,6 @@ group :test do
   #gem 'simplecov', :require => false
   gem "codeclimate-test-reporter", require: nil
   gem 'pdf-inspector'
+  gem 'timecop'
 end
 

@@ -1,10 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe ProjectController, type: :controller do
+  before(:all){ Fund.delete_all }
   before(:each){ sign_in create(:user) }
 
   describe "GET show" do
-    it "assigns all the creditors and renders index" do
+    it "assigns the funds as @funds" do
+      fund = create :fund
+      get :show
+      expect(assigns(:funds)).to eq [fund]
+    end
+
+    it "assigns all accounts as @accounts" do
+      Account.delete_all
+      account = create :project_account
+      get :show
+      expect(assigns(:accounts)).to eq [account]
+    end
+
+    it "assigns all the project_addresses and renders index" do
       address = create :project_address
       get :show
       expect(response).to render_template(:show)
@@ -14,7 +28,6 @@ RSpec.describe ProjectController, type: :controller do
       address = create :project_address
       get :show
       expect(assigns(:addresses)).to eq([address])
-
     end
 
     describe "flash warning" do

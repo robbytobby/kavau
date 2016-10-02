@@ -33,6 +33,24 @@ RSpec.describe "On the home page" do
       visit "/"
       expect(page).to_not have_css("a#delete_#{@address.id}")
     end
+
+    context "managing funds" do
+      before(:each){ visit "/" }
+      it "I cannot create a new fund" do
+        expect(page).not_to have_css("a[href='#{new_fund_path}']")
+      end
+
+      it "I cannot edit a fund" do
+        fund = create :fund
+        expect(page).not_to have_css("a[href='#{edit_fund_path(fund)}']")
+      end
+
+      it "I cannot delete a fund" do
+        fund = create :fund
+        expect(page).not_to have_css("a#delete_fund_#{fund.id}")
+      end
+    end
+
   end
 
   [:user, :accountant].each do |type|
@@ -44,6 +62,27 @@ RSpec.describe "On the home page" do
         visit "/"
         expect(page).to have_selector('h1', text: 'Konten')
         expect(page).to have_content(@account.name)
+      end
+
+      it "shows the existing funds" do
+        @fund = create :fund
+        @fund2 = create :fund, limit: 'one_year_amount'
+        visit "/"
+        expect(page).to have_selector('h1', text: 'Angebotene Anlagen')
+        within "tr#fund_#{@fund.id}" do
+          expect(page).to have_content(number_to_percentage(@fund.interest_rate))
+          expect(page).to have_content(I18n.t(@fund.limit, scope: :fund_limits))
+          expect(page).to have_content(I18n.l(@fund.issued_at))
+          expect(page).to have_content('20 Anteile')
+          expect(page).to have_content(@fund.project_address.name)
+        end
+        within "tr#fund_#{@fund2.id}" do
+          expect(page).to have_content(number_to_percentage(@fund2.interest_rate))
+          expect(page).to have_content(I18n.t(@fund2.limit, scope: :fund_limits))
+          expect(page).to have_content(I18n.l(@fund2.issued_at))
+          expect(page).to have_content(number_to_currency(@fund2.still_available))
+          expect(page).to have_content(@fund2.project_address.name)
+        end
       end
 
       context "I can see credit_agreements summary" do
@@ -219,6 +258,55 @@ RSpec.describe "On the home page" do
       end
     end
 
+    context "managing funds" do
+      before(:each){ 
+        @project_address = create :project_address, name: 'Project', legal_form: 'limited'
+        @fund = create :fund 
+        visit "/"
+      }
+
+      it "I can create a new fund" do
+        click_on 'new_fund'
+        expect(current_path).to eq new_fund_path
+        fill_in :fund_interest_rate, with: 1.3
+        select 'maximal 20 Anteile', from: :fund_limit
+        select 1, from: :fund_issued_at_3i
+        select 'Januar', from: :fund_issued_at_2i
+        select '2016', from: :fund_issued_at_1i
+        select 'Project GmbH', from: 'fund_project_address_id'
+        click_on :submit
+        expect(current_path).to eq project_path
+      end
+
+      it "I can cancel creating a new fund" do
+        click_on 'new_fund'
+        click_on :cancel
+        expect(current_path).to eq project_path
+      end
+
+      it "I can edit a fund" do
+        click_on "edit_fund_#{@fund.id}"
+        expect(current_path).to eq edit_fund_path(@fund)
+        fill_in :fund_interest_rate, with: 1.5
+        click_on :submit
+        expect(current_path).to eq project_path
+        within "tr#fund_#{@fund.id}" do
+          expect(page).to have_content(number_to_percentage(1.5))
+        end
+      end
+
+      it "I can cancel editing a fund" do
+        click_on "edit_fund_#{@fund.id}"
+        click_on :cancel
+        expect(current_path).to eq project_path
+      end
+
+      it "I can delete a fund" do
+        click_on "delete_fund_#{@fund.id}"
+        expect(current_path).to eq project_path
+        expect(page).not_to have_selector("tr#fund_#{@fund.id}")
+      end
+    end
   end
 end
 

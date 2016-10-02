@@ -1,10 +1,10 @@
 present(balance) do |presented|
   sheet.add_row [
     balance.id,
-    balance.credit_agreement_id,
-    presented.credit_agreement_number,
     balance.date,
     presented.creditor_name,
+    presented.credit_agreement_number,
+    balance.credit_agreement.interest_rate / 100,
     balance.start_amount,
     balance.deposits,
     balance.disburses,

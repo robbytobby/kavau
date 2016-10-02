@@ -3,8 +3,11 @@ require 'rails_helper'
 ['Organization', 'Person'].each do |type|
   RSpec.describe CreditAgreementsController, type: :controller do
     let(:creditor_params) { {type: type, "#{type.underscore}_id": @creditor.id} }
-    before(:each){ sign_in create(:accountant) }
-    before(:each){@creditor = create type.underscore.to_sym}
+    before(:each){ 
+      sign_in create(:accountant) 
+      @creditor = create type.underscore.to_sym
+      dont_validate_fund_for CreditAgreement
+    }
     
     describe "GET #index" do
       it "assigns all credit_agreements as @credit_agreements" do

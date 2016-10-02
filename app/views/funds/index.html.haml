@@ -1,0 +1,23 @@
+%h1 Listing funds
+
+%table
+  %thead
+    %tr
+      %th Interest rate
+      %th Limit
+      %th
+      %th
+      %th
+
+  %tbody
+    - @funds.each do |fund|
+      %tr
+        %td= fund.interest_rate
+        %td= fund.limit
+        %td= link_to 'Show', fund
+        %td= link_to 'Edit', edit_fund_path(fund)
+        %td= link_to 'Destroy', fund, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Fund', new_fund_path

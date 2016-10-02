@@ -2,7 +2,8 @@ class CreditAgreement < ActiveRecord::Base
   include ActiveModel::Dirty
 
   strip_attributes
-  has_paper_trail class_name: 'CreditAgreementVersion', meta: { valid_from: :valid_from, valid_until: :version_valid_until, interest_rate_changed: :interest_rate_changed? }, ignore: [:created_at, :updated_at, :id, :creditor_id]
+  #has_paper_trail class_name: 'CreditAgreementVersion', meta: { valid_from: :valid_from, valid_until: :version_valid_until, interest_rate_changed: :interest_rate_changed? , interest_rate: :interest_rate}, ignore: [:created_at, :updated_at, :id, :creditor_id]
+  has_paper_trail class_name: 'CreditAgreementVersion', ignore: [:created_at, :updated_at, :id, :creditor_id]
 
   # TODO: Add notes
   belongs_to :creditor, class_name: 'Address'
@@ -18,8 +19,7 @@ class CreditAgreement < ActiveRecord::Base
   validates_presence_of :amount, :interest_rate, :cancellation_period, :account_id, :creditor_id, :valid_from
   validates_numericality_of :amount, :cancellation_period, greater_than: 0
   validates_uniqueness_of :number, allow_blank: true
-  validate :account_valid_for_credit_agreement?, :termination_date_after_payments
-  validate :new_valid_from_later_than_old_one, :year_of_valid_from_not_terminated, on: :update
+  validate :account_valid_for_credit_agreement?, :termination_date_after_payments, :fund_exists?, :after_fund_issuing, :fund_limit_fits?
 
   after_save :terminate, :update_balances
   before_validation :set_number
@@ -42,16 +42,12 @@ class CreditAgreement < ActiveRecord::Base
     balances.interest_sum + todays_balance.interests_sum
   end
 
+  def check_balance(date = Date.today.end_of_year)
+    CheckBalance.new(credit_agreement: self, date: date)
+  end
+
   def todays_balance
     auto_balances.build
-  end
-
-  def interest_rate_at(date)
-    at(date).interest_rate
-  end
-
-  def interest_rate_change_dates_between(start_date, end_date)
-    versions.with_interest_rate_change_between(start_date, end_date).pluck(:valid_until)
   end
 
   def active?
@@ -63,8 +59,19 @@ class CreditAgreement < ActiveRecord::Base
     !terminated_at.blank?
   end
 
-  def version_valid_until
-    valid_from
+  def issued_at
+    return valid_from if payments.none?
+    payments.first.date
+  end
+
+  def fund
+    return unless interest_rate && account
+    Fund.find_by(interest_rate: interest_rate, project_address: account.address)
+  end
+
+  def is_regulated?
+    return false if valid_from.blank?
+    valid_from >= Fund.regulated_from
   end
 
   private
@@ -80,16 +87,19 @@ class CreditAgreement < ActiveRecord::Base
       errors.add(:terminated_at, :before_last_payment)
     end
 
-    def new_valid_from_later_than_old_one
-      return unless valid_from
-      return if valid_from >= valid_from_was
-      errors.add(:valid_from, :before_last_value, last: I18n.l(valid_from_was))
+    def fund_exists?
+      return unless is_regulated?
+      errors.add(:interest_rate, :no_fund) unless fund
     end
 
-    def year_of_valid_from_not_terminated
-      return unless valid_from 
-      return unless year_terminated?(valid_from.year)
-      errors.add(:valid_from, :year_terminated, year: valid_from.year)
+    def after_fund_issuing
+      return unless is_regulated? && fund
+      errors.add(:valid_from, :before_fund_isssued, date: fund.issued_at) if valid_from < fund.issued_at
+    end
+
+    def fund_limit_fits?
+      return unless is_regulated? && fund && amount
+      errors.add(*fund.error_message_for_credit_agreement(self)) unless fund.fits(self)
     end
 
     def terminate

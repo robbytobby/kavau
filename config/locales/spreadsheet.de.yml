@@ -12,6 +12,7 @@ de:
         account_name: 'Konto'
         account_id: 'Konto ID'
         terminated_at: 'getilgt am'
+        interest_rate: 'Zinssatz'
       balance:
         id: 'Saldo ID'
         credit_agreement_number: 'Kreditvertrag Nr'
@@ -26,3 +27,4 @@ de:
         credit_agreement_number: 'Kreditvertrag Nr'
         account_name: 'Konto'
         amount: 'Betrag [€]'
+        interest_rate: 'Zinssatz'
