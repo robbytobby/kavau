@@ -4,6 +4,7 @@ RSpec.describe BalanceLetterPdf do
   include ActionView::Helpers::NumberHelper
 
   before :each do
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
     @creditor = create :person, name: 'Meier', first_name: 'Albert', title: 'Dr.',
       street_number: 'Strasse 1', zip: '79100', city: 'Freiburg'
     @project_address = create :project_address, :with_legals, :with_contacts, name: 'Das Projekt',

@@ -17,7 +17,7 @@ RSpec.describe "download credit agreements as xlsx" do
     expect(wb.cell(1, 1)).to eq 'ID'
     expect(wb.cell(1, 2)).to eq 'Nummer'
     expect(wb.cell(1, 3)).to eq 'Betrag [€]'
-    expect(wb.cell(1, 4)).to eq 'Zinssatz p.a. [%]'
+    expect(wb.cell(1, 4)).to eq 'Zinssatz'
     expect(wb.cell(1, 5)).to eq 'Kündigungsfrist [Monate]'
     expect(wb.cell(1, 6)).to eq 'Kreditgeber_in'
     expect(wb.cell(1, 7)).to eq 'Kreditgeber_in ID'

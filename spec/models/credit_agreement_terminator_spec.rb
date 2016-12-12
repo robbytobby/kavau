@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe CreditAgreementTerminator, type: :model do
   before :each do
     create :termination_letter
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true)
     allow_any_instance_of(TerminationLetter).to receive(:to_pdf).and_return(:true)
     @credit_agreement = create :credit_agreement
     @deposit = create :deposit, credit_agreement: @credit_agreement, date: Date.new(Date.today.prev_year(2).year,8,12)

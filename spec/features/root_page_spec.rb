@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe "On the home page" do
   include ActionView::Helpers::NumberHelper
+  before(:each){ 
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
+    allow_any_instance_of(Deposit).to receive(:maximum_credit_amount).and_return(true) 
+  }
 
   context "as unpriviledged user" do
     before(:each){ login_as create(:user) }

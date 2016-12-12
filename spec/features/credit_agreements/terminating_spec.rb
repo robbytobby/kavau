@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe "terminating a credit_agreement" do
   include ActionView::Helpers::NumberHelper
-  before(:each){ login_as create(:accountant) }
+  before(:each){ 
+    login_as create(:accountant) 
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
+  }
 
   before :all do
     create :termination_letter

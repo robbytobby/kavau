@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Fund, type: :model do
+  before(:each){ allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) }
+
   describe "validations" do
     it "is not valid without interest rate" do
       fund = build :fund, interest_rate: nil
@@ -276,6 +278,7 @@ RSpec.describe Fund, type: :model do
         credit_agreement = credit_for_fund(@fund, 10000, valid_from: Date.yesterday)
         max = 100000 - credit_agreement.check_balance.end_amount
         max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.today)
+        #geht schief
         expect(@fund.still_available).to eq max
       end
 
@@ -291,6 +294,7 @@ RSpec.describe Fund, type: :model do
         credit_agreement2 = credit_for_fund(@fund, 10000, valid_from: Date.yesterday)
         max = 100000 - credit_agreement1.check_balance.end_amount - credit_agreement2.check_balance.end_amount
         max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: Date.today)
+        #geht schief
         expect(@fund.still_available).to eq max
       end
 

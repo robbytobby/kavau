@@ -133,7 +133,7 @@ RSpec.describe AutoBalance, type: :model do
     (1..5).map(&:to_d).each do |rate|
       context "complicated_settings" do
         before :each do
-          @credit_agreement = create :credit_agreement, interest_rate: rate
+          @credit_agreement = create :credit_agreement, interest_rate: rate, valid_from: Date.new(2014,1,1), amount: 50000
         end
 
         it "calculates correctly" do
@@ -171,7 +171,7 @@ RSpec.describe AutoBalance, type: :model do
     (1..5).map(&:to_d).each do |rate|
       context "rate #{rate}%" do
         before :each do
-          @credit_agreement = create :credit_agreement, interest_rate: rate, valid_from: Date.new(2014,1,1)
+          @credit_agreement = create :credit_agreement, interest_rate: rate, valid_from: Date.new(2014,1,1), amount: 50000
         end
 
         context "interest_sum" do

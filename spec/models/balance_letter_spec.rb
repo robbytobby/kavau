@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe BalanceLetter, type: :model do
-  before(:each){ @letter = create :balance_letter, year: 2014 }
+  before(:each){ 
+    @letter = create :balance_letter, year: 2014 
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
+  }
 
   it "partial is letters/letter" do
     expect(@letter.to_partial_path).to eq('letters/letter')

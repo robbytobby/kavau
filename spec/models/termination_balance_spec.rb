@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe TerminationBalance, type: :model do
   before :each do
     allow_any_instance_of(TerminationLetter).to receive(:to_pdf).and_return true
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
     create :termination_letter
     @credit_agreement = create :credit_agreement, interest_rate: 2
   end

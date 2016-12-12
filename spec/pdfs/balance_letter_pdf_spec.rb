@@ -30,7 +30,8 @@ RSpec.describe BalanceLetterPdf do
         email: 'info@example.org', phone: 'PhoneNumber' 
       @account = create :account, address: @project_address, bank: 'DiBaDu', default: true
       @credit_agreement = create :credit_agreement, account: @account, creditor: @creditor
-      create :deposit, amount: 1000, credit_agreement: @credit_agreement, date: Date.today.end_of_year.prev_year
+      deposit = create :deposit, amount: 1000, credit_agreement: @credit_agreement, date: Date.today
+      deposit.update_column(:date, Date.today.end_of_year.prev_year )
       @deposit = create :deposit, amount: 2000, credit_agreement: @credit_agreement, date: Date.today
       @deposit.update_column(:date, Date.today.beginning_of_year.next_day(30) )
       @balance = create :balance, credit_agreement: @credit_agreement, date: Date.today.end_of_year

@@ -6,6 +6,7 @@ RSpec.describe BalancePdf do
   before(:all){ reset_config }
 
   before :each do
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
     @letter = create :termination_letter, subject: 'TheSubject', content: 'Covering Letter'
     @creditor = create :person, name: 'Meier', first_name: 'Albert', title: 'Dr.',
       street_number: 'Strasse 1', zip: '79100', city: 'Freiburg'

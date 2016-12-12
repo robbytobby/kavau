@@ -3,6 +3,11 @@ require 'rails_helper'
 RSpec.describe PaymentPdf do
   include ActionView::Helpers::NumberHelper
 
+  before(:each){ 
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
+    allow_any_instance_of(Deposit).to receive(:maximum_credit_amount).and_return(true) 
+  }
+
   [:disburse, :deposit].each do |type|
     before :each do
       @creditor = create :person, name: 'Meier', first_name: 'Albert', title: 'Dr.',

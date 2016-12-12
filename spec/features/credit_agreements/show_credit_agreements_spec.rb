@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "managing credit agreements" do
   include ActionView::Helpers::NumberHelper
+  before(:each){ 
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
+  }
 
   [:accountant, :admin].each do |type|
     context "as #{type}" do

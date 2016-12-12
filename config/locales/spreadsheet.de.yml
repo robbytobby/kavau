@@ -22,6 +22,7 @@ de:
         disburses: 'ausgezahlt [€]'
         interests_sum: 'Zinsen [€]'
         end_amount: 'Kontostand [€]'
+        interest_rate: 'Zinssatz'
       payment:
         creditor_name: 'Kreditgeber_in'
         credit_agreement_number: 'Kreditvertrag Nr'

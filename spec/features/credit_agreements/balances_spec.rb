@@ -3,6 +3,11 @@ require 'rails_helper'
 RSpec.describe "balances" do
   include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::TranslationHelper
+
+  before(:each){ 
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
+  }
+
   [:admin, :accountant].each do |type|
     context "- as #{type} -" do
       before :each do

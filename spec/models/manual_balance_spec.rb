@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ManualBalance, type: :model do
   before :each do
-    @credit_agreement = create :credit_agreement, interest_rate: 2
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true)
+    @credit_agreement = create :credit_agreement, interest_rate: 2, amount: 20000
   end
 
   it_behaves_like "balance" 

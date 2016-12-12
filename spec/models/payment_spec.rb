@@ -15,6 +15,7 @@ RSpec.describe Payment, type: :model do
   end
 
   it "payments for a terminated year are invalid" do
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
     allow_any_instance_of(BalanceLetter).to receive(:to_pdf).and_return(true)
     @credit_agreement = create :credit_agreement, interest_rate: 1
     @deposit = create :deposit, credit_agreement: @credit_agreement, amount: 1000, date: Date.today.prev_year
@@ -54,6 +55,7 @@ RSpec.describe Payment, type: :model do
   end
 
   it "is searchable by year" do
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
     deposit_1 = create :deposit, date: Date.new(2013, 12, 31)
     deposit_2 = create :deposit, date: Date.new(2014, 12, 31)
     deposit_3 = create :deposit, date: Date.new(2015, 12, 31)

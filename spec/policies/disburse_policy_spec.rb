@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DisbursePolicy do
   subject { DisbursePolicy.new(user, payment) }
-  let(:payment) { FactoryGirl.create(:disburse) }
+  let(:payment) { FactoryGirl.create(:disburse, date: Date.today) }
 
   context "for an admin" do
     let(:user){ create :admin }

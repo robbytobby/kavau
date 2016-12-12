@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Disburse do
-  before(:each){ @credit_agreement = create :credit_agreement, interest_rate: 2 }
+  before(:each){ 
+    allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true)
+    @credit_agreement = create :credit_agreement, interest_rate: 2 
+  }
 
   context "may never make the credit agreements end_amount negative" do
     it "a disburse without any deposit" do

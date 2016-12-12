@@ -7,6 +7,7 @@ RSpec.describe "balances pdfs for project address with missing information" do
   context "template for covering letter exists" do
     before :each do
       create :balance_letter, year: Date.today.prev_year.year
+      allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) 
     end
 
     it "no contacts given" do

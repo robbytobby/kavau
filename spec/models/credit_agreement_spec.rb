@@ -2,6 +2,8 @@ require 'rails_helper'
 include ActionView::Helpers::NumberHelper
 
 RSpec.describe CreditAgreement, type: :model do
+  before(:each){ allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) }
+
   it "is only valid for project_accounts, not for a creditors account" do
     @account = create :person_account
     @credit_agreement = build :raw_credit_agreement, account: @account
@@ -21,7 +23,7 @@ RSpec.describe CreditAgreement, type: :model do
   end
 
   it "total_interest is the interest amount upto today" do
-    @credit_agreement = create :credit_agreement, amount: 2000, interest_rate: 2 
+    @credit_agreement = create :credit_agreement, amount: 50000, interest_rate: 2 
     create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today.prev_day(455)
     create :disburse, credit_agreement: @credit_agreement, amount: 9467, date: Date.today.prev_day(390)
     create :deposit, credit_agreement: @credit_agreement, amount: 1111, date: Date.today.prev_day(7)
@@ -33,7 +35,7 @@ RSpec.describe CreditAgreement, type: :model do
   end
 
   it "todays_total is the amount including interest upto today" do
-    @credit_agreement = create :credit_agreement, amount: 2000, interest_rate: 2 
+    @credit_agreement = create :credit_agreement, amount: 50000, interest_rate: 2 
     create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today.prev_day(455)
     create :disburse, credit_agreement: @credit_agreement, amount: 9467, date: Date.today.prev_day(390)
     create :deposit, credit_agreement: @credit_agreement, amount: 1111, date: Date.today.prev_day(7)
@@ -145,7 +147,7 @@ RSpec.describe CreditAgreement, type: :model do
 
   context "whith a termination date" do
     before :each do
-      @credit_agreement = create :credit_agreement, amount: 2000, interest_rate: 2 
+      @credit_agreement = create :credit_agreement, amount: 50000, interest_rate: 2 
       create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today.prev_year
       create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today
       @credit_agreement.reload

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe BalanceUpdater, type: :model do
+  before(:each){ allow_any_instance_of(Deposit).to receive(:not_before_credit_agreement_starts).and_return(true) }
 
   ['2013-1-1', '2013-6-6', '2013-12-31', '2014-1-1', '2014-6-6', '2014-12-13'].each do |date|
     it "updates existing balances if a payment changes in amount- payment_date: #{date}" do

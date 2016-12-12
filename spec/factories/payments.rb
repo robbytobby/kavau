@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :disburse do
     amount "999.99"
     type "Disburse"
-    date "2015-10-31"
+    date Date.today
     association :credit_agreement
 
     before :create do |disburse|
@@ -16,7 +16,7 @@ FactoryGirl.define do
   factory :deposit do
     amount "999.99"
     type "Deposit"
-    date "2015-10-31"
+    date Date.today
     association :credit_agreement
   end
 end

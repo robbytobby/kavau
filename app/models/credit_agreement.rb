@@ -109,7 +109,7 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def update_balances
-      return unless interest_rate_changed?
+      #return unless interest_rate_changed?
       BalanceUpdater.new(self).run
     end
 
