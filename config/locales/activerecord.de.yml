@@ -27,7 +27,7 @@ de:
           attributes:
             date:
               in_the_future: 'darf nicht in der Zukunft liegen'
-              allready_closed: 'das Konto ist für %{year} schon geschlossen'
+              allready_closed: 'das Konto ist für %{year} schon geschlossen. Wenn du noch eine Zahlung für %{year} anlegen willst, mußt du den Jahresabschlußbrief für den/die Kreditgeber*in löschen und am Schluß der Transaktion manuell neu erzeugen, ausdrucken und verschicken.'
         disburse:
           attributes:
             amount:
