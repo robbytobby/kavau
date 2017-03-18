@@ -65,7 +65,11 @@ class OneYearAmountLimit < FundLimit
   end
 
   def planned_deposits
-    credit_agreements.sum(:amount) - Deposit.where(credit_agreement_id: credit_agreements.pluck(:id)).sum(:amount)
+    planned = 0
+    credit_agreements.each do |c|
+      planned += [c.amount - c.payments.where(type: 'Deposit').sum(:amount), 0].max
+    end
+    planned
   end
 
   def credit_agreements_without_payment

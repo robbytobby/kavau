@@ -200,6 +200,20 @@ RSpec.describe Fund, type: :model do
       end
     end
 
+    context "fund limited by one_year_amount where payents are bigger than credit_agreements sum" do
+      context "interest rate is 0" do
+        it "90.000 are left if 10.000 are in even if the credit agreement amount is smaller" do
+          @fund = create(:fund, limit: 'one_year_amount', interest_rate: 0) 
+          @account = @fund.project_address.accounts.first
+          credit_agreement = credit_for_fund(@fund, 10000)
+          deposit = deposit_for_credit(credit_agreement)
+          credit_agreement.update_column(:amount, 1000)
+          credit_agreement.reload
+          expect(@fund.still_available).to eq 90000
+        end
+      end
+    end
+
     context "fund limited by one_year_amount" do
       before(:each){ 
         @fund = create(:fund, limit: 'one_year_amount', interest_rate: 1.3) 
