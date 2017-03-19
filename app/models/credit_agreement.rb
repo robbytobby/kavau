@@ -74,6 +74,10 @@ class CreditAgreement < ActiveRecord::Base
     valid_from >= Fund.regulated_from
   end
 
+  def possible_deposits
+    [amount - payments.where(type: 'Deposit').sum(:amount), 0].max
+  end
+
   private
     def account_valid_for_credit_agreement?
       return unless account

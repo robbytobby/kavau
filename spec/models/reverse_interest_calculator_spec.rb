@@ -13,7 +13,8 @@ RSpec.describe ReverseInterestCalculator do
   end
 
   describe "maximium credit for 244 days" do
-    let(:calc){ ReverseInterestCalculator.new(base_amount: 100000, fund: @fund, start_date: Date.today.prev_day(244), end_date: Date.today) }
+    let(:today){ Date.new(2016,12,31) }
+    let(:calc){ ReverseInterestCalculator.new(base_amount: 100000, fund: @fund, start_date: today.prev_day(244), end_date: today) }
 
     [[1, 99337.74], [1.3, 99140.77], [1.5, 99009.90], [1.8, 98814.22], [2.0, 98684.21]].each do |rate, expected|
       it "is #{expected} if interest_rate is #{rate}" do

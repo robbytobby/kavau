@@ -344,7 +344,7 @@ RSpec.describe Fund, type: :model do
         credit_agreement = credit_for_fund(@fund, 1000, valid_from: Date.new(2015, 1, 1))
         deposit_for_credit(credit_agreement, date: Date.new(2015, 7, 9))
         interest = credit_agreement.check_balance(today.end_of_year).interests_sum
-        max = without_coming_interests(100000 - interest, interest_rate: @fund.interest_rate, date: today)
+        max = without_coming_interests(100000 - interest, interest_rate: @fund.interest_rate, date: today, end_of_year: today.end_of_year)
         expect(@fund.still_available(today)).to eq max
       end
 
@@ -356,7 +356,7 @@ RSpec.describe Fund, type: :model do
         deposit = deposit_for_credit(credit_agreement, amount: 1000, date: today)
 
         max = 100000 - deposit.amount - credit_agreement.check_balance(today.end_of_year).interests_sum
-        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: today)
+        max = without_coming_interests(max, interest_rate: @fund.interest_rate, date: today, end_of_year: today.end_of_year)
         expect(@fund.still_available(today)).to eq max
       end
 
