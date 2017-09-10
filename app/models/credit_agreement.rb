@@ -39,7 +39,7 @@ class CreditAgreement < ActiveRecord::Base
   end
 
   def total_interest
-    balances.interest_sum + todays_balance.interests_sum
+    (balances.to_a + [todays_balance]).uniq.sum(&:interests_sum)
   end
 
   def check_balance(date = Date.today.end_of_year)
@@ -47,7 +47,7 @@ class CreditAgreement < ActiveRecord::Base
   end
 
   def todays_balance
-    auto_balances.build
+    termination_balance || auto_balances.build
   end
 
   def active?

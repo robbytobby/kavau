@@ -22,6 +22,18 @@ RSpec.describe CreditAgreement, type: :model do
     expect(@credit_agreement.todays_balance).not_to be_persisted
   end
 
+  it "always shows the termination balance as todays balance if it exists" do
+    allow_any_instance_of(CreditAgreementTerminator).to receive(:create_pdf).and_return(true)
+    @credit_agreement = create :credit_agreement, amount: 50000, valid_from: Date.today.prev_year
+    create :deposit, credit_agreement: @credit_agreement, amount: 50000, date: Date.today.prev_year
+    expect(@credit_agreement.todays_balance).to be_a(AutoBalance)
+    @credit_agreement.terminated_at = Date.today.prev_month(3)
+    @credit_agreement.save
+    expect(@credit_agreement.todays_balance).to be_a(TerminationBalance)
+    expect(@credit_agreement.todays_balance).to be_persisted
+    expect(@credit_agreement.todays_balance.date).to eq(Date.today.prev_month(3))
+  end
+
   it "total_interest is the interest amount upto today" do
     @credit_agreement = create :credit_agreement, amount: 50000, interest_rate: 2 
     create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today.prev_day(455)
@@ -32,6 +44,15 @@ RSpec.describe CreditAgreement, type: :model do
     expect(@credit_agreement.total_interest).to eq(
       (@credit_agreement.balances.to_a + [@credit_agreement.send(:todays_balance)]).sum(&:interests_sum)
     )
+  end
+
+  it "the total interest of a terminated credit is the amount upto the termination date" do
+    allow_any_instance_of(CreditAgreementTerminator).to receive(:create_pdf).and_return(true)
+    @credit_agreement = create :credit_agreement, amount: 50000, interest_rate: 2 
+    create :deposit, credit_agreement: @credit_agreement, amount: 23456, date: Date.today.prev_day(455)
+    @credit_agreement.terminated_at = Date.today.prev_day(405)
+    @credit_agreement.save
+    expect(@credit_agreement.total_interest).to eq( @credit_agreement.balances.to_a.sum(&:interests_sum) )
   end
 
   it "todays_total is the amount including interest upto today" do

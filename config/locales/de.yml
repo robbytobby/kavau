@@ -10,6 +10,7 @@ de:
       male: 'Herr'
       female: 'Frau'
     the_letter: 'den Brief'
+    of_date: 'vom' 
   links:
     back: 'zurück zur Übersicht'
     cancel: 'abbrechen'

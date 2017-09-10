@@ -2,6 +2,7 @@
   %tr[pdf]
     %td= p.created_at
     %td= p.title
+    %td= p.item
     %td.actions
       = authorized_icon_link :show, pdf, path: pdf_path(pdf, format: :pdf), icon: 'download'
       = authorized_icon_link :update, pdf, icon: 'refresh', path: {controller: :pdfs, action: :update, id: pdf.id}, method: :put

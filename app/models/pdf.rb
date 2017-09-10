@@ -9,7 +9,7 @@ class Pdf < ActiveRecord::Base
   after_destroy :delete_file
 
   validates :creditor_id, :letter_id, presence: true
-  validates_uniqueness_of :letter_id, scope: :creditor_id
+  validates_uniqueness_of :letter_id, scope: [:creditor_id, :credit_agreement_id, :payment_id]
 
   delegate :title, :termination_letter?, :standard_letter?, :balance_letter?, to: :letter
 
