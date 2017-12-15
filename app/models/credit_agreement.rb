@@ -25,6 +25,9 @@ class CreditAgreement < ActiveRecord::Base
   before_validation :set_number
   validates_date :valid_from, on: :update
 
+  scope :active, -> { where(terminated_at: nil) }
+  scope :terminated, -> { where.not(terminated_at: nil) }
+
   def self.funded_credits_sum
     sum(:amount)
   end

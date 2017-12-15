@@ -52,6 +52,7 @@ de:
     limited: 'GmbH'
     registered_society: 'e.V.'
     society: 'Verein'
+    private_limited_partnership: 'KG'
   fund_limits:
     number_of_shares: 'maximal 20 Anteile'
     one_year_amount: 'maximal 100.000 € in 12 Monaten'
