@@ -378,6 +378,7 @@ RSpec.describe CreditAgreement, type: :model do
             expect(@credit_agreement).not_to be_valid
             expect(@credit_agreement.errors[:amount]).to include 'zu hoch - max 90.939,92 € möglich'
           end
+
         end
       end
 
@@ -480,6 +481,19 @@ RSpec.describe CreditAgreement, type: :model do
                     @credit_agreement.amount = 2 * limit
                     expect(@credit_agreement).to be_valid
                   end
+                end
+              end
+              context "the termination date" do
+                before(:each){
+                  allow_any_instance_of(CreditAgreementTerminator).to receive(:create_pdf).and_return(true)  
+                  credit_agreement(1000, date: Date.today.beginning_of_year).save
+                  @credit_agreement = CreditAgreement.last
+                }
+                
+                it "is possible" do
+                  @credit_agreement.terminated_at = Date.today
+                  @credit_agreement.save
+                  expect(@credit_agreement).to be_terminated
                 end
               end
             end

@@ -105,7 +105,7 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def fund_limit_fits?
-      return unless is_regulated? && fund && amount
+      return unless is_regulated? && fund && amount && (amount_changed? || valid_from_changed?)
       errors.add(*fund.error_message_for_credit_agreement(self)) unless fund.fits(self)
     end
 
