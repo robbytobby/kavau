@@ -30,7 +30,7 @@ de:
       limited: 'Liebe %{name}'
       registered_society: 'Lieber %{name}'
       society: 'Lieber %{name}'
-      private_limited_partnership: 'Liebe %{name} KG'
+      private_limited_partnership: 'Liebe %{name}'
     balance:
       auto_balance: 'Jahresabschluss %{year}'
       manual_balance: 'Jahresabschluss %{year}'
