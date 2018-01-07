@@ -6,6 +6,11 @@ de:
         genitiv: 'der %{name}'
         dativ: 'der %{name}'
         accusativ: 'die %{name}'
+      private_limited_partnership:
+        nominativ: 'die %{name}'
+        genitiv: 'der %{name}'
+        dativ: 'der %{name}'
+        accusativ: 'die %{name}'
       registered_society:
         nominativ: 'der %{name}'
         genitiv: 'des %{name}'
@@ -28,9 +33,9 @@ de:
       male: 'Lieber %{name}'
       female: 'Liebe %{name}'
       limited: 'Liebe %{name}'
+      private_limited_partnership: 'Liebe %{name}'
       registered_society: 'Lieber %{name}'
       society: 'Lieber %{name}'
-      private_limited_partnership: 'Liebe %{name}'
     balance:
       auto_balance: 'Jahresabschluss %{year}'
       manual_balance: 'Jahresabschluss %{year}'
@@ -47,16 +52,19 @@ de:
       sum: 'Summe: %{amount}'
       name_with_article:
         limited: 'der %{name} GmbH'
+        private_limited_partnership: 'der %{name} KG'
         registered_society: 'dem %{name} e.V.'
         society: 'dem Verein %{name}'
       text1:
         person: '%{name}'
         organization:
           limited: 'Die %{name}'
+          private_limited_partnership: 'die %{name}'
           registered_society: 'Der %{name}'
           society: 'Der %{name}'
       text2:
         limited: 'hat der %{name}'
+        private_limited_partnership: 'hat der %{name}'
         registered_society: 'hat dem %{name}'
         society: 'hat dem Verein %{name}'
       text3:

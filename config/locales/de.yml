@@ -34,6 +34,7 @@ de:
         society: 'neue_r Vorstand / Vorständin'
         registered_society: 'neue_r Vorstand / Vorständin'
         limited: 'neue_r Geschäftsführer_in'
+        private_limited_partnership: 'neue Ansprechpartner_in'
     new_account: 'neue Bankverbindung'
     new_credit_agreement: 'neuer Kreditvertrag'
     new_pdf: 'neuer Brief aus Vorlage'
@@ -51,9 +52,9 @@ de:
     admin: 'Administrator_in'
   legal_forms:
     limited: 'GmbH'
+    private_limited_partnership: 'KG'
     registered_society: 'e.V.'
     society: 'Verein'
-    private_limited_partnership: 'KG'
   fund_limits:
     number_of_shares: 'maximal 20 Anteile'
     one_year_amount: 'maximal 100.000 € in 12 Monaten'
