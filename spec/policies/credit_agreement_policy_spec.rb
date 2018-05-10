@@ -1,6 +1,34 @@
 require 'rails_helper'
 
 RSpec.describe CreditAgreementPolicy do
+  context "the class" do
+    subject { CreditAgreementPolicy.new(user, CreditAgreement) }
+
+    context "for an user" do
+      let(:user){ create :user }
+
+      it "allows balance cration for accountants" do
+        expect(subject.create_yearly_balances?).to be_falsy
+      end
+    end
+
+    context "for an accountant" do
+      let(:user){ create :accountant}
+
+      it "allows balance cration for accountants" do
+        expect(subject.create_yearly_balances?).to be_truthy
+      end
+    end
+
+    context "for an admin" do
+      let(:user){ create :admin }
+
+      it "allows balance cration for accountants" do
+        expect(subject.create_yearly_balances?).to be_truthy
+      end
+    end
+  end
+
   context "new credit agreement" do
     let(:klass){ CreditAgreementPolicy}
     subject { CreditAgreementPolicy.new(user, credit_agreement) }

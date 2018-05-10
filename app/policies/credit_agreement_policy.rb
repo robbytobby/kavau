@@ -14,6 +14,10 @@ class CreditAgreementPolicy < ApplicationPolicy
     record.payments.none?
   end
 
+  def create_yearly_balances?
+    user.admin? || user.accountant?
+  end
+
   def permitted_params
     [:amount, :cancellation_period, :number, :terminated_at] + payment_dependent_params
   end

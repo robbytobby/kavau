@@ -166,5 +166,16 @@ require 'rails_helper'
       end
     end
 
+    describe "GET create_yearly_balances" do
+      it "triggers balance creation" do
+        expect(CreditAgreement).to receive(:create_yearly_balances).with(no_args)
+        get :create_yearly_balances
+      end
+
+      it "redirects to root" do
+        get :create_yearly_balances
+        expect(response).to redirect_to(root_path)
+      end
+    end
   end
 end

@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe CreditAgreementsController, type: :routing do
   describe "simple routing" do
+    it "routes to create_yearly_balances" do
+      expect(get: "/credit_agreements/create_yearly_balances").to route_to('credit_agreements#create_yearly_balances')
+    end
+
     it "routes to #index" do
       expect(get: "/credit_agreements").to route_to("credit_agreements#index")
     end

@@ -37,6 +37,10 @@ class CreditAgreement < ActiveRecord::Base
     sum('interest_rate * amount') / funded_credits_sum
   end
 
+  def self.create_yearly_balances
+    CreditAgreement.all.each(&:save)
+  end
+
   def todays_total
     todays_balance.end_amount
   end

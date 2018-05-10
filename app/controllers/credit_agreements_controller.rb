@@ -6,8 +6,10 @@ class CreditAgreementsController < ApplicationController
   @typed_associated_name = '@creditor'
   respond_to :xlsx
 
-  skip_before_action :set_type, only: [:index, :show]
-  skip_before_action :set_associated, only: [:index, :show]
+  skip_before_action :set_type, only: [:index, :show, :create_yearly_balances]
+  skip_before_action :set_associated, only: [:index, :show, :create_yearly_balances]
+  skip_before_action :find_record, only: :create_yearly_balances
+  skip_before_action :authorize_record, only: :create_yearly_balances
 
   def index
     respond_with @credit_agreements, filename: CreditAgreement.model_name.human.pluralize(I18n.locale)
@@ -42,6 +44,13 @@ class CreditAgreementsController < ApplicationController
   def destroy
     @credit_agreement.destroy
     respond_with @credit_agreement, location: -> { after_action_path }
+  end
+
+  def create_yearly_balances
+    authorize CreditAgreement, :create_yearly_balances?
+    CreditAgreement.create_yearly_balances
+    flash[:notice] = I18n.t('credit_agreements.flash.create_yearly_balances')
+    redirect_to root_path
   end
 
   private

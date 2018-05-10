@@ -3,7 +3,7 @@ class ProjectController < ApplicationController
 
   after_action :verify_authorized, except: :show
   after_action :verify_policy_scoped, only: :show
-  before_action :check_configuration, :setup_addresses, :check_presence_of_addresses, :check_addresses_for_contacts, :check_addresses_legal_information, :check_addresses_for_default_account
+  before_action :check_configuration, :setup_addresses, :check_presence_of_addresses, :check_addresses_for_contacts, :check_addresses_legal_information, :check_addresses_for_default_account, only: :show
 
   def show
     @type = 'ProjectAddress'

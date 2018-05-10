@@ -91,6 +91,8 @@ de:
       title: 'Kreditvertrag bearbeiten'
     search:
       creditor_name_cont: 'Name d. Kreditgeber_in enthält'
+    flash:
+      create_yearly_balances: 'Jahresabschlüsse für alle Kredite angelegt - jetzt kannst du die Briefe erstellen'
   errors:
     not_found:
       title: 'Seite nicht gefunden!'

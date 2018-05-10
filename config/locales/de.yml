@@ -18,6 +18,7 @@ de:
     delete_pdfs: 'PDFs löschen'
     edit: 'bearbeiten'
     get_pdfs: 'PDFs runter laden'
+    new: 'neu anlegen'
     history: 'Historie'
     show: 'anzeigen'
     delete: 'löschen'
@@ -40,6 +41,7 @@ de:
     new_pdf: 'neuer Brief aus Vorlage'
     prev: 'voherige Seite'
     next: 'nächste Seite'
+    create_yearly_balances: 'Jahresabschluß für %{year} anlegen'
   help:
     credit_agreements:
       number: 'Wenn das Feld frei gelassen wird, wird die Nummer automatisch vergeben. Dabei wird die nächste freie Nummer für das entsprechende Konto eingesetzt'

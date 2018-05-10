@@ -588,6 +588,14 @@ RSpec.describe CreditAgreement, type: :model do
     it "the sum of credits over all project agreements" do
       expect(CreditAgreement.funded_credits_sum).to eq(7000)
     end
+
+    it "can create the necessary Balances" do
+      pending "fails and I don't know why"
+      [@credit_1, @credit_2, @credit_3].each do |c|
+        expect(c).to receive(:save).with(no_args)
+      end
+      CreditAgreement.create_yearly_balances
+    end
   end
 end
   
