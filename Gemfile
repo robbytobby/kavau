@@ -32,16 +32,16 @@ gem 'haml-rails'
 gem 'simple_form'
 gem 'strip_attributes'
 gem 'responders'
-gem 'devise'
+gem 'devise' #
 gem 'bootstrap-sass'
 gem 'jquery-turbolinks'
 gem 'country_select'
 gem 'i18n-country-translations'
-gem 'pundit'
-gem 'attr_encrypted'
+gem 'pundit' #
+gem 'attr_encrypted' #
 gem 'iban-tools'
 gem 'email_validator'
-gem 'goldiloader'
+#gem 'goldiloader' #auskommentiert, wollte nicht funktionieren
 gem 'kaminari'
 gem 'ransack'
 gem 'prawn'
