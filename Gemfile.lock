@@ -123,13 +123,13 @@ GEM
     coderay (1.1.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    coffee-rails (4.1.0)
+    coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
-      railties (>= 4.0.0, < 5.0)
+      railties (>= 4.0.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.1.1)
+    coffee-script-source (1.12.2)
     colored (1.2)
     colorize (0.7.7)
     combine_pdf (0.2.13)
@@ -233,11 +233,11 @@ GEM
     i18n_data (0.7.0)
     iban-tools (1.0.0)
     ice_nine (0.11.1)
-    jbuilder (2.3.2)
-      activesupport (>= 3.0.0, < 5)
-      multi_json (~> 1.2)
-    jquery-rails (4.0.5)
-      rails-dom-testing (~> 1.0)
+    jbuilder (2.8.0)
+      activesupport (>= 4.2.0)
+      multi_json (>= 1.2)
+    jquery-rails (4.3.3)
+      rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     jquery-turbolinks (2.1.0)
@@ -249,7 +249,7 @@ GEM
       activesupport (>= 3.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    libv8 (3.16.14.11)
+    libv8 (3.16.14.19)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -270,7 +270,7 @@ GEM
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
-    multi_json (1.11.2)
+    multi_json (1.13.1)
     nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -364,7 +364,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    rdoc (4.3.0)
+    rdoc (6.1.1)
     reek (1.6.5)
       parser (~> 2.2.0.pre.7)
       rainbow (>= 1.99, < 3.0)
@@ -438,9 +438,8 @@ GEM
     sassc (2.0.1)
       ffi (~> 1.9)
       rake
-    sdoc (0.4.1)
-      json (~> 1.7, >= 1.7.7)
-      rdoc (~> 4.0)
+    sdoc (1.0.0)
+      rdoc (>= 5.0)
     selenium-webdriver (2.48.1)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
@@ -448,9 +447,9 @@ GEM
       websocket (~> 1.0)
     sexp_processor (4.11.0)
     shellany (0.0.1)
-    simple_form (3.2.0)
-      actionpack (~> 4.0)
-      activemodel (~> 4.0)
+    simple_form (4.0.0)
+      actionpack (> 4)
+      activemodel (> 4)
     simplecov (0.10.0)
       docile (~> 1.1.0)
       json (~> 1.8)
@@ -482,8 +481,8 @@ GEM
     terminal-table (1.5.2)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
-    therubyracer (0.12.2)
-      libv8 (~> 3.16.14.0)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
       ref
     thor (0.20.3)
     thread_safe (0.3.6)
@@ -494,13 +493,13 @@ GEM
     traceroute (0.5.0)
       rails (>= 3.0.0)
     ttfunk (1.4.0)
-    turbolinks (2.5.3)
-      coffee-rails
+    turbolinks (5.2.0)
+      turbolinks-source (~> 5.2)
+    turbolinks-source (5.2.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (2.7.2)
-      execjs (>= 0.3.0)
-      json (>= 1.8.0)
+    uglifier (4.1.20)
+      execjs (>= 0.3.0, < 3)
     unicode_utils (1.4.0)
     uniform_notifier (1.9.0)
     unparser (0.2.4)
@@ -546,7 +545,7 @@ DEPENDENCIES
   capistrano-rvm
   capybara
   codeclimate-test-reporter
-  coffee-rails (~> 4.1.0)
+  coffee-rails
   combine_pdf
   country_select
   database_cleaner
@@ -562,7 +561,7 @@ DEPENDENCIES
   haml-rails
   i18n-country-translations
   iban-tools
-  jbuilder (~> 2.0)
+  jbuilder
   jquery-rails
   jquery-turbolinks
   kaminari
@@ -586,7 +585,7 @@ DEPENDENCIES
   rubocop
   rubycritic
   sass-rails
-  sdoc (~> 0.4.0)
+  sdoc
   selenium-webdriver
   simple_form
   spring
@@ -596,7 +595,7 @@ DEPENDENCIES
   timecop
   traceroute
   turbolinks
-  uglifier (>= 1.3.0)
+  uglifier
   validates_timeliness
   web-console (~> 2.0)
 
