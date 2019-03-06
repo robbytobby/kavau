@@ -3,7 +3,7 @@ class CreditAgreement < ActiveRecord::Base
 
   strip_attributes
   #has_paper_trail class_name: 'CreditAgreementVersion', meta: { valid_from: :valid_from, valid_until: :version_valid_until, interest_rate_changed: :interest_rate_changed? , interest_rate: :interest_rate}, ignore: [:created_at, :updated_at, :id, :creditor_id]
-  has_paper_trail class_name: 'CreditAgreementVersion', ignore: [:created_at, :updated_at, :id, :creditor_id]
+  has_paper_trail versions: {class_name: 'CreditAgreementVersion'}, ignore: [:created_at, :updated_at, :id, :creditor_id]
 
   # TODO: Add notes
   belongs_to :creditor, class_name: 'Address'
