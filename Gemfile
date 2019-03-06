@@ -74,6 +74,7 @@ group :development, :test do
   gem "rubycritic", :require => false
   gem "rails_best_practices"
   gem 'rubocop', require: false
+  #gem 'rubocop', '~> 0.49.0', require: false
   gem "brakeman", :require => false
   gem 'traceroute'
   gem 'bullet'
