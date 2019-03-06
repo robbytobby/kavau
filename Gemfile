@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.7'
 # Use postgres as the database for Active Record
-gem 'pg'
+gem 'pg', '~>0.21'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -58,7 +58,7 @@ gem 'axlsx_rails'
 gem 'rounding'
 
 group :development, :test do
-  gem 'byebug', '~> 6.0'
+  gem 'byebug'
   gem 'pry-byebug', :git => 'https://github.com/deivid-rodriguez/pry-byebug.git'
   #gem 'guard-zeus'
   gem 'guard-bundler'
