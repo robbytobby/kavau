@@ -53,7 +53,7 @@ gem 'paper_trail', '~> 4.0.0'
 gem 'validates_timeliness', '~> 4.0'
 gem 'paperclip', '~> 4.3'
 gem 'remotipart', '~> 1.2'
-gem 'axlsx', '~> 2.1.0.pre'
+gem 'axlsx', '~> 3.0.0.pre'
 gem 'axlsx_rails'
 gem 'rounding'
 
