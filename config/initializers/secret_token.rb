@@ -1,5 +1,2 @@
-Kavau::Application.config.secret_key_base = if Rails.env.development? or Rails.env.test?
-  ('x' * 30) # meets minimum requirement of 30 chars long
-else
-  ENV['SECRET_KEY_BASE']
-end
+Kavau::Application.config.secret_key_base = ENV['SECRET_KEY_BASE']
+Kavau::Application.config.secret_key_base ||= ('x' * 30) if Rails.env.development? or Rails.env.test?
