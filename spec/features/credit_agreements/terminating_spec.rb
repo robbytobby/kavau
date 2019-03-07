@@ -33,9 +33,9 @@ RSpec.describe "terminating a credit_agreement" do
       visit credit_agreement_path(@credit_agreement)
       expect(page).to have_selector('#termination_form')
       termination_date = Date.today.next_day(17)
-      select termination_date.mday, from: :credit_agreement_terminated_at_3i
+      select termination_date.mday.to_s, from: :credit_agreement_terminated_at_3i
       select I18n.t("date.month_names")[termination_date.month], from: :credit_agreement_terminated_at_2i
-      select termination_date.year, from: :credit_agreement_terminated_at_1i
+      select termination_date.year.to_s, from: :credit_agreement_terminated_at_1i
       click_on :terminate
       expect(current_path).to eq(credit_agreement_path(@credit_agreement))
       expect(page).not_to have_selector('#new_payment_form')
@@ -63,9 +63,9 @@ RSpec.describe "terminating a credit_agreement" do
       visit credit_agreement_path(@credit_agreement)
       expect(page).to have_selector('#termination_form')
       termination_date = Date.today.next_day(17)
-      select termination_date.mday, from: :credit_agreement_terminated_at_3i
+      select termination_date.mday.to_s, from: :credit_agreement_terminated_at_3i
       select I18n.t("date.month_names")[termination_date.month], from: :credit_agreement_terminated_at_2i
-      select termination_date.year, from: :credit_agreement_terminated_at_1i
+      select termination_date.year.to_s, from: :credit_agreement_terminated_at_1i
       click_on :terminate
       expect(@credit_agreement.reload).to be_terminated
       expect(current_path).to eq(credit_agreement_path(@credit_agreement))
