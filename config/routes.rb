@@ -60,6 +60,7 @@ Rails.application.routes.draw do
 
   resources :users
   get 'project' => 'project#show'
+  get 'credit_agreements/create_yearly_balances' => 'credit_agreements/create_yearly_balances'
 
   authenticated :user do
     root to: 'project#show', as: :authenticated_root

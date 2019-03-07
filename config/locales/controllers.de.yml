@@ -29,16 +29,19 @@ de:
       no_contacts_for:
         project_address:
           limited: 'Wichtig: Für die %{name} GmbH müssen noch Geschäftsführer_innen angelegt werden.'
+          private_limited_partnership: 'Wichtig: Für die %{name} KG müssen noch Geschäftsführer_innen angelegt werden.'
           registered_society: 'Wichtig: Für den %{name}. müssen noch Vorständ_innen angelegt werden.' 
           society: 'Wichtig: Für den Verein %{name}. müssen noch Vorständ_innen angelegt werden.' 
       missing_legal_information:
         project_address:
           limited: "Für die %{name} GmbH fehlen noch folgende Angaben: %{missing}"
+          private_limited_partnership: "Für die %{name} KG fehlen noch folgende Angaben: %{missing}"
           registered_society: "Für den %{name} e.V. fehlen noch folgende Angaben: %{missing}"
           society: "Für den Verein %{name} e.V. fehlen noch folgende Angaben: %{missing}"
       missing_default_account:
         project_address:
           limited: "Für die %{name} GmbH muß ein Standard-Konto angelegt werden"
+          private_limited_partnership: "Für die %{name} KG muß ein Standard-Konto angelegt werden"
           registered_society: "Für den %{name} e.V. muß ein Standard-Konto angelegt werden"
           society: "Für den Verein %{name} muß ein Standard-Konto angelegt werden"
     index:
@@ -68,7 +71,8 @@ de:
       title: 
         organization: 'Neue_r Ansprechpartner_in'
         project_address: 
-          limited:  'Neue_r Geschäftsführer_in'
+          limited: 'Neue_r Geschäftsführer_in'
+          private_limited_partnership: 'Neue_r Geschäftsführer_in'
           registered_society: 'Neue_r Vorstand / Vorständin'
           stered_society: 'Neue_r Vorstand / Vorständin'
     edit: 
@@ -87,6 +91,8 @@ de:
       title: 'Kreditvertrag bearbeiten'
     search:
       creditor_name_cont: 'Name d. Kreditgeber_in enthält'
+    flash:
+      create_yearly_balances: 'Jahresabschlüsse für alle Kredite angelegt - jetzt kannst du die Briefe erstellen'
   errors:
     not_found:
       title: 'Seite nicht gefunden!'

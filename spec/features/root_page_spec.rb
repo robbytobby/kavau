@@ -310,6 +310,12 @@ RSpec.describe "On the home page" do
         expect(current_path).to eq project_path
         expect(page).not_to have_selector("tr#fund_#{@fund.id}")
       end
+
+      it "has a button to generate yearly balances" do
+        visit "/"
+        expect(CreditAgreement).to receive(:create_yearly_balances)
+        find_link("Jahresabschluß für #{Date.today.prev_year.year} anlegen").click
+      end
     end
   end
 end

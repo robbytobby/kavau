@@ -44,3 +44,5 @@
       %th
   %tbody
     = render @funds
+.pull-right
+  = link_to I18n.t('links.create_yearly_balances', year: Date.today.prev_year.year), credit_agreements_create_yearly_balances_path, class: 'btn btn-primary'

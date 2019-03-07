@@ -18,6 +18,7 @@ de:
     delete_pdfs: 'PDFs löschen'
     edit: 'bearbeiten'
     get_pdfs: 'PDFs runter laden'
+    new: 'neu anlegen'
     history: 'Historie'
     show: 'anzeigen'
     delete: 'löschen'
@@ -29,15 +30,18 @@ de:
         society: 'neue Ansprechpartner_in'
         registered_society: 'neue Ansprechpartner_in'
         limited: 'neue Ansprechpartner_in'
+        private_limited_partnership: 'neue Ansprechpartner_in'
       for_project_address:
         society: 'neue_r Vorstand / Vorständin'
         registered_society: 'neue_r Vorstand / Vorständin'
         limited: 'neue_r Geschäftsführer_in'
+        private_limited_partnership: 'neue Ansprechpartner_in'
     new_account: 'neue Bankverbindung'
     new_credit_agreement: 'neuer Kreditvertrag'
     new_pdf: 'neuer Brief aus Vorlage'
     prev: 'voherige Seite'
     next: 'nächste Seite'
+    create_yearly_balances: 'Jahresabschluß für %{year} anlegen'
   help:
     credit_agreements:
       number: 'Wenn das Feld frei gelassen wird, wird die Nummer automatisch vergeben. Dabei wird die nächste freie Nummer für das entsprechende Konto eingesetzt'
@@ -50,9 +54,9 @@ de:
     admin: 'Administrator_in'
   legal_forms:
     limited: 'GmbH'
+    private_limited_partnership: 'KG'
     registered_society: 'e.V.'
     society: 'Verein'
-    private_limited_partnership: 'KG'
   fund_limits:
     number_of_shares: 'maximal 20 Anteile'
     one_year_amount: 'maximal 100.000 € in 12 Monaten'
