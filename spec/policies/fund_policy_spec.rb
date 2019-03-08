@@ -23,7 +23,8 @@ RSpec.describe FundPolicy do
     before(:each){
       project = create :project_address, :with_default_account
       @fund = create :fund, project_address: project
-      create :credit_agreement, account: project.accounts.first, interest_rate: @fund.interest_rate
+      @credit_agreement = create :credit_agreement, account: project.accounts.first, interest_rate: @fund.interest_rate
+      @fund.reload
     }
     let(:fund){ @fund }
 
@@ -37,7 +38,7 @@ RSpec.describe FundPolicy do
       permits [:new, :create] 
     end
 
-    context "for a non privileged user" do
+    context "for a non privileged user, focus: true" do
       let(:user){ create :user }
       permits :none
     end

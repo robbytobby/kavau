@@ -152,11 +152,11 @@ GEM
       actionmailer (>= 4.0, < 6)
       activesupport (>= 4.0, < 6)
     execjs (2.7.0)
-    factory_bot (4.8.2)
-      activesupport (>= 3.0.0)
-    factory_bot_rails (4.8.2)
-      factory_bot (~> 4.8.2)
-      railties (>= 3.0.0)
+    factory_bot (5.0.2)
+      activesupport (>= 4.2.0)
+    factory_bot_rails (5.0.1)
+      factory_bot (~> 5.0.0)
+      railties (>= 4.2.0)
     ffi (1.10.0)
     flay (2.12.0)
       erubis (~> 2.7.0)
@@ -535,7 +535,7 @@ DEPENDENCIES
   email_validator
   exception_notification
   factory_bot
-  factory_bot_rails (~> 4.8.2)
+  factory_bot_rails
   guard-bundler
   guard-rspec
   guard-spring

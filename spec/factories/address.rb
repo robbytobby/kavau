@@ -1,21 +1,21 @@
 FactoryBot.define do
   factory :address do
-    type 'Address'
-    name 'Test Name' 
-    street_number "Test Street"
-    zip "Test Zip"
-    city "Test City"
-    country_code "DE"
+    type { 'Address' }
+    name { 'Test Name' }
+    street_number { "Test Street" }
+    zip { "Test Zip" }
+    city { "Test City" }
+    country_code { "DE" }
 
     factory :project_address, class: ProjectAddress do
-      type "ProjectAddress"
-      legal_form 'limited'
+      type { "ProjectAddress" }
+      legal_form { 'limited' }
 
       trait :with_legals do
-        based_in 'City'
-        register_court 'Court'
-        registration_number 'RegistragionNumber'
-        tax_number 'TaxNumber'
+        based_in { 'City' }
+        register_court { 'Court' }
+        registration_number { 'RegistragionNumber' }
+        tax_number { 'TaxNumber' }
       end
 
       trait :with_contacts do
@@ -34,19 +34,19 @@ FactoryBot.define do
     end
 
     factory :person, class: Person do
-      salutation 'female'
-      first_name 'Vorname'
-      type 'Person'
+      salutation { 'female' }
+      first_name { 'Vorname' }
+      type { 'Person' }
     end
 
     factory :organization, class: Organization do
-      type 'Organization'
-      legal_form 'limited'
+      type { 'Organization' }
+      legal_form { 'limited' }
     end
 
     factory :contact, class: Contact do
-      type 'Contact'
-      first_name 'Vorname'
+      type { 'Contact' }
+      first_name { 'Vorname' }
     end
   end
 end

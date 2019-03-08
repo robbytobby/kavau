@@ -67,14 +67,13 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'rspec-rails'
   gem 'factory_bot'
-  gem 'factory_bot_rails', '~> 4.8.2'
+  gem 'factory_bot_rails'
   gem 'capybara'
   gem 'launchy'
   #gem 'cucumber-rails', require: false
   gem "rubycritic", :require => false
   gem "rails_best_practices"
   gem 'rubocop', require: false
-  #gem 'rubocop', '~> 0.49.0', require: false
   gem "brakeman", :require => false
   gem 'traceroute'
   gem 'bullet'

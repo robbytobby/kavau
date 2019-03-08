@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :disburse do
-    amount "999.99"
-    type "Disburse"
-    date Date.today
+    amount { "999.99" }
+    type { "Disburse" }
+    date { Date.today }
     association :credit_agreement
 
     before :create do |disburse|
@@ -14,9 +14,9 @@ FactoryBot.define do
 
 
   factory :deposit do
-    amount "999.99"
-    type "Deposit"
-    date Date.today
+    amount { "999.99" }
+    type { "Deposit" }
+    date { Date.today }
     association :credit_agreement
   end
 end
