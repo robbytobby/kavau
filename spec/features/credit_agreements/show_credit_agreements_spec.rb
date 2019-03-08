@@ -20,7 +20,7 @@ RSpec.describe "managing credit agreements" do
         expect(current_path).to eq(credit_agreement_path(@credit))
       end
 
-      it "I can go to the credit agreement from creditors page " do
+      it "I can go to the credit agreement from creditors page" do
         visit model_path(@credit.creditor)
         click_on "show_credit_agreement_#{@credit.id}", match: :first
         expect(current_path).to eq(credit_agreement_path(@credit))
