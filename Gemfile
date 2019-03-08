@@ -47,7 +47,6 @@ gem 'ransack'
 gem 'prawn'
 gem 'prawn-table'
 gem 'combine_pdf'
-#gem 'config'
 gem 'exception_notification'
 gem 'paper_trail'
 gem 'validates_timeliness'
@@ -60,7 +59,6 @@ gem 'rounding'
 group :development, :test do
   gem 'byebug'
   gem 'pry-byebug', :git => 'https://github.com/deivid-rodriguez/pry-byebug.git'
-  #gem 'guard-zeus'
   gem 'guard-bundler'
   gem 'guard-rspec'
   gem 'guard-spring'
@@ -70,7 +68,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'capybara'
   gem 'launchy'
-  #gem 'cucumber-rails', require: false
   gem "rubycritic", :require => false
   gem "rails_best_practices"
   gem 'rubocop', require: false
@@ -81,7 +78,7 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
   # use capistrano for deployment
   gem 'capistrano'
   gem 'capistrano-rails'
