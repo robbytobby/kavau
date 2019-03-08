@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe LetterPolicy do
   subject { LetterPolicy.new(user, letter) }
-  let(:letter) { FactoryGirl.create(:letter) }
+  let(:letter) { FactoryBot.create(:letter) }
 
   context "letter without pdfs" do
     before(:each){ allow_any_instance_of(Letter).to receive(:pdfs_created?).and_return(false) }

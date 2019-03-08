@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :fund do
     interest_rate 9.99
     limit 'number_of_shares'

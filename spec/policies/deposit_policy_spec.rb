@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DepositPolicy do
   subject { DepositPolicy.new(user, payment) }
-  let(:payment) { FactoryGirl.create(:deposit) }
+  let(:payment) { FactoryBot.create(:deposit) }
 
   context "for an admin" do
     let(:user){ create :admin }

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :raw_credit_agreement, class: CreditAgreement do
     amount "10000.00"
     interest_rate "2.00"

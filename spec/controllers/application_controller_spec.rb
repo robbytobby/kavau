@@ -39,7 +39,7 @@ RSpec.describe ApplicationController, type: :controller do
   describe "MissingInformationError" do
     controller do
       def test
-        @address = FactoryGirl.create :project_address
+        @address = FactoryBot.create :project_address
         raise MissingInformationError.new(@address)
       end
     end

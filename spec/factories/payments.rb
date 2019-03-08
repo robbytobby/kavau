@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :disburse do
     amount "999.99"
     type "Disburse"

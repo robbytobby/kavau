@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :letter do
     type 'Letter'
     subject 'Letter Subject'

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :account do
     address { |a| a.association(:address) }
     sequence(:bank){ |n| "BANK_#{n}" }

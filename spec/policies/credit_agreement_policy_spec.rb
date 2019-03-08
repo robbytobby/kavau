@@ -4,7 +4,7 @@ RSpec.describe CreditAgreementPolicy do
   context "new credit agreement" do
     let(:klass){ CreditAgreementPolicy}
     subject { CreditAgreementPolicy.new(user, credit_agreement) }
-    let(:credit_agreement) { FactoryGirl.create(:credit_agreement) }
+    let(:credit_agreement) { FactoryBot.create(:credit_agreement) }
 
     context "for an admin" do
       let(:user){ create :admin }
@@ -32,7 +32,7 @@ RSpec.describe CreditAgreementPolicy do
 
   context "credit_agreement with payments" do
     subject { CreditAgreementPolicy.new(user, credit_agreement) }
-    let(:credit_agreement) { FactoryGirl.create(:credit_agreement, :with_payment) }
+    let(:credit_agreement) { FactoryBot.create(:credit_agreement, :with_payment) }
 
     context "for an admin" do
       let(:user){ create :admin }

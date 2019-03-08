@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe PersonPolicy do
   subject { PersonPolicy.new(user, address) }
-  let(:address) { FactoryGirl.create(:person) }
+  let(:address) { FactoryBot.create(:person) }
 
   it_behaves_like "address_policy"
 

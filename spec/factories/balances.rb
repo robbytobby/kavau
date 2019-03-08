@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :balance, class: 'AutoBalance' do
     association :credit_agreement
     date Date.today

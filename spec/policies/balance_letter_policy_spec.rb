@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe BalanceLetterPolicy do
   subject { BalanceLetterPolicy.new(user, letter) }
-  let(:letter) { FactoryGirl.create(:balance_letter, year: 2014) }
+  let(:letter) { FactoryBot.create(:balance_letter, year: 2014) }
 
   context "letter without pdfs" do
     before(:each){ allow_any_instance_of(BalanceLetter).to receive(:pdfs_created?).and_return(false) }
@@ -55,7 +55,7 @@ RSpec.describe BalanceLetterPolicy do
   end
 
   context "letter without year" do
-    let(:letter) { FactoryGirl.create(:balance_letter) }
+    let(:letter) { FactoryBot.create(:balance_letter) }
 
     context "for an admin" do
       let(:user){ create :admin }

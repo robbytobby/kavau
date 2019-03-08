@@ -1,7 +1,7 @@
 RSpec.shared_examples "balance_policy" do
   context "unsaved balances" do
     subject { BalancePolicy.new(user, balance) }
-    let(:balance) { FactoryGirl.build(:balance) }
+    let(:balance) { FactoryBot.build(:balance) }
 
     context "for an admin" do
       let(:user){ create :admin }

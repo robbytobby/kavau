@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SettingPolicy do
   subject { SettingPolicy.new(user, setting) }
-  let(:setting) { FactoryGirl.create(:setting) }
+  let(:setting) { FactoryBot.create(:setting) }
 
   context "for an Admin" do
     let(:user){ create :admin }

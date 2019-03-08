@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ContactPolicy do
   subject { ContactPolicy.new(user, address) }
-  let(:address) { FactoryGirl.create(:contact) }
+  let(:address) { FactoryBot.create(:contact) }
 
   context "for an admin" do
     let(:user){ create :admin }

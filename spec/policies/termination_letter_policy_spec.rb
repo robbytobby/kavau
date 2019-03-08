@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TerminationLetterPolicy do
   subject { TerminationLetterPolicy.new(user, letter) }
-  let(:letter) { FactoryGirl.build(:termination_letter) }
+  let(:letter) { FactoryBot.build(:termination_letter) }
 
   context "for an admin" do
     let(:user){ create :admin }
@@ -20,7 +20,7 @@ RSpec.describe TerminationLetterPolicy do
   end
 
   context "a termination letter exists" do
-    before(:each){ FactoryGirl.create(:termination_letter) }
+    before(:each){ FactoryBot.create(:termination_letter) }
 
     context "for an admin" do
       let(:user){ create :admin }
