@@ -41,7 +41,7 @@ gem 'pundit'
 gem 'attr_encrypted'
 gem 'iban-tools'
 gem 'email_validator'
-#gem 'goldiloader' #auskommentiert, wollte nicht funktionieren
+gem 'goldiloader' #auskommentiert, wollte nicht funktionieren
 gem 'kaminari'
 gem 'ransack'
 gem 'prawn'
@@ -73,7 +73,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem "brakeman", :require => false
   gem 'traceroute'
-  gem 'bullet'
+  #gem 'bullet'
 end
 
 group :development do
