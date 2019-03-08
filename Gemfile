@@ -73,7 +73,6 @@ group :development, :test do
   gem 'rubocop', require: false
   gem "brakeman", :require => false
   gem 'traceroute'
-  #gem 'bullet'
 end
 
 group :development do

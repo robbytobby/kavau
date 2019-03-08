@@ -40,9 +40,6 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   config.after_initialize do
-    #Bullet.enable = true
-    #Bullet.bullet_logger = true
-
     Rails.application.config.kavau.pdf = {
       :colors=>{:color3=>"7c7b7f", :color1=>"009dc3", :color2=>"f9b625"}, 
       :margins=>{:bottom_margin=>3.5, :top_margin=>3.5, :right_margin=>2.0, :left_margin=>2.5}, 
