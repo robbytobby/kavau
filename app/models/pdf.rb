@@ -1,4 +1,4 @@
-class Pdf < ActiveRecord::Base
+class Pdf < ApplicationRecord
   belongs_to :letter
   belongs_to :creditor
   belongs_to :credit_agreement

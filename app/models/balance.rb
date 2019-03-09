@@ -1,4 +1,4 @@
-class Balance < ActiveRecord::Base
+class Balance < ApplicationRecord
   include ActiveModel::Dirty
   include BelongsToFundViaCreditAgreement
   include DateScopes

@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   strip_attributes
 
   devise :database_authenticatable, :recoverable, :trackable, :validatable, :lockable, :timeoutable

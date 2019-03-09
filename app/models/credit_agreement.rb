@@ -1,4 +1,4 @@
-class CreditAgreement < ActiveRecord::Base
+class CreditAgreement < ApplicationRecord
   include ActiveModel::Dirty
 
   strip_attributes

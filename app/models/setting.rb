@@ -1,4 +1,4 @@
-class Setting < ActiveRecord::Base
+class Setting < ApplicationRecord
   after_save :update_config
   validates :value, presence: { if: lambda{|s| s.obligatory && !s.type.in?(['FileSetting','BooleanSetting'])  } }
 
