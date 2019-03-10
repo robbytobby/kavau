@@ -40,7 +40,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   config.after_initialize do
-    Rails.application.config.kavau.pdf = {
+    Rails.configuration.x.kavau_custom.pdf = {
       :colors=>{:color3=>"7c7b7f", :color1=>"009dc3", :color2=>"f9b625"}, 
       :margins=>{:bottom_margin=>3.5, :top_margin=>3.5, :right_margin=>2.0, :left_margin=>2.5}, 
       :templates=>{
@@ -60,8 +60,8 @@ Rails.application.configure do
       }
     }
 
-    Rails.application.config.kavau.general = {:project_name=>"LaMa", :website_url=>"www.lamakat.de"}
+    Rails.configuration.x.kavau_custom.general = {:project_name=>"LaMa", :website_url=>"www.lamakat.de"}
 
-    Rails.application.config.kavau.legal_regulation = {enforce_bagatelle_limits: true, utilize_transitional_regulation: true}
+    Rails.configuration.x.kavau_custom.legal_regulation = {enforce_bagatelle_limits: true, utilize_transitional_regulation: true}
   end
 end

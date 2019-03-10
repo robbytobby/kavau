@@ -77,6 +77,6 @@ class Setting < ApplicationRecord
   end
 
   def self.kavau
-    Rails.application.config.kavau
+    Rails.configuration.x.kavau_custom 
   end
 end
