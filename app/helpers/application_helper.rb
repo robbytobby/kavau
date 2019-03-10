@@ -39,7 +39,7 @@ module ApplicationHelper
     sheet.row_style 0, header
   end
 
-  def config
-    Setting.kavau
-  end
+  #def config
+  #  Setting.kavau
+  #end
 end
