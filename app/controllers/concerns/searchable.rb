@@ -35,6 +35,7 @@ module Searchable
     end
 
     def search_params
+      params[:q]&.permit!
       default_sort.merge(params[:q] || {})
     end
 

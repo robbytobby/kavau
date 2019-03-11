@@ -22,17 +22,17 @@ RSpec.describe SettingsController, type: :controller do
       let(:valid_params) { {id: @setting.id, type: 'StringSetting', string_setting: {value: 'NewValue'}} }
 
       it "updates the requested setting" do
-        xhr :put, :update, valid_params
+        put :update, params: valid_params, xhr: true
         expect(@setting.reload.value).to eq('NewValue')
       end
 
       it "assigns the requested setting as @setting" do
-        xhr :put, :update, valid_params
+        put :update, params: valid_params, xhr: true
         expect(assigns(:setting)).to eq(@setting)
       end
 
       it "renders the update template" do
-        xhr :put, :update, valid_params
+        put :update, params: valid_params, xhr: true
         expect(response).to render_template(:update)
       end
     end
@@ -42,12 +42,12 @@ RSpec.describe SettingsController, type: :controller do
       let(:invalid_params) { {id: @setting.id, type: 'IntegerSetting', integer_setting: {value: 'abc'}} }
 
       it "assigns the setting as @setting" do
-        xhr :put, :update, invalid_params
+        put :update, params: invalid_params, xhr: true
         expect(assigns(:setting)).to eq(@setting)
       end
 
       it "renders the 'update' template" do
-        xhr :put, :update, invalid_params
+        put :update, params: invalid_params, xhr: true
         expect(response).to render_template(:update)
       end
     end
@@ -56,11 +56,11 @@ RSpec.describe SettingsController, type: :controller do
   describe "DELETE #destroy" do
     it "does calls destroy on the requested setting" do
       expect_any_instance_of(Setting).to receive(:destroy)
-      xhr :delete, :destroy, {:id => @setting.to_param}
+      delete :destroy, params: {:id => @setting.to_param}, xhr: true
     end
 
     it "renders the update template" do
-      xhr :delete, :destroy, {:id => @setting.to_param}
+      delete :destroy, params: {:id => @setting.to_param}, xhr: true
       expect(response).to render_template(:update)
     end
   end

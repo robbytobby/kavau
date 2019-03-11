@@ -10,7 +10,7 @@ RSpec.describe "download credit agreements as xlsx" do
 
   it "works and has the correct content" do
     visit '/credit_agreements.xlsx'
-    expect(page.response_headers['Content-Type']).to eq(Mime::XLSX.to_s)
+    expect(page.response_headers['Content-Type']).to eq(Mime[:xlsx].to_s)
     File.open('/tmp/axlsx_temp.xlsx', 'w') {|f| f.write(page.source) }
     wb = nil
     expect{ wb = Roo::Excelx.new('/tmp/axlsx_temp.xlsx') }.not_to raise_error

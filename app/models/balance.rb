@@ -51,7 +51,8 @@ class Balance < ApplicationRecord
   end
 
   def becomes_manual_balance
-    self.type  = 'ManualBalance'
+    return self if is_a?(ManualBalance)
+    self.type = 'ManualBalance'
     becomes(ManualBalance)
   end
 

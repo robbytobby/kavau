@@ -86,6 +86,7 @@ RSpec.describe BalancesController, type: :controller do
           it "the balance becomes a ManualBalance if end_amount is changed" do
             put :update, params: valid_params.deep_merge(key => { end_amount: 1234 })
             expect(assigns(:balance)).to be_a(ManualBalance)
+            expect(Balance.find(@balance.id)).to be_a(ManualBalance)
           end
 
           it "redirects to the credit_agreement" do

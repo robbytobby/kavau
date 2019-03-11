@@ -25,5 +25,6 @@ module Kavau
 
     # Handle http errors through errors controller
     config.exceptions_app = self.routes
+    config.action_controller.raise_on_unfiltered_parameters = true
   end
 end

@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   private
     def clear_password_params
       return if password_params_set?
-      params[:user].except!(:password, :password_confirmation)
+      params[:user].reject!{|key, value| key if key.match(/password/)}
     end
 
     def password_params_set?
