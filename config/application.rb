@@ -8,6 +8,7 @@ Bundler.require(*Rails.groups)
 
 module Kavau
   class Application < Rails::Application
+    config.load_defaults 5.1
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
 
