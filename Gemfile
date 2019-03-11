@@ -23,9 +23,9 @@ gem 'jbuilder', '~> 2.5'
 # bundle exec rake doc:rails generates the API under doc/api.
 #gem 'sdoc', group: :doc
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 3.12.0'
 #speed up booting
-gem 'bootsnap', require: false
+gem 'bootsnap', '>= 1.1.0', require: false
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -69,7 +69,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot'
   gem 'factory_bot_rails'
-  gem 'capybara'
+  gem 'capybara', '>= 2.15'
   gem 'launchy'
   gem "rubycritic", :require => false
   gem "rails_best_practices"
@@ -80,7 +80,8 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console'
+  gem 'web-console', '>= 3.3.0'
+  gem 'listen', '>= 3.0.5', '< 3.2'
   # use capistrano for deployment
   gem 'capistrano'
   gem 'capistrano-rails'
@@ -88,12 +89,13 @@ group :development do
   gem 'capistrano-rvm'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :test do
   gem 'database_cleaner'
   gem 'roo'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver' 
   #gem 'simplecov', :require => false
   gem "codeclimate-test-reporter", require: nil
   gem 'pdf-inspector'
