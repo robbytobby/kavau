@@ -1,8 +1,8 @@
 class Pdf < ApplicationRecord
   belongs_to :letter
   belongs_to :creditor
-  belongs_to :credit_agreement
-  belongs_to :payment
+  belongs_to :credit_agreement, optional: true
+  belongs_to :payment, optional: true
 
   before_validation :set_creditor_id
   before_save :set_path, :create_file

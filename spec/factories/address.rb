@@ -47,6 +47,7 @@ FactoryBot.define do
     factory :contact, class: Contact do
       type { 'Contact' }
       first_name { 'Vorname' }
+      association :institution, factory: :project_address
     end
   end
 end

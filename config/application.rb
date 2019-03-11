@@ -1,4 +1,5 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
+
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
@@ -25,6 +26,13 @@ module Kavau
 
     # Handle http errors through errors controller
     config.exceptions_app = self.routes
-    config.action_controller.raise_on_unfiltered_parameters = true
+
+    config.action_controller.per_form_csrf_tokens = true
+    config.action_controller.forgery_protection_origin_check = true
+
+    config.active_record.belongs_to_required_by_default = true
   end
 end
+
+ActiveSupport.to_time_preserves_timezone = true
+ActiveSupport.halt_callback_chains_on_return_false = false

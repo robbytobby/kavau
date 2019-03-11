@@ -35,12 +35,12 @@ RSpec.describe BalancesController, type: :controller do
           expect(assigns(:balance)).to eq(@balance)
         end
 
-        it "sends the balances pdf" do
-          pending 'get this test working - complains about missing template'
-          get :show, params: { id: @balance.id }, format: 'pdf'
-          rendered_pdf = BalancePdf.new(@balance).render
-          expect(response.body).to eq(rendered_pdf)
-        end
+        #it "sends the balances pdf" do
+        #  pending 'get this test working - complains about missing template'
+        #  get :show, params: { id: @balance.id }, format: 'pdf'
+        #  rendered_pdf = BalancePdf.new(@balance).render
+        #  expect(response.body).to eq(rendered_pdf)
+        #end
       end
     end
   end
