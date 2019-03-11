@@ -22,8 +22,8 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # bundle exec rake doc:rails generates the API under doc/api.
 #gem 'sdoc', group: :doc
-## Use Puma as the app server
-#gem 'puma', '~> 3.0'
+# Use Puma as the app server
+gem 'puma', '~> 3.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
