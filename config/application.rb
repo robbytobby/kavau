@@ -29,10 +29,8 @@ module Kavau
 
     config.action_controller.per_form_csrf_tokens = true
     config.action_controller.forgery_protection_origin_check = true
-
     config.active_record.belongs_to_required_by_default = true
   end
 end
 
 ActiveSupport.to_time_preserves_timezone = true
-ActiveSupport.halt_callback_chains_on_return_false = false
