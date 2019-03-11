@@ -7,17 +7,17 @@ RSpec.describe PdfsController, type: :controller do
     before(:each){ @pdf = create :pdf }
 
     it "assigns the pdf as @pdf" do
-      get :show, id: @pdf.id, format: 'pdf'
+      get :show, params: { id: @pdf.id }, format: 'pdf'
       expect(assigns(:pdf)).to eq(@pdf)
     end
 
     it "responds with the pdf_file" do
-      get :show, id: @pdf.id, format: 'pdf'
+      get :show, params: { id: @pdf.id }, format: 'pdf'
       expect(response.body).to eq(IO.binread(@pdf.path))
     end
 
     it "is successfull" do
-      get :show, id: @pdf.id, format: 'pdf'
+      get :show, params: { id: @pdf.id }, format: 'pdf'
       expect(response.status).to eq(200)
     end
   end
@@ -28,17 +28,17 @@ RSpec.describe PdfsController, type: :controller do
       before(:each){@address = create type.underscore.to_sym}
 
       it "assigns a new pdf as @pdf" do
-        get :new, address_params
+        get :new, params: address_params
         expect(assigns(:pdf)).to be_a_new(Pdf)
       end
 
       it "assignes the corresponding address as @address" do
-        get :new, address_params
+        get :new, params: address_params
         expect(assigns(:address)).to eq(@address)
       end
 
       it "renders the new template" do
-        get :new, address_params
+        get :new, params: address_params
         expect(response).to render_template(:new)
       end
     end
@@ -55,19 +55,19 @@ RSpec.describe PdfsController, type: :controller do
       context "with valid params" do
         it "creates a new pdf" do
           expect {
-            post :create, valid_params.merge(address_params) 
+            post :create, params: valid_params.merge(address_params) 
           }.to change(Pdf, :count).by(1)
         end
 
         it "assigns a newly created pdf as @pdf" do
-          post :create, valid_params.merge(address_params)
+          post :create, params: valid_params.merge(address_params)
           expect(assigns(:pdf)).to be_a(Pdf)
           expect(assigns(:pdf)).to be_persisted
           expect(assigns(:address)).to eq(@address)
         end
 
         it "redirects to the accounts address" do
-          post :create, valid_params.merge(address_params)
+          post :create, params: valid_params.merge(address_params)
           expect(response).to redirect_to(@address)
         end
       end
@@ -76,13 +76,13 @@ RSpec.describe PdfsController, type: :controller do
         before(:each){ do_not(:save, Pdf) }
 
         it "assgigns a new pdf as @pdf" do
-          post :create, valid_params.merge(address_params)
+          post :create, params: valid_params.merge(address_params)
           expect(assigns(:pdf)).to be_a_new(Pdf)
           expect(assigns(:address)).to eq(@address)
         end
 
         it "re-renders the new template" do
-          post :create, valid_params.merge(address_params)
+          post :create, params: valid_params.merge(address_params)
           expect(response).to render_template("new")
         end
       end
@@ -93,18 +93,18 @@ RSpec.describe PdfsController, type: :controller do
     before(:each){ @pdf = create :pdf }
 
     it "assigns the pdf as @pdf" do
-      put :update, id: @pdf.id
+      put :update, params: { id: @pdf.id }
       expect(assigns(:pdf)).to eq(@pdf)
     end
 
     it "update the pdf_file" do
       allow_any_instance_of(Pdf).to receive(:update_file).and_return(:true)
-      put :update, id: @pdf.id
+      put :update, params: { id: @pdf.id }
       expect(assigns(:pdf)).to have_received(:update_file)
     end
 
     it "is successfull" do
-      put :update, id: @pdf.id
+      put :update, params: { id: @pdf.id }
       expect(response.status).to eq(302)
     end
   end
@@ -113,18 +113,18 @@ RSpec.describe PdfsController, type: :controller do
     before(:each){ @pdf = create :pdf }
 
     it "assigns the pdf as @pdf" do
-      delete :destroy, id: @pdf.id
+      delete :destroy, params: { id: @pdf.id }
       expect(assigns(:pdf)).to eq(@pdf)
     end
 
     it "destroys the requested pdf" do
       expect {
-        delete :destroy, id: @pdf.id
+        delete :destroy, params: { id: @pdf.id }
       }.to change(Pdf, :count).by(-1)
     end
 
     it "reirects to the creditor" do
-      delete :destroy, id: @pdf.id
+      delete :destroy, params: { id: @pdf.id }
       expect(response).to redirect_to(@pdf.creditor)
     end
   end
