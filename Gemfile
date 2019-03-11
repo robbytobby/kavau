@@ -24,7 +24,8 @@ gem 'jbuilder', '~> 2.5'
 #gem 'sdoc', group: :doc
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
-
+#speed up booting
+gem 'bootsnap', require: false
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
