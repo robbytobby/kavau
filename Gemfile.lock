@@ -306,7 +306,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (0.21.0)
+    pg (1.1.4)
     powerpack (0.1.2)
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
@@ -566,7 +566,7 @@ DEPENDENCIES
   paper_trail
   paperclip
   pdf-inspector
-  pg (~> 0.21)
+  pg
   prawn
   prawn-table
   pry-byebug!
