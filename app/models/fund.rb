@@ -1,4 +1,4 @@
-class Fund < ActiveRecord::Base
+class Fund < ApplicationRecord
   @valid_limits = ['number_of_shares', 'one_year_amount', 'none']
 
   belongs_to :project_address

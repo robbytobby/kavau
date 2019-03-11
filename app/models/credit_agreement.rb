@@ -1,4 +1,4 @@
-class CreditAgreement < ActiveRecord::Base
+class CreditAgreement < ApplicationRecord
   include ActiveModel::Dirty
 
   strip_attributes
@@ -109,13 +109,13 @@ class CreditAgreement < ActiveRecord::Base
     end
 
     def fund_limit_fits?
-      return unless is_regulated? && fund && amount && (amount_changed? || valid_from_changed?)
+      return unless is_regulated? && fund && amount && (will_save_change_to_amount? || will_save_change_to_valid_from?)
       errors.add(*fund.error_message_for_credit_agreement(self)) unless fund.fits(self)
     end
 
     def terminate
-      return unless terminated_at_changed?
-      return if terminated_at_changed?(to: nil)
+      return unless saved_change_to_terminated_at?
+      return if saved_change_to_terminated_at?(to: nil)
       CreditAgreementTerminator.new(self).terminate
     end
 

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DepositLetterPolicy do
   subject { DepositLetterPolicy.new(user, letter) }
-  let(:letter) { FactoryGirl.build(:deposit_letter) }
+  let(:letter) { FactoryBot.build(:deposit_letter) }
 
   context "for an admin" do
     let(:user){ create :admin }
@@ -20,7 +20,7 @@ RSpec.describe DepositLetterPolicy do
   end
 
   context "a deposit letter exists" do
-    before(:each){ FactoryGirl.create(:deposit_letter) }
+    before(:each){ FactoryBot.create(:deposit_letter) }
 
     context "for an admin" do
       let(:user){ create :admin }

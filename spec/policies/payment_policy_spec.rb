@@ -3,7 +3,7 @@ require 'rails_helper'
 [:deposit, :disburse].each do |payment_type|
   RSpec.describe PaymentPolicy do
     subject { PaymentPolicy.new(user, payment) }
-    let(:payment) { FactoryGirl.create(payment_type) }
+    let(:payment) { FactoryBot.create(payment_type) }
 
     context "for an admin" do
       let(:user){ create :admin }

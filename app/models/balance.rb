@@ -1,4 +1,4 @@
-class Balance < ActiveRecord::Base
+class Balance < ApplicationRecord
   include ActiveModel::Dirty
   include BelongsToFundViaCreditAgreement
   include DateScopes
@@ -51,7 +51,8 @@ class Balance < ActiveRecord::Base
   end
 
   def becomes_manual_balance
-    self.type  = 'ManualBalance'
+    return self if is_a?(ManualBalance)
+    self.type = 'ManualBalance'
     becomes(ManualBalance)
   end
 

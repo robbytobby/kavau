@@ -89,7 +89,7 @@ RSpec.describe "credit agreements index" do
       c3 = create :credit_agreement, account: a2
 
       visit '/credit_agreements'
-      select a1.name, from: 'q_account_id_eq'
+      select a1.name.to_s, from: 'q_account_id_eq'
       click_on :suchen
       expect(page).to have_css("tr#credit_agreement_#{c1.id}")
       expect(page).to have_css("tr#credit_agreement_#{c2.id}")

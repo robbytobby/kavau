@@ -1,7 +1,7 @@
 class Contact < Address
   strip_attributes
 
-  belongs_to :institution, class_name: Address, foreign_key: :institution_id
+  belongs_to :institution, class_name: 'Address', foreign_key: :institution_id
 
   before_save :set_institution_type
 

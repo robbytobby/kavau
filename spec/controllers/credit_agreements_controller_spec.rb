@@ -32,7 +32,7 @@ require 'rails_helper'
     describe "GET #show" do
       it "assigns the requested credit_agreement as @credit_agreement" do
         credit_agreement = create :credit_agreement
-        get :show, {:id => credit_agreement.to_param}
+        get :show, params: {:id => credit_agreement.to_param}
         expect(assigns(:credit_agreement)).to eq(credit_agreement)
       end
     end
@@ -41,13 +41,13 @@ require 'rails_helper'
       it "does not work if there are no accounts for the project" do
         Account.delete_all
         request.env["HTTP_REFERER"] = '/back'
-        get :new, creditor_params
+        get :new, params: creditor_params
         expect(response).to redirect_to '/back'
       end
 
       it "assigns a new credit_agreement as @credit_agreement" do
         create :project_account
-        get :new, creditor_params
+        get :new, params: creditor_params
         expect(assigns(:credit_agreement)).to be_a_new(CreditAgreement)
         expect(assigns(:creditor)).to eq(@creditor)
         expect(assigns(:type)).to eq(type)
@@ -58,7 +58,7 @@ require 'rails_helper'
     describe "GET #edit for #{type}"  do
       it "assigns the requested credit_agreement as @credit_agreement" do
         credit_agreement = create :credit_agreement, creditor: @creditor
-        get :edit, {:id => credit_agreement.to_param}.merge(creditor_params)
+        get :edit, params: {:id => credit_agreement.to_param}.merge(creditor_params)
         expect(assigns(:credit_agreement)).to eq(credit_agreement)
         expect(assigns(:creditor)).to eq(@creditor)
         expect(assigns(:type)).to eq(type)
@@ -76,12 +76,12 @@ require 'rails_helper'
       context "with valid params" do
         it "creates a new CreditAgreement" do
           expect {
-            post :create, valid_params
+            post :create, params: valid_params
           }.to change(CreditAgreement, :count).by(1)
         end
 
         it "assigns a newly created credit_agreement as @credit_agreement" do
-          post :create, valid_params
+          post :create, params: valid_params
           expect(assigns(:credit_agreement)).to be_a(CreditAgreement)
           expect(assigns(:credit_agreement)).to be_persisted
           expect(assigns(:creditor)).to eq(@creditor)
@@ -89,7 +89,7 @@ require 'rails_helper'
         end
 
         it "redirects to the creditor" do
-          post :create, valid_params
+          post :create, params: valid_params
           expect(response).to redirect_to(@creditor)
         end
       end
@@ -97,13 +97,13 @@ require 'rails_helper'
       context "with invalid params" do
         it "assigns a newly created but unsaved credit_agreement as @credit_agreement" do
           do_not(:save, CreditAgreement)
-          post :create, valid_params
+          post :create, params: valid_params
           expect(assigns(:credit_agreement)).to be_a_new(CreditAgreement)
         end
 
         it "re-renders the 'new' template" do
           do_not(:save, CreditAgreement)
-          post :create, valid_params
+          post :create, params: valid_params
           expect(response).to render_template("new")
         end
       end
@@ -118,7 +118,7 @@ require 'rails_helper'
                               
       context "with valid params" do
         it "updates the requested credit_agreement" do
-          put :update, request_params
+          put :update, params: request_params
           @credit_agreement.reload
           expect(@credit_agreement.amount).to eq(20000.00)
           expect(assigns(:creditor)).to eq(@creditor)
@@ -126,7 +126,7 @@ require 'rails_helper'
         end
 
         it "assigns the requested credit_agreement as @credit_agreement" do
-          put :update, request_params
+          put :update, params: request_params
           expect(assigns(:credit_agreement)).to eq(@credit_agreement)
         end
       end
@@ -134,7 +134,7 @@ require 'rails_helper'
       context "with invalid params" do
         it "assigns the credit_agreement as @credit_agreement" do
           do_not(:save, CreditAgreement)
-          put :update, request_params
+          put :update, params: request_params
           expect(assigns(:credit_agreement)).to eq(@credit_agreement)
           expect(assigns(:creditor)).to eq(@creditor)
           expect(assigns(:type)).to eq(type)
@@ -142,7 +142,7 @@ require 'rails_helper'
 
         it "re-renders the 'edit' template" do
           do_not(:save, CreditAgreement)
-          put :update, request_params
+          put :update, params: request_params
           expect(response).to render_template("edit")
         end
 
@@ -151,7 +151,7 @@ require 'rails_helper'
                              :credit_agreement => {terminated_at: Date.today}
                            }.merge(creditor_params)
           do_not(:save, CreditAgreement, :terminated_at)
-          put :update, request_params
+          put :update, params: request_params
           expect(response).to render_template("show")
         end
       end
@@ -161,7 +161,7 @@ require 'rails_helper'
       before(:each){ @credit_agreement =  create :credit_agreement, creditor: @creditor }
       it "destroys the requested credit_agreement" do
         expect {
-          delete :destroy, {:id => @credit_agreement.to_param}.merge(creditor_params)
+          delete :destroy, params: {:id => @credit_agreement.to_param}.merge(creditor_params)
         }.to change(CreditAgreement, :count).by(-1)
       end
     end

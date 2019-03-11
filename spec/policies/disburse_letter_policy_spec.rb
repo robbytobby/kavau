@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DisburseLetterPolicy do
   subject { DisburseLetterPolicy.new(user, letter) }
-  let(:letter) { FactoryGirl.build(:disburse_letter) }
+  let(:letter) { FactoryBot.build(:disburse_letter) }
 
   context "for an admin" do
     let(:user){ create :admin }
@@ -20,7 +20,7 @@ RSpec.describe DisburseLetterPolicy do
   end
 
   context "a disburse letter exists" do
-    before(:each){ FactoryGirl.create(:disburse_letter) }
+    before(:each){ FactoryBot.create(:disburse_letter) }
 
     context "for an admin" do
       let(:user){ create :admin }

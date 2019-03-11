@@ -1,9 +1,10 @@
-class Account < ActiveRecord::Base
+class Account < ApplicationRecord
   include Encryption
   strip_attributes
 
   [:name, :bic, :iban, :bank, :owner].each do |attr|
-    attr_encrypted attr, key: encryption_key, mode: :per_attribute_iv_and_salt
+    #TODO: Reencrypt with new mode and algorithm
+    attr_encrypted attr, key: encryption_key, mode: :per_attribute_iv_and_salt, algorithm: 'aes-256-cbc', insecure_mode: true
   end
 
   belongs_to :address

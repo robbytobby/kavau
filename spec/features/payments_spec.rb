@@ -45,7 +45,7 @@ RSpec.describe "Payments" do
       [disburse, deposit].each do |payment|
         model = payment.model_name.name.underscore
         within "tr##{model}_#{payment.id}" do
-          expect(page).not_to have_link(credit_agreement.id, href: "/credit_agreements/#{credit_agreement.id}")
+          expect(page).not_to have_link(credit_agreement.id.to_s, href: "/credit_agreements/#{credit_agreement.id}")
           expect(page).not_to have_content(presented_creditor.full_name)
           expect(page).not_to have_css("a#edit_#{model}_#{payment.id}")
           expect(page).not_to have_css("a#delete_#{model}_#{payment.id}")

@@ -1,4 +1,4 @@
-class Letter < ActiveRecord::Base
+class Letter < ApplicationRecord
   strip_attributes
   
   has_many :pdfs, dependent: :restrict_with_exception 

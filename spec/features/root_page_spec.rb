@@ -274,7 +274,7 @@ RSpec.describe "On the home page" do
         expect(current_path).to eq new_fund_path
         fill_in :fund_interest_rate, with: 1.3
         select 'maximal 20 Anteile', from: :fund_limit
-        select 1, from: :fund_issued_at_3i
+        select '1', from: :fund_issued_at_3i
         select 'Januar', from: :fund_issued_at_2i
         select '2016', from: :fund_issued_at_1i
         select 'Project GmbH', from: 'fund_project_address_id'

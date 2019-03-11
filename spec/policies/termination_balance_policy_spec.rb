@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TerminationBalancePolicy do
   subject { TerminationBalancePolicy.new(user, balance) }
-  let(:balance) { FactoryGirl.create(:balance) }
+  let(:balance) { FactoryBot.create(:balance) }
 
   it_behaves_like "balance_policy"
 

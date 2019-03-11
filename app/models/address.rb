@@ -1,4 +1,4 @@
-class Address < ActiveRecord::Base
+class Address < ApplicationRecord
   strip_attributes
 
   scope :creditors, -> { where(type: ['Person', 'Organization']) }

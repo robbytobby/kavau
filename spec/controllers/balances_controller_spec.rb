@@ -31,16 +31,16 @@ RSpec.describe BalancesController, type: :controller do
         before(:each){ allow_any_instance_of(Balance).to receive(:pdf).and_return(true) }
 
         it "assigns the requested balance as @balance" do
-          get :show, id: @balance.id, format: 'pdf'
+          get :show, params: { id: @balance.id }, format: 'pdf'
           expect(assigns(:balance)).to eq(@balance)
         end
 
-        it "sends the balances pdf" do
-          pending 'get this test working - complains about missing template'
-          get :show, id: @balance.id, format: 'pdf'
-          rendered_pdf = BalancePdf.new(@balance).render
-          expect(response.body).to eq(rendered_pdf)
-        end
+        #it "sends the balances pdf" do
+        #  pending 'get this test working - complains about missing template'
+        #  get :show, params: { id: @balance.id }, format: 'pdf'
+        #  rendered_pdf = BalancePdf.new(@balance).render
+        #  expect(response.body).to eq(rendered_pdf)
+        #end
       end
     end
   end
@@ -59,7 +59,7 @@ RSpec.describe BalancesController, type: :controller do
       describe "GET #edit" do
         it "assigns the requested balance as @balance" do
           balance = create balance_type.underscore
-          get :edit, {:id => balance.to_param, type: balance_type}.merge(credit_agreement_params)
+          get :edit, params: {:id => balance.to_param, type: balance_type}.merge(credit_agreement_params)
           expect(assigns(:balance)).to eq(balance)
         end
       end
@@ -73,23 +73,24 @@ RSpec.describe BalancesController, type: :controller do
 
         context "with valid params" do
           it "updates the requested balances end_amount" do
-            put :update, valid_params.deep_merge(key => { end_amount: 1234 })
+            put :update, params: valid_params.deep_merge(key => { end_amount: 1234 })
             @balance = Balance.find(@balance.id)
             expect(@balance.end_amount).to eq(1234)
           end
 
           it "assigns the requested balance as @balance" do
-            put :update, valid_params
+            put :update, params: valid_params
             expect(assigns(:balance)).to eq(@balance)
           end
 
           it "the balance becomes a ManualBalance if end_amount is changed" do
-            put :update, valid_params.deep_merge(key => { end_amount: 1234 })
+            put :update, params: valid_params.deep_merge(key => { end_amount: 1234 })
             expect(assigns(:balance)).to be_a(ManualBalance)
+            expect(Balance.find(@balance.id)).to be_a(ManualBalance)
           end
 
           it "redirects to the credit_agreement" do
-            put :update, valid_params
+            put :update, params: valid_params
             expect(response).to redirect_to(@credit_agreement)
           end
         end
@@ -97,13 +98,13 @@ RSpec.describe BalancesController, type: :controller do
         context "with invalid params" do
           it "assigns the balance as @balance" do
             do_not(:save, Balance)
-            put :update, valid_params
+            put :update, params: valid_params
             expect(assigns(:balance)).to eq(@balance)
           end
 
           it "re-renders the 'edit' template" do
             do_not(:save, Balance)
-            put :update, valid_params
+            put :update, params: valid_params
             expect(response).to render_template("edit")
           end
         end
@@ -118,12 +119,12 @@ RSpec.describe BalancesController, type: :controller do
 
       it "destroys the requested balance" do
         expect {
-          delete :destroy, valid_params
+          delete :destroy, params: valid_params
         }.to change(Balance, :count).by(-1)
       end
 
       it "redirects to the credit_agreement" do
-        delete :destroy, valid_params
+        delete :destroy, params: valid_params
         expect(response).to redirect_to(@credit_agreement)
       end
     end

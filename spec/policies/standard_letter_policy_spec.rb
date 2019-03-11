@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe StandardLetterPolicy do
   subject { StandardLetterPolicy.new(user, letter) }
-  let(:letter) { FactoryGirl.create(:standard_letter) }
+  let(:letter) { FactoryBot.create(:standard_letter) }
 
   context "letter without pdfs" do
     before(:each){ allow_any_instance_of(StandardLetter).to receive(:pdfs_created?).and_return(false) }

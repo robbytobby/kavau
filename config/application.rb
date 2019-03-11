@@ -1,4 +1,5 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
+
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
@@ -7,6 +8,7 @@ Bundler.require(*Rails.groups)
 
 module Kavau
   class Application < Rails::Application
+    config.load_defaults 5.1
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
 
@@ -23,10 +25,13 @@ module Kavau
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :de
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     # Handle http errors through errors controller
     config.exceptions_app = self.routes
+
+    config.action_controller.per_form_csrf_tokens = true
+    config.action_controller.forgery_protection_origin_check = true
+    config.active_record.belongs_to_required_by_default = true
   end
 end
+
+ActiveSupport.to_time_preserves_timezone = true

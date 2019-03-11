@@ -3,7 +3,7 @@ require 'rails_helper'
 [:organization_account, :person_account, :project_account].each do |type|
   RSpec.describe AccountPolicy do
     subject { AccountPolicy.new(user, account) }
-    let(:account) { FactoryGirl.create(type) }
+    let(:account) { FactoryBot.create(type) }
 
     context "for an admin" do
       let(:user){ create :admin }

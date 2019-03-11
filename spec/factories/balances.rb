@@ -1,7 +1,7 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :balance, class: 'AutoBalance' do
     association :credit_agreement
-    date Date.today
+    date { Date.today }
     
     trait :pdf_ready do
       before :create do |balance|
@@ -18,16 +18,16 @@ FactoryGirl.define do
 
   factory :manual_balance, class: 'ManualBalance' do
     association :credit_agreement
-    date Date.today
-    end_amount 10000
+    date { Date.today }
+    end_amount { 10000 }
   end
 
   factory :termination_balance, class: 'TerminationBalance' do
     transient do
-      creditor nil
+      creditor { nil }
     end
     association :credit_agreement
-    date Date.today
+    date { Date.today }
 
     before :create do |balance, evaluator|
       create :termination_letter

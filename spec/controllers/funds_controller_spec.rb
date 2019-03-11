@@ -26,7 +26,7 @@ RSpec.describe FundsController, type: :controller do
   describe "GET #edit" do
     it "assigns the requested fund as @fund" do
       fund = create :fund
-      get :edit, {:id => fund.to_param}
+      get :edit, params: {:id => fund.to_param}
       expect(assigns(:fund)).to eq(fund)
       expect(response).to render_template(:edit)
     end
@@ -36,30 +36,30 @@ RSpec.describe FundsController, type: :controller do
     context "with valid params" do
       it "creates a new Fund" do
         expect {
-          post :create, {:fund => valid_attributes}
+          post :create, params: {:fund => valid_attributes}
         }.to change(Fund, :count).by(1)
       end
 
       it "assigns a newly created fund as @fund" do
-        post :create, {:fund => valid_attributes}
+        post :create, params: {:fund => valid_attributes}
         expect(assigns(:fund)).to be_a(Fund)
         expect(assigns(:fund)).to be_persisted
       end
 
       it "redirects to the project index" do
-        post :create, {:fund => valid_attributes}
+        post :create, params: {:fund => valid_attributes}
         expect(response).to redirect_to project_path
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved fund as @fund" do
-        post :create, {:fund => invalid_attributes}
+        post :create, params: {:fund => invalid_attributes}
         expect(assigns(:fund)).to be_a_new(Fund)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:fund => invalid_attributes}
+        post :create, params: {:fund => invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -74,30 +74,30 @@ RSpec.describe FundsController, type: :controller do
       }
 
       it "updates the requested fund" do
-        put :update, {:id => @fund.to_param, :fund => new_attributes}
+        put :update, params: {:id => @fund.to_param, :fund => new_attributes}
         @fund.reload
         expect(@fund.interest_rate).to eq 2.3
       end
 
       it "assigns the requested fund as @fund" do
-        put :update, {:id => @fund.to_param, :fund => new_attributes}
+        put :update, params: {:id => @fund.to_param, :fund => new_attributes}
         expect(assigns(:fund)).to eq(@fund)
       end
 
       it "redirects to the project index" do
-        put :update, {:id => @fund.to_param, :fund => new_attributes}
+        put :update, params: {:id => @fund.to_param, :fund => new_attributes}
         expect(response).to redirect_to project_path
       end
     end
 
     context "with invalid params" do
       it "assigns the fund as @fund" do
-        put :update, {:id => @fund.to_param, :fund => invalid_attributes}
+        put :update, params: {:id => @fund.to_param, :fund => invalid_attributes}
         expect(assigns(:fund)).to eq(@fund)
       end
 
       it "re-renders the 'edit' template" do
-        put :update, {:id => @fund.to_param, :fund => invalid_attributes}
+        put :update, params: {:id => @fund.to_param, :fund => invalid_attributes}
         expect(response).to render_template("edit")
       end
     end
@@ -108,12 +108,12 @@ RSpec.describe FundsController, type: :controller do
 
     it "destroys the requested fund" do
       expect {
-        delete :destroy, {:id => @fund.to_param}
+        delete :destroy, params: {:id => @fund.to_param}
       }.to change(Fund, :count).by(-1)
     end
 
     it "redirects to the project index" do
-      delete :destroy, {:id => @fund.to_param}
+      delete :destroy, params: {:id => @fund.to_param}
       expect(response).to redirect_to project_path
     end
   end

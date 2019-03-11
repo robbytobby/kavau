@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   self.responder = ApplicationResponder
   respond_to :html
+  protect_from_forgery with: :exception
 
   before_action :authenticate_user!
   before_action :set_back_url, only: [:index, :show]
@@ -16,7 +17,6 @@ class ApplicationController < ActionController::Base
   after_action :verify_authorized, except: :index, unless: :devise_controller?
   after_action :verify_policy_scoped, only: :index
 
-  protect_from_forgery with: :exception
 
   private
     def set_back_url
@@ -27,7 +27,11 @@ class ApplicationController < ActionController::Base
 
     def rescue_custom_exception(exception)
       flash[exception.flash_type] = exception.message unless exception.message.blank?
-      redirect_to exception.redirection
+      if exception.redirection == :back
+        redirect_back(fallback_location: session[:back_url] || root_path )
+      else
+        redirect_to exception.redirection
+      end
     end
 
     def user_not_authorized
@@ -37,6 +41,6 @@ class ApplicationController < ActionController::Base
 
     def layout_error(exception)
       flash[:alert] = I18n.t('exceptions.layout_error')
-      redirect_to :back
+      redirect_back(fallback_location: session[:back_url] || root_path)
     end
 end

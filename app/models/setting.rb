@@ -1,6 +1,7 @@
-class Setting < ActiveRecord::Base
+class Setting < ApplicationRecord
   after_save :update_config
   validates :value, presence: { if: lambda{|s| s.obligatory && !s.type.in?(['FileSetting','BooleanSetting'])  } }
+  validates_presence_of :category, :name
 
   def self.update_config
     Setting.all.pluck(:category).each{ |category| update_category(category) }
@@ -77,6 +78,6 @@ class Setting < ActiveRecord::Base
   end
 
   def self.kavau
-    Rails.application.config.kavau
+    Rails.configuration.x.kavau_custom 
   end
 end

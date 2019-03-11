@@ -12,9 +12,11 @@ Rails.application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
-  # Configure static file server for tests with Cache-Control for performance.
-  config.serve_static_files   = true
-  config.static_cache_control = 'public, max-age=3600'
+  # Configure public file server for tests with Cache-Control for performance.
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = {
+    'Cache-Control' => 'public, max-age=3600'
+  }
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -25,6 +27,10 @@ Rails.application.configure do
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
+  config.action_mailer.perform_caching = false
+
+  # Store uploaded files on the local file system in a temporary directory
+  config.active_storage.service = :test
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -40,10 +46,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   config.after_initialize do
-    Bullet.enable = true
-    Bullet.bullet_logger = true
-
-    Rails.application.config.kavau.pdf = {
+    Rails.configuration.x.kavau_custom.pdf = {
       :colors=>{:color3=>"7c7b7f", :color1=>"009dc3", :color2=>"f9b625"}, 
       :margins=>{:bottom_margin=>3.5, :top_margin=>3.5, :right_margin=>2.0, :left_margin=>2.5}, 
       :templates=>{
@@ -63,8 +66,8 @@ Rails.application.configure do
       }
     }
 
-    Rails.application.config.kavau.general = {:project_name=>"LaMa", :website_url=>"www.lamakat.de"}
+    Rails.configuration.x.kavau_custom.general = {:project_name=>"LaMa", :website_url=>"www.lamakat.de"}
 
-    Rails.application.config.kavau.legal_regulation = {enforce_bagatelle_limits: true, utilize_transitional_regulation: true}
+    Rails.configuration.x.kavau_custom.legal_regulation = {enforce_bagatelle_limits: true, utilize_transitional_regulation: true}
   end
 end

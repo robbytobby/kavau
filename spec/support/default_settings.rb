@@ -51,7 +51,7 @@ end
 
 def reset_config
   Setting.delete_all
-  Rails.application.config.kavau.pdf = {
+  Rails.configuration.x.kavau_custom.pdf = {
     :colors=>{:color3=>"7c7b7f", :color1=>"009dc3", :color2=>"f9b625"}, 
     :margins=>{:bottom_margin=>3.5, :top_margin=>3.5, :right_margin=>2.0, :left_margin=>2.5}, 
     :templates=>{
@@ -70,7 +70,7 @@ def reset_config
       :saldo_information=>"additional information"
     }
   }
-  Rails.application.config.kavau.smtp = {}
+  Rails.configuration.x.kavau_custom.smtp = {}
   Rails.application.config.exception_notification = {}
-  Rails.application.config.kavau.general = {:project_name=>"LaMa", :website_url=>"www.lamakat.de"}
+  Rails.configuration.x.kavau_custom.general = {:project_name=>"LaMa", :website_url=>"www.lamakat.de"}
 end

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :pdf do
     association :letter, factory: :standard_letter
     association :creditor, factory: :person

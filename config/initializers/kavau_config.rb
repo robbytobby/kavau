@@ -1,2 +1,2 @@
-Rails.application.config.kavau = Rails::Application::Configuration::Custom.new
+Rails.configuration.x.kavau_custom = Rails::Application::Configuration::Custom.new
 
