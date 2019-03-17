@@ -1,4 +1,4 @@
-class AddSignToPayments < ActiveRecord::Migration
+class AddSignToPayments < ActiveRecord::Migration[4.2]
   def up
     add_column :payments, :sign, :integer
     Deposit.all.each do |dep|

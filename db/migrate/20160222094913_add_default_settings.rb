@@ -1,4 +1,4 @@
-class AddDefaultSettings < ActiveRecord::Migration
+class AddDefaultSettings < ActiveRecord::Migration[4.2]
   def up
     defaults.each do |hash|
       hash.each do |category, settings|

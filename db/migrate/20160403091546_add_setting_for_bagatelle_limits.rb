@@ -1,4 +1,4 @@
-class AddSettingForBagatelleLimits < ActiveRecord::Migration
+class AddSettingForBagatelleLimits < ActiveRecord::Migration[4.2]
   def up
     Setting.new(number: 0.3,
                 category: 'legal_regulation',

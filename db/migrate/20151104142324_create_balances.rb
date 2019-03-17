@@ -1,4 +1,4 @@
-class CreateBalances < ActiveRecord::Migration
+class CreateBalances < ActiveRecord::Migration[4.2]
   def change
     create_table :balances do |t|
       t.decimal :amount, precision: 9, scale: 2, null: false

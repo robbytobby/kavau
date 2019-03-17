@@ -1,4 +1,4 @@
-class CreatePdfs < ActiveRecord::Migration
+class CreatePdfs < ActiveRecord::Migration[4.2]
   def change
     create_table :pdfs do |t|
       t.integer :creditor_id, null: false

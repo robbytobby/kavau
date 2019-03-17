@@ -1,4 +1,4 @@
-class AddYearToLetter < ActiveRecord::Migration
+class AddYearToLetter < ActiveRecord::Migration[4.2]
   def change
     add_column :letters, :year, :integer
   end
