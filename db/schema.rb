@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_16_165203) do
+ActiveRecord::Schema.define(version: 2019_03_17_101055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -32,6 +32,11 @@ ActiveRecord::Schema.define(version: 2019_03_16_165203) do
     t.string "address_id", null: false
     t.string "address_type", null: false
     t.boolean "default", default: false
+    t.index ["encrypted_bank_iv"], name: "index_accounts_on_encrypted_bank_iv", unique: true
+    t.index ["encrypted_bic_iv"], name: "index_accounts_on_encrypted_bic_iv", unique: true
+    t.index ["encrypted_iban_iv"], name: "index_accounts_on_encrypted_iban_iv", unique: true
+    t.index ["encrypted_name_iv"], name: "index_accounts_on_encrypted_name_iv", unique: true
+    t.index ["encrypted_owner_iv"], name: "index_accounts_on_encrypted_owner_iv", unique: true
   end
 
   create_table "addresses", id: :serial, force: :cascade do |t|
