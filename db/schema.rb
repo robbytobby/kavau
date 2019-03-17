@@ -22,11 +22,6 @@ ActiveRecord::Schema.define(version: 2019_03_16_165203) do
     t.string "encrypted_iban", null: false
     t.string "encrypted_bank", null: false
     t.string "encrypted_name"
-    t.string "encrypted_bic_salt"
-    t.string "encrypted_owner_salt"
-    t.string "encrypted_iban_salt"
-    t.string "encrypted_bank_salt"
-    t.string "encrypted_name_salt"
     t.string "encrypted_bic_iv"
     t.string "encrypted_owner_iv"
     t.string "encrypted_iban_iv"
