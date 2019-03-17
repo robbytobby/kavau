@@ -1,4 +1,4 @@
-require_relative 'secret_token'
+#require_relative 'secret_token'
 #
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
