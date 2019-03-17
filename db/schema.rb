@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(version: 2019_03_17_101055) do
     t.datetime "updated_at", null: false
     t.string "attachment_file_name"
     t.string "attachment_content_type"
-    t.bigint "attachment_file_size"
+    t.integer "attachment_file_size"
     t.datetime "attachment_updated_at"
     t.string "accepted_types"
   end
