@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 2019_03_17_101055) do
     t.datetime "updated_at", null: false
     t.date "terminated_at"
     t.string "number"
-    t.date "valid_from", null: false
+    t.date "valid_from"
   end
 
   create_table "funds", id: :serial, force: :cascade do |t|
@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(version: 2019_03_17_101055) do
     t.datetime "updated_at", null: false
     t.string "attachment_file_name"
     t.string "attachment_content_type"
-    t.integer "attachment_file_size"
+    t.bigint "attachment_file_size"
     t.datetime "attachment_updated_at"
     t.string "accepted_types"
   end
