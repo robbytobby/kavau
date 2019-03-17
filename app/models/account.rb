@@ -2,7 +2,7 @@ class Account < ApplicationRecord
   strip_attributes
 
   [:name, :bic, :iban, :bank, :owner].each do |attr|
-    attr_encrypted attr, key: Base64.decode64(Rails.application.credentials[:token_key])
+    attr_encrypted attr, key: Base64.decode64( Rails.application.credentials.token_key )
   end
 
   belongs_to :address
