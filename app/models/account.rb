@@ -3,9 +3,7 @@ class Account < ApplicationRecord
   strip_attributes
 
   [:name, :bic, :iban, :bank, :owner].each do |attr|
-    #TODO: Reencrypt with new mode and algorithm
-    attr_encrypted attr, key: encryption_key #, mode: :per_attribute_iv_and_salt, algorithm: 'aes-256-cbc', insecure_mode: true
-    #attr_encrypted attr, key: encryption_key, mode: :per_attribute_iv_and_salt, algorithm: 'aes-256-cbc', insecure_mode: true
+    attr_encrypted attr, key: encryption_key 
   end
 
   belongs_to :address
