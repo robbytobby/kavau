@@ -1,4 +1,4 @@
-class CreateCreditAgreements < ActiveRecord::Migration
+class CreateCreditAgreements < ActiveRecord::Migration[4.2]
   def change
     create_table :credit_agreements do |t|
       t.decimal :amount, precision: 9, scale: 2, null: false

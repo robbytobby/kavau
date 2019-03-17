@@ -1,4 +1,4 @@
-class RemoveFieldsFromCreditAgreementVesions < ActiveRecord::Migration
+class RemoveFieldsFromCreditAgreementVesions < ActiveRecord::Migration[4.2]
   def change
     incompatible = CreditAgreementVersion.where(interest_rate_changed: true).where.not(event: 'create').any?
     raise "There are CreditAgreementVersions with changes in interest rate, this is now forbidden. You have to resolve this Problem manually" if incompatible

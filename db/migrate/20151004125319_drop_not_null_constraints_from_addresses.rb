@@ -1,4 +1,4 @@
-class DropNotNullConstraintsFromAddresses < ActiveRecord::Migration
+class DropNotNullConstraintsFromAddresses < ActiveRecord::Migration[4.2]
   def self.up
     change_column :addresses, :first_name, :string, null: true
     change_column :addresses, :street_number, :string, null: true

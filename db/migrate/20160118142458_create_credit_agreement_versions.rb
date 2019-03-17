@@ -1,4 +1,4 @@
-class CreateCreditAgreementVersions < ActiveRecord::Migration
+class CreateCreditAgreementVersions < ActiveRecord::Migration[4.2]
   TEXT_BYTES = 1_073_741_823
   def change
     create_table :credit_agreement_versions do |t|

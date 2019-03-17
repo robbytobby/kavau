@@ -1,4 +1,4 @@
-class DropNotNullFromAddressesSalutation < ActiveRecord::Migration
+class DropNotNullFromAddressesSalutation < ActiveRecord::Migration[4.2]
   def self.up
     change_column :addresses, :salutation, :string, null: true
   end

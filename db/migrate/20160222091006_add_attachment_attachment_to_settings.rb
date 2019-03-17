@@ -1,4 +1,4 @@
-class AddAttachmentAttachmentToSettings < ActiveRecord::Migration
+class AddAttachmentAttachmentToSettings < ActiveRecord::Migration[4.2]
   def self.up
     change_table :settings do |t|
       t.attachment :attachment

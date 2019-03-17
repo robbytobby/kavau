@@ -1,4 +1,4 @@
-class AddSettingForDeviseSender < ActiveRecord::Migration
+class AddSettingForDeviseSender < ActiveRecord::Migration[4.2]
   def up
     Setting.new(number: 2.1,
                 category: 'mailer',

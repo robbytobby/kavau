@@ -1,4 +1,4 @@
-class ConvertBalancesManuallyEditedToType < ActiveRecord::Migration
+class ConvertBalancesManuallyEditedToType < ActiveRecord::Migration[4.2]
   def up
     Balance.all.each do |b|
       b.type = (b.manually_edited ? 'ManualBalance' : 'AutoBalance')
