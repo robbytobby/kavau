@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.4.0'
+lock '3.11.0'
 
 set :application, 'kavau'
 
@@ -22,7 +22,7 @@ set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 5
 
 namespace :deploy do
-  after :deploy, :restart
+  after :deploy, 'deploy:restart'
   before :restart, :setup_pdf_dirs
 
   namespace :check do
