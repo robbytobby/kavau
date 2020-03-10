@@ -278,7 +278,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (5.2.0)
     nio4r (2.3.1)
-    nokogiri (1.10.1)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -562,6 +562,7 @@ DEPENDENCIES
   kaminari
   launchy
   listen (>= 3.0.5, < 3.2)
+  nokogiri (>= 1.10.8)
   paper_trail
   paperclip
   pdf-inspector
